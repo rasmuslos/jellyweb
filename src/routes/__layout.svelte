@@ -1,3 +1,13 @@
+<script context="module">
+    export async function load({session}) {
+        if(session == null) {
+            return {
+                status: 302,
+                redirect: "/user/login",
+            }
+        } else return { status: 200 }
+    }
+</script>
 <script lang="ts">
     import Navigation from "../components/navigation/Navigation.svelte";
 </script>
@@ -8,6 +18,7 @@
         width: 100%;
 
         color: var(--text);
+        font-size: var(--size);
         font-family: var(--font);
 
         background-color: var(--background);
@@ -17,4 +28,7 @@
 
 <div>
     <Navigation />
+    <main>
+        <slot />
+    </main>
 </div>

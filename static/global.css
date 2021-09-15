@@ -2,12 +2,18 @@
     /* https://www.nordtheme.com */
 
     --background: #2E3440;
-    --background-light: #434C5E;
+    --background-light: #3B4252;
+    --background-secondary: #4C566A;
 
     --font: "Glory", monospcae;
+    --size: 18px;
+
     --text: #D8DEE9;
     --dimmed: #4C566A;
     --highlight: #8FBCBB;
+    --secondary: #ECEFF4;
+
+    --error: #BF616A;
 }
 
 @font-face {

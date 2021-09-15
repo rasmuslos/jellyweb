@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/__sapper__" />
       <excludeFolder url="file://$MODULE_DIR$/src/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/.svelte-kit" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
