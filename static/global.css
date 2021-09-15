@@ -1,15 +1,13 @@
 :root {
-	/* https://colorhunt.co/palette/334257476072548ca8eeeeee */
-	/* orange: https://colorhunt.co/palette/001e6c0353975089c6ffaa4c */
+	/* https://www.nordtheme.com */
 
-	--background: #334257;
-	--background-light: #476072;
+	--background: #2E3440;
+	--background-light: #434C5E;
 
 	--font: "Glory", monospcae;
-	--text: #EEEEEE;
-	--dimmed: #CCCCCC;
-	--secondary: #548CA8;
-	--highlight: #FFAA4C;
+	--text: #D8DEE9;
+	--dimmed: #4C566A;
+	--highlight: #8FBCBB;
 }
 
 @font-face {
@@ -48,9 +46,6 @@ p {
 }
 *.highlight {
 	color: var(--highlight);
-}
-*.secondary {
-	color: var(--secondary);
 }
 
 a {

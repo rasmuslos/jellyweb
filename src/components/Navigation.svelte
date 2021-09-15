@@ -2,4 +2,5 @@
     export let segment: string;
 </script>
 
-<p>{segment}</p>
+<p class="dimmed">{segment}</p>
+<p class="highlight">YAY</p>
