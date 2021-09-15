@@ -1,0 +1,58 @@
+:root {
+	/* https://colorhunt.co/palette/334257476072548ca8eeeeee */
+	/* orange: https://colorhunt.co/palette/001e6c0353975089c6ffaa4c */
+
+	--background: #334257;
+	--background-light: #476072;
+
+	--font: "Glory", monospcae;
+	--text: #EEEEEE;
+	--dimmed: #CCCCCC;
+	--secondary: #548CA8;
+	--highlight: #FFAA4C;
+}
+
+@font-face {
+	font-family: "Glory";
+	src: url("/Glory.ttf");
+}
+
+body, #sapper {
+	margin: 0;
+	padding: 0;
+
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 .5em 0;
+	font-weight: 400;
+	line-height: 1.2;
+}
+h1 {
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+
+p {
+	margin: .5em 0;
+}
+*.dimmed {
+	color: var(--dimmed);
+}
+*.highlight {
+	color: var(--highlight);
+}
+*.secondary {
+	color: var(--secondary);
+}
+
+a {
+	color: inherit;
+}
