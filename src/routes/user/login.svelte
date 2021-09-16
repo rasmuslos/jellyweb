@@ -1,50 +1,30 @@
-<script context="module">
-    export async function load({ session }) {
-        if(session != null) return {
-            status: 302,
-            redirect: "/",
-        }
-        else return { status: 200 }
-    }
-</script>
 <script lang="ts">
     import GenericInput from "../../components/input/GenericInput.svelte";
-    import {HOST} from "$lib/env";
     import GenericButton from "../../components/input/GenericButton.svelte";
     import {onMount} from "svelte";
+    import {login} from "$lib/api/internal";
+    import {goto} from "$app/navigation";
 
+    let secure: boolean = true
+
+    let server: string = ""
     let username: string = ""
     let password: string = ""
     let loading: boolean = false
+
     let error: string = null
 
-    let client
-    const uuid = Date.now().toString(36) + Math.random().toString(36).substring(2);
-
-    onMount(async () => {
-        const {ApiClient} = await import("jellyfin-apiclient")
-        client = new ApiClient(HOST, "Jellyweb", "0.0.1", "JELLYWEB-BETA", uuid)
+    onMount(() => {
+        secure = window.location.protocol === "https"
     })
-
     const handleLogin = async () => {
-        if(client == null) return error = "Please wait a few seconds"
+        if(server.trim() === "" || username.trim() === "") return error = "Please provide a server and a username"
 
-        client.authenticateUserByName(username, password)
-            .then(async data => {
-                await fetch("/api/v1/session/store", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        token: data.AccessToken,
-                    }),
-                })
-                console.log(data)
-                window.location.href = "/"
-            })
+        loading = true
+        login(server, username, password)
+            .then(() => goto("/"))
             .catch(err => {
-                console.error(err.toString())
+                console.error(err)
 
                 loading = false
                 error = "Login failed"
@@ -73,23 +53,29 @@
     p:last-of-type {
         margin-bottom: 20px;
     }
-    p.error {
+    p.error, span.error {
         color: var(--error);
     }
 </style>
 
 <div>
     <h1>Login</h1>
-    <span class="dimmed">{HOST}</span>
+    <span class="dimmed">{server}</span>
     <p>
         Login with your Jellyfin account credentials
         <span class="highlight">This application wont store your password</span>
+        {#if !secure}
+            <span class="error">
+                This connection is not secure
+            </span>
+        {/if}
     </p>
     {#if error}
         <p class="error">
             {error}
         </p>
     {/if}
+    <GenericInput type="url" placeholder="Server" bind:value={server} />
     <GenericInput type="name" placeholder="Username" bind:value={username} />
     <GenericInput type="password" placeholder="Password" bind:value={password} />
     <GenericButton label="Login" on:click={handleLogin} />

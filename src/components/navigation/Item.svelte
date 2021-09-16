@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings/navigation";
+    import type {Item} from "$lib/typings";
     import {page} from "$app/stores"
 
     export let item: Item

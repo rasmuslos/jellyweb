@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Item as NavigationItem} from "$lib/typings/navigation";
+    import type {Item as NavigationItem} from "$lib/typings";
     import Item from "./Item.svelte"
     import StaticItems from "./StaticItems.svelte";
 
