@@ -21,8 +21,10 @@
         align-items: normal;
 
         width: 100%;
-        margin: 225px auto;
         max-width: 1000px;
+
+        padding: 0 25px;
+        margin: 225px auto;
     }
 
     div.details {
