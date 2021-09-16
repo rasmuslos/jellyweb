@@ -1,8 +1,13 @@
 import type {InternalApiRequest} from "$lib/typings";
 import {goto} from "$app/navigation";
 
+let customFetch
+
+export const setFetcher = (fetch) => customFetch = fetch
 export const makeRequest = async (endpoint: string, method: string = "GET", body: any = null, handleLoginError: boolean = true) => {
-    const res = await fetch(`/api/v1/${endpoint}`, {
+    const requester = customFetch ?? fetch
+
+    const res = await requester(`/api/v1/${endpoint}`, {
         method,
         body,
 

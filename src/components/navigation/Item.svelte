@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {NavigationItem} from "$lib/typings";
     import {page} from "$app/stores"
 
-    export let item: Item
+    export let item: NavigationItem
     const { title, href, regex } = item
 </script>
 

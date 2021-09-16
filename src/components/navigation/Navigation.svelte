@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Item as NavigationItem} from "$lib/typings";
+    import type {NavigationItem} from "$lib/typings";
     import Item from "./Item.svelte"
     import StaticItems from "./StaticItems.svelte";
 
@@ -13,6 +13,11 @@
 
 <style>
     div {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: 99;
         padding: 25px 0;
         width: 100%;
     }

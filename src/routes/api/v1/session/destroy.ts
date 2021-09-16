@@ -1,9 +1,9 @@
 export async function del({ locals }) {
-    locals.session.destroy()
+    locals.session.data.active = null
 
     return {
         body: {
-            ok: locals.session.body,
+            ok: locals.session.data.active,
         },
     }
 }

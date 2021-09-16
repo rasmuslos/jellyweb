@@ -10,10 +10,13 @@
 </script>
 <script lang="ts">
     import Navigation from "../components/navigation/Navigation.svelte";
+    import {noPadding} from "$lib/stores";
 </script>
 
 <style>
     div {
+        position: relative;
+
         height: 100%;
         width: 100%;
 
@@ -22,13 +25,19 @@
         font-family: var(--font);
 
         background-color: var(--background);
-        overflow: hidden;
+        overflow: auto;
+    }
+    main {
+        position: relative;
+    }
+    main:not(.no-padding) {
+        padding-top: 75px;
     }
 </style>
 
 <div>
     <Navigation />
-    <main>
+    <main class:no-padding={$noPadding}>
         <slot />
     </main>
 </div>
