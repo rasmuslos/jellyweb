@@ -3,6 +3,12 @@ import {session} from "$app/stores";
 import type {Item} from "$lib/typings";
 
 export const generateImageUrl = (id: string, tag: string, type: "Backdrop" | "Primary", maxWidth: number = null) => `${get(session).active.server}/Items/${id}/Images/${type}/?tag=${tag}${maxWidth !== null ? `&fillWidth=${maxWidth}` : ""}`
+export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, SeriesPrimaryImageTag }: Item) =>
+    BackdropImageTags && BackdropImageTags.length > 0
+    ? generateImageUrl(Id, BackdropImageTags[0], `Backdrop`)
+    : SeriesId && SeriesPrimaryImageTag && SeriesPrimaryImageTag.length > 0
+        ? generateImageUrl(SeriesId, SeriesPrimaryImageTag[0], `Backdrop`)
+        : null
 // export const
 
 // https://github.com/jellyfin/jellyfin-web/blob/38f486339f191af50215532cb86679f53efd0aec/src/components/mediainfo/mediainfo.js#L437

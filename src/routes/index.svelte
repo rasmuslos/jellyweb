@@ -1,13 +1,17 @@
 <script lang="ts" context="module">
-    import {resume, setFetcher} from "$lib/api/internal";
+    import {home, setFetcher} from "$lib/api/internal";
+    import type {Item} from "$lib/typings";
 
     export async function load({ fetch }) {
         setFetcher(fetch)
-        const { Items } = await resume()
+        const homeObj = await home()
+
+        const resume: Item[] = homeObj.resume.Items
+        const nextUp: Item[] = homeObj.nextUp.Items
 
         return {
             status: 200,
-            props: { resume: Items }
+            props: { resume, nextUp }
         }
     }
 </script>
@@ -15,24 +19,29 @@
     import type {Item} from "$lib/typings";
     import {noPadding} from "$lib/stores";
     import {onDestroy} from "svelte";
-    import Hero from "../components/sections/Hero.svelte";
+    import ListHero from "../components/sections/ListHero.svelte";
 
     export let resume: Item[]
-    let hero = resume.length > 0 ? resume[0] : null
+    export let nextUp: Item[]
 
-    if(hero !== null) noPadding.set(true)
+    const combined = resume.concat(nextUp).sort((a, b) => {
+        if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
+        return new Date(a.UserData.LastPlayedDate).getTime() > new Date(b.UserData.LastPlayedDate).getTime() ? -1 : 1
+    })
+    const showHero = combined.length > 0
 
+    if(showHero !== null) noPadding.set(true)
     onDestroy(() => noPadding.set(false))
 </script>
 
 <style>
 </style>
 
-{#if hero != null}
-    <Hero item={hero} tip="Continue watching" />
+{#if showHero != null}
+    <ListHero items={combined} />
 {/if}
 
-<p on:mouseover={() => hero = resume[1]} on:mouseleave={() => hero = resume[0]}>
+<p>
     Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
     Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
     Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
