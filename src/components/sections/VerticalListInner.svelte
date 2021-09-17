@@ -15,6 +15,7 @@
         flex-shrink: 0;
         padding-bottom: 20px;
 
+        cursor: grab;
         overflow-y: hidden;
         overflow-x: auto;
     }
