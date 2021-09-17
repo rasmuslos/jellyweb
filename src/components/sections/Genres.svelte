@@ -25,11 +25,15 @@
         border-radius: 10px;
         background-color: var(--background-light);
 
+        transition: transform 250ms ease;
         cursor: pointer;
 
         overflow: hidden;
         width: 400px;
         height: 125px;
+    }
+    div.genre:hover {
+        transform: scale(1.01);
     }
 
     div.genre h1 {
