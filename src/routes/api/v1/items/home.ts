@@ -4,9 +4,7 @@ import {createApiResponse} from "$lib/apiHelper";
 export async function get({ locals }) {
    try {
        const session = locals.session.data.active
-
-       const resumeItems = await resume(session)
-       const nextUpItems = await nextUp(session)
+       const [resumeItems, nextUpItems] = await Promise.all([resume(session), nextUp(session)])
 
        return createApiResponse(true, {
            resume: resumeItems,
