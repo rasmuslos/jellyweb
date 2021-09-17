@@ -2,6 +2,7 @@
     import {Item} from "$lib/typings";
     import {createEventDispatcher} from "svelte";
     import ItemImage from "./ItemImage.svelte";
+    import {generateItemUrl} from "$lib/helper";
 
     export let items: Item[]
     const dispatcher = createEventDispatcher()
@@ -18,7 +19,7 @@
         overflow-x: auto;
     }
 
-    div.item {
+    a.item {
         display: grid;
         grid-template-rows: auto auto;
         align-items: center;
@@ -33,9 +34,9 @@
 
 <div class="holder">
     {#each items as item}
-        <div on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} class="item">
+        <a href={generateItemUrl(item.Id)} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} class="item">
             <ItemImage wide {item} />
             <span>{item.Name}</span>
-        </div>
+        </a>
     {/each}
 </div>
