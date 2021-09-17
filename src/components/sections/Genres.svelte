@@ -78,6 +78,10 @@
 
     div.holder.big {
         flex-wrap: wrap;
+        justify-content: center;
+    }
+    div.holder a {
+        max-width: 100%;
     }
     div.holder.big div.genre {
         margin: 20px 20px;
@@ -86,7 +90,9 @@
 
 <section>
     <ApplyWidth>
-        <h1>Genres</h1>
+        {#if !big}
+            <h1>Genres</h1>
+        {/if}
         <div class="holder" class:big>
             {#each genres as genre, i}
                 <a href="/genres/{genre.Id}">
