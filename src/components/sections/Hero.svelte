@@ -2,6 +2,7 @@
     import type {Item} from "$lib/typings";
     import {generateImageUrl, getResolutionText} from "$lib/helper";
     import WatchNowButton from "../input/WatchNowButton.svelte";
+    import { icons } from "feather-icons"
 
     export let item: Item
     export let tip: string = null
@@ -25,6 +26,43 @@
 
         padding: 0 25px;
         margin: 225px auto;
+    }
+
+    div.image {
+        position: relative;
+        cursor: pointer;
+    }
+    img {
+        display: block;
+    }
+    div.overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        width: 100%;
+    }
+    div.progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        opacity: 0.4;
+        background: linear-gradient(45deg, rgba(143,188,187,1) 0%, rgba(94,129,172,1) 100%);
+    }
+    div.play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        opacity: 0;
+        transition: opacity 150ms ease;
+    }
+    div.image:hover div.play {
+        opacity: 1;
     }
 
     div.details {
@@ -68,24 +106,38 @@
 -->
     <section style="background-image: url('{item.BackdropImageTags && item.BackdropImageTags.length > 0 ? generateImageUrl(item.Id, item.BackdropImageTags[0], `Backdrop`) : ``}')">
         <div class="inner">
-            <img src={generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)} alt="Movie Poster">
+            <div>
+                <div class="image">
+                    <img src={generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)} alt="Movie Poster">
+                    <div style="width: {item.UserData.PlayedPercentage}%" class="progress"></div>
+                    <div class="overlay"></div>
+                    <div class="play">
+                        {@html icons.play.toSvg({ height: 50, width: 50 })}
+                    </div>
+                </div>
+            </div>
             <div class="details">
                 {#if tip}
                     <p class="tip">{tip}</p>
                 {/if}
-                <div class="heading">
-                    <h1>{item.Name} - {item.ProductionYear}</h1>
-                    <span>{getResolutionText(item)}</span>
-                    {#if item.OfficialRating}
-                        <span>{item.OfficialRating}</span>
+                <div>
+                    <div class="heading">
+                        <h1>{item.Name}</h1>
+                        <span>{getResolutionText(item)}</span>
+                        {#if item.OfficialRating}
+                            <span>{item.OfficialRating}</span>
+                        {/if}
+                        {#if item.CommunityRating}
+                            <span>{item.CommunityRating}</span>
+                        {/if}
+                        {#if item.CriticRating}
+                            <span>{item.CriticRating}%</span>
+                        {/if}
+                        <span>{item.HasSubtitles ? "CC" : "/"}</span>
+                    </div>
+                    {#if item.SeasonName && item.SeriesName}
+                        <span class="dimmed">{item.SeasonName} - {item.SeriesName}</span>
                     {/if}
-                    {#if item.CommunityRating}
-                        <span>{item.CommunityRating}</span>
-                    {/if}
-                    {#if item.CriticRating}
-                        <span>{item.CriticRating}%</span>
-                    {/if}
-                    <span>{item.HasSubtitles ? "CC" : "/"}</span>
                 </div>
                 <p>{item.Overview}</p>
 

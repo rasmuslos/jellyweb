@@ -9,6 +9,8 @@
     }
 </script>
 <script lang="ts">
+    import "normalize.css"
+
     import Navigation from "../components/navigation/Navigation.svelte";
     import {noPadding} from "$lib/stores";
 </script>
