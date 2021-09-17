@@ -3,6 +3,7 @@
     import ApplyWidth from "./ApplyWidth.svelte";
 
     export let genres: Item[]
+    export let big: boolean = false
 </script>
 
 <style>
@@ -30,6 +31,7 @@
         width: 400px;
         height: 125px;
     }
+
     div.genre h1 {
         position: absolute;
         top: 50%;
@@ -69,14 +71,21 @@
         background-color: #00DBDE;
         background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
     }
+
+    div.holder.big {
+        flex-wrap: wrap;
+    }
+    div.holder.big div.genre {
+        margin: 20px 20px;
+    }
 </style>
 
 <section>
     <ApplyWidth>
         <h1>Genres</h1>
-        <div class="holder">
+        <div class="holder" class:big>
             {#each genres as genre, i}
-                <a href="/genre/{genre.Id}">
+                <a href="/genres/{genre.Id}">
                     <div class="genre">
                         <div class="gradient no{i % 5}"></div>
                         <h1>{genre.Name}</h1>

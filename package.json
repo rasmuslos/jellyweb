@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit dev --host",
     "build": "svelte-kit build",
-    "preview": "svelte-kit preview",
+    "preview": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
