@@ -37,9 +37,6 @@
     onDestroy(() => noPadding.set(false))
 </script>
 
-<style>
-</style>
-
 {#if showHero != null}
     <ListHero items={combined} />
 {/if}
