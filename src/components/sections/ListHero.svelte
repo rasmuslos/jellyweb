@@ -7,6 +7,8 @@
 
     export let items: Item[]
     export let active: Item = items[0]
+
+    console.log(items)
 </script>
 
 <style>
@@ -23,7 +25,7 @@
 </style>
 
 <section style="background-image: url('{getLargeBackdrop(active)}')">
-    <HeroInner item={active} tip="Watch now" />
+    <HeroInner item={active} tip={active.UserData && active.UserData.PlaybackPositionTicks === 0 ? "Watch now" : "Continue watching"} />
     <div>
         <ApplyWidth>
             <h1>Next up</h1>

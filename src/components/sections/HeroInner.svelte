@@ -11,7 +11,7 @@
 <style>
     div.inner {
         display: grid;
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: auto 1fr;
         align-items: normal;
 
         padding: 0 25px;
