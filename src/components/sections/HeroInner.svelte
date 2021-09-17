@@ -83,7 +83,7 @@
     }
 
     /* Make text more readable on white backgrounds */
-    p, h1, span.tip {
+    p, h1 {
         text-shadow: 1px 1px 2px var(--background);
     }
     span.info {
