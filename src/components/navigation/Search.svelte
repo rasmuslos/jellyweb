@@ -1,6 +1,6 @@
 <script lang="ts">
     const handleGlobalKeydown = (event: KeyboardEvent) => {
-        if(event.key.toLowerCase() === "k" && event.metaKey || event.ctrlKey || event.altKey) {
+        if(event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey || event.altKey)) {
             alert("OPEN MODAL")
         }
     }

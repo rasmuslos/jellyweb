@@ -21,6 +21,11 @@
         max-width: 1000px;
     }
 
+    div.image {
+        display: block;
+        margin: auto;
+    }
+
     div.details {
         display: flex;
         flex-direction: column;
@@ -33,6 +38,10 @@
         color: var(--highlight);
     }
     div.heading {
+        display: grid;
+        grid-template-columns: auto 1fr;
+    }
+    div.badges {
         display: flex;
         align-items: center;
     }
@@ -56,6 +65,23 @@
         margin: auto auto auto 0;
     }
 
+    @media screen and (max-width: 1000px) {
+        div.inner {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+        }
+        div.image {
+            display: none;
+            margin-bottom: 50px;
+        }
+        div.heading {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+
+            justify-content: left;
+        }
+    }
+
     /* Make text more readable on white backgrounds */
     p {
         text-shadow: 1px 1px 2px var(--background);
@@ -66,7 +92,7 @@
 </style>
 
 <div class="inner">
-    <div>
+    <div class="image">
         {#key item}
             <ItemImage {item} />
         {/key}
@@ -78,17 +104,19 @@
         <div>
             <div class="heading">
                 <h1>{item.Name}</h1>
-                <span>{getResolutionText(item)}</span>
-                {#if item.OfficialRating}
-                    <span>{item.OfficialRating}</span>
-                {/if}
-                {#if item.CommunityRating}
-                    <span>{item.CommunityRating}</span>
-                {/if}
-                {#if item.CriticRating}
-                    <span>{item.CriticRating}%</span>
-                {/if}
-                <span>{item.HasSubtitles ? "CC" : "/"}</span>
+                <div class="badges">
+                    <span>{getResolutionText(item)}</span>
+                    {#if item.OfficialRating}
+                        <span>{item.OfficialRating}</span>
+                    {/if}
+                    {#if item.CommunityRating}
+                        <span>{item.CommunityRating}</span>
+                    {/if}
+                    {#if item.CriticRating}
+                        <span>{item.CriticRating}%</span>
+                    {/if}
+                    <span>{item.HasSubtitles ? "CC" : "/"}</span>
+                </div>
             </div>
             {#if item.SeasonName && item.SeriesName}
                 <span class="dimmed info">{item.SeasonName} - {item.SeriesName}</span>

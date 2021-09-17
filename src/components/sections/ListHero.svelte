@@ -7,8 +7,6 @@
 
     export let items: Item[]
     export let active: Item = items[0]
-
-    console.log(items)
 </script>
 
 <style>
