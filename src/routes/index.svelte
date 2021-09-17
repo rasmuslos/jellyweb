@@ -8,10 +8,11 @@
 
         const resume: Item[] = homeObj.resume.Items
         const nextUp: Item[] = homeObj.nextUp.Items
+        const genres: Item[] = homeObj.genres.Items
 
         return {
             status: 200,
-            props: { resume, nextUp }
+            props: { resume, nextUp, genres }
         }
     }
 </script>
@@ -20,9 +21,11 @@
     import {noPadding} from "$lib/stores";
     import {onDestroy} from "svelte";
     import ListHero from "../components/sections/ListHero.svelte";
+    import Genres from "../components/sections/Genres.svelte";
 
     export let resume: Item[]
     export let nextUp: Item[]
+    export let genres: Item[]
 
     const combined = resume.concat(nextUp).sort((a, b) => {
         if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
@@ -40,109 +43,4 @@
 {#if showHero != null}
     <ListHero items={combined} />
 {/if}
-
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
-<p>
-    Quo sed voluptate fugit. Beatae commodi excepturi tempora omnis placeat voluptas sit voluptatibus. Placeat aliquid assumenda similique est.
-    Alias perferendis id eligendi aspernatur. Ut quis rerum ea adipisci libero maiores nulla omnis. Cum voluptatem voluptatem deleniti vitae. Qui quo ea qui temporibus reiciendis.
-    Atque dolorem aliquid consectetur at sunt at veritatis velit. Nam esse quia amet a omnis neque velit. Eos ea harum deleniti voluptas quasi quod.
-    Minima sunt excepturi non. Illo fugiat rerum velit dolorem eligendi cum provident similique. Magni illum harum dignissimos reiciendis ratione quam.
-    Fugiat consequatur nostrum deserunt consectetur perspiciatis vero neque ut. Dolorem cumque est ipsum. Sit quam rerum non illum rem modi dolores. Et sed maxime eius et. Voluptate nam sapiente est quisquam magnam explicabo. Ea voluptas ipsum nisi illo.
-</p>
+<Genres {genres} />

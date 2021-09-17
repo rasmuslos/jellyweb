@@ -65,7 +65,7 @@
 
 <div class="holder" class:wide on:click>
     <img src={url} alt="Movie Poster">
-    <div style="width: {item.UserData.PlayedPercentage}%" class="progress"></div>
+    <div style="width: {item.UserData ? item.UserData.PlayedPercentage : `0`}%" class="progress"></div>
     <div class="overlay"></div>
     <div class="play">
         {@html icons.play.toSvg({ height: 50, width: 50 })}
