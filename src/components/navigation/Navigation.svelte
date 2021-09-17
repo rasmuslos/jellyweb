@@ -7,7 +7,7 @@
         { title: "Home", href: "/", regex: "^\/$" },
         { title: "Movies", href: "/movies", regex: "^\/?movies\/?.*$" },
         { title: "Series", href: "/series", regex: "^\/?series\/?.*$" },
-        { title: "Generes", href: "/generes", regex: "^\/?generes\/?.*$" },
+        { title: "Genres", href: "/genres", regex: "^\/?genres\/?.*$" },
     ]
 </script>
 
