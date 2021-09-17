@@ -9,7 +9,6 @@ export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, SeriesPrimar
     : SeriesId && SeriesPrimaryImageTag && SeriesPrimaryImageTag.length > 0
         ? generateImageUrl(SeriesId, SeriesPrimaryImageTag[0], `Backdrop`)
         : null
-// export const
 
 // https://github.com/jellyfin/jellyfin-web/blob/38f486339f191af50215532cb86679f53efd0aec/src/components/mediainfo/mediainfo.js#L437
 export const getResolutionText = ({ Height, Width }: Item) => {
@@ -23,3 +22,5 @@ export const getResolutionText = ({ Height, Width }: Item) => {
 
     return "?"
 }
+
+export const generateItemUrl = (itemId: string) => `/item/${itemId}`

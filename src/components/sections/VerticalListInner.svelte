@@ -33,7 +33,7 @@
 
 <div class="holder">
     {#each items as item}
-        <div on:focus={() => handleMouseOver(item)} on:mouseover={() => handleMouseOver(item)} class="item">
+        <div on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} class="item">
             <ItemImage wide {item} />
             <span>{item.Name}</span>
         </div>

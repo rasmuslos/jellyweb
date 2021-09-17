@@ -27,7 +27,7 @@
     <div>
         <ApplyWidth>
             <h1>Next up</h1>
-            <VerticalListInner {items} on:mouseover={({ detail }) => active = detail} />
+            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
         </ApplyWidth>
     </div>
 </section>
