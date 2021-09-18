@@ -1,6 +1,10 @@
 import {createRequest} from "$lib/api/jellyfin";
 import type {JellyfinSession} from "$lib/typings";
 
+/**
+ * I know that this isn't the best way to build an api. But i dont care
+ * */
+
 const includeFilter = "includeItemTypes=Movie,Episode"
 export const authoriseUserByName = (server, username, password, deviceId) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
 
@@ -21,3 +25,4 @@ export const unlikeItem = (session: JellyfinSession, itemId: string) => createRe
 export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
 export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?&Fields=ItemCounts`, session)
 export const searchByPerson = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items?personIds=${itemId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=Movie,Series`, session)
+export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}`, session)

@@ -31,7 +31,7 @@
         align-items: normal;
 
         padding: 0 25px;
-        margin: 225px auto;
+        margin: 225px auto 100px auto;
 
         width: 100%;
         max-width: 1000px;

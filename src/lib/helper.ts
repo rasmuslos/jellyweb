@@ -44,3 +44,16 @@ export const addClass = (element, className) => {
     if (element.classList) element.classList.add(className)
     else element.className += " " + className
 }
+
+export const padding2 = (number: number) => `0${number}`.substr(-2)
+export const ticksToHumanReadable = (ticks: number) => {
+    // * 10000 because jellyfin returns an absurdly high number
+    let seconds = Math.floor(ticks / (1000 * 10000))
+    let hour = Math.floor((seconds / 3600) % 24)
+    let minute = Math.floor((seconds / 60) % 60)
+    let second = seconds % 60
+
+    console.log(second, minute, hour)
+
+    return hour === 0 ? `${padding2(minute)}:${padding2(second)}` : `${padding2(hour)}:${padding2(minute)}:${padding2(second)}`
+}

@@ -24,12 +24,12 @@
     import VerticalList from "../../components/sections/VerticalList.svelte";
     import Hero from "../../components/sections/Hero.svelte";
     import PersonList from "../../components/sections/PersonList.svelte";
+    import Chapters from "../../components/sections/Chapters.svelte";
 
     export let item: Item
     export let seasons: Item[]
     export let media: Item[]
-
-    console.log(media)
+    export let episodes: Item[]
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
@@ -50,7 +50,10 @@
 <!--Media-->
 
 {#if item.Type === "Series" || item.Type === "Season"}
-    <VerticalList items={item.Type === "Series" ? seasons : []} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
+    <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
+{/if}
+{#if item.Type === "Episode" || item.Type === "Movie"}
+    <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type !== "Person" || item.Type === "Person"}
     <PersonList persons={item.People || []} />

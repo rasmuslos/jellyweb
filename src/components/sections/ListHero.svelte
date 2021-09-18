@@ -11,6 +11,9 @@
 </script>
 
 <style>
+    div {
+        margin-top: 250px;
+    }
     h1 {
         text-shadow: 1px 1px 2px black;
     }
@@ -18,8 +21,10 @@
 
 <BackgroundSection url={getLargeBackdrop(active)}>
     <HeroInner item={active} tip={active.UserData && active.UserData.PlaybackPositionTicks === 0 ? "Watch now" : "Continue watching"} />
-    <ApplyWidth>
-        <h1>Next up</h1>
-        <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
-    </ApplyWidth>
+    <div>
+        <ApplyWidth>
+            <h1>Next up</h1>
+            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
+        </ApplyWidth>
+    </div>
 </BackgroundSection>

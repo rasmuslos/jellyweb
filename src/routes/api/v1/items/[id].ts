@@ -1,5 +1,5 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import {getItem, getSeasons, handleError, searchByPerson} from "$lib/api/jellyfin";
+import {getEpisodesOfSeason, getItem, getSeasons, handleError, searchByPerson} from "$lib/api/jellyfin";
 import type {Item} from "$lib/typings";
 
 export async function get({ locals, params }) {
@@ -11,15 +11,19 @@ export async function get({ locals, params }) {
 
         let seasons
         let media
+        let episodes
+
         const item: Item = (await getItem(session, id))
 
         if(item.Type === "Series") seasons = (await getSeasons(session, id)).Items
-        if(item.Type === "Person") media = (await searchByPerson(session, id)).Items
+        else if(item.Type === "Person") media = (await searchByPerson(session, id)).Items
+        else if(item.Type === "Season") episodes = (await getEpisodesOfSeason(session, item.SeriesId, id)).Items
 
         return createApiResponse(true, {
             item,
             seasons,
             media,
+            episodes,
         })
     } catch(error) {
         return handleError(error)

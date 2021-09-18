@@ -1,0 +1,49 @@
+<script lang="ts">
+    import {Chapter} from "$lib/typings";
+    import ItemImage from "./ItemImage.svelte";
+    import {session} from "$app/stores";
+    import ApplyWidth from "./ApplyWidth.svelte";
+    import {ticksToHumanReadable} from "$lib/helper";
+
+    export let itemId: string
+    export let chapters: Chapter[]
+</script>
+
+<style>
+    div.holder {
+        display: flex;
+        flex-shrink: 0;
+        padding-bottom: 20px;
+
+        cursor: grab;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    a.item {
+        display: grid;
+        grid-template-rows: auto auto;
+        align-items: center;
+
+        margin: 0 10px;
+    }
+    p {
+        padding: 10px;
+        text-align: center;
+        text-shadow: 1px 1px 2px var(--background);
+    }
+</style>
+
+<section>
+    <ApplyWidth>
+        <h1>Chapters</h1>
+        <div class="holder">
+            {#each chapters as chapter, index}
+                <a href="javascript:alert('I have no idea how i should to this')" class="item">
+                    <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`} wide showProgress={false} isWatchable />
+                    <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0)}</span></p>
+                </a>
+            {/each}
+        </div>
+    </ApplyWidth>
+</section>
