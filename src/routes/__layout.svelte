@@ -42,7 +42,8 @@
         font-family: var(--font);
 
         background-color: var(--background);
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     main {
         position: relative;
