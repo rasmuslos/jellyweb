@@ -2,7 +2,7 @@ import {get} from "svelte/store";
 import {session} from "$app/stores";
 import type {Item} from "$lib/typings";
 
-export const generateImageUrl = (id: string, tag: string, type: "Backdrop" | "Primary", maxWidth: number = null) => `${get(session).active.server}/Items/${id}/Images/${type}/?tag=${tag}${maxWidth !== null ? `&fillWidth=${maxWidth}` : ""}`
+export const generateImageUrl = (id: string, tag: string, type: "Backdrop" | "Primary", maxWidth: number = null, scope: string = "Items") => `${get(session).active.server}/${scope}/${id}/Images/${type}/?tag=${tag}&quality=90${maxWidth !== null ? `&fillWidth=${maxWidth}` : ""}`
 export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, SeriesPrimaryImageTag }: Item) =>
     BackdropImageTags && BackdropImageTags.length > 0
     ? generateImageUrl(Id, BackdropImageTags[0], `Backdrop`)

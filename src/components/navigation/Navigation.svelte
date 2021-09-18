@@ -1,14 +1,17 @@
 <script lang="ts">
-    import type {NavigationItem} from "$lib/typings";
+    import type {NavigationItem, User} from "$lib/typings";
     import Item from "./Item.svelte"
     import StaticItems from "./StaticItems.svelte";
 
+    export let me: User
     const items: NavigationItem[] = [
         { title: "Home", href: "/", regex: "^\/$" },
         { title: "Movies", href: "/movies", regex: "^\/?movies\/?.*$" },
         { title: "Series", href: "/series", regex: "^\/?series\/?.*$" },
         { title: "Genres", href: "/genres", regex: "^\/?genres\/?.*$" },
     ]
+
+    console.log(me)
 </script>
 
 <style>
@@ -35,6 +38,6 @@
         {#each items as item}
             <Item {item} />
         {/each}
-        <StaticItems />
+        <StaticItems {me} />
     </nav>
 </div>

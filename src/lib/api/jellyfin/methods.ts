@@ -8,3 +8,4 @@ const homeFilter = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentI
 export const resume = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Resume?${homeFilter}`, session)
 export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&enableImages&${homeFilter}`, session)
 export const genres = (session: JellyfinSession) => createRequest("Genres", session)
+export const me = (session: JellyfinSession) => createRequest("Users/Me", session)
