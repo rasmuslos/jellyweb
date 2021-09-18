@@ -1,7 +1,18 @@
 import {get} from "svelte/store";
 import {session} from "$app/stores";
 import type {Item} from "$lib/typings";
+import {icons} from "feather-icons";
 
+export const getIconByType = ({ Type }: Item) => {
+    let icon = "alert-triangle"
+
+    if(Type === "Movie") icon = "film"
+    else if(Type === "Series") icon = "tv"
+    else if(Type === "Person") icon = "user"
+    else if(Type === "Genre") icon = "bookmark"
+
+    return icons[icon].toSvg()
+}
 export const generateImageUrl = (id: string, tag: string, type: "Backdrop" | "Primary", maxWidth: number = null, scope: string = "Items") => `${get(session).active.server}/${scope}/${id}/Images/${type}/?tag=${tag}&quality=90${maxWidth !== null ? `&fillWidth=${maxWidth}` : ""}`
 export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, SeriesPrimaryImageTag }: Item) =>
     BackdropImageTags && BackdropImageTags.length > 0

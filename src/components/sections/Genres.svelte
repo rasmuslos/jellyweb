@@ -1,6 +1,7 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import ApplyWidth from "./ApplyWidth.svelte";
+    import {generateItemUrl} from "$lib/helper";
 
     export let genres: Item[]
     export let big: boolean = false
@@ -93,7 +94,7 @@
         {/if}
         <div class="holder" class:big>
             {#each genres as genre, i}
-                <a href="/items/{genre.Id}"  class="genre">
+                <a href={generateItemUrl(genre.Id)}  class="genre">
                     <div class="gradient no{i % 5}"></div>
                     <h1>{genre.Name}</h1>
                 </a>

@@ -4,5 +4,6 @@ export const login = async (server, username, password) => await makeRequest("se
 export const home = async () => await makeRequest("items/home")
 
 export const genres = async () => await makeRequest("items/genres")
-
 export const me = async () => await makeRequest("session/me")
+
+export const search = async (term) => await makeRequest(`items/search?term=${term}`)

@@ -1,12 +1,15 @@
 <script lang="ts">
     import {icons} from "feather-icons";
     import {modal} from "$lib/stores";
-    import {addClass, removeClass} from "$lib/helper";
+    import {addClass, generateItemUrl, getIconByType, removeClass} from "$lib/helper";
     import {goto} from "$app/navigation";
+    import {search} from "$lib/api/internal";
+    import type {Item} from "$lib/typings";
 
-    let search: string = ""
+    let query: string = ""
     let index: number = -1
     let selected
+    let results: Item[]
 
     const handleKeydown = (event: KeyboardEvent) => {
         const items = document.querySelectorAll(".result")
@@ -49,10 +52,11 @@
             const item = selected && selected.dataset && selected.dataset.item ?? 0
 
             if(item == 0) return
-            else if(item == -1) return goto(`/search/?query=${encodeURIComponent(search)}`)
-            else alert(item)
+            else if(item == -1) return goto(`/search/?query=${encodeURIComponent(query)}`)
+            else goto(generateItemUrl(item))
         }
     }
+    const handleInput = async () => results = (await search(query)).Items
 </script>
 <svelte:window on:keydown={handleKeydown} />
 
@@ -95,7 +99,7 @@
 
         cursor: pointer;
     }
-    div.result {
+    a.result {
         display: grid;
         grid-template-columns: 30px 1fr;
         align-items: center;
@@ -106,7 +110,7 @@
         margin: 0 0 7px 0;
         padding: 5px 0;
     }
-    div.result:global(.active) {
+    a.result:global(.active) {
         background-color: var(--highlight);
         padding: 5px 7px;
     }
@@ -118,40 +122,35 @@
 
         cursor: pointer;
     }
+
+    p {
+        text-align: center;
+    }
 </style>
 
 <div class="holder">
-    <input placeholder="Search" type="text" bind:value={search} />
+    <input placeholder="Search" type="text" bind:value={query} on:keydown={handleInput} />
     <div class="results">
-        <div class="result dimmed" data-item="-1">
+        <a class="result dimmed" data-item="-1">
             <div class="icon">{@html icons.search.toSvg()}</div>
             <span>Advanced search</span>
-        </div>
-
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
-        <div class="result">
-            <div class="icon">{@html icons.feather.toSvg()}</div>
-            <span>PLACEHOLDER</span>
-        </div>
+        </a>
+        {#if results && results.length > 0}
+            {#each results as result}
+                <a class="result" href={generateItemUrl(result.Id)} data-item={result.Id}>
+                    <div class="icon">{@html getIconByType(result)}</div>
+                    <span>{result.Name}</span>
+                </a>
+            {/each}
+        {:else if results && results.length === 0 && query !== ""}
+            <p class="error">
+                No results found
+            </p>
+        {:else}
+            <p class="dimmed">
+                Type a query
+            </p>
+        {/if}
     </div>
 
     <div class="close" on:click={() => modal.set(null)}>{@html icons["minimize-2"].toSvg({ height: 17, width: 17, stroke: "var(--text)" })}</div>
