@@ -13,7 +13,7 @@
     let isFavorite: boolean = false
     let processingLike: boolean = false
     $: isFavorite = item.UserData && item.UserData.IsFavorite
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
+    const isWatchable = item.Type === "Movie" || item.Type === "Series" || item.Type === "Season" || item.Type === "Episode"
 
     const toggleLike = async () => {
         processingLike = true
@@ -160,10 +160,14 @@
                 <span class="dimmed info">{item.SeasonName} - {item.SeriesName}</span>
             {/if}
         </div>
-        <p>{item.Overview}</p>
+        {#if item.Overview !== undefined}
+            <p>{item.Overview}</p>
+        {/if}
 
         <div class="actions">
-            <WatchNowButton/>
+            {#if isWatchable}
+                <WatchNowButton/>
+            {/if}
             {#key isFavorite}
                 <span class="action" class:liked={item.UserData && item.UserData.IsFavorite}
                       class:processingLike on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {

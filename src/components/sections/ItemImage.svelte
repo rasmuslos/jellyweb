@@ -6,7 +6,8 @@
     export let wide: boolean = false
     export let item: Item
 
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
+    const showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
+    const isWatchable = item.Type === "Movie" || item.Type === "Series" || item.Type === "Season" || item.Type === "Episode"
     const url =
         wide
             ? item.Type === "Episode" && item.SeriesId && item.SeriesPrimaryImageTag && item.SeriesPrimaryImageTag.length > 0
@@ -66,7 +67,7 @@
 
 <div class="holder" class:wide on:click>
     <img src={url} alt="Movie Poster">
-    <div style="width: {item.UserData ? item.UserData.PlayedPercentage : `0`}%" class="progress"></div>
+    <div style="width: {showProgress ? item.UserData.PlayedPercentage : `0`}%" class="progress"></div>
     <div class="overlay"></div>
     {#if isWatchable}
         <div class="play">

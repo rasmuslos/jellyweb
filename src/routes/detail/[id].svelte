@@ -4,14 +4,12 @@
     export async function load({ fetch, page }) {
         const { id } = page.params
 
-        // if(id === null || id === "null") return { status: 301, redirect: "/" }
+        if(id === null || id === "null" || id === "undefined") return { status: 301, redirect: "/" }
 
         setFetcher(fetch);
         const item = await getItem(id)
 
-        if(item === null) return { status: 301, redirect: "/" }
-
-        console.log(Object.keys(item), item.seasons)
+        if(id === null) return { status: 301, redirect: "/" }
 
         return {
             status: 200,
@@ -23,13 +21,11 @@
     import type {Item} from "$lib/typings";
     import {noPadding} from "$lib/stores";
     import {onDestroy} from "svelte";
-    import HeroInner from "../../components/sections/HeroInner.svelte";
-    import BackgroundSection from "../../components/sections/BackgroundSection.svelte";
-    import {getLargeBackdrop} from "$lib/helper";
     import VerticalList from "../../components/sections/VerticalList.svelte";
     import Hero from "../../components/sections/Hero.svelte";
+    import PersonList from "../../components/sections/PersonList.svelte";
 
-    export let item: Item[]
+    export let item: Item
     export let seasons: Item[]
 
     noPadding.set(true)
@@ -38,7 +34,21 @@
     // console.log(item)
 </script>
 
-<Hero {item} includeMoreButton={false} />
+<Hero {item} includeMoreButton={false} includeWave />
+
+<!--HERO-->
+
+<!--.MEDIA.-->
+<!--Chapters | Movie/Episode-->
+<!--Actors | ALL-->
+<!--Similar / Seasons | Movie / Series-->
+
+<!--.PERSON.-->
+<!--Media-->
+
 {#if item.Type === "Series"}
     <VerticalList items={seasons} wide={false} title="Seasons" />
+{/if}
+{#if item.Type !== "Person" || item.Type === "Person"}
+    <PersonList persons={item.People || []} />
 {/if}
