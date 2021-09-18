@@ -11,3 +11,6 @@ export const searchHints = async () => await makeRequest(`items/search/hints`)
 
 export const like = async (itemId) => await makeRequest("items/like", "POST", { itemId })
 export const unlike = async (itemId) => await makeRequest("items/unlike", "DELETE", { itemId })
+
+export const getItem = async (itemId) => await makeRequest(`items/${itemId}`)
+export const getItemsByPerson = async (personId) => await makeRequest(`items/person/${personId}`)

@@ -13,6 +13,7 @@
     let isFavorite: boolean = false
     let processingLike: boolean = false
     $: isFavorite = item.UserData && item.UserData.IsFavorite
+    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
     const toggleLike = async () => {
         processingLike = true
@@ -38,7 +39,7 @@
 
     div.image {
         display: block;
-        margin: auto;
+        margin: 0 auto;
     }
 
     div.details {
@@ -140,7 +141,10 @@
             <div class="heading">
                 <h1>{item.Name}</h1>
                 <div class="badges">
-                    <span>{getResolutionText(item)}</span>
+                    {#if isWatchable}
+                        <span>{getResolutionText(item)}</span>
+                        <span>{item.HasSubtitles ? "CC" : "/"}</span>
+                    {/if}
                     {#if item.OfficialRating}
                         <span>{item.OfficialRating}</span>
                     {/if}
@@ -150,7 +154,6 @@
                     {#if item.CriticRating}
                         <span>{item.CriticRating}%</span>
                     {/if}
-                    <span>{item.HasSubtitles ? "CC" : "/"}</span>
                 </div>
             </div>
             {#if item.SeasonName && item.SeriesName}
@@ -160,9 +163,13 @@
         <p>{item.Overview}</p>
 
         <div class="actions">
-            <WatchNowButton />
+            <WatchNowButton/>
             {#key isFavorite}
-                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite} class:processingLike on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? { fill: "var(--error)", stroke: "var(--error)" } : {})}</span>
+                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite}
+                      class:processingLike on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
+                    fill: "var(--error)",
+                    stroke: "var(--error)"
+                } : {})}</span>
             {/key}
             {#if includeMoreButton}
                 <a class="action" href={generateItemUrl(item.Id)}>{@html icons["external-link"].toSvg()}</a>

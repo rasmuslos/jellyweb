@@ -6,8 +6,9 @@
 
     export let item: Item
     export let tip: string = null
+    export let includeMoreButton: boolean = true
 </script>
 
 <BackgroundSection url={getLargeBackdrop(item)}>
-    <HeroInner {item} {tip} />
+    <HeroInner {item} {tip} {includeMoreButton} />
 </BackgroundSection>

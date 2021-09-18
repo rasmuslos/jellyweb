@@ -17,3 +17,5 @@ export const searchPersons = (session: JellyfinSession, term: string) => createR
 
 export const likeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "POST")
 export const unlikeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "DELETE")
+
+export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
