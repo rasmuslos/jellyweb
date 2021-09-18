@@ -1,5 +1,6 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import {getItem, handleError} from "$lib/api/jellyfin";
+import {getItem, getSeasons, handleError} from "$lib/api/jellyfin";
+import type {Item} from "$lib/typings";
 
 export async function get({ locals, params }) {
     try {
@@ -8,8 +9,15 @@ export async function get({ locals, params }) {
 
         if(id === null || id === "") createApiError(400, "Include item id")
 
-        const item = (await getItem(session, id))
-        return createApiResponse(true, item)
+        let seasons
+        const item: Item = (await getItem(session, id))
+
+        if(item.Type === "Series") seasons = (await getSeasons(session, id)).Items
+
+        return createApiResponse(true, {
+            item,
+            seasons,
+        })
     } catch(error) {
         return handleError(error)
     }

@@ -4,14 +4,18 @@
     export async function load({ fetch, page }) {
         const { id } = page.params
 
-        if(id === null || id === "null") return { status: 301, redirect: "/" }
+        // if(id === null || id === "null") return { status: 301, redirect: "/" }
 
         setFetcher(fetch);
         const item = await getItem(id)
 
+        if(item === null) return { status: 301, redirect: "/" }
+
+        console.log(Object.keys(item), item.seasons)
+
         return {
             status: 200,
-            props: { item }
+            props: { ...item }
         }
     }
 </script>
@@ -22,8 +26,11 @@
     import HeroInner from "../../components/sections/HeroInner.svelte";
     import BackgroundSection from "../../components/sections/BackgroundSection.svelte";
     import {getLargeBackdrop} from "$lib/helper";
+    import VerticalList from "../../components/sections/VerticalList.svelte";
+    import Hero from "../../components/sections/Hero.svelte";
 
     export let item: Item[]
+    export let seasons: Item[]
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
@@ -31,15 +38,7 @@
     // console.log(item)
 </script>
 
-<BackgroundSection url={getLargeBackdrop(item)}>
-    <HeroInner {item} includeMoreButton={false} />
-    <!---MEDIA--->
-    <!--MEDIA INFO | ALL-->
-    <!--CHAPTERS-->
-    <!--ACTORS | ALL-->
-
-    <!--SIMILAR | MOVIES    SEASONS | Series-->
-
-    <!---PERSON--->
-    <!--MEDIA-->
-</BackgroundSection>
+<Hero {item} includeMoreButton={false} />
+{#if item.Type === "Series"}
+    <VerticalList items={seasons} wide={false} title="Seasons" />
+{/if}

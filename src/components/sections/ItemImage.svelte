@@ -6,6 +6,7 @@
     export let wide: boolean = false
     export let item: Item
 
+    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
     const url =
         wide
             ? item.Type === "Episode" && item.SeriesId && item.SeriesPrimaryImageTag && item.SeriesPrimaryImageTag.length > 0
@@ -67,7 +68,9 @@
     <img src={url} alt="Movie Poster">
     <div style="width: {item.UserData ? item.UserData.PlayedPercentage : `0`}%" class="progress"></div>
     <div class="overlay"></div>
-    <div class="play">
-        {@html icons.play.toSvg({ height: 50, width: 50 })}
-    </div>
+    {#if isWatchable}
+        <div class="play">
+            {@html icons.play.toSvg({height: 50, width: 50})}
+        </div>
+    {/if}
 </div>

@@ -5,6 +5,8 @@
     import {generateItemUrl} from "$lib/helper";
 
     export let items: Item[]
+    export let wide: boolean = true
+
     const dispatcher = createEventDispatcher()
     const handleMouseOver = (item) => dispatcher("mouseover", item)
 </script>
@@ -30,13 +32,14 @@
     span {
         padding: 10px;
         text-align: center;
+        text-shadow: 1px 1px 2px var(--background);
     }
 </style>
 
 <div class="holder">
     {#each items as item}
         <a href={generateItemUrl(item.Id)} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} class="item">
-            <ItemImage wide {item} />
+            <ItemImage {wide} {item} />
             <span>{item.Name}</span>
         </a>
     {/each}

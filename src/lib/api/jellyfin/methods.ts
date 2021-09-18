@@ -1,5 +1,6 @@
 import {createRequest} from "$lib/api/jellyfin";
 import type {JellyfinSession} from "$lib/typings";
+import {session} from "$app/stores";
 
 const includeFilter = "includeItemTypes=Movie,Episode"
 export const authoriseUserByName = (server, username, password, deviceId) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
@@ -19,3 +20,4 @@ export const likeItem = (session: JellyfinSession, itemId: string) => createRequ
 export const unlikeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "DELETE")
 
 export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
+export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?&Fields=ItemCounts`, session)
