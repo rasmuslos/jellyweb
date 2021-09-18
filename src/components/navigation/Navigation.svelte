@@ -2,6 +2,7 @@
     import type {NavigationItem, User} from "$lib/typings";
     import Item from "./Item.svelte"
     import StaticItems from "./StaticItems.svelte";
+    import {noPadding} from "$lib/stores";
 
     export let me: User
     const items: NavigationItem[] = [
@@ -31,10 +32,13 @@
         max-width: 1000px;
         width: 100%;
     }
+    nav.shadow :global(span) {
+        text-shadow: 1px 1px 2px black;
+    }
 </style>
 
 <div>
-    <nav>
+    <nav class:shadow={$noPadding}>
         {#each items as item}
             <Item {item} />
         {/each}

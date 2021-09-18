@@ -4,7 +4,6 @@
 
 <style>
     section {
-        min-height: 100vh;
         overflow: hidden;
 
         background-color: var(--background-light);
