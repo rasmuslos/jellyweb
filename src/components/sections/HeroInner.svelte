@@ -156,8 +156,8 @@
                     {/if}
                 </div>
             </div>
-            {#if item.SeasonName && item.SeriesName}
-                <span class="dimmed info">{item.SeasonName} - {item.SeriesName}</span>
+            {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
+                <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
             {/if}
         </div>
         {#if item.Overview !== undefined}

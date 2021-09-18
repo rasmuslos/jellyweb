@@ -27,6 +27,9 @@
 
     export let item: Item
     export let seasons: Item[]
+    export let media: Item[]
+
+    console.log(media)
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
@@ -34,7 +37,7 @@
     // console.log(item)
 </script>
 
-<Hero {item} includeMoreButton={false} includeWave />
+<Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
 
 <!--HERO-->
 
@@ -46,9 +49,13 @@
 <!--.PERSON.-->
 <!--Media-->
 
-{#if item.Type === "Series"}
-    <VerticalList items={seasons} wide={false} title="Seasons" />
+{#if item.Type === "Series" || item.Type === "Season"}
+    <VerticalList items={item.Type === "Series" ? seasons : []} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
 {/if}
 {#if item.Type !== "Person" || item.Type === "Person"}
     <PersonList persons={item.People || []} />
+{/if}
+
+{#if item.Type === "Person"}
+    <VerticalList items={media} wide={false} title="Media" />
 {/if}
