@@ -10,6 +10,7 @@ export const getIconByType = ({ Type }: Item) => {
     else if(Type === "Series") icon = "tv"
     else if(Type === "Person") icon = "user"
     else if(Type === "Genre") icon = "bookmark"
+    else if(Type === "Episode") icon = "hash"
 
     return icons[icon].toSvg()
 }

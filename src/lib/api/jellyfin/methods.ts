@@ -15,7 +15,7 @@ export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?
 export const genres = (session: JellyfinSession) => createRequest("Genres", session)
 export const me = (session: JellyfinSession) => createRequest("Users/Me", session)
 
-export const search = (session: JellyfinSession, term: string) => createRequest(`Users/${session.userId}/Items?searchTerm=${encodeURIComponent(term)}&IncludeItemTypes=Movie,Series,Genre,Person&limit=15&&IncludeMedia=true&includePeople=true&includeGenres=true&Recursive=true&EnableTotalRecordCount=false`, session)
+export const search = (session: JellyfinSession, term: string) => createRequest(`Users/${session.userId}/Items?searchTerm=${encodeURIComponent(term)}&IncludeItemTypes=Movie,Series,Genre,Person,Episode&limit=15&&IncludeMedia=true&includePeople=true&includeGenres=true&Recursive=true&EnableTotalRecordCount=false`, session)
 export const searchHints = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&IncludeItemTypes=Movie,Series&Limit=10&Recursive=true&EnableTotalRecordCount=false`, session)
 export const searchPersons = (session: JellyfinSession, term: string) => createRequest(`Persons?searchTerm=${encodeURIComponent(term)}`, session)
 

@@ -32,7 +32,7 @@
         if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
         return new Date(a.UserData.LastPlayedDate).getTime() > new Date(b.UserData.LastPlayedDate).getTime() ? -1 : 1
     })
-    const showHero = false && combined.length > 0
+    const showHero = combined.length > 0
 
     if(showHero || random != null) noPadding.set(true)
     onDestroy(() => noPadding.set(false))
@@ -46,6 +46,9 @@
 <Genres {genres} />
 {#if recommendations != null && recommendations.length > 0}
     <VerticalList items={recommendations || []} title="Recommended" />
+{/if}
+{#if showHero && random != null}
+    <Hero item={random} tip="Watch this" />
 {/if}
 {#if bestRated != null && bestRated.length > 0}
     <VerticalList items={bestRated || []} title="Best rated" />
