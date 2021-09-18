@@ -17,7 +17,7 @@
         overflow-y: hidden;
         overflow-x: auto;
     }
-    div.genre {
+    a.genre {
         position: relative;
         display: block;
         margin: 0 20px;
@@ -28,15 +28,15 @@
         transition: transform 250ms ease;
         cursor: pointer;
 
-        overflow: hidden;
-        width: 400px;
         height: 125px;
+        flex: 0 0 400px;
+        overflow: hidden;
     }
-    div.genre:hover {
+    a.genre:hover {
         transform: scale(1.01);
     }
 
-    div.genre h1 {
+    a.genre h1 {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -80,10 +80,8 @@
         flex-wrap: wrap;
         justify-content: center;
     }
-    div.holder a {
-        max-width: 100%;
-    }
-    div.holder.big div.genre {
+    div.holder.big a.genre {
+        flex: 0 1 400px;
         margin: 20px 20px;
     }
 </style>
@@ -95,11 +93,9 @@
         {/if}
         <div class="holder" class:big>
             {#each genres as genre, i}
-                <a href="/genres/{genre.Id}">
-                    <div class="genre">
-                        <div class="gradient no{i % 5}"></div>
-                        <h1>{genre.Name}</h1>
-                    </div>
+                <a href="/genres/{genre.Id}"  class="genre">
+                    <div class="gradient no{i % 5}"></div>
+                    <h1>{genre.Name}</h1>
                 </a>
             {/each}
         </div>
