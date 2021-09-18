@@ -67,7 +67,7 @@
 
 <div class="holder" class:wide on:click>
     <img src={url} alt="Movie Poster">
-    <div style="width: {showProgress ? item.UserData.PlayedPercentage : `0`}%" class="progress"></div>
+    <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
     <div class="overlay"></div>
     {#if isWatchable}
         <div class="play">

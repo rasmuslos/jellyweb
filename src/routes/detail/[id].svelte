@@ -30,6 +30,7 @@
     export let seasons: Item[]
     export let media: Item[]
     export let episodes: Item[]
+    export let similar: Item[]
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
@@ -42,23 +43,27 @@
 <!--HERO-->
 
 <!--.MEDIA.-->
-<!--Chapters | Movie/Episode-->
-<!--Actors | ALL-->
-<!--Similar / Seasons | Movie / Series-->
+<!--Chapters | Movie/Episode DONE-->
+<!--Actors | ALL DONE-->
+<!--Similar / Seasons | Movie / Series DONE-->
 
 <!--.PERSON.-->
-<!--Media-->
+<!--Media DONE-->
 
 {#if item.Type === "Series" || item.Type === "Season"}
     <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
 {/if}
+
 {#if item.Type === "Episode" || item.Type === "Movie"}
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
+{#if item.Type === "Movie"}
+    <VerticalList items={similar || []} title="Similar" />
+{/if}
+
 {#if item.Type !== "Person" || item.Type === "Person"}
     <PersonList persons={item.People || []} />
 {/if}
-
 {#if item.Type === "Person"}
     <VerticalList items={media} wide={false} title="Media" />
 {/if}
