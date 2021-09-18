@@ -25,9 +25,16 @@
     import "normalize.css"
 
     import Navigation from "../components/navigation/Navigation.svelte";
-    import {noPadding} from "$lib/stores";
+    import {modal, noPadding} from "$lib/stores";
+    import {onMount} from "svelte";
 
     export let me: User
+    let Modal
+
+    onMount(async () => {
+        const svelteSimpleModal = await import('svelte-simple-modal')
+        Modal = svelteSimpleModal.default
+    });
 </script>
 
 <style>
@@ -58,4 +65,6 @@
     <main class:no-padding={$noPadding}>
         <slot />
     </main>
+
+    <svelte:component this={Modal} show={$modal} />
 </div>

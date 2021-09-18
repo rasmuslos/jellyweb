@@ -1,10 +1,11 @@
 <script lang="ts">
     import {icons} from "feather-icons";
+    import {modal} from "$lib/stores";
+    import SearchOverlay from "../search/overlay/SearchOverlay.svelte";
 
+    const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
     const handleGlobalKeydown = (event: KeyboardEvent) => {
-        if(event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey || event.altKey)) {
-            alert("OPEN MODAL")
-        }
+        if(event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey || event.altKey)) toggleSearch()
     }
 </script>
 <svelte:window on:keydown={handleGlobalKeydown} />
@@ -17,7 +18,7 @@
         color: var(--secondary);
 
         padding: 7px;
-        border-radius: 5px;
+        border-radius: 7px;
     }
     div.desktop:hover {
         background-color: var(--background-light);
@@ -47,10 +48,10 @@
     }
 </style>
 
-<div class="desktop">
+<div class="desktop" on:click={toggleSearch}>
     <span>Search</span>
     <span class="key">&#8984;K</span>
 </div>
-<div class="mobile">
+<div class="mobile" on:click={toggleSearch}>
     {@html icons.search.toSvg()}
 </div>
