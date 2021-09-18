@@ -12,3 +12,6 @@ export const genres = (session: JellyfinSession) => createRequest("Genres", sess
 export const me = (session: JellyfinSession) => createRequest("Users/Me", session)
 
 export const search = (session: JellyfinSession, term: string) => createRequest(`Users/${session.userId}/Items?searchTerm=${encodeURIComponent(term)}&IncludeItemTypes=Movie,Series,Genre,Person&limit=15&&IncludeMedia=true&Recursive=true&EnableTotalRecordCount=false`, session)
+
+export const likeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "POST")
+export const unlikeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "DELETE")

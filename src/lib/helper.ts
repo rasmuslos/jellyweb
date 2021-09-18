@@ -34,7 +34,7 @@ export const getResolutionText = ({ Height, Width }: Item) => {
     return "?"
 }
 
-export const generateItemUrl = (itemId: string) => `/item/${itemId}`
+export const generateItemUrl = (itemId: string) => `/detail/${itemId}`
 
 export const removeClass = (element, className) => {
     if(element.classList) element.classList.remove(className)

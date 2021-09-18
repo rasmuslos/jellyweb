@@ -9,7 +9,7 @@ export const makeRequest = async (endpoint: string, method: string = "GET", body
 
     const res = await requester(`/api/v1/${endpoint}`, {
         method,
-        body,
+        body: body !== null ? JSON.stringify(body) : null,
 
         headers: {
             "Content-Type": "application/json",

@@ -1,11 +1,26 @@
 <script lang="ts">
     import {Item} from "$lib/typings";
     import ItemImage from "./ItemImage.svelte";
-    import {getResolutionText} from "$lib/helper";
+    import {generateItemUrl, getResolutionText} from "$lib/helper";
     import WatchNowButton from "../input/WatchNowButton.svelte";
+    import {icons} from "feather-icons";
+    import {like, unlike} from "$lib/api/internal";
 
     export let item: Item
     export let tip: string = null
+    export let includeMoreButton: boolean = true
+
+    let isFavorite: boolean = false
+    let processingLike: boolean = false
+    $: isFavorite = item.UserData && item.UserData.IsFavorite
+
+    const toggleLike = async () => {
+        processingLike = true
+
+        if(isFavorite) isFavorite = (await unlike(item.Id)).favorite
+        else isFavorite = (await like(item.Id)).favorite
+        processingLike = false
+    }
 </script>
 
 <style>
@@ -60,9 +75,23 @@
 
         border: 1px solid var(--text);
     }
-    div.watch {
-        display: block;
+    div.actions {
+        display: flex;
+        align-items: center;
         margin: auto auto auto 0;
+    }
+    .action {
+        width: 24px;
+        height: 24px;
+
+        cursor: pointer;
+        margin-left: 12px;
+    }
+    .action.liked {
+        fill: var(--error);
+    }
+    .action.processingLike {
+        animation: spin 5s infinite;
     }
 
     @media screen and (max-width: 1000px) {
@@ -130,8 +159,14 @@
         </div>
         <p>{item.Overview}</p>
 
-        <div class="watch">
+        <div class="actions">
             <WatchNowButton />
+            {#key isFavorite}
+                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite} class:processingLike on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? { fill: "var(--error)", stroke: "var(--error)" } : {})}</span>
+            {/key}
+            {#if includeMoreButton}
+                <a class="action" href={generateItemUrl(item.Id)}>{@html icons["external-link"].toSvg()}</a>
+            {/if}
         </div>
     </div>
 </div>

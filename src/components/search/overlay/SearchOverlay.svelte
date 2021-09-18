@@ -99,7 +99,7 @@
 
         cursor: pointer;
     }
-    a.result {
+    .result {
         display: grid;
         grid-template-columns: 30px 1fr;
         align-items: center;
@@ -110,7 +110,7 @@
         margin: 0 0 7px 0;
         padding: 5px 0;
     }
-    a.result:global(.active) {
+    .result:global(.active) {
         background-color: var(--highlight);
         padding: 5px 7px;
     }
@@ -129,12 +129,12 @@
 </style>
 
 <div class="holder">
-    <input placeholder="Search" type="text" bind:value={query} on:keydown={handleInput} />
+    <input autofocus placeholder="Search" type="text" bind:value={query} on:keydown={handleInput} />
     <div class="results">
-        <a class="result dimmed" data-item="-1">
+        <div class="result dimmed" data-item="-1">
             <div class="icon">{@html icons.search.toSvg()}</div>
             <span>Advanced search</span>
-        </a>
+        </div>
         {#if results && results.length > 0}
             {#each results as result}
                 <a class="result" href={generateItemUrl(result.Id)} data-item={result.Id}>
