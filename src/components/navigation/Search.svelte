@@ -34,7 +34,7 @@
     /* i know that this is the worst possible way to do this, but fuck it */
     div.mobile {
         display: none;
-        margin: 0 5px;
+        margin: 0 7px;
     }
 
     @media screen and (max-width: 1000px) {

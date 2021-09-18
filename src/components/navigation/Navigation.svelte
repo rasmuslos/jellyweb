@@ -4,6 +4,7 @@
     import {noPadding} from "$lib/stores";
     import Search from "./Search.svelte";
     import {generateImageUrl} from "$lib/helper";
+    import {icons} from "feather-icons";
 
     export let me: User
 
@@ -84,6 +85,15 @@
         height: 35px;
         width: 35px;
     }
+    div.toggle {
+        display: none;
+    }
+    div.toggle :global(svg) {
+        transition: transform 200ms ease;
+    }
+    div.toggle.expanded :global(svg) {
+        transform: rotate(180deg);
+    }
 
     /* Possibly the worst thing i have ever created */
     @media screen and (max-width: 1000px) {
@@ -113,6 +123,9 @@
         div.holder {
             height: 35px;
         }
+        div.toggle {
+            display: block;
+        }
     }
 </style>
 
@@ -129,10 +142,10 @@
         </div>
         <div class="holder">
             <Search />
+            <div class="toggle" class:expanded on:click={() => expanded = !expanded}>{@html icons["arrow-down"].toSvg()}</div>
             <div class="user">
                 <div class="image" style="background-image: url('{me && generateImageUrl(me.Id, me.PrimaryImageTag, `Primary`, 30, `Users`)}')"></div>
             </div>
-            <span on:click={() => expanded = !expanded}>E</span>
         </div>
     </nav>
 </div>
