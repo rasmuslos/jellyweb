@@ -53,7 +53,14 @@ export const ticksToHumanReadable = (ticks: number) => {
     let minute = Math.floor((seconds / 60) % 60)
     let second = seconds % 60
 
-    console.log(second, minute, hour)
-
     return hour === 0 ? `${padding2(minute)}:${padding2(second)}` : `${padding2(hour)}:${padding2(minute)}:${padding2(second)}`
+}
+
+// https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+export const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+    }
+    return array
 }

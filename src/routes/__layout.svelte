@@ -34,7 +34,15 @@
     onMount(async () => {
         const svelteSimpleModal = await import('svelte-simple-modal')
         Modal = svelteSimpleModal.default
-    });
+
+        // oof
+        history.pushState = new Proxy(history.pushState, {
+            apply (target, thisArg, argumentsList) {
+                if(document.querySelector("#svelte > div")) document.querySelector("#svelte > div").scrollTo(0, 0)
+                Reflect.apply(target, thisArg, argumentsList)
+            }
+        })
+    })
 </script>
 
 <style>

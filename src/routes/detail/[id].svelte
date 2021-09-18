@@ -34,21 +34,9 @@
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
-
-    // console.log(item)
 </script>
 
 <Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
-
-<!--HERO-->
-
-<!--.MEDIA.-->
-<!--Chapters | Movie/Episode DONE-->
-<!--Actors | ALL DONE-->
-<!--Similar / Seasons | Movie / Series DONE-->
-
-<!--.PERSON.-->
-<!--Media DONE-->
 
 {#if item.Type === "Series" || item.Type === "Season"}
     <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />

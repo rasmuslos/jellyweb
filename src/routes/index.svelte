@@ -6,13 +6,9 @@
         setFetcher(fetch)
         const homeObj = await home()
 
-        const resume: Item[] = homeObj.resume
-        const nextUp: Item[] = homeObj.nextUp
-        const genres: Item[] = homeObj.genres
-
         return {
             status: 200,
-            props: { resume, nextUp, genres }
+            props: { ...homeObj}
         }
     }
 </script>
@@ -22,22 +18,35 @@
     import {onDestroy} from "svelte";
     import ListHero from "../components/sections/ListHero.svelte";
     import Genres from "../components/sections/Genres.svelte";
+    import Hero from "../components/sections/Hero.svelte";
+    import VerticalList from "../components/sections/VerticalList.svelte";
 
     export let resume: Item[]
     export let nextUp: Item[]
     export let genres: Item[]
+    export let random: Item
+    export let bestRated: Item[]
+    export let recommendations: Item[]
 
     const combined = resume.concat(nextUp).sort((a, b) => {
         if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
         return new Date(a.UserData.LastPlayedDate).getTime() > new Date(b.UserData.LastPlayedDate).getTime() ? -1 : 1
     })
-    const showHero = combined.length > 0
+    const showHero = false && combined.length > 0
 
-    if(showHero !== null) noPadding.set(true)
+    if(showHero || random != null) noPadding.set(true)
     onDestroy(() => noPadding.set(false))
 </script>
 
-{#if showHero != null}
-    <ListHero items={combined} />
+{#if showHero}
+    <ListHero items={combined || []} />
+{:else if random != null}
+    <Hero item={random} tip="Watch this" includeWave />
 {/if}
 <Genres {genres} />
+{#if recommendations != null && recommendations.length > 0}
+    <VerticalList items={recommendations || []} title="Recommended" />
+{/if}
+{#if bestRated != null && bestRated.length > 0}
+    <VerticalList items={bestRated || []} title="Best rated" />
+{/if}
