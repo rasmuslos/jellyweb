@@ -7,6 +7,7 @@ export const genres = async () => await makeRequest("items/genres")
 export const me = async () => await makeRequest("session/me")
 
 export const search = async (term) => await makeRequest(`items/search?term=${term}`)
+export const searchHints = async () => await makeRequest(`items/search/hints`)
 
 export const like = async (itemId) => await makeRequest("items/like", "POST", { itemId })
 export const unlike = async (itemId) => await makeRequest("items/unlike", "DELETE", { itemId })

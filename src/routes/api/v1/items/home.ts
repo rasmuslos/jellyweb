@@ -7,9 +7,9 @@ export async function get({ locals }) {
        const [resumeItems, nextUpItems, genreItems] = await Promise.all([resume(session), nextUp(session), genres(session)])
 
        return createApiResponse(true, {
-           resume: resumeItems,
-           nextUp: nextUpItems,
-           genres: genreItems,
+           resume: resumeItems.Items,
+           nextUp: nextUpItems.Items,
+           genres: genreItems.Items,
        })
    } catch(error) {
         return handleError(error)

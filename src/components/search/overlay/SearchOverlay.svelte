@@ -3,14 +3,17 @@
     import {modal} from "$lib/stores";
     import {addClass, generateItemUrl, getIconByType, removeClass} from "$lib/helper";
     import {goto} from "$app/navigation";
-    import {search} from "$lib/api/internal";
+    import {search, searchHints} from "$lib/api/internal";
     import type {Item} from "$lib/typings";
+    import {onMount} from "svelte";
 
     let query: string = ""
     let index: number = -1
     let selected
+    let hints: Item[]
     let results: Item[]
 
+    onMount(async () => results = hints = (await searchHints()).hints)
     const handleKeydown = (event: KeyboardEvent) => {
         const items = document.querySelectorAll(".result")
         const length = items.length - 1
@@ -52,11 +55,13 @@
             const item = selected && selected.dataset && selected.dataset.item ?? 0
 
             if(item == 0) return
-            else if(item == -1) return goto(`/search/?query=${encodeURIComponent(query)}`)
+            else if(item == -1) goto(`/search/?query=${encodeURIComponent(query)}`)
             else goto(generateItemUrl(item))
+
+            modal.set(null)
         }
     }
-    const handleInput = async () => results = (await search(query)).Items
+    const handleInput = async () => query !== "" ? results = (await search(query)).Items : hints
 </script>
 <svelte:window on:keydown={handleKeydown} />
 

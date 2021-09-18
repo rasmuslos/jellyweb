@@ -6,9 +6,9 @@
         setFetcher(fetch)
         const homeObj = await home()
 
-        const resume: Item[] = homeObj.resume.Items
-        const nextUp: Item[] = homeObj.nextUp.Items
-        const genres: Item[] = homeObj.genres.Items
+        const resume: Item[] = homeObj.resume
+        const nextUp: Item[] = homeObj.nextUp
+        const genres: Item[] = homeObj.genres
 
         return {
             status: 200,

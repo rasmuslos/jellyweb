@@ -8,12 +8,12 @@
 
         return {
             status: 200,
-            props: { genres: genresObj.Items }
+            props: { genres: genresObj.genres }
         }
     }
 </script>
 <script lang="ts">
-    import Genres from "../../components/sections/Genres.svelte";
+    import Genres from "../components/sections/Genres.svelte";
     export let genres: Item[]
 </script>
 
