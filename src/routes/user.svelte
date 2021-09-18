@@ -2,7 +2,7 @@
     import {setFetcher, me as getMe} from "$lib/api/internal";
     import type {User} from "$lib/typings";
 
-    export async function load({session, fetch}) {
+    export async function load({fetch}) {
         setFetcher(fetch)
         const me: User = await getMe()
 
