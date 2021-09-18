@@ -38,6 +38,10 @@
     onDestroy(() => noPadding.set(false))
 </script>
 
+<svelte:head>
+    <title>Jellyweb</title>
+</svelte:head>
+
 {#if showHero}
     <ListHero items={combined || []} />
 {:else if random != null}

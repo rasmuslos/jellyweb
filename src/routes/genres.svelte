@@ -17,4 +17,8 @@
     export let genres: Item[]
 </script>
 
+<svelte:head>
+    <title>Genres</title>
+</svelte:head>
+
 <Genres big {genres} />

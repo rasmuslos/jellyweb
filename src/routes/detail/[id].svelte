@@ -36,12 +36,19 @@
     onDestroy(() => noPadding.set(false))
 </script>
 
+<svelte:head>
+    <title>{item.Name}</title>
+</svelte:head>
+
 <Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
 
 {#if item.Type === "Series" || item.Type === "Season"}
     {#key item}
         <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
     {/key}
+{/if}
+{#if item.Type === "Genre"}
+    please implement me
 {/if}
 
 {#if item.Type === "Episode" || item.Type === "Movie"}

@@ -58,6 +58,10 @@
     }
 </style>
 
+<svelte:head>
+    <title>Login</title>
+</svelte:head>
+
 <div>
     <h1>Login</h1>
     <span class="dimmed">{server}</span>
