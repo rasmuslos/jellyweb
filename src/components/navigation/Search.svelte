@@ -33,7 +33,7 @@
     }
 
     /* i know that this is the worst possible way to do this, but fuck it */
-    div.mobile {
+    a.mobile {
         display: none;
         margin: 0 7px;
     }
@@ -42,7 +42,7 @@
         div.desktop {
             display: none;
         }
-        div.mobile {
+        a.mobile {
             display: block;
         }
     }
@@ -52,6 +52,6 @@
     <span>Search</span>
     <span class="key">&#8984;K</span>
 </div>
-<div class="mobile" on:click={toggleSearch}>
+<a class="mobile" href="/search">
     {@html icons.search.toSvg()}
-</div>
+</a>

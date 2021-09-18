@@ -66,5 +66,14 @@
         <slot />
     </main>
 
-    <svelte:component this={Modal} show={$modal} />
+    <svelte:component
+            this={Modal}
+            show={$modal}
+            closeButton={false}
+
+            styleContent={{ padding: 0 }}
+            styleWindow={{ "background-color": "transparent", "margin-top": "200px" }}
+            styleBg={{ "display": "block" }}
+
+            on:close={() => modal.set(null)} />
 </div>

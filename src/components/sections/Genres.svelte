@@ -93,7 +93,7 @@
         {/if}
         <div class="holder" class:big>
             {#each genres as genre, i}
-                <a href="/genres/{genre.Id}"  class="genre">
+                <a href="/items/{genre.Id}"  class="genre">
                     <div class="gradient no{i % 5}"></div>
                     <h1>{genre.Name}</h1>
                 </a>
