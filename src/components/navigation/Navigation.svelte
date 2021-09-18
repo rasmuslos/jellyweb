@@ -64,7 +64,7 @@
         margin-left: 7px;
     }
 
-    div.user {
+    a.user {
         display: grid;
         grid-template-columns: auto auto;
         align-items: center;
@@ -72,10 +72,10 @@
         cursor: pointer;
         transition: transform 200ms ease;
     }
-    div.user:hover {
+    a.user:hover {
         transform: scale(1.1);
     }
-    div.user .image {
+    a.user .image {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: 50%;
@@ -143,9 +143,9 @@
         <div class="holder">
             <Search />
             <div class="toggle" class:expanded on:click={() => expanded = !expanded}>{@html icons["arrow-down"].toSvg()}</div>
-            <div class="user">
+            <a href="/user" class="user">
                 <div class="image" style="background-image: url('{me && generateImageUrl(me.Id, me.PrimaryImageTag, `Primary`, 30, `Users`)}')"></div>
-            </div>
+            </a>
         </div>
     </nav>
 </div>
