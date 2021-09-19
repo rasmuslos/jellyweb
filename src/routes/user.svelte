@@ -25,5 +25,8 @@
 
 <section>
     <ApplyWidth>
+        <!--.SETTINGS.-->
+        <!--Background-Images-->
+        <!--Darken images-->
     </ApplyWidth>
 </section>

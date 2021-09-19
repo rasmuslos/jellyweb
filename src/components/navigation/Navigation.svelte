@@ -46,9 +46,6 @@
         max-width: 1000px;
         width: 100%;
     }
-    nav.shadow :global(span) {
-        text-shadow: 1px 1px 2px black;
-    }
 
     div.items {
         display: flex;

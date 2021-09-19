@@ -30,7 +30,6 @@
     p {
         padding: 10px;
         text-align: center;
-        text-shadow: 1px 1px 2px var(--background);
     }
 </style>
 

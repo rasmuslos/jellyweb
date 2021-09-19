@@ -14,9 +14,6 @@
     div {
         margin-top: 250px;
     }
-    h1 {
-        text-shadow: 1px 1px 2px black;
-    }
 </style>
 
 <BackgroundSection url={getLargeBackdrop(active)}>
