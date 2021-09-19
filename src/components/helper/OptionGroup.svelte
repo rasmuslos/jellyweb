@@ -39,13 +39,12 @@
 <div class="holder">
     <h1>{title}</h1>
     {#each options as { identifier, title, description, checked }}
-        {@debug checked}
         <div class="option">
             <div>
                 <h2>{title}</h2>
                 <p>{description}</p>
             </div>
-            <Switch checked={checked === "true"} on:change={event => dispatcher("change", { identifier, checked: event.target.checked })} />
+            <Switch {checked} on:change={event => dispatcher("change", { identifier, checked: event.target.checked })} />
         </div>
     {/each}
 </div>

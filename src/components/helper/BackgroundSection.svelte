@@ -1,4 +1,6 @@
 <script lang="ts">
+    import {settings} from "$lib/stores";
+
     export let url: string
 </script>
 
@@ -22,7 +24,7 @@
 
         z-index: 0;
     }
-    div.image::before {
+    div.image.blur::before {
         position: absolute;
         top: 0;
         left: 0;
@@ -40,7 +42,11 @@
 </style>
 
 <section>
-    <div class="image" style="background-image: url('{url}')"></div>
+    {#key $settings["images.hero"], $settings["images.blur"]}
+        {#if $settings["images.hero"] !== "false"}
+            <div class="image" class:blur={$settings["images.blur"] !== "false"} style="background-image: url('{url}')"></div>
+        {/if}
+    {/key}
     <div class="holder">
         <slot />
     </div>

@@ -3,19 +3,23 @@
     import OptionGroup from "../helper/OptionGroup.svelte";
     import type {Option} from "$lib/typings";
     import {settings} from "$lib/stores";
-    import {updateDisplayPreferences} from "$lib/api/internal";
+    import {deleteDisplayPreferences, updateDisplayPreferences} from "$lib/api/internal";
+    import GenericButton from "../input/GenericButton.svelte";
 
+    /* This is a promising candidate for the worst hour ever spend */
+    const heroEnabled = $settings["images.hero"] != "false"
+    const blurEnabled = $settings["images.blur"] != "false"
     const imageOptions: Option[] = [
         {
             title: "Show hero images",
             description: "Show big images on the home screen and detail view",
-            checked: $settings["images.hero"],
+            checked: heroEnabled,
             identifier: "images.hero",
         },
         {
             title: "Blur hero images",
             description: "Make text more readable but reduce vibrant colors",
-            checked: $settings["images.blur"],
+            checked: blurEnabled,
             identifier: "images.blur",
         },
     ]
@@ -28,6 +32,10 @@
             return preferences
         })
     }
+    const deletePreferences = async () => {
+        await deleteDisplayPreferences()
+        settings.set({})
+    }
 </script>
 
 <style>
@@ -38,6 +46,9 @@
 
 <ApplyWidth>
     <div class="holder">
-        <OptionGroup options={imageOptions} title="Images" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
+        {#key imageOptions}
+            <OptionGroup options={imageOptions} title="Images" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
+        {/key}
+        <GenericButton on:click={deletePreferences} label="Reset" />
     </div>
 </ApplyWidth>

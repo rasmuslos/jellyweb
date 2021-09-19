@@ -30,3 +30,16 @@ export async function get({ locals }) {
         return handleError(error)
     }
 }
+
+export async function del({ locals }) {
+    try {
+        const session = locals.session.data.active
+        const current = await getDisplayPreferences(session)
+        current["CustomPrefs"] = {}
+
+        const res = await updateDisplayPreferences(session, current)
+        return createApiResponse(true, res)
+    } catch(error) {
+        return handleError(error)
+    }
+}

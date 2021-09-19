@@ -1,3 +1,5 @@
+export type fakeBoolean = "true" | "false"
+
 export type JellyfinSession = {
     token: string,
     server: string,
@@ -5,8 +7,8 @@ export type JellyfinSession = {
     deviceId: string,
 }
 export type Settings = {
-    "images.hero"?: boolean,
-    "images.blur"?: boolean,
+    "images.hero"?: fakeBoolean,
+    "images.blur"?: fakeBoolean,
 }
 
 export type Session = {
