@@ -39,16 +39,17 @@
 </script>
 
 <style>
-    .holder {
-
+    h1 {
+        font-size: 50px;
+        font-weight: 600;
+        text-align: center;
     }
 </style>
 
 <ApplyWidth>
-    <div class="holder">
-        {#key imageOptions}
-            <OptionGroup options={imageOptions} title="Images" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
-        {/key}
-        <GenericButton on:click={deletePreferences} label="Reset" />
-    </div>
+    <h1>Settings</h1>
+    {#key imageOptions}
+        <OptionGroup options={imageOptions} title="Images" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
+    {/key}
+    <GenericButton on:click={deletePreferences} label="Reset" />
 </ApplyWidth>
