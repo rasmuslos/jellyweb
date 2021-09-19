@@ -1,4 +1,4 @@
-import type {JellyfinSession} from "$lib/typings";
+import type {JellyfinSession, Session} from "$lib/typings";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import {authoriseUserByName, handleError} from "$lib/api/jellyfin";
 
@@ -20,7 +20,8 @@ export async function post({ locals, body }) {
                 deviceId: uuid,
             } as JellyfinSession,
             stored: locals.session.data ? locals.session.data.stored ? [...locals.session.data.stored, oldSession] : oldSession ? [oldSession] : [] : oldSession ? [oldSession] : [],
-        }
+            settings: locals.session.data && locals.session.data.settings ? locals.session.data.settings : {}
+        } as Session
 
         return createApiResponse(true, { session: locals.session.data.active })
     } catch(error) {

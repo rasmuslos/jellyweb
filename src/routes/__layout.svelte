@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
-    import {setFetcher, me as getMe} from "$lib/api/internal";
-    import type {User} from "$lib/typings";
+    import {setFetcher, me as getMe, getDisplayPreferences} from "$lib/api/internal";
+    import type {Settings, User} from "$lib/typings";
+    import {settings} from "$lib/stores";
 
     export async function load({session, fetch}) {
         if(session == null || session.active == null) {
@@ -10,7 +11,9 @@
             }
         } else {
             setFetcher(fetch)
-            const me: User = await getMe()
+            const [me, preferences]: [User, Settings] = await Promise.all([getMe(), getDisplayPreferences()])
+
+            settings.set(preferences)
 
             return {
                 status: 200,
@@ -28,8 +31,8 @@
     import {modal, noPadding} from "$lib/stores";
     import {onMount} from "svelte";
 
-    export let me: User
     let Modal
+    export let me: User
 
     onMount(async () => {
         const svelteSimpleModal = await import('svelte-simple-modal')

@@ -18,8 +18,9 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     })
 
     // if(!res.ok) throw new Error("Fetch failed")
+    if(res.status == 204) return
     if(res.status != 200) {
-        console.log("got non 200 status", res.status, url)
+        console.warn("got non 200 status", method, res.status, await res.clone().text(), url)
 
         if(res.status == 401) return { status: 401, error: "auth failed" }
         else return { status: 400, error: "Request returned other status then 200" }

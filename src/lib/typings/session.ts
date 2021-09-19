@@ -4,6 +4,11 @@ export type JellyfinSession = {
     userId: string,
     deviceId: string,
 }
+export type Settings = {
+    "images.hero"?: boolean,
+    "images.blur"?: boolean,
+}
+
 export type Session = {
     active: JellyfinSession,
     stored: JellyfinSession[],

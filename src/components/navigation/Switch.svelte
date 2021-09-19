@@ -1,3 +1,7 @@
+<script lang="ts">
+    export let checked: boolean = false
+</script>
+
 <style>
     label {
         position: relative;
@@ -51,6 +55,6 @@
 </style>
 
 <label>
-    <input on:change type="checkbox">
+    <input {checked} on:change type="checkbox">
     <span></span>
 </label>

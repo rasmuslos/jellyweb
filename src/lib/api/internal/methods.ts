@@ -14,3 +14,6 @@ export const unlike = async (itemId) => await makeRequest("items/unlike", "DELET
 
 export const getItem = async (itemId) => await makeRequest(`items/${itemId}`)
 export const getItemsByPerson = async (personId) => await makeRequest(`items/person/${personId}`)
+
+export const getDisplayPreferences = async () => (await makeRequest("session/preferences")).CustomPrefs
+export const updateDisplayPreferences = async (preferences) => await makeRequest("session/preferences", "POST", { preferences })

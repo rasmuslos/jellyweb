@@ -4,7 +4,9 @@
     import Switch from "../navigation/Switch.svelte";
 
     const dispatcher = createEventDispatcher()
+
     export let options: Option[]
+    export let title: string
 </script>
 
 <style>
@@ -21,6 +23,10 @@
         align-items: center;
     }
 
+    h1 {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
     h2 {
         margin: 0;
     }
@@ -31,14 +37,15 @@
 </style>
 
 <div class="holder">
-    <h1>Images</h1>
+    <h1>{title}</h1>
     {#each options as { identifier, title, description, checked }}
+        {@debug checked}
         <div class="option">
             <div>
                 <h2>{title}</h2>
                 <p>{description}</p>
             </div>
-            <Switch />
+            <Switch checked={checked === "true"} on:change={event => dispatcher("change", { identifier, checked: event.target.checked })} />
         </div>
     {/each}
 </div>

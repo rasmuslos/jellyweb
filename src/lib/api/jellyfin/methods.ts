@@ -31,3 +31,7 @@ export const getSimilarItems = (session: JellyfinSession, itemId: string) => cre
 export const getRandomItem = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${homeFilter}&includeItemTypes=Movie,Series`, session)
 export const bestRated = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=CommunityRating&Limit=15&Recursive=true&EnableTotalRecordCount=false&${homeFilter}&includeItemTypes=Movie&sortOrder=Descending`, session)
 export const getRecommendations = (session: JellyfinSession) => createRequest(`Movies/Recommendations?Limit=15&${homeFilter}&userId=${session.userId}`, session)
+
+export const getDevice = (session: JellyfinSession) => createRequest(`Devices/Info?id=${session.deviceId}`, session)
+export const getDisplayPreferences = (session: JellyfinSession) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session)
+export const updateDisplayPreferences = (session: JellyfinSession, preferences: any) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session, "POST", JSON.stringify({ ...preferences }))
