@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
-    import ApplyWidth from "./ApplyWidth.svelte";
+    import ApplyWidth from "../helper/ApplyWidth.svelte";
     import {generateItemUrl} from "$lib/helper";
 
     export let genres: Item[]

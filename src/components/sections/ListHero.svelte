@@ -1,10 +1,10 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import {getLargeBackdrop} from "$lib/helper";
-    import HeroInner from "./HeroInner.svelte";
-    import VerticalListInner from "./VerticalListInner.svelte";
-    import ApplyWidth from "./ApplyWidth.svelte";
-    import BackgroundSection from "./BackgroundSection.svelte";
+    import HeroInner from "../helper/HeroInner.svelte";
+    import VerticalListInner from "../helper/VerticalListInner.svelte";
+    import ApplyWidth from "../helper/ApplyWidth.svelte";
+    import BackgroundSection from "../helper/BackgroundSection.svelte";
 
     export let items: Item[]
     export let active: Item = items[0]

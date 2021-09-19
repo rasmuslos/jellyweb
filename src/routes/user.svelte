@@ -15,7 +15,7 @@
     }
 </script>
 <script lang="ts">
-    import ApplyWidth from "../components/sections/ApplyWidth.svelte"
+    import Settings from "../components/sections/Settings.svelte";
 
     export let me: User
 </script>
@@ -24,9 +24,8 @@
 </style>
 
 <section>
-    <ApplyWidth>
-        <!--.SETTINGS.-->
-        <!--Background-Images-->
-        <!--Darken images-->
-    </ApplyWidth>
+    <!--.SETTINGS.-->
+    <!--Background-Images-->
+    <!--Darken images-->
+    <Settings />
 </section>

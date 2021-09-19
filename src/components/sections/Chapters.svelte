@@ -1,8 +1,8 @@
 <script lang="ts">
     import {Chapter} from "$lib/typings";
-    import ItemImage from "./ItemImage.svelte";
+    import ItemImage from "../helper/ItemImage.svelte";
     import {session} from "$app/stores";
-    import ApplyWidth from "./ApplyWidth.svelte";
+    import ApplyWidth from "../helper/ApplyWidth.svelte";
     import {ticksToHumanReadable} from "$lib/helper";
 
     export let itemId: string
