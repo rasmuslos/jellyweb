@@ -65,3 +65,5 @@ export const shuffleArray = (array: any[]) => {
     }
     return array
 }
+
+export const scrollUp = () => document.querySelector("#svelte > div") && document.querySelector("#svelte > div").scrollTo(0, 0)

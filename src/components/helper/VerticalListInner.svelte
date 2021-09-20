@@ -1,10 +1,9 @@
 <script lang="ts">
-    import {Item} from "$lib/typings";
+    import {Item as ItemType} from "$lib/typings";
     import {createEventDispatcher} from "svelte";
-    import ItemImage from "./ItemImage.svelte";
-    import {generateItemUrl} from "$lib/helper";
+    import Item from "./Item.svelte";
 
-    export let items: Item[]
+    export let items: ItemType[]
     export let wide: boolean = true
 
     const dispatcher = createEventDispatcher()
@@ -21,25 +20,10 @@
         overflow-y: hidden;
         overflow-x: auto;
     }
-
-    a.item {
-        display: grid;
-        grid-template-rows: auto auto;
-        align-items: center;
-
-        margin: 0 10px;
-    }
-    span {
-        padding: 10px;
-        text-align: center;
-    }
 </style>
 
 <div class="holder">
     {#each items as item}
-        <a href={generateItemUrl(item.Id)} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} class="item">
-            <ItemImage {wide} {item} />
-            <span>{item.Name}</span>
-        </a>
+        <Item {item} {wide} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
     {/each}
 </div>

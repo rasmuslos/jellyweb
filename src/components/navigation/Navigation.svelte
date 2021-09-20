@@ -12,8 +12,8 @@
     let expanded = false
     const items: NavigationItem[] = [
         { title: "Home", href: "/", regex: "^\/$" },
-        { title: "Movies", href: "/movies", regex: "^\/?movies\/?.*$" },
-        { title: "Series", href: "/series", regex: "^\/?series\/?.*$" },
+        { title: "Movies", href: "/library/movies", regex: "^\/?library\/movies\/?.*$" },
+        { title: "Series", href: "/library/series", regex: "^\/?library\/series\/?.*$" },
         { title: "Genres", href: "/genres", regex: "^\/?genres\/?.*$" },
     ]
 

@@ -15,7 +15,9 @@
             : item.BackdropImageTags && item.BackdropImageTags.length > 0
             ? generateImageUrl(item.Id, item.BackdropImageTags[0], "Backdrop", 300)
             : null
-            : generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)
+            : item.ImageTags && item.ImageTags.Primary
+            ? generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)
+            : null
 </script>
 
 <style>
@@ -25,6 +27,7 @@
 
         border-radius: 10px;
         overflow: hidden;
+
         width: 200px;
     }
     div.holder.wide {
@@ -66,7 +69,9 @@
 </style>
 
 <div class="holder" class:wide on:click>
-    <img src={url} alt="Movie Poster">
+    {#if url != null}
+        <img src={url} alt="Movie Poster">
+    {/if}
     <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
     <div class="overlay"></div>
     {#if isWatchable}

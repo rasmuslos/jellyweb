@@ -30,6 +30,7 @@
     import Navigation from "../components/navigation/Navigation.svelte";
     import {modal, noPadding} from "$lib/stores";
     import {onMount} from "svelte";
+    import {scrollUp} from "$lib/helper";
 
     let Modal
     export let me: User
@@ -41,7 +42,7 @@
         // oof
         history.pushState = new Proxy(history.pushState, {
             apply (target, thisArg, argumentsList) {
-                if(document.querySelector("#svelte > div")) document.querySelector("#svelte > div").scrollTo(0, 0)
+                scrollUp()
                 Reflect.apply(target, thisArg, argumentsList)
             }
         })

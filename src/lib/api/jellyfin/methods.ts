@@ -38,3 +38,5 @@ export const getDisplayPreferences = (session: JellyfinSession) => createRequest
 export const updateDisplayPreferences = (session: JellyfinSession, preferences: any) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session, "POST", JSON.stringify({ ...preferences }))
 
 export const nextUpEpisode = (session: JellyfinSession, itemId: string) => createRequest(`Shows/NextUp?userId=${session.userId}&limit=1&seriesId=${itemId}&${fields}`, session)
+
+export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) => createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&IncludeMedia=true&includePeople=true&${query}`, session)

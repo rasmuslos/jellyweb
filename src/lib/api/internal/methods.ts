@@ -18,3 +18,5 @@ export const getItemsByPerson = async (personId) => await makeRequest(`items/per
 export const getDisplayPreferences = async () => (await makeRequest("session/preferences")).CustomPrefs
 export const updateDisplayPreferences = async (preferences) => await makeRequest("session/preferences", "POST", { preferences })
 export const deleteDisplayPreferences = async () => await makeRequest("session/preferences", "DELETE", {})
+
+export const getItemsBasedOnQuery = async (query: string) => await makeRequest(`items/query?query=${encodeURIComponent(query)}`)

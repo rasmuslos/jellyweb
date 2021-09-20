@@ -52,7 +52,7 @@
             }
             addClass(selected, "active")
         } else if(event.key === "Enter") {
-            const item = selected && selected.dataset && selected.dataset.item ?? 0
+            const item = (selected && selected.dataset && selected.dataset.item) ?? 0
 
             if(item == 0) return
             else if(item == -1) goto(`/search/?query=${encodeURIComponent(query)}`)
