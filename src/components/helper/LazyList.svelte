@@ -3,11 +3,12 @@
     import IntersectionObserver from './IntersectionObserver.svelte'
     import {onDestroy} from "svelte";
     import Item from "./Item.svelte";
-    import {getItemsBasedOnQuery} from "$lib/api/internal";import ApplyWidth from "./ApplyWidth.svelte";
+    import {getItemsBasedOnQuery} from "$lib/api/internal";
     import {icons} from "feather-icons";
     import {scrollUp} from "$lib/helper";
     import {dev} from "$app/env";
 
+    let prevQuery: string = ""
     export let query: string = ""
     if(query.startsWith("?") || query.startsWith("&") || query === "") throw new Error("Query cannot be empty or start with ? or &")
 
@@ -16,6 +17,11 @@
 
     let loading = false
     let end = false
+
+    $: {
+        if(query !== prevQuery) items = []
+        prevQuery = query
+    }
 
     // This is really ugly but other attempts failed and it works, so i guess it will stay
     const interval = setInterval(async () => {
