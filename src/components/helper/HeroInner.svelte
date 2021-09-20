@@ -9,6 +9,7 @@
     export let item: Item
     export let tip: string = null
     export let includeMoreButton: boolean = true
+    export let reduceOffset: boolean = false
 
     let isFavorite: boolean = false
     let processingLike: boolean = false
@@ -35,6 +36,9 @@
 
         width: 100%;
         max-width: 1000px;
+    }
+    div.inner.reduceOffset {
+        margin-top: 100px;
     }
 
     div.image {
@@ -119,7 +123,7 @@
     }
 </style>
 
-<div class="inner">
+<div class="inner" class:reduceOffset>
     <div class="image">
         {#key item}
             <ItemImage {item} />

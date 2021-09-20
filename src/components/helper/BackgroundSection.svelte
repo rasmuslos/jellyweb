@@ -2,13 +2,20 @@
     import {settings} from "$lib/stores";
 
     export let url: string
+    export let transparent: boolean = false
 </script>
 
 <style>
     section {
         position: relative;
         overflow: hidden;
+
+        background-color: transparent;
     }
+    section:not(.transparent) {
+        background-color: var(--background-light);
+    }
+
     div.image {
         position: absolute;
         top: 0;
@@ -17,14 +24,13 @@
         width: 100%;
         height: 100%;
 
-        background-color: var(--background-light);
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
 
         z-index: 0;
     }
-    div.image.blur::before {
+    section:not(.transparent) div.image.blur::before {
         position: absolute;
         top: 0;
         left: 0;
@@ -41,7 +47,7 @@
     }
 </style>
 
-<section>
+<section class:transparent>
     {#key $settings["images.hero"], $settings["images.blur"]}
         {#if $settings["images.hero"] !== "false"}
             <div class="image" class:blur={$settings["images.blur"] !== "false"} style="background-image: url('{url}')"></div>

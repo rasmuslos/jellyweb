@@ -52,7 +52,7 @@
     <VerticalList items={recommendations || []} title="Recommended" />
 {/if}
 {#if showHero && random != null}
-    <Hero item={random} tip="Watch this" />
+    <Hero item={random} tip="Watch this" reduceOffset />
 {/if}
 {#if bestRated != null && bestRated.length > 0}
     <VerticalList items={bestRated || []} title="Best rated" />

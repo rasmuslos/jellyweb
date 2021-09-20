@@ -7,7 +7,7 @@
         if(id === null || id === "null" || id === "undefined") return { status: 301, redirect: "/" }
 
         setFetcher(fetch);
-        const item = await getItem(id)
+        const item = await getItem(id, true)
 
         if(id === null) return { status: 301, redirect: "/" }
 
@@ -28,6 +28,7 @@
 
     export let item: Item
     export let seasons: Item[]
+    export let nextUp: Item[]
     export let media: Item[]
     export let episodes: Item[]
     export let similar: Item[]
@@ -42,6 +43,9 @@
 
 <Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
 
+{#if nextUp}
+    <Hero item={nextUp} tip="Next up" includeMoreButton={false} reduceOffset hideImage />
+{/if}
 {#if item.Type === "Series" || item.Type === "Season"}
     {#key item}
         <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
