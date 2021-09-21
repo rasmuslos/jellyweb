@@ -22,8 +22,8 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     if(res.status != 200) {
         console.warn("got non 200 status", method, res.status, await res.clone().text(), url)
 
-        if(res.status == 401) return { status: 401, error: "auth failed" }
-        else return { status: 400, error: "Request returned other status then 200" }
+        if(res.status == 401) return Promise.reject({ status: 401, error: "auth failed" })
+        else return Promise.reject({ status: 400, error: "Request returned other status then 200" })
     }
 
     return res.json()

@@ -10,16 +10,24 @@
                 redirect: "/user/login",
             }
         } else {
-            setFetcher(fetch)
-            const [me, preferences]: [User, Settings] = await Promise.all([getMe(), getDisplayPreferences()])
+            try {
+                setFetcher(fetch)
+                const [me, preferences]: [User, Settings] = await Promise.all([getMe(), getDisplayPreferences()])
 
-            settings.set(preferences)
+                settings.set(preferences)
 
-            return {
-                status: 200,
-                props: {
-                    me,
+                return {
+                    status: 200,
+                    props: {
+                        me,
+                    }
                 }
+            } catch(error) {
+                if(error.status && error.status == 401) return {
+                    status: 302,
+                    redirect: "/user/login",
+                }
+                else throw error
             }
         }
     }

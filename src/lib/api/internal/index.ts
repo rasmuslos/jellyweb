@@ -16,13 +16,13 @@ export const makeRequest = async (endpoint: string, method: string = "GET", body
         },
     })
 
-    // if(!res.ok) throw new Error("Fetch failed")
-
     const { ok, payload }: InternalApiRequest = await res.json()
 
     if(!ok) {
-        if(payload.status === "401" && handleLoginError) return goto("/user/login")
-        else throw new Error(payload.error)
+        // alert(payload.error || "unknown error")
+
+        if(payload.status === 401 && handleLoginError) return goto("/user/logout")
+        else return Promise.reject(payload)
     }
 
     return payload
