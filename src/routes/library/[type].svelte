@@ -10,8 +10,7 @@
     const unsubscribe = page.subscribe(({ params }) => {
         const type = params.type || "worst"
 
-        if(type === "worst") typeQuery = "SortBy=CommunityRating&includeItemTypes=Movie&sortOrder=Ascending"
-        else if(type === "movies") typeQuery = "includeItemTypes=Movie"
+        if(type === "movies") typeQuery = "includeItemTypes=Movie"
         else if(type === "series") typeQuery = "includeItemTypes=Series"
     })
     onDestroy(unsubscribe)
