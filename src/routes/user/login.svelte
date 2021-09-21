@@ -30,6 +30,8 @@
                 error = "Login failed"
             })
     }
+
+    const handleKeydown = (event: KeyboardEvent) => event.key === "Enter" && handleLogin()
 </script>
 
 <style>
@@ -79,8 +81,8 @@
             {error}
         </p>
     {/if}
-    <GenericInput type="url" placeholder="Server" bind:value={server} />
-    <GenericInput type="name" placeholder="Username" bind:value={username} />
-    <GenericInput type="password" placeholder="Password" bind:value={password} />
+    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} />
+    <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
+    <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
     <GenericButton label="Login" on:click={handleLogin} />
 </div>

@@ -30,4 +30,4 @@
     }
 </style>
 
-<input {type} {placeholder} {value} on:input={handleInput} />
+<input {type} {placeholder} {value} on:input={handleInput} on:keydown />

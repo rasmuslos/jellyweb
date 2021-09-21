@@ -4,16 +4,19 @@
     export async function load({ fetch, page }) {
         const { id } = page.params
 
-        if(id === null || id === "null" || id === "undefined") return { status: 301, redirect: "/" }
+        try {
+            setFetcher(fetch);
+            const item = await getItem(id, true)
 
-        setFetcher(fetch);
-        const item = await getItem(id, true)
-
-        if(id === null) return { status: 301, redirect: "/" }
-
-        return {
-            status: 200,
-            props: { ...item }
+            return {
+                status: 200,
+                props: { ...item }
+            }
+        } catch(error) {
+            return {
+                status: 301,
+                redirect: "/"
+            }
         }
     }
 </script>
@@ -25,6 +28,8 @@
     import Hero from "../../components/sections/Hero.svelte";
     import PersonList from "../../components/sections/PersonList.svelte";
     import Chapters from "../../components/sections/Chapters.svelte";
+    import LazyList from "../../components/helper/LazyList.svelte";
+    import QueryBuilder from "../../components/helper/QueryBuilder.svelte";
 
     export let item: Item
     export let seasons: Item[]
@@ -33,7 +38,9 @@
     export let episodes: Item[]
     export let similar: Item[]
 
-    noPadding.set(true)
+    let sort: string
+
+    if(item.Type !== "Genre") noPadding.set(true)
     onDestroy(() => noPadding.set(false))
 </script>
 
@@ -41,7 +48,9 @@
     <title>{item.Name}</title>
 </svelte:head>
 
-<Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
+{#if item.Type !== "Genre"}
+    <Hero {item} includeMoreButton={false} includeWave={item.Type !== "Person"} />
+{/if}
 
 {#if nextUp}
     <Hero item={nextUp} tip="Next up" includeMoreButton={false} reduceOffset hideImage />
@@ -52,7 +61,8 @@
     {/key}
 {/if}
 {#if item.Type === "Genre"}
-    please implement me
+    <QueryBuilder bind:sortQuery={sort} />
+    <LazyList query="genres={item.Name}&includeItemTypes=Movie,Series&{sort}" />
 {/if}
 
 {#if item.Type === "Episode" || item.Type === "Movie"}

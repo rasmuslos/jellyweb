@@ -65,7 +65,7 @@
         display: flex;
         align-items: center;
     }
-    div.heading h1 {
+    div.heading a {
         font-size: 40px;
         font-weight: 600;
 
@@ -135,7 +135,7 @@
         {/if}
         <div>
             <div class="heading">
-                <h1>{item.Name}</h1>
+                <a href={generateItemUrl(item.Id)}>{item.Name}</a>
                 <div class="badges">
                     {#if isWatchable}
                         <span>{getResolutionText(item)}</span>
