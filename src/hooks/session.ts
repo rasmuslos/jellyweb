@@ -1,5 +1,5 @@
 import { handleSession } from "svelte-kit-cookie-session";
-import {SECRET} from "$lib/env";
+import {SECRET} from "$lib/environment";
 
 export async function getSession({ locals }) {
     return locals.session.data;

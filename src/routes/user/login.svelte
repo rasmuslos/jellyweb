@@ -4,10 +4,11 @@
     import {onMount} from "svelte";
     import {login} from "$lib/api/internal";
     import {goto} from "$app/navigation";
+    import {HOST} from "$lib/environment";
 
     let secure: boolean = true
 
-    let server: string = ""
+    let server: string = HOST
     let username: string = ""
     let password: string = ""
     let loading: boolean = false
@@ -81,7 +82,7 @@
             {error}
         </p>
     {/if}
-    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} />
+    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={HOST !== ""} />
     <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
     <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
     <GenericButton label="Login" on:click={handleLogin} />

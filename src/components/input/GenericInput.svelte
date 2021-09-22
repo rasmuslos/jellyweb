@@ -2,6 +2,7 @@
     export let type: string
     export let placeholder: string
     export let value: string
+    export let disabled: boolean = false
 
     const handleInput = event => {
         // in here, you can switch on type and implement
@@ -30,4 +31,4 @@
     }
 </style>
 
-<input {type} {placeholder} {value} on:input={handleInput} on:keydown />
+<input {type} {placeholder} {value} {disabled} on:input={handleInput} on:keydown />
