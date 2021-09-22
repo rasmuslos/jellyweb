@@ -16,6 +16,10 @@
     onDestroy(unsubscribe)
 </script>
 
+<svelte:head>
+    <title>Library</title>
+</svelte:head>
+
 <QueryBuilder bind:sortQuery />
 {#key typeQuery, sortQuery}
     <LazyList query={`${typeQuery}&${sortQuery}`} />

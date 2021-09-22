@@ -10,6 +10,10 @@
     }
 </style>
 
+<svelte:head>
+    <title>Error</title>
+</svelte:head>
+
 <section>
     <h1>An unknown error occurred</h1>
     <a href="/">Take me back</a>

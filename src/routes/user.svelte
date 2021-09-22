@@ -27,8 +27,9 @@
     export let me: User
 </script>
 
-<style>
-</style>
+<svelte:head>
+    <title>Settings</title>
+</svelte:head>
 
 <section>
     <Settings />

@@ -25,6 +25,8 @@
     import LazyList from "../components/helper/LazyList.svelte";
     import type {Item} from "$lib/typings";
     import VerticalList from "../components/sections/VerticalList.svelte";
+    import {onMount} from "svelte";
+    import {browser} from "$app/env";
 
     export let hints: Item[]
 
@@ -32,8 +34,19 @@
     let sortQuery: string
     let query: string
 
+    onMount(() => {
+        if(browser && window) {
+            const params = new URLSearchParams(window.location.search)
+            value = params.get("query") ?? ""
+        }
+    })
+
     $: query = `includeItemTypes=Movie,Series,Season,Episode&${sortQuery}`
 </script>
+
+<svelte:head>
+    <title>{value !== "" ? `${value} - ` : null}Search</title>
+</svelte:head>
 
 <section>
     <QueryBuilder bind:value bind:sortQuery />
