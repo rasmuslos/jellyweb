@@ -3,12 +3,19 @@
     import type {Item} from "$lib/typings";
 
     export async function load({ fetch }) {
-        setFetcher(fetch)
-        const homeObj = await home()
+        try {
+            setFetcher(fetch)
+            const homeObj = await home()
 
-        return {
-            status: 200,
-            props: { ...homeObj}
+            return {
+                status: 200,
+                props: { ...homeObj}
+            }
+        } catch(error) {
+            return {
+                status: 301,
+                redirect: "/error"
+            }
         }
     }
 </script>

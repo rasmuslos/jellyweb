@@ -3,12 +3,19 @@
     import type {Item} from "$lib/typings";
 
     export async function load({ fetch }) {
-        setFetcher(fetch);
-        const genresObj = await requestGenres()
+        try {
+            setFetcher(fetch);
+            const genresObj = await requestGenres()
 
-        return {
-            status: 200,
-            props: { genres: genresObj.genres }
+            return {
+                status: 200,
+                props: { genres: genresObj.genres }
+            }
+        } catch(error) {
+            return {
+                status: 301,
+                redirect: "/error"
+            }
         }
     }
 </script>

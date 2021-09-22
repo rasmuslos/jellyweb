@@ -12,7 +12,7 @@
         } else {
             try {
                 setFetcher(fetch)
-                const [me, preferences]: [User, Settings] = await Promise.all([getMe(), getDisplayPreferences()])
+                const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getDisplayPreferences()])
 
                 settings.set(preferences)
 

@@ -4,7 +4,7 @@
     import VerticalListInner from "../helper/VerticalListInner.svelte";
 
     export let items: Item[]
-    export let title: string
+    export let title: string = ""
     export let wide: boolean = true
 </script>
 

@@ -2,6 +2,9 @@
     import ApplyWidth from "./ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings";
 
+    export let includeSearch: boolean = false
+    export let value: string = ""
+
     const Sort = {
         SORT_NAME: {
             title: "Name",
@@ -42,24 +45,48 @@
     let order: string = Order[0]
 
     export let sortQuery = ""
-    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}`
+    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}${value !== "" ? `&searchTerm=${value}` : ""}`
 </script>
 
 <style>
+    div.wrapper {
+        position: relative;
+        overflow: hidden;
+
+        display: block;
+        margin: 0 auto;
+
+        height: 100px;
+        width: 500px;
+        max-width: 90%;
+
+        border-radius: 10px;
+        background-color: var(--background-light);
+    }
+
+    input {
+        color: var(--text);
+        font-family: var(--font);
+
+        border: none;
+        padding: 10px 20px;
+
+        outline: none;
+        background-color: transparent;
+
+        height: 50px;
+        width: 100%;
+    }
+    input:focus {
+        outline: none;
+    }
+
     div.holder {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
         position: relative;
         padding: 0 20px;
-
-        background-color: var(--background-light);
-        margin: 0 auto;
-
-        height: 50px;
-        width: 500px;
-        max-width: 90%;
-
         overflow: hidden;
     }
     div.content {
@@ -93,18 +120,21 @@
 
 <section>
     <ApplyWidth>
-        <div class="holder">
-            <div class="preview">Sort by&#160;<span>{sort.title}</span></div>
-            <div class="preview">Order by&#160;<span>{order}</span></div>
-            <div class="content">
-                {#each Object.values(Sort) as item}
-                    <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
-                {/each}
-            </div>
-            <div class="content">
-                {#each Order as item}
-                    <div on:click={() => order = item} class:selected={item === order} class="item">{item}</div>
-                {/each}
+        <div class="wrapper">
+            <input placeholder="Search" bind:value type="text" />
+            <div class="holder">
+                <div class="preview">Sort by&#160;<span>{sort.title}</span></div>
+                <div class="preview">Order by&#160;<span>{order}</span></div>
+                <div class="content">
+                    {#each Object.values(Sort) as item}
+                        <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
+                    {/each}
+                </div>
+                <div class="content">
+                    {#each Order as item}
+                        <div on:click={() => order = item} class:selected={item === order} class="item">{item}</div>
+                    {/each}
+                </div>
             </div>
         </div>
     </ApplyWidth>

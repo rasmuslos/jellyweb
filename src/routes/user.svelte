@@ -3,13 +3,20 @@
     import type {User} from "$lib/typings";
 
     export async function load({fetch}) {
-        setFetcher(fetch)
-        const me: User = await getMe()
+        try {
+            setFetcher(fetch)
+            const me: User = await getMe()
 
-        return {
-            status: 200,
-            props: {
-                me,
+            return {
+                status: 200,
+                props: {
+                    me,
+                }
+            }
+        } catch(error) {
+            return {
+                status: 301,
+                redirect: "/error"
             }
         }
     }
@@ -24,8 +31,5 @@
 </style>
 
 <section>
-    <!--.SETTINGS.-->
-    <!--Background-Images-->
-    <!--Darken images-->
     <Settings />
 </section>

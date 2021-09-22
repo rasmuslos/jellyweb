@@ -13,7 +13,7 @@
     let hints: Item[]
     let results: Item[]
 
-    onMount(async () => results = hints = (await searchHints()).hints)
+    onMount(async () => results = hints = await searchHints())
     const handleKeydown = (event: KeyboardEvent) => {
         const items = document.querySelectorAll(".result")
         const length = items.length - 1

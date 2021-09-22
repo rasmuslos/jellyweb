@@ -8,10 +8,11 @@
     import {scrollUp} from "$lib/helper";
     import {dev} from "$app/env";
 
-    let prevQuery: string = ""
     export let query: string = ""
+
     if(query.startsWith("?") || query.startsWith("&") || query === "") throw new Error("Query cannot be empty or start with ? or &")
 
+    let prevQuery: string = ""
     let items: ItemType[] = []
     let intersecting: boolean = false
 
@@ -19,7 +20,10 @@
     let end = false
 
     $: {
-        if(query !== prevQuery) items = []
+        if(query !== prevQuery) {
+            items = []
+            end = false
+        }
         prevQuery = query
     }
 
