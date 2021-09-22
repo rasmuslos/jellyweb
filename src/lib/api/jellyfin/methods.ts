@@ -40,3 +40,4 @@ export const updateDisplayPreferences = (session: JellyfinSession, preferences: 
 export const nextUpEpisode = (session: JellyfinSession, itemId: string) => createRequest(`Shows/NextUp?userId=${session.userId}&limit=1&seriesId=${itemId}&${fields}`, session)
 
 export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) => createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&IncludeMedia=true&includePeople=true&${query}`, session)
+export const getLatest = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Latest?Limit=25&${fields}`, session)

@@ -8,7 +8,7 @@
 
     export let me: User
 
-    let itemsHolder = null
+    let itemsHolder
     let expanded = false
     const items: NavigationItem[] = [
         { title: "Home", href: "/", regex: "^\/$" },

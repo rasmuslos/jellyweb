@@ -20,3 +20,4 @@ export const updateDisplayPreferences = async (preferences) => await makeRequest
 export const deleteDisplayPreferences = async () => await makeRequest("session/preferences", "DELETE", {})
 
 export const getItemsBasedOnQuery = async (query: string) => await makeRequest(`items/query?query=${encodeURIComponent(query)}`)
+export const getLatest = async () => await makeRequest("items/latest")

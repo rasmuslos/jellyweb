@@ -27,6 +27,7 @@
     export let random: Item
     export let bestRated: Item[]
     export let recommendations: Item[]
+    export let latest: Item[]
 
     const combined = resume.concat(nextUp).sort((a, b) => {
         if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
@@ -42,18 +43,24 @@
     <title>Jellyweb</title>
 </svelte:head>
 
-{#if showHero}
-    <ListHero items={combined || []} />
+{#if showHero && combined != null && combined.length > 0}
+    <ListHero items={combined} />
 {:else if random != null}
     <Hero item={random} tip="Watch this" includeWave />
 {/if}
-<Genres {genres} />
+
+{#if genres != null && genres.length > 0}
+    <Genres {genres} />
+{/if}
 {#if recommendations != null && recommendations.length > 0}
-    <VerticalList items={recommendations || []} title="Recommended" />
+    <VerticalList items={recommendations} title="Recommended" />
 {/if}
 {#if showHero && random != null}
     <Hero item={random} tip="Watch this" reduceOffset />
 {/if}
 {#if bestRated != null && bestRated.length > 0}
-    <VerticalList items={bestRated || []} title="Best rated" />
+    <VerticalList items={bestRated} title="Best rated" />
+{/if}
+{#if latest != null && latest.length > 0}
+    <VerticalList items={latest} title="Latest" />
 {/if}

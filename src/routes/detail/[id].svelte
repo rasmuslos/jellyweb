@@ -15,7 +15,7 @@
         } catch(error) {
             return {
                 status: 301,
-                redirect: "/"
+                redirect: "/error"
             }
         }
     }
