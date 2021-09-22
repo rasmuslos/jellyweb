@@ -7,7 +7,7 @@
     export let item: Item
 
     export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
-    export let isWatchable = item.Type === "Movie" || item.Type === "Series" || item.Type === "Season" || item.Type === "Episode"
+    export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
     export let url =
         wide
             ? item.Type === "Episode" && item.SeriesId && item.SeriesPrimaryImageTag && item.SeriesPrimaryImageTag.length > 0

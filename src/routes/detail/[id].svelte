@@ -44,6 +44,14 @@
     onDestroy(() => noPadding.set(false))
 </script>
 
+<style>
+    h1 {
+        font-weight: 600;
+        font-size: 50px;
+        text-align: center;
+    }
+</style>
+
 <svelte:head>
     <title>{item.Name}</title>
 </svelte:head>
@@ -61,6 +69,7 @@
     {/key}
 {/if}
 {#if item.Type === "Genre"}
+    <h1>{item.Name}</h1>
     <QueryBuilder bind:sortQuery={sort} />
     <LazyList query="genres={item.Name}&includeItemTypes=Movie,Series&{sort}" />
 {/if}

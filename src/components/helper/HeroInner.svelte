@@ -14,7 +14,7 @@
     let isFavorite: boolean = false
     let processingLike: boolean = false
     $: isFavorite = item.UserData && item.UserData.IsFavorite
-    const isWatchable = item.Type === "Movie" || item.Type === "Series" || item.Type === "Season" || item.Type === "Episode"
+    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
     const toggleLike = async () => {
         processingLike = true
