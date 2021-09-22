@@ -2,7 +2,6 @@
     import ApplyWidth from "./ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings";
 
-    export let includeSearch: boolean = false
     export let value: string = ""
 
     const Sort = {
