@@ -41,3 +41,5 @@ export const nextUpEpisode = (session: JellyfinSession, itemId: string) => creat
 
 export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) => createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&IncludeMedia=true&includePeople=true&${query}`, session)
 export const getLatest = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Latest?Limit=25&${fields}`, session)
+
+export const getBoxSets = (session: JellyfinSession) => createRequest("Library/VirtualFolders", session)
