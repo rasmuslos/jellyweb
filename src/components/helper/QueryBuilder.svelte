@@ -43,7 +43,7 @@
     let sort: SortItem = Sort.SORT_NAME
     let order: string = Order[0]
 
-    export let sortQuery = ""
+    export let sortQuery
     $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}${value !== "" ? `&searchTerm=${value}` : ""}`
 </script>
 
