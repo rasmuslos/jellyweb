@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit dev --host",
-    "build": "svelte-kit build",
+    "build": "COOKIE_SECRET=THISISONLYHEREBECAUSEOTHERWISETHEREWOULDBEANERROR svelte-kit build",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
