@@ -15,7 +15,11 @@ const config = {
 				exclude: ['svelte-kit-cookie-session'],
 			},
 		},
-		adapter: node()
+		adapter: node({
+			env: {
+				host: "BIND",
+			}
+		})
 	}
 };
 
