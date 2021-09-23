@@ -22,7 +22,6 @@
     import GenericButton from "../../components/input/GenericButton.svelte";
     import {onMount} from "svelte";
     import {login} from "$lib/api/internal";
-    import {goto} from "$app/navigation";
 
     export let host: string = ""
     let secure: boolean = true
@@ -42,7 +41,7 @@
 
         loading = true
         login(server, username, password)
-            .then(() => goto("/"))
+            .then(() => window.location.href = "/")
             .catch(err => {
                 console.error(err)
 
