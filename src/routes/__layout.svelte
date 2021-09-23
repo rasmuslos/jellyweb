@@ -38,7 +38,8 @@
     import Navigation from "../components/navigation/Navigation.svelte";
     import {modal, noPadding} from "$lib/stores";
     import {onMount} from "svelte";
-    import {scrollUp} from "$lib/helper";
+    import {bitrateTest, scrollUp} from "$lib/helper";
+    import {session} from "$app/stores";
 
     let Modal
     export let me: User
@@ -54,6 +55,8 @@
                 Reflect.apply(target, thisArg, argumentsList)
             }
         })
+
+        bitrateTest($session.active)
     })
 </script>
 

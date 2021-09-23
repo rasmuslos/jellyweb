@@ -1,7 +1,9 @@
 import {get} from "svelte/store";
 import {session} from "$app/stores";
-import type {Item} from "$lib/typings";
+import type {Item, JellyfinSession} from "$lib/typings";
 import {icons} from "feather-icons";
+import {testBitrate} from "$lib/api/jellyfin";
+import {bitrate} from "$lib/stores";
 
 export const getIconByType = ({ Type }: Item) => {
     let icon = "alert-triangle"
@@ -67,3 +69,17 @@ export const shuffleArray = (array: any[]) => {
 }
 
 export const scrollUp = () => document.querySelector("#svelte > div") && document.querySelector("#svelte > div").scrollTo(0, 0)
+
+export const bitrateTest = async (session: JellyfinSession) => {
+    const byteSize = 102400
+    const now = new Date().getTime()
+
+    await testBitrate(session)
+
+    const responseTimeSeconds = (new Date().getTime() - now) / 1000;
+    const bytesPerSecond = byteSize / responseTimeSeconds;
+    const rate = Math.round(bytesPerSecond * 8);
+
+    console.log("Bitrate", rate)
+    bitrate.set(rate)
+}

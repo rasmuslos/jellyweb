@@ -162,7 +162,7 @@
 
         <div class="actions">
             {#if isWatchable}
-                <WatchNowButton/>
+                <WatchNowButton itemId={item.Id} />
             {/if}
             {#key isFavorite}
                 <span class="action" class:liked={item.UserData && item.UserData.IsFavorite}

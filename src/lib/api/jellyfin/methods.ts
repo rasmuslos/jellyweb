@@ -1,5 +1,5 @@
 import {createRequest} from "$lib/api/jellyfin";
-import type {JellyfinSession} from "$lib/typings";
+import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings";
 
 /**
  * I know that this isn't the best way to build an api. But i dont care
@@ -43,3 +43,7 @@ export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) =>
 export const getLatest = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Latest?Limit=25&${fields}`, session)
 
 export const getBoxSets = (session: JellyfinSession) => createRequest("Library/VirtualFolders", session)
+export const testBitrate = (session: JellyfinSession) => createRequest("Playback/BitrateTest", session, "GET", null, false)
+
+export const startPlayback = (session: JellyfinSession, itemId: string, info: PlaybackInfoRequest) => createRequest(`Items/${itemId}/PlaybackInfo`, session, "POST", JSON.stringify(info))
+export const stopPlayback = (session: JellyfinSession, streamId: string) => createRequest("LiveStreams/Close", session, "POST", JSON.stringify({ liveStreamId: streamId }))

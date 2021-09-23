@@ -1,7 +1,7 @@
 import type {JellyfinSession} from "$lib/typings";
 import {createApiError} from "$lib/apiHelper";
 
-export const createRequest = async (endpoint: string, session: JellyfinSession, method: string = "GET", body: any = null) => {
+export const createRequest = async (endpoint: string, session: JellyfinSession, method: string = "GET", body: any = null, parse: boolean = true) => {
     // TODO: Read version from package.json
     const { deviceId, server, token } = session
     const url = `${server}/${endpoint}`
@@ -18,7 +18,7 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     })
 
     // if(!res.ok) throw new Error("Fetch failed")
-    if(res.status == 204) return
+    if(res.status == 204 || !parse) return
     if(res.status != 200) {
         console.warn("got non 200 status", method, res.status, await res.clone().text(), url)
 

@@ -11,6 +11,9 @@
         overflow: hidden;
 
         background-color: transparent;
+
+        height: 100%;
+        width: 100%;
     }
     section:not(.transparent) {
         background-color: var(--background-light);
