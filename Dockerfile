@@ -1,6 +1,5 @@
 FROM node:14
 
-USER jellyweb
 WORKDIR /app
 
 ENV PORT=80
