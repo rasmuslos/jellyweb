@@ -1,14 +1,33 @@
+<script context="module" lang="ts">
+    import {getHostUrl, setFetcher} from "$lib/api/internal";
+
+    export async function load({ fetch }) {
+        try {
+            setFetcher(fetch);
+            const host = await getHostUrl()
+
+            return {
+                status: 200,
+                props: { host }
+            }
+        } catch(error) {
+            return {
+                status: 200,
+            }
+        }
+    }
+</script>
 <script lang="ts">
     import GenericInput from "../../components/input/GenericInput.svelte";
     import GenericButton from "../../components/input/GenericButton.svelte";
     import {onMount} from "svelte";
     import {login} from "$lib/api/internal";
     import {goto} from "$app/navigation";
-    import {HOST} from "$lib/environment";
 
+    export let host: string = ""
     let secure: boolean = true
 
-    let server: string = HOST
+    let server: string = host
     let username: string = ""
     let password: string = ""
     let loading: boolean = false
@@ -82,7 +101,7 @@
             {error}
         </p>
     {/if}
-    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={HOST !== ""} />
+    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={host !== ""} />
     <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
     <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
     <GenericButton label="Login" on:click={handleLogin} />

@@ -1,8 +1,11 @@
 import {browser} from "$app/env";
 
-export const HOST = import.meta.env.VITE_HOST ?? ""
-
 let SECRET
-if(!browser) SECRET = process.env["COOKIE_SECRET"]
+let HOST
 
-export {SECRET}
+if(!browser) {
+    SECRET = process.env["COOKIE_SECRET"]
+    HOST = process.env["HOST"] ?? ""
+}
+
+export {SECRET, HOST}

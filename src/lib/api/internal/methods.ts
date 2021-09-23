@@ -23,3 +23,5 @@ export const getItemsBasedOnQuery = async (query: string) => await makeRequest(`
 export const getLatest = async () => await makeRequest("items/latest")
 
 export const getBoxSets = async () => await makeRequest("library/sets")
+
+export const getHostUrl = async () => await makeRequest("session/host")

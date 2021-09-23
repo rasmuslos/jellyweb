@@ -1,14 +1,14 @@
 FROM node:14
-WORKDIR /usr/src/app
+
+USER jellyweb
+WORKDIR /app
 
 ENV PORT=80
 ENV HOST=0.0.0.0
-ENV COOKIE_SECRET=CHANGEME_qwertzuiopasdfghjklyxcvbnm
+ENV COOKIE_SECRET=""
 ENV VITE_HOST=""
 
-COPY package*.json ./
-RUN npm install
-COPY . .
+COPY build .
 
 EXPOSE ${PORT}
-CMD [ "node", "build/index.js" ]
+CMD [ "node", "index.js" ]
