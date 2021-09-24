@@ -38,9 +38,9 @@
         <h1>Chapters</h1>
         <div class="holder">
             {#each chapters as chapter, index}
-                <a href="javascript:alert('I have no idea how i should to this')" class="item">
+                <a href="/player/{itemId}?start={chapter.StartPositionTicks || 0}" class="item">
                     <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`} wide showProgress={false} isWatchable />
-                    <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0)}</span></p>
+                    <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span></p>
                 </a>
             {/each}
         </div>

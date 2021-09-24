@@ -47,6 +47,8 @@
     }
     div.holder {
         position: relative;
+        height: 100%;
+        width: 100%;
     }
 </style>
 

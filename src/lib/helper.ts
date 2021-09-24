@@ -49,9 +49,9 @@ export const addClass = (element, className) => {
 }
 
 export const padding2 = (number: number) => `0${number}`.substr(-2)
-export const ticksToHumanReadable = (ticks: number) => {
+export const ticksToHumanReadable = (ticks: number, offset = 1) => {
     // * 10000 because jellyfin returns an absurdly high number
-    let seconds = Math.floor(ticks / (1000 * 10000))
+    let seconds = Math.floor(ticks / (1000 * offset))
     let hour = Math.floor((seconds / 3600) % 24)
     let minute = Math.floor((seconds / 60) % 60)
     let second = seconds % 60
@@ -71,7 +71,7 @@ export const shuffleArray = (array: any[]) => {
 export const scrollUp = () => document.querySelector("#svelte > div") && document.querySelector("#svelte > div").scrollTo(0, 0)
 
 export const bitrateTest = async (session: JellyfinSession) => {
-    const byteSize = 102400
+    const byteSize = 5000000
     const now = new Date().getTime()
 
     await testBitrate(session)
