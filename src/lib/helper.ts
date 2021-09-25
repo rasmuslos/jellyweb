@@ -4,6 +4,7 @@ import type {Item, JellyfinSession} from "$lib/typings";
 import {icons} from "feather-icons";
 import {testBitrate} from "$lib/api/jellyfin";
 import {bitrate} from "$lib/stores";
+import {browser} from "$app/env";
 
 export const getIconByType = ({ Type }: Item) => {
     let icon = "alert-triangle"
@@ -83,3 +84,12 @@ export const bitrateTest = async (session: JellyfinSession) => {
     console.log("Bitrate", rate)
     bitrate.set(rate)
 }
+
+// @ts-ignore
+export const fullscreenSupport = browser && !!(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || false)
+// @ts-ignore
+export const exitFullscreen = browser && (document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen)
+// @ts-ignore
+export const fullscreenElement = () => document.fullscreenElement || document.mozFullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement
+// @ts-ignore
+export const requestFullscreen = (element: Element) => (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen)()
