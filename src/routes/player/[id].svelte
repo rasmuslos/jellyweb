@@ -43,6 +43,7 @@
     }
 
     export let item: Item
+    let returnUrl: string = "/"
 
     // Get media-sources & streams
     let mediaSources = item.MediaSources
@@ -176,6 +177,8 @@
             audioTrackUnsubscribe = subscribeButIgnoreFirst(activeAudioTrack, playItem)
             subtitleTrackUnsubscribe = subscribeButIgnoreFirst(activeSubtitleTrack, playItem)
             bitrateUnsubscribe = subscribeButIgnoreFirst(bitrate, playItem)
+
+            returnUrl = new URLSearchParams(window.location.search).get("url")
         }
     })
     onDestroy(() => {
@@ -397,7 +400,7 @@
         showTrackSelection = false
     }} class="overlay" class:show={showControls}></div>
 
-    <a class="back" class:show={showControls} href="/">{@html icons["arrow-left"].toSvg()}</a>
+    <a class="back" class:show={showControls} href={returnUrl}>{@html icons["arrow-left"].toSvg()}</a>
     <span class="paused" class:show={paused} on:click={togglePaused}>{@html icons["pause"].toSvg({ height: 50, width: 50 })}</span>
 
     <div class="control_holder" class:show={showControls}>

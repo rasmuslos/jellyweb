@@ -1,6 +1,6 @@
 <script lang="ts">
     import ItemImage from "./ItemImage.svelte";
-    import {generateItemUrl, generatePlayerUrl} from "$lib/helper";
+    import {generateItemUrl} from "$lib/helper";
     import type {Item} from "$lib/typings";
 
     export let item: Item
@@ -31,7 +31,7 @@
     }
 </style>
 
-<a class:wide href={isWatchable ? generatePlayerUrl(item.Id) : generateItemUrl(item.Id)} on:focus on:mouseover class="item">
+<a class:wide href={generateItemUrl(item.Id)} on:focus on:mouseover class="item">
     <ItemImage {wide} {item} />
     <span>{item.Name}</span>
 </a>
