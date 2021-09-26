@@ -1,11 +1,13 @@
 <script lang="ts">
-    import {session} from "$app/stores";
-    import {onDestroy} from "svelte";
-    import {bitrateTest} from "$lib/helper";
+    import {onMount} from "svelte";
+    import {modal} from "$lib/stores";
 
-    const interval = setInterval(() => bitrateTest($session.active), 1000 * 60 * 5)
+    let Modal
 
-    onDestroy(() => clearInterval(interval))
+    onMount(async () => {
+        const svelteSimpleModal = await import('svelte-simple-modal')
+        Modal = svelteSimpleModal.default
+    })
 </script>
 
 <style>
@@ -25,5 +27,16 @@
 </style>
 
 <div>
+    <svelte:component
+            this={Modal}
+            show={$modal}
+            closeButton={false}
+
+            styleContent={{ padding: 0 }}
+            styleWindow={{ "background-color": "transparent", "margin-top": "200px" }}
+            styleBg={{ "display": "block" }}
+
+            on:close={() => modal.set(null)} />
+
     <slot />
 </div>

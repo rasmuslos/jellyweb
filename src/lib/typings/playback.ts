@@ -206,7 +206,6 @@ export interface MediaStream {
     Score: number;
     IsExternal: boolean;
     DeliveryMethod: string;
-    DeliveryUrl: string;
     IsExternalUrl: boolean;
     IsTextSubtitleStream: boolean;
     SupportsExternalStream: boolean;
@@ -214,6 +213,7 @@ export interface MediaStream {
     PixelFormat: string;
     Level: number;
     IsAnamorphic: boolean;
+    DeliveryUrl: string;
 }
 
 export interface MediaAttachment {
@@ -274,6 +274,7 @@ export interface MediaSource {
     AnalyzeDurationMs: number;
     DefaultAudioStreamIndex: number;
     DefaultSubtitleStreamIndex: number;
+    DeliveryUrl: string;
 }
 
 export interface PlaybackInfo {
