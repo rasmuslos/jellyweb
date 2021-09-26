@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
-    import ApplyWidth from "../helper/ApplyWidth.svelte";
-    import VerticalListInner from "../helper/VerticalListInner.svelte";
+    import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
+    import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
 
     export let items: Item[]
     export let title: string = ""

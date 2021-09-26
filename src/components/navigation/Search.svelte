@@ -1,7 +1,7 @@
 <script lang="ts">
     import {icons} from "feather-icons";
     import {modal} from "$lib/stores";
-    import SearchOverlay from "../helper/SearchOverlay.svelte";
+    import SearchOverlay from "../helper/search/SearchOverlay.svelte";
 
     const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
     const handleGlobalKeydown = (event: KeyboardEvent) => {

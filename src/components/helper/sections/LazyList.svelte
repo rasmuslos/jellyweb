@@ -1,8 +1,8 @@
 <script lang="ts">
     import {Item as ItemType} from "$lib/typings";
-    import IntersectionObserver from './IntersectionObserver.svelte'
+    import IntersectionObserver from '../IntersectionObserver.svelte'
     import {onDestroy} from "svelte";
-    import Item from "./Item.svelte";
+    import Item from "../item/Item.svelte";
     import {getItemsBasedOnQuery} from "$lib/api/internal";
     import {icons} from "feather-icons";
     import {scrollUp} from "$lib/helper";

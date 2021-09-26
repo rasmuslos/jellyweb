@@ -28,8 +28,8 @@
     import Hero from "../../components/sections/Hero.svelte";
     import PersonList from "../../components/sections/PersonList.svelte";
     import Chapters from "../../components/sections/Chapters.svelte";
-    import LazyList from "../../components/helper/LazyList.svelte";
-    import QueryBuilder from "../../components/helper/QueryBuilder.svelte";
+    import LazyList from "../../components/helper/sections/LazyList.svelte";
+    import QueryBuilder from "../../components/helper/search/QueryBuilder.svelte";
 
     export let item: Item
     export let seasons: Item[]

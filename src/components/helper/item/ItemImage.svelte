@@ -1,7 +1,7 @@
 <script lang="ts">
     import {generateImageUrl} from "$lib/helper";
     import {icons} from "feather-icons";
-    import Item from "../navigation/Item.svelte";
+    import Item from "../../navigation/Item.svelte";
 
     export let wide: boolean = false
     export let item: Item

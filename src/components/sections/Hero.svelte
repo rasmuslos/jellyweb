@@ -1,8 +1,8 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import {getLargeBackdrop} from "$lib/helper";
-    import HeroInner from "../helper/HeroInner.svelte";
-    import BackgroundSection from "../helper/BackgroundSection.svelte";
+    import HeroInner from "../helper/sections/HeroInner.svelte";
+    import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
     import Wave from "./Wave.svelte";
 
     export let item: Item

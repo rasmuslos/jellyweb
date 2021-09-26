@@ -1,8 +1,8 @@
 <script lang="ts">
-    import LazyList from "../../components/helper/LazyList.svelte";
+    import LazyList from "../../components/helper/sections/LazyList.svelte";
     import {page} from "$app/stores";
     import {onDestroy} from "svelte";
-    import QueryBuilder from "../../components/helper/QueryBuilder.svelte";
+    import QueryBuilder from "../../components/helper/search/QueryBuilder.svelte";
 
     let typeQuery
     let sortQuery

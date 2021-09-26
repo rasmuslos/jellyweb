@@ -21,8 +21,8 @@
     }
 </script>
 <script lang="ts">
-    import QueryBuilder from "../components/helper/QueryBuilder.svelte";
-    import LazyList from "../components/helper/LazyList.svelte";
+    import QueryBuilder from "../components/helper/search/QueryBuilder.svelte";
+    import LazyList from "../components/helper/sections/LazyList.svelte";
     import type {Item} from "$lib/typings";
     import VerticalList from "../components/sections/VerticalList.svelte";
     import {onMount} from "svelte";

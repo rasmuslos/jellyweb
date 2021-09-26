@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ApplyWidth from "./ApplyWidth.svelte";
+    import ApplyWidth from "../sections/ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings";
 
     export let value: string = ""

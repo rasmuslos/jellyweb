@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
-    import ApplyWidth from "../helper/ApplyWidth.svelte";
+    import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {generateImageUrl, generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
 

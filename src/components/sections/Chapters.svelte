@@ -1,9 +1,9 @@
 <script lang="ts">
     import {Chapter} from "$lib/typings";
-    import ItemImage from "../helper/ItemImage.svelte";
+    import ItemImage from "../helper/item/ItemImage.svelte";
     import {session} from "$app/stores";
-    import ApplyWidth from "../helper/ApplyWidth.svelte";
-    import {ticksToHumanReadable} from "$lib/helper";
+    import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
+    import {generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
 
     export let itemId: string
     export let chapters: Chapter[]
@@ -38,7 +38,7 @@
         <h1>Chapters</h1>
         <div class="holder">
             {#each chapters as chapter, index}
-                <a href="/player/{itemId}?start={chapter.StartPositionTicks || 0}" class="item">
+                <a href={generatePlayerUrl(itemId, chapter.StartPositionTicks)} class="item">
                     <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`} wide showProgress={false} isWatchable />
                     <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span></p>
                 </a>

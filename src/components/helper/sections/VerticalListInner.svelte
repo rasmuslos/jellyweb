@@ -1,7 +1,7 @@
 <script lang="ts">
     import {Item as ItemType} from "$lib/typings";
     import {createEventDispatcher} from "svelte";
-    import Item from "./Item.svelte";
+    import Item from "../item/Item.svelte";
 
     export let items: ItemType[]
     export let wide: boolean = true

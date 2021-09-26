@@ -1,8 +1,8 @@
 <script lang="ts">
     import {Item} from "$lib/typings";
-    import ItemImage from "./ItemImage.svelte";
+    import ItemImage from "../item/ItemImage.svelte";
     import {generateItemUrl, getResolutionText} from "$lib/helper";
-    import WatchNowButton from "../input/WatchNowButton.svelte";
+    import WatchNowButton from "../../input/WatchNowButton.svelte";
     import {icons} from "feather-icons";
     import {like, unlike} from "$lib/api/internal";
 

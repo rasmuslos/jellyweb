@@ -1,5 +1,6 @@
 <script lang="ts">
     import {goto} from "$app/navigation";
+    import {generatePlayerUrl} from "$lib/helper";
 
     export let itemId: string
 </script>
@@ -23,6 +24,6 @@
     }
 </style>
 
-<button on:click={() => goto(`/player/${itemId}`)}>
+<button on:click={() => goto(generatePlayerUrl(itemId))}>
     Watch now
 </button>

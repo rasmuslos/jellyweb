@@ -32,7 +32,7 @@
     } from "$lib/helper";
     import {onDestroy, onMount} from "svelte";
     import {startPlayback, stopPlayback} from "$lib/api/internal";
-    import {activeAudioTrack, activeMediaSource, activeSubtitleTrack, bitrate, modal} from "$lib/stores";
+    import {activeAudioTrack, activeMediaSource, activeSubtitleTrack, bitrate} from "$lib/stores";
     import {session} from "$app/stores";
     import {icons} from "feather-icons";
     import {browser} from "$app/env";
@@ -160,16 +160,23 @@
         if(event.code === "Space") togglePaused()
     }
 
-    // update player on change
-    const mediaSourceUnsubscribe = subscribeButIgnoreFirst(activeMediaSource, playItem)
-    const audioTrackUnsubscribe = subscribeButIgnoreFirst(activeAudioTrack, playItem)
-    const subtitleTrackUnsubscribe = subscribeButIgnoreFirst(activeSubtitleTrack, playItem)
-    const bitrateUnsubscribe = subscribeButIgnoreFirst(bitrate, playItem)
+    let mediaSourceUnsubscribe = () => {}
+    let audioTrackUnsubscribe = () => {}
+    let subtitleTrackUnsubscribe = () => {}
+    let bitrateUnsubscribe = () => {}
 
     onMount(async () => {
         await bitrateTest($session.active)
         await playItem()
         displayControls()
+
+        if(browser) {
+            // update player on change
+            mediaSourceUnsubscribe = subscribeButIgnoreFirst(activeMediaSource, playItem)
+            audioTrackUnsubscribe = subscribeButIgnoreFirst(activeAudioTrack, playItem)
+            subtitleTrackUnsubscribe = subscribeButIgnoreFirst(activeSubtitleTrack, playItem)
+            bitrateUnsubscribe = subscribeButIgnoreFirst(bitrate, playItem)
+        }
     })
     onDestroy(() => {
         if(liveStreamId) stopPlayback(liveStreamId)
