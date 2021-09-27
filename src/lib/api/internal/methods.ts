@@ -29,3 +29,7 @@ export const getHostUrl = async () => await makeRequest("session/host")
 
 export const startPlayback = async (itemId: string, info: PlaybackInfoRequest) => await makeRequest(`items/play/${itemId}`, "POST", { info })
 export const stopPlayback = async (streamId: string) => await makeRequest(`items/play/${streamId}`, "DELETE")
+
+export const reportPlaybackStart = async (body) => await makeRequest("playback", "POST", body)
+export const reportPlaybackStop = async (body) => await makeRequest("playback", "DELETE", body)
+export const reportPlaybackProgress = async (body) => await makeRequest("playback", "PUT", body)

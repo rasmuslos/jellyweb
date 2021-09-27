@@ -162,7 +162,7 @@
 
         <div class="actions">
             {#if isWatchable}
-                <WatchNowButton itemId={item.Id} />
+                <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
             {/if}
             {#key isFavorite}
                 <span class="action" class:liked={item.UserData && item.UserData.IsFavorite}

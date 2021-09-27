@@ -6,6 +6,7 @@ import {deleteDisplayPreferences, updateDisplayPreferences} from "$lib/api/inter
 
 export const blurBackdropImages = () => get(settings)["images.blur"] !== "false"
 export const showHeroImages = () => get(settings)["images.hero"] !== "false"
+export const getMaxBitrate = () => get(settings)["bitrate"] ?? 80000000
 
 if(browser) subscribeButIgnoreFirst(settings, updateDisplayPreferences)
 

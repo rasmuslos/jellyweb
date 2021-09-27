@@ -74,7 +74,7 @@
     <LazyList query="genres={item.Name}&includeItemTypes=Movie,Series&{sort}" />
 {/if}
 
-{#if item.Type === "Episode" || item.Type === "Movie"}
+{#if (item.Type === "Episode" || item.Type === "Movie") && (item.Chapters && item.Chapters.length > 0)}
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type === "Movie"}

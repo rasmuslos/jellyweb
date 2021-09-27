@@ -13,6 +13,7 @@
 <style>
     div {
         position: relative;
+        background-color: var(--background);
 
         height: 100%;
         width: 100%;
@@ -21,8 +22,8 @@
         font-size: var(--size);
         font-family: var(--font);
 
-        background-color: var(--background);
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 </style>
 

@@ -47,3 +47,7 @@ export const testBitrate = (session: JellyfinSession) => createRequest("Playback
 
 export const startPlayback = (session: JellyfinSession, itemId: string, info: PlaybackInfoRequest) => createRequest(`Items/${itemId}/PlaybackInfo`, session, "POST", JSON.stringify(info))
 export const stopPlayback = (session: JellyfinSession, streamId: string) => createRequest("LiveStreams/Close", session, "POST", JSON.stringify({ liveStreamId: streamId }))
+
+export const reportPlaybackStart = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing", session, "POST", JSON.stringify(body))
+export const reportPlaybackStop = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Stopped", session, "POST", JSON.stringify(body))
+export const reportPlaybackProgress = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Progress", session, "POST", JSON.stringify(body))

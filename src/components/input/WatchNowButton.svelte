@@ -3,6 +3,7 @@
     import {generatePlayerUrl} from "$lib/helper";
 
     export let itemId: string
+    export let position: number = 0
 </script>
 
 <style>
@@ -24,6 +25,6 @@
     }
 </style>
 
-<button on:click={() => goto(generatePlayerUrl(itemId))}>
+<button on:click={() => goto(generatePlayerUrl(itemId, position))}>
     Watch now
 </button>

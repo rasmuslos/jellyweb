@@ -282,3 +282,8 @@ export interface PlaybackInfo {
     PlaySessionId: string;
     ErrorCode: string;
 }
+
+export type ProgressSegment = {
+    start: number,
+    end: number,
+}
