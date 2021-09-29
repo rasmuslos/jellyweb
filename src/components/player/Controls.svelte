@@ -2,7 +2,7 @@
     import {createEventDispatcher} from "svelte";
     import {icons} from "feather-icons";
     import type {Item, ProgressSegment} from "$lib/typings";
-    import {generateItemUrl, getMediaData, ticksToHumanReadable} from "$lib/helper";
+    import {generateItemUrl, getMediaData, maxBitrate, ticksToHumanReadable, updatePreference} from "$lib/helper";
     import Setting from "./Setting.svelte";
     import {activeAudioTrack, activeMediaSource, activeSubtitleTrack} from "$lib/stores";
 
@@ -22,12 +22,14 @@
     const dispatcher = createEventDispatcher()
 
     const showControls = () => dispatcher("show")
-    const togglePaused = () => dispatcher("paused")
+    const togglePaused = () => dispatcher("pause")
     const toggleFullscreen = () => dispatcher("fullscreen")
     const togglePiP = () => dispatcher("pip")
 
     const seek = (duration: number) => dispatcher("seek", duration)
     const toggleTrackSelection = () => showTrackSelection = !showTrackSelection
+
+    const bitRates = [120000000, 80000000, 60000000, 40000000, 20000000, 15000000, 1000000, 400000, 100000].map(rate => {return { index: rate, value: `${Math.round(rate / 1000000)}Mbps` }})
 </script>
 <svelte:window on:click={() => showTrackSelection = showTrackSelection} />
 
@@ -177,14 +179,7 @@
                 <Setting title="Video" activeIndex={$activeMediaSource} arr={mediaData.mediaSources.map(source => { return { index: source.Id, value: source.Name } })} on:set={({detail}) => activeMediaSource.set(detail)} />
                 <Setting title="Audio" activeIndex={$activeAudioTrack} arr={mediaData.audioStreams.map(source => { return { index: source.Index, value: source.Title || source.Language } })} on:set={({detail}) => activeAudioTrack.set(detail)} />
                 <Setting title="Subtitles" activeIndex={$activeSubtitleTrack} arr={mediaData.subtitleStreams.map(source => { return { index: source.Index, value: source.Title || source.Language } })} on:set={({detail}) => activeSubtitleTrack.set(detail)} />
-
-                <!--
-                <span>Bitrate</span>
-                <select on:change={({ target }) => actualBitrate = target.value}>
-                    {#each [120000000, 80000000, 60000000, 40000000, 20000000, 15000000, 1000000, 400000, 100000] as bits}
-                        <option selected={actualBitrate === bits} value={bits}>{Math.round(bits / 1000000)}Mbps</option>
-                    {/each}
-                </select>-->
+                <Setting title="Bitrate" activeIndex={$maxBitrate} arr={bitRates} on:set={({ detail }) => updatePreference("bitrate", detail)} />
             </div>
             <span on:click={toggleTrackSelection} class="control">{@html icons["settings"].toSvg()}</span>
         </div>

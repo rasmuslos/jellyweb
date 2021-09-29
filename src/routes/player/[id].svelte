@@ -23,16 +23,18 @@
 <script lang="ts">
     import type {Item, PlaybackInfo, ProgressSegment} from "$lib/typings";
     import {
-        bitrateTest, exitFullscreen, fullscreenElement,
+        bitrateTest,
+        exitFullscreen,
+        fullscreenElement,
         fullscreenSupport,
-        getLargeBackdrop, getMaxBitrate, getMediaData,
-        requestFullscreen, subscribeButIgnoreFirst,
+        getLargeBackdrop, maxBitrate,
+        reportPlayProgress,
+        reportPlayStart, reportPlayStop,
+        requestFullscreen,
+        subscribeButIgnoreFirst,
     } from "$lib/helper";
     import {onDestroy, onMount} from "svelte";
     import {
-        reportPlaybackProgress,
-        reportPlaybackStart,
-        reportPlaybackStop,
         startPlayback,
         stopPlayback
     } from "$lib/api/internal";
@@ -42,12 +44,12 @@
     import {browser} from "$app/env";
     import Controls from "../../components/player/Controls.svelte";
     import Hero from "../../components/sections/Hero.svelte";
+    import Debug from "../../components/player/Debug.svelte";
 
     export let item: Item
     let returnUrl: string = "/"
 
     let actualBitrate: number = -1
-    const mediaData = getMediaData(item)
 
     // General vars
     let playerHolder
@@ -78,12 +80,13 @@
 
     const playItem = async () => {
         if(!browser) return
+        actualBitrate = $bitrate <= $maxBitrate ? $bitrate : $maxBitrate
 
         // 1 tick = 10.000
         const ticks = Math.round(currentTime * (1000 * 10000))
         const startAt = src ? ticks : new URLSearchParams(window.location.search).get("start") as number ?? 0
 
-        if(id) await reportPlaybackStop({ itemId: item.Id, SessionId: id, PositionTicks: ticks })
+        if(id) await reportPlayStop(item.Id, ticks, id)
         if(liveStreamId) stopPlayback(liveStreamId).then(() => console.log("Stopped playback", liveStreamId))
         if(reportInterval) clearInterval(reportInterval)
 
@@ -127,35 +130,17 @@
         currentTime = startAt / (1000 * 10000)
         src += `#t=${currentTime}`
 
-        reportPlaybackStart({
-            CanSeek: true,
-            ItemId: item.Id,
-            SessionId: id,
-
-            MediaSourceId: $activeMediaSource,
-            AudioStreamIndex: $activeAudioTrack,
-            SubtitleStreamIndex: $activeSubtitleTrack,
-
-            PlaybackStartTimeTicks: ticks,
-
-            // TODO: include VolumeLevel
-        }).then(() => console.log("Reported playback start"))
-        reportInterval = setInterval(() => reportPlaybackProgress({
-            CanSeek: true,
-            ItemId: item.Id,
-            SessionId: id,
-
-            MediaSourceId: $activeMediaSource,
-            AudioStreamIndex: $activeAudioTrack,
-            SubtitleStreamIndex: $activeSubtitleTrack,
-
-            IsPaused: paused,
-            PositionTicks: Math.round(currentTime * (1000 * 10000)),
-
-            // TODO: include VolumeLevel & IsMuted
-        }), 1000 * 60)
+        reportPlayStart(item, paused, ticks, id).then(() => console.log("Reported play start"))
+        reportInterval = setInterval(() => reportPlayProgress(item, paused, currentTime, id), 1000 * 60)
     }
-    const togglePaused = () => paused = !paused
+    const togglePaused = () => {
+        paused = !paused
+
+        const ticks = Math.round(currentTime * (1000 * 10000))
+        console.log(ticks)
+
+        reportPlayProgress(item, paused, ticks, id)
+    }
     const toggleFullscreen = () => {
         if(fullscreenSupport) {
             if(fullscreenElement()) exitFullscreen()
@@ -187,10 +172,10 @@
     let audioTrackUnsubscribe = () => {}
     let subtitleTrackUnsubscribe = () => {}
     let bitrateUnsubscribe = () => {}
+    let maxBitrateUnsubscribe = () => {}
 
     onMount(async () => {
         await bitrateTest($session.active)
-        actualBitrate = $bitrate <= getMaxBitrate() ? $bitrate : getMaxBitrate()
 
         await playItem()
         displayControls()
@@ -201,6 +186,7 @@
             audioTrackUnsubscribe = subscribeButIgnoreFirst(activeAudioTrack, playItem)
             subtitleTrackUnsubscribe = subscribeButIgnoreFirst(activeSubtitleTrack, playItem)
             bitrateUnsubscribe = subscribeButIgnoreFirst(bitrate, playItem)
+            maxBitrateUnsubscribe = subscribeButIgnoreFirst(maxBitrate, playItem)
 
             returnUrl = new URLSearchParams(window.location.search).get("url")
         }
@@ -213,6 +199,7 @@
         audioTrackUnsubscribe()
         subtitleTrackUnsubscribe()
         bitrateUnsubscribe()
+        maxBitrateUnsubscribe()
     })
 </script>
 
@@ -280,15 +267,6 @@
     span.paused.show {
         display: block;
     }
-
-    div.debug {
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        background-color: black;
-        color: white;
-    }
 </style>
 
 <div class="player" bind:this={playerHolder}>
@@ -305,20 +283,7 @@
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}
             on:seek={({detail}) => seek(detail)} on:show={displayControls} on:pause={togglePaused} on:fullscreen={toggleFullscreen} on:pip={togglePiP} />
-
-    <div class="debug">
-        HEIGHT: {videoHeight}px | WIDTH: {videoWidth}px
-        <br>
-        MEDIA-SOURCES: {mediaData.mediaSources.length} ({mediaData.mediaSources.map(source => source.Id).join(", ")}) / ACTIVE: {$activeMediaSource}
-        <br>
-        AUDIO-STREAMS: {mediaData.audioStreams.length} ({mediaData.audioStreams.map(stream => stream.Index).join(", ")}) / ACTIVE: {$activeAudioTrack}
-        <br>
-        SUBTITLE-STREAMS: {mediaData.subtitleStreams.length} ({mediaData.subtitleStreams.map(stream => stream.Index).join(", ")}) / ACTIVE: {$activeSubtitleTrack}
-        <br>
-        {currentTime} / {duration}
-        <br>
-        {$bitrate} / {actualBitrate}
-    </div>
+    <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} />
 </div>
 
 <!--CHANGE ME-->

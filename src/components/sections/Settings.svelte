@@ -9,13 +9,13 @@
         {
             title: "Show hero images",
             description: "Show big images on the home screen and detail view",
-            checked: showHeroImages(),
+            checked: $showHeroImages,
             identifier: "images.hero",
         },
         {
             title: "Blur hero images",
             description: "Make text more readable but reduce vibrant colors",
-            checked: blurBackdropImages(),
+            checked: $blurBackdropImages,
             identifier: "images.blur",
         },
     ]

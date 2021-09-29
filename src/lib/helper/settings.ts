@@ -1,14 +1,21 @@
 import {settings} from "$lib/stores";
-import {get} from "svelte/store";
+import {writable} from "svelte/store";
 import {subscribeButIgnoreFirst} from "$lib/helper/utils";
 import {browser} from "$app/env";
 import {deleteDisplayPreferences, updateDisplayPreferences} from "$lib/api/internal";
 
-export const blurBackdropImages = () => get(settings)["images.blur"] !== "false"
-export const showHeroImages = () => get(settings)["images.hero"] !== "false"
-export const getMaxBitrate = () => get(settings)["bitrate"] ?? 80000000
+export const blurBackdropImages = writable<boolean>(false)
+export const showHeroImages = writable<boolean>(false)
+export const maxBitrate = writable<number>(-1)
 
-if(browser) subscribeButIgnoreFirst(settings, updateDisplayPreferences)
+if(browser) {
+    subscribeButIgnoreFirst(settings, updateDisplayPreferences)
+    settings.subscribe(settings => {
+        blurBackdropImages.set(settings["images.blur"] !== "false")
+        showHeroImages.set(settings["images.hero"] !== "false")
+        maxBitrate.set(settings["bitrate"] ?? 80000000)
+    })
+}
 
 export const deletePreferences = async () => {
     await deleteDisplayPreferences()

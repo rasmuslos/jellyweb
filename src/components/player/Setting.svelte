@@ -34,6 +34,6 @@
 <span>{title}</span>
 <select disabled={arr.length < 2}  on:change={({ target }) => set(target.value)}>
     {#each arr as {index, value}}
-        <option selected={activeIndex === index} value={index}>{value}</option>
+        <option selected={activeIndex == index} value={index}>{value}</option>
     {/each}
 </select>
