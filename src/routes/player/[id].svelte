@@ -41,15 +41,17 @@
     import {activeAudioTrack, activeMediaSource, activeSubtitleTrack, bitrate} from "$lib/stores";
     import {session} from "$app/stores";
     import {icons} from "feather-icons";
-    import {browser} from "$app/env";
+    import {browser, dev} from "$app/env";
     import Controls from "../../components/player/Controls.svelte";
     import Hero from "../../components/sections/Hero.svelte";
     import Debug from "../../components/player/Debug.svelte";
+    import {goto} from "$app/navigation";
 
     export let item: Item
     let returnUrl: string = "/"
 
     let actualBitrate: number = -1
+    let showDebugStats: boolean = dev
 
     // General vars
     let playerHolder
@@ -137,8 +139,6 @@
         paused = !paused
 
         const ticks = Math.round(currentTime * (1000 * 10000))
-        console.log(ticks)
-
         reportPlayProgress(item, paused, ticks, id)
     }
     const toggleFullscreen = () => {
@@ -163,9 +163,17 @@
     }
 
     const handleKeydown = (event: KeyboardEvent) => {
-        displayControls()
-
         if(event.code === "Space") togglePaused()
+        else if(event.code === "KeyP") togglePaused()
+        else if(event.code === "KeyD") showDebugStats = !showDebugStats
+        else if(event.code === "KeyF") toggleFullscreen()
+        else if(event.code === "KeyM") toggleFullscreen()
+        else if(event.code === "ArrowLeft") seek(-15)
+        else if(event.code === "ArrowRight") seek(15)
+        else if(event.code === "Escape") goto(returnUrl)
+
+        displayControls()
+        event.preventDefault()
     }
 
     let mediaSourceUnsubscribe = () => {}
@@ -283,7 +291,9 @@
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}
             on:seek={({detail}) => seek(detail)} on:show={displayControls} on:pause={togglePaused} on:fullscreen={toggleFullscreen} on:pip={togglePiP} />
-    <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} />
+    {#if showDebugStats}
+        <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} />
+    {/if}
 </div>
 
 <!--CHANGE ME-->
