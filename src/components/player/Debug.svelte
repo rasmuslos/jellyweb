@@ -4,6 +4,7 @@
     import {activeAudioTrack, activeMediaSource, activeSubtitleTrack, bitrate} from "$lib/stores";
 
     export let item: Item
+    export let waiting: boolean
 
     export let videoWidth: number
     export let videoHeight: number
@@ -50,4 +51,6 @@
             DIRECT PLAY
         {/if}
     {/key}
+    <br>
+    {waiting.toString()}
 </div>

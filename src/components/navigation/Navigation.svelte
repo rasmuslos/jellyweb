@@ -41,6 +41,7 @@
         display: grid;
         grid-template-columns: 1fr auto;
 
+        transition: color 200ms ease;
         margin: auto;
 
         max-width: 1000px;
@@ -109,6 +110,9 @@
             background-color: var(--background-light);
             box-shadow: 1px 10px 12px -5px rgba(0,0,0,0.75);
         }
+        div.wrapper.expanded nav {
+            color: var(--text);
+        }
 
         div.items {
             display: block;
@@ -133,6 +137,11 @@
         }
         div.toggle {
             display: block;
+        }
+
+        div.icon {
+            height: unset;
+            width: unset;
         }
     }
 </style>

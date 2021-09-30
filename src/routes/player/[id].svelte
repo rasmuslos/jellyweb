@@ -26,7 +26,7 @@
         bitrateTest,
         exitFullscreen,
         fullscreenElement,
-        fullscreenSupport,
+        fullscreenSupport, generateImageUrl,
         getLargeBackdrop, maxBitrate,
         reportPlayProgress,
         reportPlayStart, reportPlayStop,
@@ -53,6 +53,8 @@
     let actualBitrate: number = -1
     let showDebugStats: boolean = dev
 
+    let waiting: boolean = false
+
     // General vars
     let playerHolder
     let url = getLargeBackdrop(item)
@@ -68,7 +70,7 @@
     let showControls: boolean
     let hideTimeout: number
 
-    $: showControls = paused || showControlsHover
+    $: showControls = waiting || paused || showControlsHover
 
     // Bindings
     let duration: number = 0
@@ -76,6 +78,7 @@
     let paused: boolean = true
     let videoHeight: number
     let videoWidth: number
+    let playbackRate: number = 1
 
     let played: ProgressSegment[] = []
     let buffered: ProgressSegment[] = []
@@ -134,6 +137,8 @@
 
         reportPlayStart(item, paused, ticks, id).then(() => console.log("Reported play start"))
         reportInterval = setInterval(() => reportPlayProgress(item, paused, currentTime, id), 1000 * 60)
+
+        setMediaSession()
     }
     const togglePaused = () => {
         paused = !paused
@@ -151,6 +156,87 @@
         if(document.pictureInPictureEnabled) {
             if(document.pictureInPictureElement) document.exitPictureInPicture()
             else playerHolder.querySelector("video").requestPictureInPicture()
+        }
+    }
+
+    const setMediaSession = () => {
+        if(browser && "mediaSession" in navigator) {
+            const artwork: MediaImage[] =
+                item.Id && item.ImageTags.Primary
+                ? [
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 96, "Items", 96, $session.active),
+                        sizes: "96x96"
+                    },
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 128, "Items", 128, $session.active),
+                        sizes: "128x128"
+                    },
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 192, "Items", 192, $session.active),
+                        sizes: "192x192"
+                    },
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 256, "Items", 256, $session.active),
+                        sizes: "256x256"
+                    },
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 384, "Items", 384, $session.active),
+                        sizes: "384x384"
+                    },
+                    {
+                        src: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 512, "Items", 512, $session.active),
+                        sizes: "512x512"
+                    },
+                ]
+                : item.SeriesId && item.SeriesPrimaryImageTag
+                ?[
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 96, "Items", 96, $session.active),
+                        sizes: "96x96"
+                    },
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 128, "Items", 128, $session.active),
+                        sizes: "128x128"
+                    },
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 192, "Items", 192, $session.active),
+                        sizes: "192x192"
+                    },
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 256, "Items", 256, $session.active),
+                        sizes: "256x256"
+                    },
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 384, "Items", 384, $session.active),
+                        sizes: "384x384"
+                    },
+                    {
+                        src: generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag, "Primary", 512, "Items", 512, $session.active),
+                        sizes: "512x512"
+                    },
+                ]
+                : null
+
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: item.Name,
+                artist: item.SeriesName || item.ProductionYear || null,
+                artwork
+            } as MediaMetadata)
+
+            navigator.mediaSession.setActionHandler("play", togglePaused)
+            navigator.mediaSession.setActionHandler("pause", togglePaused)
+
+            navigator.mediaSession.setActionHandler("seekbackward", () => seek(-15))
+            navigator.mediaSession.setActionHandler("seekforward", () => seek(15))
+            navigator.mediaSession.setActionHandler("seekto", ({ seekTime }) => seekTime && (currentTime = seekTime))
+        }
+    }
+
+    $: {
+        if(browser && "mediaSession" in navigator) {
+            navigator.mediaSession.playbackState = paused ? "paused" : "playing"
+            navigator.mediaSession.setPositionState({ position: currentTime > duration ? 0 : currentTime, duration: duration, playbackRate })
         }
     }
 
@@ -279,7 +365,8 @@
 
 <div class="player" bind:this={playerHolder}>
     <video
-            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered
+            on:waiting={() => waiting = true} on:playing={() => waiting = false}
+            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered bind:playbackRate
             {src} poster={url} preload="metadata"></video>
     <div on:mousemove={displayControls} on:click={() => {
         togglePaused()
@@ -292,7 +379,7 @@
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}
             on:seek={({detail}) => seek(detail)} on:show={displayControls} on:pause={togglePaused} on:fullscreen={toggleFullscreen} on:pip={togglePiP} />
     {#if showDebugStats}
-        <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} />
+        <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} {waiting} />
     {/if}
 </div>
 
