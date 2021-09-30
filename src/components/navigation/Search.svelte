@@ -1,6 +1,6 @@
 <script lang="ts">
     import {icons} from "feather-icons";
-    import {modal} from "$lib/stores";
+    import {modal, noPadding} from "$lib/stores";
     import SearchOverlay from "../helper/search/SearchOverlay.svelte";
 
     const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
@@ -11,11 +11,19 @@
 <svelte:window on:keydown={handleGlobalKeydown} />
 
 <style>
+    div.desktop.dark {
+        --background: #2E3440;
+        --background-light: #3B4252;
+        --background-secondary: #4C566A;
+
+        --text: var(--white);
+    }
+
     div.desktop {
         display: block;
 
         cursor: pointer;
-        color: var(--secondary);
+        color: var(--text);
 
         padding: 7px;
         border-radius: 7px;
@@ -48,7 +56,7 @@
     }
 </style>
 
-<div class="desktop" on:click={toggleSearch}>
+<div class="desktop" class:dark={$noPadding} on:click={toggleSearch}>
     <span>Search</span>
     <span class="key">&#8984;K</span>
 </div>

@@ -1,7 +1,12 @@
 <script context="module" lang="ts">
     import {getHostUrl, setFetcher} from "$lib/api/internal";
 
-    export async function load({ fetch }) {
+    export async function load({ fetch, session }) {
+        if(session.active != null) return {
+            status: 302,
+            redirect: "/",
+        }
+
         try {
             setFetcher(fetch);
             const host = await getHostUrl()

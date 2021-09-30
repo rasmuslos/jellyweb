@@ -3,7 +3,7 @@
     import Item from "./Item.svelte"
     import {noPadding} from "$lib/stores";
     import Search from "./Search.svelte";
-    import {generateImageUrl} from "$lib/helper";
+    import {generateImageUrl, lightMode, updatePreference} from "$lib/helper";
     import {icons} from "feather-icons";
 
     export let me: User
@@ -45,6 +45,9 @@
 
         max-width: 1000px;
         width: 100%;
+    }
+    nav.white {
+        color: var(--white);
     }
 
     div.items {
@@ -92,6 +95,14 @@
         transform: rotate(180deg);
     }
 
+    div.icon {
+        height: 20px;
+        width: 20px;
+    }
+    div.icon :global(svg) {
+        stroke-width: 2.5px;
+    }
+
     /* Possibly the worst thing i have ever created */
     @media screen and (max-width: 1000px) {
         div.wrapper.expanded {
@@ -127,7 +138,7 @@
 </style>
 
 <div class="wrapper" class:expanded>
-    <nav class:shadow={$noPadding}>
+    <nav class:white={$noPadding}>
         <div class="items" class:expanded bind:this={itemsHolder}>
             {#each items as item}
                 <div>
@@ -139,6 +150,7 @@
         </div>
         <div class="holder">
             <Search />
+            <div class="icon" on:click={() => updatePreference("theme", $lightMode ? "dark" : "light")}>{@html icons[$lightMode ? "moon" : "sun"].toSvg({ height: 20, width: 20 })}</div>
             <div class="toggle" class:expanded on:click={() => expanded = !expanded}>{@html icons["arrow-down"].toSvg()}</div>
             <a href="/user" class="user">
                 <div class="image" style="background-image: url('{me && generateImageUrl(me.Id, me.PrimaryImageTag, `Primary`, 30, `Users`)}')"></div>

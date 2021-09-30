@@ -2,6 +2,7 @@
     import {setFetcher, me as getMe, getDisplayPreferences} from "$lib/api/internal";
     import type {Settings, User} from "$lib/typings";
     import {settings} from "$lib/stores";
+    import {lightMode} from "$lib/helper";
 
     export async function load({session, fetch}) {
         if(session == null || session.active == null) {
@@ -72,6 +73,26 @@
         overflow-x: hidden;
         overflow-y: auto;
     }
+
+    div:not(.light) {
+        --background: #2E3440;
+        --background-light: #3B4252;
+        --background-secondary: #4C566A;
+
+        --text: #D8DEE9;
+        --dimmed: #6e788a;
+        --secondary: #ECEFF4;
+    }
+    div.light {
+        --background: #D8DEE9;
+        --background-light: #D8DEE9;
+        --background-secondary: #E5E9F0;
+
+        --text: #2E3440;
+        --dimmed: #4C566A;
+        --secondary: #3B4252;
+    }
+
     main {
         position: relative;
     }
@@ -80,7 +101,14 @@
     }
 </style>
 
-<div>
+<svelte:head>
+    {#if $lightMode}
+        <meta name="theme-color" content="#2E3440">
+    {:else}
+        <meta name="theme-color" content="#2E3440">
+    {/if}
+</svelte:head>
+<div class:light={$lightMode}>
     <Navigation {me} />
     <main class:no-padding={$noPadding}>
         <slot />

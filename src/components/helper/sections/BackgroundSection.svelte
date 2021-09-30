@@ -11,6 +11,7 @@
         overflow: hidden;
 
         background-color: transparent;
+        color: var(--white);
 
         height: 100%;
         width: 100%;

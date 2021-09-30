@@ -64,6 +64,8 @@
     div.badges {
         display: flex;
         align-items: center;
+
+        color: var(--text);
     }
     div.heading a {
         font-size: 40px;
