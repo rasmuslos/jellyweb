@@ -8,7 +8,7 @@
         if(session == null || session.active == null) {
             return {
                 status: 302,
-                redirect: "/user/login",
+                redirect: "/user/logout",
             }
         } else {
             try {
@@ -26,7 +26,7 @@
             } catch(error) {
                 if(error.status && error.status == 401) return {
                     status: 302,
-                    redirect: "/user/login",
+                    redirect: "/user/logout",
                 }
                 else throw error
             }
