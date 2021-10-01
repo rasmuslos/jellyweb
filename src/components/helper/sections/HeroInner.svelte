@@ -66,6 +66,7 @@
         align-items: center;
 
         color: var(--text);
+        margin-bottom: 10px;
     }
     div.heading a {
         font-size: 40px;
@@ -118,6 +119,13 @@
         }
     }
 
+    p.tagline {
+        background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
     @media screen and (max-width: 1000px) {
         div.inner {
             margin-bottom: 100px;
@@ -154,14 +162,15 @@
                     {/if}
                 </div>
             </div>
-            {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-                <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-            {/if}
         </div>
+        {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
+            <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+        {:else if item.Taglines && item.Taglines.length > 0}
+            <p class="tagline">{item.Taglines[0]}</p>
+        {/if}
         {#if item.Overview !== undefined}
             <p>{item.Overview}</p>
         {/if}
-
         <div class="actions">
             {#if isWatchable}
                 <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />

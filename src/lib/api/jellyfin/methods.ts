@@ -6,7 +6,7 @@ import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings";
  * */
 
 const includeFilter = "includeItemTypes=Movie,Episode"
-const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,ParentBackdropImageTags`
+const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,ParentBackdropImageTags,Taglines`
 
 export const authoriseUserByName = (server, username, password, deviceId) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
 
