@@ -43,6 +43,8 @@
     let sort: SortItem = Sort.SORT_NAME
     let order: string = Order[0]
 
+    let expanded: boolean = false
+
     export let sortQuery
     $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}${value !== "" ? `&searchTerm=${value}` : ""}`
 </script>
@@ -112,16 +114,19 @@
         font-weight: 600;
     }
 
-    div.holder:hover {
+    div.wrapper.expanded {
+        height: auto;
+    }
+    div.wrapper div.holder.expanded {
         height: auto;
     }
 </style>
 
 <section>
     <ApplyWidth>
-        <div class="wrapper">
+        <div class="wrapper" class:expanded>
             <input placeholder="Search" bind:value type="text" />
-            <div class="holder">
+            <div class="holder" on:click={() => expanded = !expanded}>
                 <div class="preview">Sort by&#160;<span>{sort.title}</span></div>
                 <div class="preview">Order by&#160;<span>{order}</span></div>
                 <div class="content">

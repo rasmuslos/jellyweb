@@ -52,7 +52,7 @@
 
         height: 100%;
         opacity: 0.4;
-        background: linear-gradient(45deg, rgba(143,188,187,1) 0%, rgba(94,129,172,1) 100%);
+        background-color: var(--highlight);
     }
     div.play {
         position: absolute;
