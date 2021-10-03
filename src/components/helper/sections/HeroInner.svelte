@@ -4,7 +4,7 @@
     import {generateItemUrl, getResolutionText} from "$lib/helper";
     import WatchNowButton from "../../input/WatchNowButton.svelte";
     import {icons} from "feather-icons";
-    import {like, unlike} from "$lib/api/internal";
+    import {like, markAsPlayed, markAsUnplayed, unlike} from "$lib/api/internal";
 
     export let item: Item
     export let tip: string = null
@@ -12,16 +12,28 @@
     export let reduceOffset: boolean = false
 
     let isFavorite: boolean = false
-    let processingLike: boolean = false
+    let isWatched: boolean = false
+    let processing: boolean = false
+
     $: isFavorite = item.UserData && item.UserData.IsFavorite
+    $: isWatched = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played)
     const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
     const toggleLike = async () => {
-        processingLike = true
+        if(processing) return
+        processing = true
 
         if(isFavorite) isFavorite = (await unlike(item.Id)).favorite
         else isFavorite = (await like(item.Id)).favorite
-        processingLike = false
+        processing = false
+    }
+    const togglePlayed = async () => {
+        if(processing) return
+        processing = true
+
+        if(isWatched) isWatched = (await markAsUnplayed(item.Id)).played
+        else isWatched = (await markAsPlayed(item.Id)).played
+        processing = false
     }
 </script>
 
@@ -98,7 +110,7 @@
     .action.liked {
         fill: var(--error);
     }
-    .action.processingLike {
+    .action.processing {
         animation: spin 5s infinite;
     }
 
@@ -165,6 +177,8 @@
         </div>
         {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
             <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+        {:else if item.SeriesName && item.SeriesId}
+            <span class="dimmed info"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
         {:else if item.Taglines && item.Taglines.length > 0}
             <p class="tagline">{item.Taglines[0]}</p>
         {/if}
@@ -175,9 +189,11 @@
             {#if isWatchable}
                 <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
             {/if}
+            <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {
+                stroke: "var(--highlight)"
+            } : {})}</span>
             {#key isFavorite}
-                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite}
-                      class:processingLike on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
+                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite} class:processing on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
                     fill: "var(--error)",
                     stroke: "var(--error)"
                 } : {})}</span>

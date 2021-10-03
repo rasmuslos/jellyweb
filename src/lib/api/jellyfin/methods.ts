@@ -24,7 +24,7 @@ export const likeItem = (session: JellyfinSession, itemId: string) => createRequ
 export const unlikeItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, "DELETE")
 
 export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
-export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?&Fields=ItemCounts`, session)
+export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)
 export const searchByPerson = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items?personIds=${itemId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=Movie,Series`, session)
 export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&${fields}`, session)
 export const getSimilarItems = (session: JellyfinSession, itemId: string) => createRequest(`Items/${itemId}/Similar?limit=7`, session)
@@ -51,3 +51,6 @@ export const stopPlayback = (session: JellyfinSession, streamId: string) => crea
 export const reportPlaybackStart = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing", session, "POST", JSON.stringify(body))
 export const reportPlaybackStop = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Stopped", session, "POST", JSON.stringify(body))
 export const reportPlaybackProgress = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Progress", session, "POST", JSON.stringify(body))
+
+export const markItemAsPlayed = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, "POST")
+export const markItemAsUnplayed = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, "DELETE")

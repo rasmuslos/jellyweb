@@ -48,6 +48,16 @@
         height: 24px;
         width: 24px;
     }
+
+    span.dimmed {
+        display: none;
+    }
+    a.person:hover span.dimmed {
+        display: block;
+    }
+    a.person:hover span:not(.dimmed) {
+        display: none;
+    }
 </style>
 
 {#if persons && persons.length > 0}
@@ -65,6 +75,7 @@
                             {/if}
                         </div>
                         <span>{person.Name}</span>
+                        <span class="dimmed">{person.Role}</span>
                     </a>
                 {/each}
             </div>

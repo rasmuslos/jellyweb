@@ -33,3 +33,6 @@ export const stopPlayback = async (streamId: string) => await makeRequest(`items
 export const reportPlaybackStart = async (body) => await makeRequest("playback", "POST", body)
 export const reportPlaybackStop = async (body) => await makeRequest("playback", "DELETE", body)
 export const reportPlaybackProgress = async (body) => await makeRequest("playback", "PUT", body)
+
+export const markAsPlayed = async (itemId) => await makeRequest("items/played", "POST", { itemId })
+export const markAsUnplayed = async (itemId) => await makeRequest("items/played", "DELETE", { itemId })

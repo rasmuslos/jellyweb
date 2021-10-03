@@ -6,6 +6,8 @@
     export let wide: boolean = false
     export let item: Item
 
+    export let badge: number | string = null
+
     export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
     export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
     export let url =
@@ -66,6 +68,25 @@
     div:hover div.play {
         opacity: 1;
     }
+
+    div.badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        height: 24px;
+        width: 24px;
+
+        line-height: 24px;
+        text-align: center;
+        color: var(--secondary);
+
+        box-sizing: content-box;
+        padding: 5px;
+
+        border-bottom-left-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 </style>
 
 <div class="holder" class:wide on:click>
@@ -77,6 +98,15 @@
     {#if isWatchable}
         <div class="play">
             {@html icons.play.toSvg({height: 50, width: 50})}
+        </div>
+    {/if}
+    {#if badge}
+        <div class="badge">
+            {#if typeof badge === "string"}
+                {@html badge}
+            {:else}
+                {badge}
+            {/if}
         </div>
     {/if}
 </div>
