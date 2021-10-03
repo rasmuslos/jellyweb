@@ -8,7 +8,7 @@
     export let wide: boolean = true
 
     const isWatchable = item.Type === "Movie" || item.Type === "Episode"
-    const badge = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played) ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.UserData && item.UserData.UnplayedItemCount ?? null
+    const badge = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played) ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.UserData && item.UserData.UnplayedItemCount || null
 </script>
 
 <style>

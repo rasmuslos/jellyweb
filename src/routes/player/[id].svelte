@@ -91,7 +91,6 @@
         const ticks = Math.round(currentTime * (1000 * 10000))
         const startAt = src ? ticks : new URLSearchParams(window.location.search).get("start") as number ?? 0
 
-        if(id) await reportPlayStop(item.Id, ticks, id)
         if(liveStreamId) stopPlayback(liveStreamId).then(() => console.log("Stopped playback", liveStreamId))
         if(reportInterval) clearInterval(reportInterval)
 
@@ -135,16 +134,15 @@
         currentTime = startAt / (1000 * 10000)
         src += `#t=${currentTime}`
 
+        setMediaSession()
+
+        if(id) await reportPlayStop(item.Id, ticks, id)
         reportPlayStart(item, paused, ticks, id).then(() => console.log("Reported play start"))
         reportInterval = setInterval(() => reportPlayProgress(item, paused, currentTime, id), 1000 * 60)
-
-        setMediaSession()
     }
     const togglePaused = () => {
         paused = !paused
-
-        const ticks = Math.round(currentTime * (1000 * 10000))
-        reportPlayProgress(item, paused, ticks, id)
+        reportPlayProgress(item, paused, currentTime, id)
     }
     const toggleFullscreen = () => {
         if(fullscreenSupport) {
@@ -340,7 +338,7 @@
         background-color: rgba(0, 0, 0, 0.4);
     }
 
-    span.paused {
+    span.icon {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -354,12 +352,17 @@
 
         box-sizing: content-box;
         border-radius: 50%;
+    }
+    span.icon.show {
+        display: block;
+    }
 
+    span.paused {
         padding: 20px;
         background-color: rgba(0, 0, 0, 0.4);
     }
-    span.paused.show {
-        display: block;
+    span.waiting :global(svg) {
+        animation: spin 3s infinite;
     }
 </style>
 
@@ -373,7 +376,8 @@
     }} class="overlay" class:show={showControls}></div>
 
     <a class="back" class:show={showControls} href={returnUrl}>{@html icons["arrow-left"].toSvg()}</a>
-    <span class="paused" class:show={paused} on:click={togglePaused}>{@html icons["pause"].toSvg({ height: 50, width: 50 })}</span>
+    <span class="icon paused" class:show={paused && !waiting} on:click={togglePaused}>{@html icons["pause"].toSvg({ height: 50, width: 50 })}</span>
+    <span class="icon waiting" class:show={waiting} on:click={togglePaused}>{@html icons["loader"].toSvg({ height: 50, width: 50 })}</span>
 
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}

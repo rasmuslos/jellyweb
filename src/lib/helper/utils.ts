@@ -51,7 +51,7 @@ export const subscribeButIgnoreFirst = (store, callback) => {
 
     return store.subscribe(state => {
         try {
-            if(Object.keys(state).length === 0) return
+            if(typeof state === "object" && Object.keys(state).length === 0) return
         } catch(error) {}
 
         if(state == {}) return
