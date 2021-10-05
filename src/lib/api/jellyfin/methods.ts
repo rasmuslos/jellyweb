@@ -11,7 +11,7 @@ const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,Pa
 export const authoriseUserByName = (server, username, password, deviceId, name) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null, name }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
 
 export const resume = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Resume?${includeFilter}&${fields}`, session)
-export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&enableImages&$${includeFilter}&{homeFilter}`, session)
+export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&${includeFilter}&${fields}`, session)
 
 export const genres = (session: JellyfinSession) => createRequest("Genres", session)
 export const me = (session: JellyfinSession) => createRequest("Users/Me", session)

@@ -50,6 +50,8 @@
     export let item: Item
     let returnUrl: string = "/"
 
+    getMediaData(item, true)
+
     let actualBitrate: number = -1
     let showDebugStats: boolean = dev
 
@@ -87,7 +89,6 @@
 
     const playItem = async () => {
         if(!browser) return
-        if(!src) getMediaData(item, true)
 
         actualBitrate = $bitrate <= $maxBitrate ? $bitrate : $maxBitrate
 
