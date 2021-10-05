@@ -54,3 +54,5 @@ export const reportPlaybackProgress = (session: JellyfinSession, body: any) => c
 
 export const markItemAsPlayed = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, "POST")
 export const markItemAsUnplayed = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, "DELETE")
+
+export const logout = (session: JellyfinSession) => createRequest("Sessions/Logout", session)

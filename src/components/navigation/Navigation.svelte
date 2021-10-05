@@ -97,6 +97,8 @@
     }
 
     div.icon {
+        cursor: pointer;
+
         height: 20px;
         width: 20px;
     }

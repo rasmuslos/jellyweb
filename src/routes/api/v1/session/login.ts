@@ -22,7 +22,6 @@ export async function post({ locals, body }) {
                 deviceId: uuid,
             } as JellyfinSession,
             stored: locals.session.data ? locals.session.data.stored ? [...locals.session.data.stored, oldSession] : oldSession ? [oldSession] : [] : oldSession ? [oldSession] : [],
-            settings: locals.session.data && locals.session.data.settings ? locals.session.data.settings : {}
         } as Session
 
         return createApiResponse(true, { session: locals.session.data.active })

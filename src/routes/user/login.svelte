@@ -1,14 +1,28 @@
 <script context="module" lang="ts">
-    import {getHostUrl, setFetcher} from "$lib/api/internal";
+    import {getHostUrl, setFetcher, me as getMe} from "$lib/api/internal";
 
     export async function load({ fetch, session }) {
-        if(session.active != null) return {
-            status: 302,
-            redirect: "/",
+        if(session.active != null) {
+            try {
+                setFetcher(fetch)
+                await getMe(false)
+
+                return {
+                    status: 302,
+                    redirect: "/",
+                }
+            } catch (error) {
+                return {
+                    status: 302,
+                    redirect: "/user/logout",
+                }
+            }
         }
 
+        console.log(session)
+
         try {
-            setFetcher(fetch);
+            setFetcher(fetch)
             const host = await getHostUrl()
 
             return {
