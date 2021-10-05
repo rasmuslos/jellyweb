@@ -8,7 +8,7 @@ import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings";
 const includeFilter = "includeItemTypes=Movie,Episode"
 const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,ParentBackdropImageTags,Taglines`
 
-export const authoriseUserByName = (server, username, password, deviceId) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
+export const authoriseUserByName = (server, username, password, deviceId, name) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null, name }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
 
 export const resume = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Resume?${includeFilter}&${fields}`, session)
 export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&enableImages&$${includeFilter}&{homeFilter}`, session)

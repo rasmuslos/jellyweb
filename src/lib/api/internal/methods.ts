@@ -1,7 +1,7 @@
 import {makeRequest} from "$lib/api/internal/index";
 import type {PlaybackInfoRequest} from "$lib/typings";
 
-export const login = async (server, username, password) => await makeRequest("session/login", "POST", { server, username, password }, false)
+export const login = async (server, username, password, name) => await makeRequest("session/login", "POST", { server, username, password, name }, false)
 export const home = async () => await makeRequest("items/home")
 
 export const genres = async () => await makeRequest("items/genres")

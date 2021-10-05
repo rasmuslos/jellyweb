@@ -5,7 +5,7 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     // TODO: Read version from package.json
     const { deviceId, server, token } = session
     const url = `${server}/${endpoint}`
-    const authHeader = `MediaBrowser Client="Jellyweb", Device="Browser", Version="0.0.0", DeviceId="${deviceId}", Token="${token}`
+    const authHeader = `MediaBrowser Client="Jellyweb", Device="${session.name || "Unknown"}", Version="0.0.0", DeviceId="${deviceId}", Token="${token}`
 
     const res = await fetch(url, {
         method,

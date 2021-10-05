@@ -19,8 +19,6 @@
             }
         }
 
-        console.log(session)
-
         try {
             setFetcher(fetch)
             const host = await getHostUrl()
@@ -41,6 +39,7 @@
     import GenericButton from "../../components/input/GenericButton.svelte";
     import {onMount} from "svelte";
     import {login} from "$lib/api/internal";
+    import {getBrowserName} from "$lib/helper";
 
     export let host: string = ""
     let secure: boolean = true
@@ -57,9 +56,10 @@
     })
     const handleLogin = async () => {
         if(server.trim() === "" || username.trim() === "") return error = "Please provide a server and a username"
+        else if(!/^(http|https):\/\/[^ "]+$/.test(server) || server.endsWith("/")) return error = "Provide a url like http(s)://HOST.TLD"
 
         loading = true
-        login(server, username, password)
+        login(server, username, password, getBrowserName())
             .then(() => window.location.href = "/")
             .catch(err => {
                 console.error(err)
@@ -122,5 +122,7 @@
     <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={host !== ""} />
     <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
     <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
-    <GenericButton label="Login" on:click={handleLogin} />
+    <figure class="center">
+        <GenericButton label="Login" on:click={handleLogin} />
+    </figure>
 </div>

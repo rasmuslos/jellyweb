@@ -59,6 +59,13 @@ p {
     color: var(--error);
 }
 
+figure.center {
+    display: block;
+    width: fit-content;
+
+    margin: 0 auto;
+    padding: 0;
+}
 a {
     color: inherit;
     text-decoration: none;

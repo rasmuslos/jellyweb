@@ -5,13 +5,13 @@
 
 <style>
     button {
-        display: block;
+        display: inline-block;
 
         color: var(--text);
         font-size: calc(var(--size));
 
         padding: 10px 13px;
-        margin: 5px auto;
+        margin: 5px 5px;
         background-color: var(--background-secondary);
 
         border: none;

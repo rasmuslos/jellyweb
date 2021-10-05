@@ -5,6 +5,7 @@ export type JellyfinSession = {
     server: string,
     userId: string,
     deviceId: string,
+    name: string
 }
 export type Settings = {
     "images.hero"?: fakeBoolean,
