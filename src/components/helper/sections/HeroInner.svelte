@@ -11,6 +11,9 @@
     export let includeMoreButton: boolean = true
     export let reduceOffset: boolean = false
 
+    export let noImage: boolean = false
+    export let noButton: boolean = false
+
     let isFavorite: boolean = false
     let isWatched: boolean = false
     let processing: boolean = false
@@ -51,6 +54,9 @@
     }
     div.inner.reduceOffset {
         margin-top: 100px;
+    }
+    div.inner.noImage {
+        grid-template-columns: 1fr;
     }
 
     div.image {
@@ -145,12 +151,14 @@
     }
 </style>
 
-<div class="inner" class:reduceOffset>
-    <div class="image">
-        {#key item}
-            <ItemImage {item} />
-        {/key}
-    </div>
+<div class="inner" class:reduceOffset class:noImage>
+    {#if !noImage}
+        <div class="image">
+            {#key item}
+                <ItemImage {item} />
+            {/key}
+        </div>
+    {/if}
     <div class="details">
         {#if tip}
             <p class="tip">{tip}</p>
@@ -186,7 +194,7 @@
             <p>{item.Overview}</p>
         {/if}
         <div class="actions">
-            {#if isWatchable}
+            {#if isWatchable && !noButton}
                 <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
             {/if}
             <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {

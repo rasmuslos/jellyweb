@@ -11,10 +11,13 @@
     export let includeMoreButton: boolean = true
     export let reduceOffset: boolean = false
     export let hideImage: boolean = false
+
+    export let noImage: boolean = false
+    export let noButton: boolean = false
 </script>
 
 <BackgroundSection transparent={hideImage} url={!hideImage && getLargeBackdrop(item)}>
-    <HeroInner {item} {tip} {includeMoreButton} {reduceOffset} />
+    <HeroInner {item} {tip} {includeMoreButton} {reduceOffset} {noImage} {noButton} />
     {#if includeWave}
         <Wave colored={false} />
     {/if}

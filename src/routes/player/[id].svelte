@@ -27,7 +27,7 @@
         exitFullscreen,
         fullscreenElement,
         fullscreenSupport, generateImageUrl,
-        getLargeBackdrop, maxBitrate,
+        getLargeBackdrop, getMediaData, maxBitrate,
         reportPlayProgress,
         reportPlayStart, reportPlayStop,
         requestFullscreen,
@@ -43,9 +43,9 @@
     import {icons} from "feather-icons";
     import {browser, dev} from "$app/env";
     import Controls from "../../components/player/Controls.svelte";
-    import Hero from "../../components/sections/Hero.svelte";
     import Debug from "../../components/player/Debug.svelte";
     import {goto} from "$app/navigation";
+    import Info from "../../components/player/Info.svelte";
 
     export let item: Item
     let returnUrl: string = "/"
@@ -55,8 +55,10 @@
 
     let waiting: boolean = false
 
-    // General vars
+    // binds
     let playerHolder
+
+    // General vars
     let url = getLargeBackdrop(item)
     let reportInterval
 
@@ -85,6 +87,8 @@
 
     const playItem = async () => {
         if(!browser) return
+        if(!src) getMediaData(item, true)
+
         actualBitrate = $bitrate <= $maxBitrate ? $bitrate : $maxBitrate
 
         // 1 tick = 10.000
@@ -308,6 +312,10 @@
         height: 100%;
         width: 100%;
     }
+    div.player * {
+        position: relative;
+    }
+
     a.back {
         position: absolute;
         top: 20px;
@@ -382,10 +390,10 @@
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}
             on:seek={({detail}) => seek(detail)} on:show={displayControls} on:pause={togglePaused} on:fullscreen={toggleFullscreen} on:pip={togglePiP} />
+
     {#if showDebugStats}
         <Debug {src} {currentTime} {duration} {videoWidth} {videoHeight} {actualBitrate} {item} {waiting} />
     {/if}
 </div>
 
-<!--CHANGE ME-->
-<Hero {item} />
+<Info {item} {returnUrl} on:seek={({detail}) => currentTime = detail / (10000 * 1000)} />

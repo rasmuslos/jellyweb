@@ -75,7 +75,7 @@
                             {/if}
                         </div>
                         <span>{person.Name}</span>
-                        <span class="dimmed">{person.Role}</span>
+                        <span class="dimmed">{person.Role || person.Type || "unknown"}</span>
                     </a>
                 {/each}
             </div>

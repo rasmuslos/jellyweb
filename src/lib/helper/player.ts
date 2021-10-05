@@ -3,15 +3,17 @@ import {activeAudioTrack, activeMediaSource, activeSubtitleTrack} from "$lib/sto
 import {get} from "svelte/store";
 import {reportPlaybackProgress, reportPlaybackStart, reportPlaybackStop} from "$lib/api/internal";
 
-export const getMediaData = (item: Item) => {
+export const getMediaData = (item: Item, update: boolean = false) => {
     // Get media-sources & streams
     let mediaSources = item.MediaSources
-    activeMediaSource.set(mediaSources[0].Id)
+    if(update) activeMediaSource.set(mediaSources[0].Id)
 
     let mediaSource = mediaSources.find(source => source.Id === get(activeMediaSource))
 
-    activeAudioTrack.set(mediaSource.DefaultAudioStreamIndex)
-    activeSubtitleTrack.set(mediaSource.DefaultSubtitleStreamIndex)
+    if(update) {
+        activeAudioTrack.set(mediaSource.DefaultAudioStreamIndex)
+        activeSubtitleTrack.set(mediaSource.DefaultSubtitleStreamIndex)
+    }
 
     let audioStreams = mediaSource.MediaStreams.filter(stream => stream.Type === "Audio")
     let subtitleStreams = mediaSource.MediaStreams.filter(stream => stream.Type === "Subtitle")

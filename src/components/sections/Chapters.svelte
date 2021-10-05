@@ -4,9 +4,15 @@
     import {session} from "$app/stores";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
+    import {createEventDispatcher} from "svelte";
 
     export let itemId: string
     export let chapters: Chapter[]
+
+    export let handleClick: boolean = true
+
+    const dispatcher = createEventDispatcher()
+    const click = (ticks) => dispatcher("click", ticks)
 </script>
 
 <style>
@@ -38,7 +44,7 @@
         <h1>Chapters</h1>
         <div class="holder">
             {#each chapters as chapter, index}
-                <a href={generatePlayerUrl(itemId, chapter.StartPositionTicks)} class="item">
+                <a on:click={() => click(chapter.StartPositionTicks)} href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null} class="item">
                     <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`} wide showProgress={false} isWatchable />
                     <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span></p>
                 </a>
