@@ -32,6 +32,7 @@
         background-position: center;
         background-size: cover;
 
+        animation: show 1.5s;
         z-index: 0;
     }
     section:not(.transparent) div.image.blur::before {
@@ -54,7 +55,7 @@
 </style>
 
 <section class:transparent>
-    {#key $settings["images.hero"], $settings["images.blur"]}
+    {#key $settings["images.hero"], $settings["images.blur"], url}
         {#if $settings["images.hero"] !== "false"}
             <div class="image" class:blur={$settings["images.blur"] !== "false"} style="background-image: url('{url}')"></div>
         {/if}

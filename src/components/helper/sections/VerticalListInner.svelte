@@ -11,6 +11,14 @@
 </script>
 
 <style>
+    h1 {
+        margin: 50px 0;
+        font-weight: 400;
+
+        text-align: center;
+        color: var(--error);
+    }
+
     div.holder {
         display: flex;
         flex-shrink: 0;
@@ -22,8 +30,12 @@
     }
 </style>
 
-<div class="holder">
-    {#each items as item}
-        <Item {item} {wide} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
-    {/each}
-</div>
+{#if items && items.length > 0}
+    <div class="holder">
+        {#each items as item}
+            <Item {item} {wide} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
+        {/each}
+    </div>
+{:else}
+    <h1>No Items</h1>
+{/if}

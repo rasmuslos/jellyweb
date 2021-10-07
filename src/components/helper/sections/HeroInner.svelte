@@ -194,9 +194,11 @@
             <p>{item.Overview}</p>
         {/if}
         <div class="actions">
-            {#if isWatchable && !noButton}
-                <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
-            {/if}
+            {#key isWatchable, noButton}
+                {#if isWatchable && !noButton}
+                    <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
+                {/if}
+            {/key}
             <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {
                 stroke: "var(--highlight)"
             } : {})}</span>
