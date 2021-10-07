@@ -20,6 +20,18 @@
 </script>
 
 <style>
+    div.background {
+        padding-top: 125px;
+        background-color: var(--background-secondary);
+    }
+    div.container {
+        padding-top: 50px;
+        background-color: var(--background);
+
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
     div.wrapper {
         background-color: var(--background-light);
     }
@@ -45,34 +57,33 @@
     }
 </style>
 
-<a href={returnUrl}>{@html icons["arrow-left"].toSvg({ height: 20, width: 20 })} go Back</a>
-<ApplyWidth>
-    <Hero hideImage={true} item={item} includeMoreButton={false} reduceOffset={true} noButton={true} noImage={true} />
-    <Chapters chapters={item.Chapters || []} itemId={item.Id} handleClick={false} on:click={({detail}) => seek(detail)} />
-    <PersonList persons={item.People || []} />
-</ApplyWidth>
-<Wave />
-<div class="wrapper">
-    <ApplyWidth>
-        <div class="holder">
-            <h1>Details</h1>
-            <div class="streams">
-                {#each streams.mediaSources as source}
-                    <Stream stream={source} />
-                {/each}
-            </div>
-            <div class="streams">
-                {#each streams.audioStreams as stream}
-                    {#if stream.Index !== -1}
-                        <Stream {stream} />
-                    {/if}
-                {/each}
-                {#each streams.subtitleStreams as stream}
-                    {#if stream.Index !== -1}
-                        <Stream {stream} />
-                    {/if}
-                {/each}
-            </div>
+<div class="background">
+    <div class="container">
+        <ApplyWidth>
+            <a href={returnUrl}>{@html icons["arrow-left"].toSvg({ height: 20, width: 20 })} go Back</a>
+            <Hero hideImage={true} item={item} includeMoreButton={false} reduceOffset={true} noButton={true} noImage={true} />
+            <Chapters chapters={item.Chapters || []} itemId={item.Id} handleClick={false} on:click={({detail}) => seek(detail)} />
+            <PersonList persons={item.People || []} />
+        </ApplyWidth>
+        <Wave />
+        <div class="wrapper">
+            <ApplyWidth>
+                <div class="holder">
+                    <h1>Details</h1>
+                    <div class="streams">
+                        {#each streams.mediaSources as source}
+                            <Stream stream={source} />
+                        {/each}
+                    </div>
+                    <div class="streams">
+                        {#each streams.audioStreams.concat(streams.subtitleStreams) as stream}
+                            {#if stream.Index !== -1}
+                                <Stream {stream} />
+                            {/if}
+                        {/each}
+                    </div>
+                </div>
+            </ApplyWidth>
         </div>
-    </ApplyWidth>
+    </div>
 </div>

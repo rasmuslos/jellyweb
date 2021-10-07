@@ -7,7 +7,7 @@
     import {createEventDispatcher} from "svelte";
 
     export let itemId: string
-    export let chapters: Chapter[]
+    export let chapters: Chapter[] = []
 
     export let handleClick: boolean = true
 
@@ -37,18 +37,35 @@
         padding: 10px;
         text-align: center;
     }
+    h3 {
+        margin: 75px 0;
+        color: var(--error);
+
+        font-weight: 600;
+        text-align: center;
+    }
 </style>
 
 <section>
     <ApplyWidth>
         <h1>Chapters</h1>
-        <div class="holder">
-            {#each chapters as chapter, index}
-                <a on:click={() => click(chapter.StartPositionTicks)} href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null} class="item">
-                    <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`} wide showProgress={false} isWatchable />
-                    <p>{chapter.Name} <span class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span></p>
-                </a>
-            {/each}
-        </div>
+        {#if !chapters || chapters.length === 0}
+            <h3>No Chapters</h3>
+            {:else}
+            <div class="holder">
+                {#each chapters as chapter, index}
+                    <a on:click={() => click(chapter.StartPositionTicks)}
+                       href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null}
+                       class="item">
+                        <ItemImage
+                                url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`}
+                                wide showProgress={false} isWatchable/>
+                        <p>{chapter.Name} <span
+                                class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span>
+                        </p>
+                    </a>
+                {/each}
+            </div>
+        {/if}
     </ApplyWidth>
 </section>

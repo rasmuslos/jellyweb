@@ -74,14 +74,14 @@
     <LazyList query="genres={item.Name}&includeItemTypes=Movie,Series&{sort}" />
 {/if}
 
-{#if (item.Type === "Episode" || item.Type === "Movie") && (item.Chapters && item.Chapters.length > 0)}
+{#if item.Type === "Episode" || item.Type === "Movie"}
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type === "Movie"}
     <VerticalList items={similar || []} title="Similar" />
 {/if}
 
-{#if item.Type !== "Person" || item.Type === "Person"}
+{#if item.Type !== "Person" && item.People && item.People.length > 0}
     <PersonList persons={item.People || []} />
 {/if}
 {#if item.Type === "Person"}

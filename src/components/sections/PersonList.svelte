@@ -58,12 +58,22 @@
     a.person:hover span:not(.dimmed) {
         display: none;
     }
+
+    h3 {
+        margin: 75px 0;
+        color: var(--error);
+
+        font-weight: 600;
+        text-align: center;
+    }
 </style>
 
-{#if persons && persons.length > 0}
-    <section>
-        <ApplyWidth>
-            <h1>Actors</h1>
+<section>
+    <ApplyWidth>
+        <h1>Actors</h1>
+        {#if !persons || persons.length === 0}
+            <h3>No Actors</h3>
+        {:else}
             <div class="holder">
                 {#each persons as person}
                     <a class="person" href={generateItemUrl(person.Id)}>
@@ -79,6 +89,6 @@
                     </a>
                 {/each}
             </div>
-        </ApplyWidth>
-    </section>
-{/if}
+        {/if}
+    </ApplyWidth>
+</section>
