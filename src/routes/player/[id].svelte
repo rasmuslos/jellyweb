@@ -26,7 +26,7 @@
         bitrateTest,
         exitFullscreen,
         fullscreenElement,
-        fullscreenSupport, generateImageUrl,
+        fullscreenSupport, generateImageUrl, getDeviceProfile,
         getLargeBackdrop, getMediaData, maxBitrate,
         reportPlayProgress,
         reportPlayStart, reportPlayStop,
@@ -100,22 +100,7 @@
         if(reportInterval) clearInterval(reportInterval)
 
         const response: PlaybackInfo = await startPlayback(item.Id, {
-            DeviceProfile: {
-                "MaxStreamingBitrate": actualBitrate,
-                "MaxStaticBitrate": actualBitrate,
-
-                "DirectPlayProfiles":[{"Container":"webm","Type":"Video","VideoCodec":"vp8,vp9","AudioCodec":"vorbis"},{"Container":"mp4,m4v","Type":"Video","VideoCodec":"h264,vp8,vp9","AudioCodec":"aac,mp3,ac3,eac3,flac,alac,vorbis"},{"Container":"mov","Type":"Video","VideoCodec":"h264","AudioCodec":"aac,mp3,ac3,eac3,flac,alac,vorbis"},{"Container":"mp3","Type":"Audio"},{"Container":"aac","Type":"Audio"},{"Container":"m4a","AudioCodec":"aac","Type":"Audio"},{"Container":"m4b","AudioCodec":"aac","Type":"Audio"},{"Container":"flac","Type":"Audio"},{"Container":"alac","Type":"Audio"},{"Container":"m4a","AudioCodec":"alac","Type":"Audio"},{"Container":"m4b","AudioCodec":"alac","Type":"Audio"},{"Container":"webma","Type":"Audio"},{"Container":"webm","AudioCodec":"webma","Type":"Audio"},{"Container":"wav","Type":"Audio"}],
-                "TranscodingProfiles":[{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Streaming","Protocol":"hls","MaxAudioChannels":"6","MinSegments":"2","BreakOnNonKeyFrames":true},{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp3","Type":"Audio","AudioCodec":"mp3","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"wav","Type":"Audio","AudioCodec":"wav","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp3","Type":"Audio","AudioCodec":"mp3","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"wav","Type":"Audio","AudioCodec":"wav","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"ts","Type":"Video","AudioCodec":"aac,mp3,ac3,eac3","VideoCodec":"h264","Context":"Streaming","Protocol":"hls","MaxAudioChannels":"6","MinSegments":"2","BreakOnNonKeyFrames":true},{"Container":"webm","Type":"Video","AudioCodec":"vorbis","VideoCodec":"vpx","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp4","Type":"Video","AudioCodec":"aac,mp3,ac3,eac3,flac,alac,vorbis","VideoCodec":"h264","Context":"Static","Protocol":"http"}],
-                "ContainerProfiles":[],
-                "CodecProfiles":[{"Type":"Video","Codec":"h264","Conditions":[{"Condition":"NotEquals","Property":"IsAnamorphic","Value":"true","IsRequired":false},{"Condition":"EqualsAny","Property":"VideoProfile","Value":"high|main|baseline|constrained baseline","IsRequired":false},{"Condition":"LessThanEqual","Property":"VideoLevel","Value":"51","IsRequired":false},{"Condition":"NotEquals","Property":"IsInterlaced","Value":"true","IsRequired":false}]},{"Type":"Video","Codec":"hevc","Conditions":[{"Condition":"NotEquals","Property":"IsAnamorphic","Value":"true","IsRequired":false},{"Condition":"EqualsAny","Property":"VideoProfile","Value":"main|main 10","IsRequired":false},{"Condition":"LessThanEqual","Property":"VideoLevel","Value":"183","IsRequired":false},{"Condition":"NotEquals","Property":"IsInterlaced","Value":"true","IsRequired":false}]}],
-                "ResponseProfiles":[{"Type":"Video","Container":"m4v","MimeType":"video/mp4"}],
-                "SubtitleProfiles": [
-                    /*
-                    {"Format":"ass","Method":"External"},
-                    {"Format":"ssa","Method":"External"},
-                    */
-                ],
-            },
+            DeviceProfile: getDeviceProfile(actualBitrate),
             UserId: $session.active.userId,
             MaxStreamingBitrate: actualBitrate,
             AutoOpenLiveStream: true,
