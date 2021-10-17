@@ -5,7 +5,10 @@
 
     const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
     const handleGlobalKeydown = (event: KeyboardEvent) => {
-        if(event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey || event.altKey)) toggleSearch()
+        if(event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey || event.altKey)) {
+            toggleSearch()
+            event.preventDefault()
+        }
     }
 </script>
 <svelte:window on:keydown={handleGlobalKeydown} />
