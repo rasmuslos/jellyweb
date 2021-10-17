@@ -185,7 +185,7 @@
                 <Setting title="Video" activeIndex={$activeMediaSource} arr={mediaData.mediaSources.map(source => { return { index: source.Id, value: source.Name } })} on:set={({detail}) => activeMediaSource.set(detail)} />
                 <Setting title="Audio" activeIndex={$activeAudioTrack} arr={mediaData.audioStreams.map(source => { return { index: source.Index, value: source.Title || source.Language } })} on:set={({detail}) => activeAudioTrack.set(detail)} />
                 <Setting title="Subtitles" activeIndex={$activeSubtitleTrack} arr={mediaData.subtitleStreams.map(source => { return { index: source.Index, value: source.Index === -1 ? source.Title : `${source.Title || source.Language} [${(source.Codec || "?").toUpperCase()}]` } })} on:set={({detail}) => activeSubtitleTrack.set(detail)} />
-                <Setting title="Bitrate" activeIndex={$maxBitrate} arr={bitRates} on:set={({ detail }) => updatePreference("bitrate", detail)} />
+                <Setting title="Max-Bitrate" activeIndex={$maxBitrate} arr={bitRates} on:set={({ detail }) => updatePreference("bitrate", detail)} />
             </div>
             <span on:click={toggleTrackSelection} class="control">{@html icons["settings"].toSvg()}</span>
         </div>
