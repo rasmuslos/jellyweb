@@ -139,7 +139,11 @@
             subtitleInterval = setInterval(updateSubtitles, 100)
         }
 
-        setMediaSession()
+        try {
+            setMediaSession()
+        } catch (error) {
+            console.error("Failed to update mediaSession", error)
+        }
 
         if(id) await reportPlayStop(item.Id, ticks, id)
         reportPlayStart(item, paused, ticks, id).then(() => console.log("Reported play start"))
@@ -254,7 +258,11 @@
     $: {
         if(browser && "mediaSession" in navigator) {
             navigator.mediaSession.playbackState = paused ? "paused" : "playing"
-            navigator.mediaSession.setPositionState({ position: currentTime > duration ? 0 : currentTime, duration: duration, playbackRate })
+            try {
+                navigator.mediaSession.setPositionState({ position: currentTime > duration ? 0 : currentTime, duration: duration, playbackRate })
+            } catch (error) {
+                console.error("Failed to update mediaSession", error)
+            }
         }
     }
 
