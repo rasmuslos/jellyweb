@@ -12,7 +12,7 @@ export const getMediaData = (item: Item, update: boolean = false) => {
 
     if(update) {
         activeAudioTrack.set(mediaSource.DefaultAudioStreamIndex)
-        activeSubtitleTrack.set(mediaSource.DefaultSubtitleStreamIndex)
+        activeSubtitleTrack.set(mediaSource.DefaultSubtitleStreamIndex || -1)
     }
 
     let audioStreams = mediaSource.MediaStreams.filter(stream => stream.Type === "Audio")
