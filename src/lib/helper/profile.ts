@@ -1,8 +1,14 @@
 import {browser} from "$app/env";
 import {getBrowserName} from "$lib/helper/utils";
 
+/**
+ * God is dead - and we killed him
+ */
+
 const canPlay = (element: HTMLVideoElement, type: string, codec: string) => !!(element.canPlayType && element.canPlayType(`${type}; codecs="${codec}"`).replace(/no/, ''))
 const canPlayType = (element: HTMLVideoElement, type: string) => !!(element.canPlayType && element.canPlayType(type).replace(/no/, ''))
+
+const canPlayMkv = (element: HTMLVideoElement) => canPlayType(element, "video/x-matroska") || canPlayType(element, "video/mkv")
 
 const hasWebMVideoSupport = (element: HTMLVideoElement, codec) => canPlay(element, "video/webm", codec)
 const getWebMVideosCodecs = (element: HTMLVideoElement): string[] => {
@@ -57,12 +63,68 @@ const getMP4AudioCodecs = (element: HTMLVideoElement): string[] => {
     return codec
 }
 
+const createCodecCondition = (Property: string, Condition: string, Value: string, IsRequired = false) => { return { Property, Condition, Value, IsRequired } }
+const getAacConditions = (element: HTMLVideoElement) => {
+    const conditions = [];
+
+    if(!canPlay(element, "video/mp4", "avc1.640029, mp4a.40.5")) conditions.push(createCodecCondition("AudioProfile", "NotEquals", "HE-AAC"))
+    conditions.push(createCodecCondition("IsSecondaryAudio", "Equals", "false"))
+
+    return conditions
+}
+
+const canPlayNativeHls = (element: HTMLVideoElement) => canPlayType(element, "application/x-mpegURL") || canPlayType(element, "application/vnd.apple.mpegURL")
+const getSupportedFmp4VideoCodecs = (element: HTMLVideoElement) => {
+    let codec = []
+
+    if(hasHevcSupport(element)) codec.push("hevc")
+    if(hasH264Support(element)) codec.push("h264")
+
+    return codec
+}
+const getSupportedFmp4AudioCodecs = (element: HTMLVideoElement) => {
+    let codec = []
+
+    if(canPlay(element, "video/mp4", "avc1.640029, mp4a.40.2")) codec.push("aac")
+    if(canPlay(element, "video/mp4", "avc1.640029, mp4a.69") || canPlay(element, "video/mp4", "avc1.640029, mp4a.6B") || canPlay(element, "video/mp4", "avc1.640029, mp3")) codec.push("mp3")
+    if(canPlay(element, "video/mp4", "ac-3")) {
+        codec.push("ac3")
+        if(canPlay(element, "video/mp4", "ec-3")) codec.push("eac3")
+    }
+    if(getBrowserName() === "Safari") codec.push('alac')
+
+    return codec
+}
+const getSupportedTsVideoCodecs = (element: HTMLVideoElement) => {
+    const codecs = []
+
+    if(hasH264Support(element)) codecs.push('h264')
+
+    return codecs
+}
+const getSupportedTsAudioCodecs = (element: HTMLVideoElement) => {
+    let codec = []
+
+    if(canPlay(element, "video/mp4", "avc1.640029, mp4a.40.2")) codec.push("aac")
+    if(canPlay(element, "video/mp4", "avc1.640029, mp4a.69") || canPlay(element, "video/mp4", "avc1.640029, mp4a.6B") || canPlay(element, "video/mp4", "avc1.640029, mp3")) codec.push("mp3")
+    if(canPlay(element, "video/mp4", "ac-3")) {
+        codec.push("ac3")
+        if(canPlay(element, "video/mp4", "ec-3")) codec.push("eac3")
+    }
+
+    return codec
+}
+
 export const getDeviceProfile = (bitrate) => {
     if(!browser) return
 
     const video = document.createElement("video")
 
     let direct = []
+    let codec = []
+    let transcode = []
+
+    // Direct
 
     const webMVideoCodecs = getWebMVideosCodecs(video)
     const webMAudioCodecs = getWebMAudioCodecs(video)
@@ -82,30 +144,154 @@ export const getDeviceProfile = (bitrate) => {
             VideoCodec: mp4VideoCodecs.join(","),
             AudioCodec: mp4AudioCodecs.join(","),
         })
-    if(mp4VideoCodecs.length && canPlayType(video, "video/x-matroska") || canPlayType(video, "video/mkv")) direct.push({
+    if(mp4VideoCodecs.length && canPlayMkv(video)) direct.push({
         Container: "mkv",
         Type: "Video",
         VideoCodec: mp4VideoCodecs.join(","),
         AudioCodec: mp4AudioCodecs.join(","),
     })
 
+    // Codec
+
+    const aacProfileConditions = getAacConditions(video)
+    codec.push({ Type: "VideoAudio", Conditions: [createCodecCondition("IsSecondaryAudio", "Equals", "false")] })
+    if(aacProfileConditions.length > 0) codec.push({ Type: "VideoAudio", Codec: "aac", Conditions: aacProfileConditions })
+
+    let maxH264Level = 42
+    let h264Profiles = "high|main|baseline|constrained baseline"
+
+    if(canPlay(video, "video/mp4", "avc1.640833")) maxH264Level = 51
+    if(canPlay(video, "video/mp4", "avc1.640834")) maxH264Level = 52
+
+    let maxHevcLevel = 120
+    let hevcProfiles = "main"
+
+    if(canPlay(video, "video/mp4", "hvc1.1.4.L123")) maxHevcLevel = 123
+    if(canPlay(video, "video/mp4", "hev1.2.4.L123")) {
+        maxHevcLevel = 123
+        hevcProfiles = 'main|main 10'
+    }
+    if(canPlay(video, "video/mp4", "hev1.2.4.L153")) {
+        maxHevcLevel = 153
+        hevcProfiles = 'main|main 10'
+    }
+    if(canPlay(video, "video/mp4", "hev1.2.4.L183")) {
+        maxHevcLevel = 183
+        hevcProfiles = 'main|main 10'
+    }
+
+    const hevcConditions = [
+        createCodecCondition("IsAnamorphic", "NotEquals", "true"),
+        createCodecCondition("VideoProfile", "EqualsAny", hevcProfiles),
+        createCodecCondition("VideoLevel", "LessThanEqual", maxHevcLevel.toString()),
+        createCodecCondition("IsInterlaced", "NotEquals", "true"),
+        createCodecCondition("VideoBitrate", "LessThanEqual", bitrate.toString(), true),
+    ]
+    const h264Conditions = [
+        createCodecCondition("IsAnamorphic", "NotEquals", "true"),
+        createCodecCondition("VideoProfile", "EqualsAny", h264Profiles),
+        createCodecCondition("VideoLevel", "LessThanEqual", maxH264Level.toString()),
+        createCodecCondition("IsInterlaced", "NotEquals", "true"),
+        createCodecCondition("VideoBitrate", "LessThanEqual", bitrate.toString(), true),
+    ]
+
+    codec.push({
+        Type: "Video",
+        Codec: "h264",
+        Conditions: h264Conditions,
+    })
+    codec.push({
+        Type: "Video",
+        Codec: "hevc",
+        Conditions: hevcConditions,
+    })
+
+    // Transcoding
+    const hlsBreakOnNonKeyFrames = getBrowserName() === "Safari" || !canPlayNativeHls(video)
+    const canPlayHls = canPlayNativeHls(video) || window.MediaSource
+
+    if(canPlayHls) {
+        transcode.push({
+            Container: canPlayNativeHls(video) ? "aac" : "ts",
+            Type: "Audio",
+            AudioCodec: "aac",
+            Context: "Streaming",
+            Protocol: "hls",
+            MaxAudioChannels: 2,
+            MinSegments: getBrowserName() === "Safari" ? 2 : 1,
+            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+        })
+    }
+
+    const hlsInFmp4VideoCodecs = getSupportedFmp4VideoCodecs(video)
+    const hlsInFmp4AudioCodecs = getSupportedFmp4AudioCodecs(video)
+    const hlsInTsVideoCodecs = getSupportedTsVideoCodecs(video)
+    const hlsInTsAudioCodecs = getSupportedTsAudioCodecs(video)
+
+    if(canPlayHls) {
+        if(hlsInFmp4VideoCodecs.length > 0 && hlsInFmp4AudioCodecs.length > 0) transcode.push({
+            Container: "mp4",
+            Type: "Video",
+            AudioCodec: hlsInFmp4AudioCodecs.join(","),
+            VideoCodec: hlsInFmp4VideoCodecs.join(","),
+            Context: "Streaming",
+            Protocol: "hls",
+            MaxAudioChannels: 2,
+            MinSegments: getBrowserName() === "Safari" ? 2 : 1,
+            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+        })
+        if(hlsInTsVideoCodecs.length > 0 && hlsInTsAudioCodecs.length > 0) transcode.push({
+            Container: "ts",
+            Type: "Video",
+            AudioCodec: hlsInTsAudioCodecs.join(","),
+            VideoCodec: hlsInTsVideoCodecs.join(","),
+            Context: "Streaming",
+            Protocol: "hls",
+            MaxAudioChannels: 2,
+            MinSegments: getBrowserName() === "Safari" ? 2 : 1,
+            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+        })
+    }
+    if(canPlayMkv(video)) {
+        transcode.push({
+            Container: "mkv",
+            Type: "Video",
+            AudioCodec: mp4AudioCodecs.join(","),
+            VideoCodec: mp4VideoCodecs.join(","),
+            Context: "Streaming",
+            MaxAudioChannels: 2,
+            CopyTimestamps: true,
+        })
+    }
+    if(hasWebMVideoSupport(video, "vp8")) {
+        transcode.push({
+            Container: "webm",
+            Type: "Video",
+            AudioCodec: "vorbis",
+            VideoCodec: "vpx",
+            Context: "Streaming",
+            Protocol: "http",
+            MaxAudioChannels: 2,
+        })
+    }
+
     return {
         MaxStreamingBitrate: bitrate,
         MaxStaticBitrate: bitrate,
 
         DirectPlayProfiles: direct,
-        "TranscodingProfiles":[{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Streaming","Protocol":"hls","MaxAudioChannels":"6","MinSegments":"2","BreakOnNonKeyFrames":true},{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp3","Type":"Audio","AudioCodec":"mp3","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"wav","Type":"Audio","AudioCodec":"wav","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp3","Type":"Audio","AudioCodec":"mp3","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"aac","Type":"Audio","AudioCodec":"aac","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"wav","Type":"Audio","AudioCodec":"wav","Context":"Static","Protocol":"http","MaxAudioChannels":"6"},{"Container":"ts","Type":"Video","AudioCodec":"aac,mp3,ac3,eac3","VideoCodec":"h264","Context":"Streaming","Protocol":"hls","MaxAudioChannels":"6","MinSegments":"2","BreakOnNonKeyFrames":true},{"Container":"webm","Type":"Video","AudioCodec":"vorbis","VideoCodec":"vpx","Context":"Streaming","Protocol":"http","MaxAudioChannels":"6"},{"Container":"mp4","Type":"Video","AudioCodec":"aac,mp3,ac3,eac3,flac,alac,vorbis","VideoCodec":"h264","Context":"Static","Protocol":"http"}],
-        "CodecProfiles":[{"Type":"Video","Codec":"h264","Conditions":[{"Condition":"NotEquals","Property":"IsAnamorphic","Value":"true","IsRequired":false},{"Condition":"EqualsAny","Property":"VideoProfile","Value":"high|main|baseline|constrained baseline","IsRequired":false},{"Condition":"LessThanEqual","Property":"VideoLevel","Value":"51","IsRequired":false},{"Condition":"NotEquals","Property":"IsInterlaced","Value":"true","IsRequired":false}]},{"Type":"Video","Codec":"hevc","Conditions":[{"Condition":"NotEquals","Property":"IsAnamorphic","Value":"true","IsRequired":false},{"Condition":"EqualsAny","Property":"VideoProfile","Value":"main|main 10","IsRequired":false},{"Condition":"LessThanEqual","Property":"VideoLevel","Value":"183","IsRequired":false},{"Condition":"NotEquals","Property":"IsInterlaced","Value":"true","IsRequired":false}]}],
+        TranscodingProfiles: transcode,
+        CodecProfiles: codec,
 
-        "ResponseProfiles":[
+        ResponseProfiles:[
             {
                 "Type":"Video",
                 "Container":"m4v",
                 "MimeType":"video/mp4"
             }
         ],
-        "ContainerProfiles":[],
-        "SubtitleProfiles": [
+        ContainerProfiles:[],
+        SubtitleProfiles: [
             {
                 "Format": "vtt",
                 "Method": "External"

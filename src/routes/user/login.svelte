@@ -52,7 +52,7 @@
     let error: string = null
 
     onMount(() => {
-        secure = window.location.protocol === "https"
+        secure = window.location.protocol === "https:"
     })
     const handleLogin = async () => {
         if(server.trim() === "" || username.trim() === "") return error = "Please provide a server and a username"
