@@ -24,7 +24,7 @@
 <script lang="ts">
     import Settings from "../components/sections/Settings.svelte";
 
-    export let me: User
+    // export let me: User
 </script>
 
 <svelte:head>

@@ -117,7 +117,7 @@
     div.wrapper:hover, div.wrapper.expanded {
         height: auto;
     }
-    div.wrapper:hover div.holder, div.wrapper div.holder.expanded {
+    div.wrapper:hover div.holder, div.wrapper.expanded div.holder {
         height: auto;
     }
 </style>
