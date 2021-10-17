@@ -287,3 +287,10 @@ export type ProgressSegment = {
     start: number,
     end: number,
 }
+
+export type SubtitleSegment = {
+    "Id": string,
+    "Text": string,
+    "StartPositionTicks": number,
+    "EndPositionTicks": number
+}

@@ -105,6 +105,19 @@ export const getDeviceProfile = (bitrate) => {
             }
         ],
         "ContainerProfiles":[],
-        "SubtitleProfiles": [],
+        "SubtitleProfiles": [
+            {
+                "Format": "vtt",
+                "Method": "External"
+            },
+            {
+                "Format": "ass",
+                "Method": "External"
+            },
+            {
+                "Format": "ssa",
+                "Method": "External"
+            }
+        ],
     }
 }

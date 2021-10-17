@@ -46,6 +46,7 @@
     import Debug from "../../components/player/Debug.svelte";
     import {goto} from "$app/navigation";
     import Info from "../../components/player/Info.svelte";
+    import {SubtitleSegment} from "$lib/typings";
 
     export let item: Item
     let returnUrl: string = "/"
@@ -56,6 +57,10 @@
     let showDebugStats: boolean = dev
 
     let waiting: boolean = false
+
+    let subtitleData: SubtitleSegment[]
+    let subtitleInterval
+    let displaySubtitle: string
 
     // binds
     let playerHolder
@@ -92,6 +97,10 @@
 
         actualBitrate = $bitrate <= $maxBitrate ? $bitrate : $maxBitrate
 
+        displaySubtitle = null
+        subtitleData = null
+        clearInterval(subtitleInterval)
+
         // 1 tick = 10.000
         const ticks = Math.round(currentTime * (1000 * 10000))
         const startAt = src ? ticks : new URLSearchParams(window.location.search).get("start") as number ?? 0
@@ -118,11 +127,17 @@
 
         if(source == null) return
 
-        if(source.TranscodingUrl) src = `${$session.active.server}${response.MediaSources[0].TranscodingUrl}`
+        if(source.TranscodingUrl) src = `${$session.active.server}${source.TranscodingUrl}`
         else src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
 
         currentTime = startAt / (1000 * 10000)
         src += `#t=${currentTime}`
+
+        const subtitleTrack = source.MediaStreams.find(item => item.Index === $activeSubtitleTrack)
+        if(subtitleTrack && subtitleTrack.DeliveryMethod === "External") {
+            fetch(`${$session.active.server}${subtitleTrack.DeliveryUrl.replace("Stream.vtt", "Stream.js")}`).then(response => response.json()).then((data: { TrackEvents: SubtitleSegment[] }) => subtitleData = data.TrackEvents).catch(error => console.error("Failed to load subtitle data", error))
+            subtitleInterval = setInterval(updateSubtitles, 100)
+        }
 
         setMediaSession()
 
@@ -220,6 +235,21 @@
             navigator.mediaSession.setActionHandler("seekto", ({ seekTime }) => seekTime && (currentTime = seekTime))
         }
     }
+    const updateSubtitles = () => {
+        if(!subtitleData) return
+        let now = currentTime * 1000 * 10000
+        let found = false
+
+        for(let subtitle of subtitleData) {
+            if(subtitle.StartPositionTicks < now && subtitle.EndPositionTicks > now) {
+                displaySubtitle = subtitle.Text
+                found = true
+                break
+            }
+        }
+
+        if(!found) displaySubtitle = null
+    }
 
     $: {
         if(browser && "mediaSession" in navigator) {
@@ -276,6 +306,8 @@
     onDestroy(() => {
         if(liveStreamId) stopPlayback(liveStreamId)
         if(reportInterval) clearInterval(reportInterval)
+
+        clearInterval(subtitleInterval)
 
         mediaSourceUnsubscribe()
         audioTrackUnsubscribe()
@@ -358,6 +390,20 @@
     span.waiting :global(svg) {
         animation: spin 3s infinite;
     }
+
+    div.subtitles {
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        padding: 5px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.4);
+
+        /* TODO: Allow users to customise this */
+        font-size: 30px;
+    }
 </style>
 
 <div class="player" bind:this={playerHolder}>
@@ -373,6 +419,9 @@
     <span class="icon paused" class:show={paused && !waiting} on:click={togglePaused}>{@html icons["pause"].toSvg({ height: 50, width: 50 })}</span>
     <span class="icon waiting" class:show={waiting} on:click={togglePaused}>{@html icons["loader"].toSvg({ height: 50, width: 50 })}</span>
 
+    {#if displaySubtitle}
+        <div class="subtitles">{displaySubtitle}</div>
+    {/if}
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}
             on:seek={({detail}) => seek(detail)} on:show={displayControls} on:pause={togglePaused} on:fullscreen={toggleFullscreen} on:pip={togglePiP} />
