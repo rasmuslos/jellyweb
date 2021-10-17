@@ -3,8 +3,7 @@ A modern looking web client for Jellyfin written in svelte
 
 ## Install
 ### Docker run:
-1. `docker run -p 7575:80 -e COOKIE_SECRET=change_me ghcr.io/rasmuslos/jellyweb`
-2. Go to [localhost:7575](http://localhost:7575)
+`docker run -p 7575:80 -e COOKIE_SECRET=change_me ghcr.io/rasmuslos/jellyweb`
 
 ### Docker Compose:
 ```yml
@@ -12,9 +11,13 @@ A modern looking web client for Jellyfin written in svelte
     name: "Jellyweb"
     image: ghcr.io/rasmuslos/jellyweb:latest
     restart: "unless-stopped"
+    ports:
+      - "7575:80"
     environment:
       - COOKIE_SECRET=change_me
 ```
+\
+Then visit [localhost:7575](http://localhost:7575)
 
 ## Environment variables
 `COOKIE_SECRET` **required** Secret used to encrypt session data \
