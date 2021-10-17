@@ -26,7 +26,7 @@ export const unlikeItem = (session: JellyfinSession, itemId: string) => createRe
 export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
 export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)
 export const searchByPerson = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items?personIds=${itemId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=Movie,Series`, session)
-export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&${fields}`, session)
+export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${fields}`, session)
 export const getSimilarItems = (session: JellyfinSession, itemId: string) => createRequest(`Items/${itemId}/Similar?limit=7`, session)
 
 export const getRandomItem = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie,Series`, session)
