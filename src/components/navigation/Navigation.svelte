@@ -82,7 +82,7 @@
         background-position: 50%;
 
         border-radius: 50%;
-        background-color: var(--background-light);
+        background-color: var(--background-secondary);
 
         height: 35px;
         width: 35px;
