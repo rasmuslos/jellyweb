@@ -73,7 +73,7 @@ const getAacConditions = (element: HTMLVideoElement) => {
     return conditions
 }
 
-const canPlayNativeHls = (element: HTMLVideoElement) => canPlayType(element, "application/x-mpegURL") || canPlayType(element, "application/vnd.apple.mpegURL")
+const canPlayNativeHls = (element: HTMLVideoElement) => canPlayType(element, "application/x-mpegURL") || (canPlayType(element, "application/vnd.apple.mpegURL") && getBrowserName() === "Safari")
 const getSupportedFmp4VideoCodecs = (element: HTMLVideoElement) => {
     let codec = []
 
