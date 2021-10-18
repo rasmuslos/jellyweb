@@ -5,13 +5,15 @@ import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings";
  * I know that this isn't the best way to build an api. But i dont care
  * */
 
-const includeFilter = "includeItemTypes=Movie,Episode"
+const includeFilterEpisode = "includeItemTypes=Movie,Episode"
+const includeFilterSeries = "includeItemTypes=Movie,Series"
+const includeFilterBoth = "includeItemTypes=Movie,Episode,Series"
 const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,ParentBackdropImageTags,Taglines`
 
 export const authoriseUserByName = (server, username, password, deviceId, name) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null, name }, "POST", JSON.stringify({ "Username": username, "Pw": password }))
 
-export const resume = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Resume?${includeFilter}&${fields}`, session)
-export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&${includeFilter}&${fields}`, session)
+export const resume = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Resume?${includeFilterEpisode}&${fields}`, session)
+export const nextUp = (session: JellyfinSession) => createRequest(`Shows/NextUp?userId=${session.userId}&${includeFilterEpisode}&${fields}`, session)
 
 export const genres = (session: JellyfinSession) => createRequest("Genres", session)
 export const me = (session: JellyfinSession) => createRequest("Users/Me", session)
@@ -26,12 +28,12 @@ export const unlikeItem = (session: JellyfinSession, itemId: string) => createRe
 export const getItem = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items/${itemId}`, session)
 export const getSeasons = (session: JellyfinSession, itemId: string) => createRequest(`Shows/${itemId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)
 export const searchByPerson = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/Items?personIds=${itemId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=Movie,Series`, session)
-export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${fields}`, session)
-export const getSimilarItems = (session: JellyfinSession, itemId: string) => createRequest(`Items/${itemId}/Similar?limit=7`, session)
+export const getEpisodesOfSeason = (session: JellyfinSession, seriesId: string, seasonId: string) => createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${includeFilterBoth}&${fields}`, session)
+export const getSimilarItems = (session: JellyfinSession, itemId: string) => createRequest(`Items/${itemId}/Similar?limit=7&${includeFilterBoth}`, session)
 
-export const getRandomItem = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie,Series`, session)
+export const getRandomItem = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${includeFilterSeries}&${fields}`, session)
 export const bestRated = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items?SortBy=CommunityRating&Limit=15&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie&sortOrder=Descending`, session)
-export const getRecommendations = (session: JellyfinSession) => createRequest(`Movies/Recommendations?Limit=15&${fields}&userId=${session.userId}`, session)
+export const getRecommendations = (session: JellyfinSession) => createRequest(`Movies/Recommendations?Limit=15&${fields}&${includeFilterSeries}&userId=${session.userId}`, session)
 
 export const getDevice = (session: JellyfinSession) => createRequest(`Devices/Info?id=${session.deviceId}`, session)
 export const getDisplayPreferences = (session: JellyfinSession) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session)
@@ -39,7 +41,7 @@ export const updateDisplayPreferences = (session: JellyfinSession, preferences: 
 
 export const nextUpEpisode = (session: JellyfinSession, itemId: string) => createRequest(`Shows/NextUp?userId=${session.userId}&limit=1&seriesId=${itemId}&${fields}`, session)
 
-export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) => createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&IncludeMedia=true&includePeople=true&${query}`, session)
+export const getItemsBasedOnQuery = (session: JellyfinSession, query: string) => createRequest(`Users/${session.userId}/Items?includeGenres=true&$Recursive=true&EnableTotalRecordCount=false&IncludeMedia=true&includePeople=true&${query}`, session)
 export const getLatest = (session: JellyfinSession) => createRequest(`Users/${session.userId}/Items/Latest?Limit=25&${fields}`, session)
 
 export const getBoxSets = (session: JellyfinSession) => createRequest("Library/VirtualFolders", session)
