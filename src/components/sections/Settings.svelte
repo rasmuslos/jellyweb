@@ -3,7 +3,7 @@
     import OptionGroup from "../helper/OptionGroup.svelte";
     import type {Option} from "$lib/typings";
     import GenericButton from "../input/GenericButton.svelte";
-    import {blurBackdropImages, deletePreferences, showHeroImages, updatePreference} from "$lib/helper";
+    import {scrimBackdropImages, deletePreferences, showHeroImages, updatePreference} from "$lib/helper";
     import Wave from "./Wave.svelte";
 
     const imageOptions: Option[] = [
@@ -14,10 +14,10 @@
             identifier: "images.hero",
         },
         {
-            title: "Blur hero images",
+            title: "Scrim hero images",
             description: "Make text more readable but reduce vibrant colors",
-            checked: $blurBackdropImages,
-            identifier: "images.blur",
+            checked: $scrimBackdropImages,
+            identifier: "images.scrim",
         },
     ]
 </script>
