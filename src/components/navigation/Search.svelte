@@ -62,7 +62,7 @@
 
 <div class="desktop" class:dark={$noPadding} on:click={toggleSearch}>
     <span>Search</span>
-    <span class="key">{getOS() === "Mac OS" ? "&#8984;" : "ctrl + "}K</span>
+    <span class="key">{@html getOS() === "Mac OS" ? "&#8984;" : "ctrl + "}K</span>
 </div>
 <a class="mobile" href="/search">
     {@html icons.search.toSvg()}

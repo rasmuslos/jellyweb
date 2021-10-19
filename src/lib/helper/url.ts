@@ -10,7 +10,7 @@ export const generateImageUrlIndex = (id: string, tag: string, index: number, ty
     `${jellyfinSession ? jellyfinSession.server : get(session).active.server}/${scope}/${id}/Images/${type}/${index}?tag=${tag}&quality=90${maxWidth !== null ? `&fillWidth=${maxWidth}` : ""}${maxHeight !== null ? `&fillHeight=${maxHeight}` : ""}`
 const getRandomBackdrop = (id: string, tags: string[]) => {
     const index = Math.floor(Math.random() * (tags.length - 1))
-
+    
     return generateImageUrlIndex(id, tags[index], index, "Backdrop")
 }
 export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags }: Item) => {

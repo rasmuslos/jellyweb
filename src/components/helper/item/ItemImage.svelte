@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl, getIconByType} from "$lib/helper";
+    import {generateImageUrl, getIconByType, getLargeBackdrop} from "$lib/helper";
     import {icons} from "feather-icons";
     import Item from "../../navigation/Item.svelte";
 
@@ -12,14 +12,12 @@
     export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
     export let url =
         wide
-            ? item.Type === "Episode" && item.SeriesId && item.SeriesPrimaryImageTag && item.SeriesPrimaryImageTag.length > 0
-            ? generateImageUrl(item.SeriesId, item.SeriesPrimaryImageTag[0], `Backdrop`, 300)
-            : item.BackdropImageTags && item.BackdropImageTags.length > 0
-            ? generateImageUrl(item.Id, item.BackdropImageTags[0], "Backdrop", 300)
-            : null
+            ? getLargeBackdrop(item)
             : item.ImageTags && item.ImageTags.Primary
             ? generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)
             : null
+
+    console.log(url)
 </script>
 
 <style>
