@@ -31,13 +31,24 @@
         overflow: hidden;
 
         width: 200px;
+        height: 300px;
     }
     div.holder.wide {
         width: 300px;
+        height: 170px;
     }
 
-    img {
-        display: block;
+    div.image {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        width: 100%;
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
     div.overlay {
         position: absolute;
@@ -91,7 +102,7 @@
 
 <div class="holder" class:wide on:click>
     {#if url != null}
-        <img src={url} alt="Movie Poster">
+        <div class="image" style="background-image: url('{url}')"></div>
     {/if}
     <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
     <div class="overlay"></div>

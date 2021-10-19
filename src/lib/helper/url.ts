@@ -11,8 +11,6 @@ export const generateImageUrlIndex = (id: string, tag: string, index: number, ty
 const getRandomBackdrop = (id: string, tags: string[]) => {
     const index = Math.floor(Math.random() * (tags.length - 1))
 
-    console.log(index, tags[index], generateImageUrlIndex(id, tags[index], index, "Backdrop"))
-
     return generateImageUrlIndex(id, tags[index], index, "Backdrop")
 }
 export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags }: Item) => {
