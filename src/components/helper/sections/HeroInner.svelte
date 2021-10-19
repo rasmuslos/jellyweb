@@ -209,7 +209,7 @@
                 } : {})}</span>
             {/key}
             {#if includeMoreButton}
-                <a class="action" href={generateItemUrl(item.Id)}>{@html icons["external-link"].toSvg()}</a>
+                <a class="action" href={generateItemUrl(item.Id)}>{@html icons["info"].toSvg()}</a>
             {/if}
         </div>
     </div>
