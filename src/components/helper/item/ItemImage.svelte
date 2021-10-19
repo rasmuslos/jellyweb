@@ -16,8 +16,6 @@
             : item.ImageTags && item.ImageTags.Primary
             ? generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)
             : null
-
-    console.log(url)
 </script>
 
 <style>
