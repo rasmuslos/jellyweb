@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl} from "$lib/helper";
+    import {generateImageUrl, getIconByType} from "$lib/helper";
     import {icons} from "feather-icons";
     import Item from "../../navigation/Item.svelte";
 
@@ -30,6 +30,8 @@
         border-radius: 10px;
         overflow: hidden;
 
+        background-color: var(--background-secondary);
+
         width: 200px;
         height: 300px;
     }
@@ -50,6 +52,19 @@
         background-position: center;
         background-size: cover;
     }
+    div.holder .type {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(2);
+
+        height: 24px;
+        width: 24px;
+    }
+    div:hover .type {
+        display: none;
+    }
+
     div.overlay {
         position: absolute;
         top: 0;
@@ -103,6 +118,10 @@
 <div class="holder" class:wide on:click>
     {#if url != null}
         <div class="image" style="background-image: url('{url}')"></div>
+    {:else}
+        <div class="type">
+            {@html getIconByType(item)}
+        </div>
     {/if}
     <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
     <div class="overlay"></div>
