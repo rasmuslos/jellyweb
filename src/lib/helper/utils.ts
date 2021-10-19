@@ -2,6 +2,7 @@ import type {Item, JellyfinSession} from "$lib/typings";
 import {icons} from "feather-icons";
 import {testBitrate} from "$lib/api/jellyfin";
 import {bitrate} from "$lib/stores";
+import {browser} from "$app/env";
 
 export const getIconByType = ({ Type }: Item) => {
     let icon = "alert-triangle"
@@ -68,4 +69,24 @@ export const getBrowserName = () => {
     // @ts-ignore
     else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) return "IE"
     else return "Unknown"
-} 
+}
+
+type osTypes = "Mac OS" | "iOS" | "Windows" | "Android" | "Linux" | "unknown"
+export const getOS = (): osTypes => {
+    if(!browser) return "unknown"
+
+    const userAgent = window.navigator.userAgent,
+        platform = window.navigator.platform,
+        macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
+        windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
+        iosPlatforms = ["iPhone", "iPad", "iPod"]
+    let os: osTypes = "unknown"
+
+    if(macosPlatforms.indexOf(platform) !== -1) os = "Mac OS"
+    else if(iosPlatforms.indexOf(platform) !== -1) os = "iOS"
+    else if(windowsPlatforms.indexOf(platform) !== -1) os = "Windows"
+    else if(/Android/.test(userAgent)) os = "Android"
+    else if(/Linux/.test(platform)) os = "Linux"
+
+    return os
+}

@@ -2,6 +2,7 @@
     import {icons} from "feather-icons";
     import {modal, noPadding} from "$lib/stores";
     import SearchOverlay from "../helper/search/SearchOverlay.svelte";
+    import {getOS} from "$lib/helper";
 
     const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
     const handleGlobalKeydown = (event: KeyboardEvent) => {
@@ -61,7 +62,7 @@
 
 <div class="desktop" class:dark={$noPadding} on:click={toggleSearch}>
     <span>Search</span>
-    <span class="key">&#8984;K</span>
+    <span class="key">{getOS() === "Mac OS" ? "&#8984;" : "ctrl + "}K</span>
 </div>
 <a class="mobile" href="/search">
     {@html icons.search.toSvg()}
