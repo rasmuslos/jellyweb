@@ -18,7 +18,11 @@ export async function get({ locals }) {
            await Promise.all([resume(session), nextUp(session), genres(session), getRandomItem(session), bestRated(session), getRecommendations(session), getLatest(session)])
 
        const recommended = []
-       recommendations.forEach(recommendation => recommended.push(...recommendation.Items))
+       recommendations.forEach(recommendation => {
+           recommendation.Items.forEach(item => {
+               if(!item.UserData || (item.UserData && (item.UserData.Played == false || item.UserData.PlayedPercentage == 100))) recommended.push(item)
+           })
+       })
 
        return createApiResponse(true, {
            resume: resumeItems.Items,
@@ -30,6 +34,6 @@ export async function get({ locals }) {
            latest,
        })
    } catch(error) {
-        return handleError(error)
+       return handleError(error)
    }
 }
