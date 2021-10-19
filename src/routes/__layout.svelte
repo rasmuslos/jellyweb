@@ -85,7 +85,7 @@
     }
     div.light {
         --background: #D8DEE9;
-        --background-light: #D8DEE9;
+        --background-light: #E5E9F0;
         --background-secondary: #E5E9F0;
 
         --text: #2E3440;

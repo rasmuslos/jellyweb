@@ -149,6 +149,10 @@
             margin-bottom: 100px;
         }
     }
+
+    h1, span, p {
+        text-shadow: 0 0 20px black;
+    }
 </style>
 
 <div class="inner" class:reduceOffset class:noImage>
