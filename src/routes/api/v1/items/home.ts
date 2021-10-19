@@ -8,7 +8,7 @@ import {
     nextUp,
     resume
 } from "$lib/api/jellyfin"
-import {createApiError, createApiResponse} from "$lib/apiHelper";
+import {createApiResponse} from "$lib/apiHelper";
 import {shuffleArray} from "$lib/helper";
 
 export async function get({ locals }) {
