@@ -38,15 +38,24 @@
             query: "Runtime",
         },
     }
-    const Order = ["Ascending", "Descending"]
+    const Order = {
+        ascending: {
+            title: "Ascending",
+            query: "ascending",
+        },
+        descending: {
+            title: "Descending",
+            query: "descending",
+        },
+    }
 
     let sort: SortItem = Sort.SORT_NAME
-    let order: string = Order[0]
+    let order: SortItem = Order.ascending
 
     let expanded: boolean = false
 
     export let sortQuery
-    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}${value !== "" ? `&searchTerm=${value}` : ""}`
+    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order.query}${value !== "" ? `&searchTerm=${value}` : ""}`
 </script>
 
 <style>
@@ -128,15 +137,15 @@
             <input placeholder="Search" bind:value type="text" />
             <div class="holder" on:click={() => expanded = !expanded}>
                 <div class="preview">Sort by&#160;<span>{sort.title}</span></div>
-                <div class="preview">Order by&#160;<span>{order}</span></div>
+                <div class="preview">Order by&#160;<span>{order.title}</span></div>
                 <div class="content">
                     {#each Object.values(Sort) as item}
                         <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
                     {/each}
                 </div>
                 <div class="content">
-                    {#each Order as item}
-                        <div on:click={() => order = item} class:selected={item === order} class="item">{item}</div>
+                    {#each Object.values(Order) as item}
+                        <div on:click={() => order = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
                     {/each}
                 </div>
             </div>
