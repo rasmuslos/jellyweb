@@ -3,6 +3,7 @@
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {generateImageUrl, generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
+    import {t} from "$lib/i18n";
 
     export let persons: Item[]
 </script>
@@ -70,9 +71,9 @@
 
 <section>
     <ApplyWidth>
-        <h1>Actors</h1>
+        <h1>{$t("actors")}</h1>
         {#if !persons || persons.length === 0}
-            <h3>No Actors</h3>
+            <h3>{$t("no_actors")}</h3>
         {:else}
             <div class="holder">
                 {#each persons as person}

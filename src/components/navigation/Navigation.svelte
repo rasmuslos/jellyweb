@@ -5,16 +5,17 @@
     import Search from "./Search.svelte";
     import {generateImageUrl, lightMode, updatePreference} from "$lib/helper";
     import {icons} from "feather-icons";
-
+    import { t, locale, locales } from "$lib/i18n";
+    
     export let me: User
 
     let itemsHolder
     let expanded = false
     const items: NavigationItem[] = [
-        { title: "Home", href: "/", regex: "^\/$" },
-        { title: "Movies", href: "/library/movies", regex: "^\/?library\/movies\/?.*$" },
-        { title: "Series", href: "/library/series", regex: "^\/?library\/series\/?.*$" },
-        { title: "Genres", href: "/genres", regex: "^\/?genres\/?.*$" },
+        { title: $t("nav.home"), href: "/", regex: "^\/$" },
+        { title: $t("nav.movies"), href: "/library/movies", regex: "^\/?library\/movies\/?.*$" },
+        { title: $t("nav.series"), href: "/library/series", regex: "^\/?library\/series\/?.*$" },
+        { title: $t("nav.genres"), href: "/genres", regex: "^\/?genres\/?.*$" },
     ]
 
     $: {
@@ -162,6 +163,11 @@
         </div>
         <div class="holder">
             <Search />
+            <select bind:value={$locale}>
+                {#each locales as l}
+                  <option value={l}>{l}</option>
+                {/each}
+              </select>
             <div class="icon" on:click={() => updatePreference("theme", $lightMode ? "dark" : "light")}>{@html icons[$lightMode ? "moon" : "sun"].toSvg({ height: 20, width: 20 })}</div>
             <div class="toggle" class:expanded on:click={() => expanded = !expanded}>{@html icons["arrow-down"].toSvg()}</div>
             <a href="/user" class="user">
