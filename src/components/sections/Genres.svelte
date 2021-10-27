@@ -2,6 +2,7 @@
     import type {Item} from "$lib/typings";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {generateItemUrl} from "$lib/helper";
+    import {t} from "$lib/i18n";
 
     export let genres: Item[]
     export let big: boolean = false
@@ -90,7 +91,7 @@
 <section>
     <ApplyWidth>
         {#if !big}
-            <h1>Genres</h1>
+            <h1>{$t("nav.genres")}</h1>
         {/if}
         <div class="holder" class:big>
             {#each genres as genre, i}

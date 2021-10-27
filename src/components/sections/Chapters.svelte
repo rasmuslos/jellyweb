@@ -5,6 +5,7 @@
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
     import {createEventDispatcher} from "svelte";
+    import {t} from "$lib/i18n";
 
     export let itemId: string
     export let chapters: Chapter[] = []
@@ -48,9 +49,9 @@
 
 <section>
     <ApplyWidth>
-        <h1>Chapters</h1>
+        <h1>{$t("chapters")}</h1>
         {#if !chapters || chapters.length === 0}
-            <h3>No Chapters</h3>
+            <h3>{$t("no_chapters")}</h3>
             {:else}
             <div class="holder">
                 {#each chapters as chapter, index}

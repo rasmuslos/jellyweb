@@ -1,6 +1,7 @@
 <script lang="ts">
     import {goto} from "$app/navigation";
     import {generatePlayerUrl} from "$lib/helper";
+    import {t} from "$lib/i18n";
 
     export let itemId: string
     export let position: number = 0
@@ -26,5 +27,5 @@
 </style>
 
 <button on:click={() => goto(generatePlayerUrl(itemId, position))}>
-    Watch now
+    {$t("button.watch_now")}
 </button>

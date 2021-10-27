@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
     import {getItem, setFetcher} from "$lib/api/internal";
+    import {t} from "$lib/i18n";
 
     export async function load({ fetch, page }) {
         const { id } = page.params
@@ -61,11 +62,11 @@
 {/if}
 
 {#if nextUp}
-    <Hero item={nextUp} tip="Next up" includeMoreButton={false} reduceOffset hideImage />
+    <Hero item={nextUp} tip="{$t("hero.nextup")}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
 {#if item.Type === "Series" || item.Type === "Season"}
     {#key item}
-        <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? "Seasons" : "Episodes"} />
+        <VerticalList items={item.Type === "Series" ? seasons : episodes} wide={false} title={item.Type === "Series" ? $t("seasons") : $t("episodes")} />
     {/key}
 {/if}
 {#if item.Type === "Genre"}
@@ -78,7 +79,7 @@
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type === "Movie"}
-    <VerticalList items={similar || []} title="Similar" />
+    <VerticalList items={similar || []} title="{$t("similar")}" />
 {/if}
 
 {#if item.Type !== "Person" && item.People && item.People.length > 0}

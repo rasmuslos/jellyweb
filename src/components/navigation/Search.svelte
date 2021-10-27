@@ -3,6 +3,7 @@
     import {modal, noPadding} from "$lib/stores";
     import SearchOverlay from "../helper/search/SearchOverlay.svelte";
     import {getOS} from "$lib/helper";
+    import {t} from "$lib/i18n";
 
     const toggleSearch = () => $modal === null ? modal.set(SearchOverlay) : modal.set(null)
     const handleGlobalKeydown = (event: KeyboardEvent) => {
@@ -61,7 +62,7 @@
 </style>
 
 <div class="desktop" class:dark={$noPadding} on:click={toggleSearch}>
-    <span>Search</span>
+    <span>{$t("search")}</span>
     <span class="key">{@html getOS() === "Mac OS" ? "&#8984;" : "ctrl + "}K</span>
 </div>
 <a class="mobile" href="/search">

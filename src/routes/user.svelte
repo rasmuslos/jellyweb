@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
     import {setFetcher, me as getMe} from "$lib/api/internal";
     import type {User} from "$lib/typings";
+    import {t} from "$lib/i18n";
 
     export async function load({fetch}) {
         try {
@@ -28,7 +29,7 @@
 </script>
 
 <svelte:head>
-    <title>Settings</title>
+    <title>{$t("settings")}</title>
 </svelte:head>
 
 <section>

@@ -6,6 +6,7 @@
     import {search, searchHints} from "$lib/api/internal";
     import type {Item} from "$lib/typings";
     import {onMount} from "svelte";
+    import { t, locale, locales } from "$lib/i18n";
 
     let query: string = ""
     let index: number = -1
@@ -134,11 +135,11 @@
 </style>
 
 <div class="holder">
-    <input autofocus placeholder="Search" type="text" bind:value={query} on:keydown={handleInput} />
+    <input autofocus placeholder="{$t("search")}" type="text" bind:value={query} on:keydown={handleInput} />
     <div class="results">
         <div class="result dimmed" data-item="-1">
             <div class="icon">{@html icons.search.toSvg()}</div>
-            <span>Advanced search</span>
+            <span>{$t("advanced_search")}</span>
         </div>
         {#if results && results.length > 0}
             {#each results as result}
@@ -149,11 +150,11 @@
             {/each}
         {:else if results && results.length === 0 && query !== ""}
             <p class="error">
-                No results found
+                {$t("no_results")}
             </p>
         {:else}
             <p class="dimmed">
-                Type a query
+                {$t("type_query")}
             </p>
         {/if}
     </div>

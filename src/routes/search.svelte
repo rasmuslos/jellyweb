@@ -27,6 +27,7 @@
     import VerticalList from "../components/sections/VerticalList.svelte";
     import {onMount} from "svelte";
     import {browser} from "$app/env";
+    import {t} from "$lib/i18n";
 
     export let hints: Item[]
 
@@ -45,7 +46,7 @@
 </script>
 
 <svelte:head>
-    <title>{value !== "" ? `${value} - ` : null}Search</title>
+    <title>{value !== "" ? `${value} - ` : null}{$t("search")}</title>
 </svelte:head>
 
 <section>

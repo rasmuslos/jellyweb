@@ -1,52 +1,62 @@
 <script lang="ts">
     import ApplyWidth from "../sections/ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings";
+    import {t} from "$lib/i18n";
 
     export let value: string = ""
 
     const Sort = {
         SORT_NAME: {
-            title: "Name",
+            title: $t("sort.title"),
             query: "SortName",
         },
         COMMUNITY_RATING: {
-            title: "Community Rating",
+            title: $t("sort.community_rating"),
             query: "CommunityRating",
         },
         CRITIC_RATING: {
-            title: "Critic Rating",
+            title: $t("sort.critic_rating"),
             query: "CriticRating",
         },
         DATE_CREATED: {
-            title: "Created",
+            title: $t("sort.datecreated"),
             query: "DateCreated",
         },
         PLAY_COUNT: {
-            title: "Plays",
+            title: $t("sort.playcount"),
             query: "PlayCount",
         },
         PREMIERE_DATE: {
-            title: "Premiere",
+            title: $t("sort.premieredate"),
             query: "PremiereDate",
         },
         PRODUKTION_YEAR: {
-            title: "Production",
+            title: $t("sort.productionyear"),
             query: "ProductionYear",
         },
         RUNTIME: {
-            title: "Runtime",
+            title: $t("sort.runtime"),
             query: "Runtime",
         },
     }
-    const Order = ["Ascending", "Descending"]
+    const Order = {
+        ascending: {
+            title: $t("sort.ascending"),
+            query: "ascending",
+        },
+        descending: {
+            title: $t("sort.descending"),
+            query: "descending",
+        },
+    }
 
     let sort: SortItem = Sort.SORT_NAME
-    let order: string = Order[0]
+    let order: SortItem = Order.ascending
 
     let expanded: boolean = false
 
     export let sortQuery
-    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order}${value !== "" ? `&searchTerm=${value}` : ""}`
+    $: sortQuery = `sortBy=${sort.query}&sortOrder=${order.query}${value !== "" ? `&searchTerm=${value}` : ""}`
 </script>
 
 <style>
@@ -125,18 +135,18 @@
 <section>
     <ApplyWidth>
         <div class="wrapper" class:expanded>
-            <input placeholder="Search" bind:value type="text" />
+            <input placeholder="{$t("search")}" bind:value type="text" />
             <div class="holder" on:click={() => expanded = !expanded}>
-                <div class="preview">Sort by&#160;<span>{sort.title}</span></div>
-                <div class="preview">Order by&#160;<span>{order}</span></div>
+                <div class="preview">{$t("sort.by")}&#160;<span>{sort.title}</span></div>
+                <div class="preview">{$t("sort.order")}&#160;<span>{order.title}</span></div>
                 <div class="content">
                     {#each Object.values(Sort) as item}
                         <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
                     {/each}
                 </div>
                 <div class="content">
-                    {#each Order as item}
-                        <div on:click={() => order = item} class:selected={item === order} class="item">{item}</div>
+                    {#each Object.values(Order) as item}
+                        <div on:click={() => order = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
                     {/each}
                 </div>
             </div>

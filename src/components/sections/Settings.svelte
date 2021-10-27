@@ -5,17 +5,18 @@
     import GenericButton from "../input/GenericButton.svelte";
     import {scrimBackdropImages, deletePreferences, showHeroImages, updatePreference} from "$lib/helper";
     import Wave from "./Wave.svelte";
+    import {t} from "$lib/i18n";
 
     const imageOptions: Option[] = [
         {
-            title: "Show hero images",
-            description: "Show big images on the home screen and detail view",
+            title: $t("settings_show_hero"),
+            description: $t("settings_show_hero_desc"),
             checked: $showHeroImages,
             identifier: "images.hero",
         },
         {
-            title: "Scrim hero images",
-            description: "Make text more readable but reduce vibrant colors",
+            title: $t("settings_scrim_hero"),
+            description: $t("settings_scrim_hero_desc"),
             checked: $scrimBackdropImages,
             identifier: "images.scrim",
         },
@@ -46,21 +47,21 @@
 </style>
 
 <ApplyWidth>
-    <h1>Settings</h1>
+    <h1>{$t("settings")}</h1>
     {#key imageOptions}
-        <OptionGroup options={imageOptions} title="Images" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
+        <OptionGroup options={imageOptions} title="{$t("Images")}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
     {/key}
 </ApplyWidth>
 <section>
     <Wave />
     <ApplyWidth>
-        <h2>DANGER ZONE</h2>
+        <h2>{$t("settings_danger_zone")}</h2>
         <p>
-            Warning: deleting your preferences will reset you theme, bitrate & additional settings
+            {$t("settings_danger_zone_desc")}
         </p>
         <figure class="center">
-            <GenericButton on:click={deletePreferences} label="Reset all Settings" />
-            <GenericButton on:click={() => window.location.href = "user/logout"} label="Logout" />
+            <GenericButton on:click={deletePreferences} label="{$t("settings_reset_all")}" />
+            <GenericButton on:click={() => window.location.href = "user/logout"} label="{$t("logout")}" />
         </figure>
     </ApplyWidth>
     <Wave rotated />
