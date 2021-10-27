@@ -1,4 +1,6 @@
-export const nl = {
+import type {en} from "$lib/i18n/lang/en";
+
+export const nl: typeof en = {
     // Navigation
     "nav.home": "Home",
     "nav.movies": "Films",
