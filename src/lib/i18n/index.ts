@@ -1,10 +1,3 @@
-/** 
- * To-do: 
- * 
- * Remember language cookie or user based (Jelly api supports user preferred language)
- * Nice language flag selector in top menu or possibly user settings
- *
- */
 import { derived } from "svelte/store";
 import * as translations from "./lang";
 import {fallbackLocale, locale} from "$lib/helper";
