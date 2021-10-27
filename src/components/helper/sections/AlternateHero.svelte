@@ -50,7 +50,7 @@
     }
 </style>
 
-<ApplyWidth bigger>
+<ApplyWidth>
     <div class="wrapper">
         <div class="holder">
             <a class="heading" href={generateItemUrl(item.Id)}>{item.Name}</a>
