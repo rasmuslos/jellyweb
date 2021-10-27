@@ -131,7 +131,7 @@
 
         line-height: 24px;
         text-align: center;
-        color: var(--secondary);
+        color: var(--white);
 
         box-sizing: content-box;
         padding: 5px;
