@@ -16,6 +16,7 @@
     div.holder {
         position: relative;
         margin-top: auto;
+        max-width: 100%;
     }
 
     .heading {
