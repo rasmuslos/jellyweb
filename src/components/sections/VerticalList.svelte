@@ -8,6 +8,12 @@
     export let wide: boolean = true
 </script>
 
+<style>
+    h1 {
+        margin-bottom: 7px;
+    }
+</style>
+
 <section>
     <ApplyWidth>
         {#if title}

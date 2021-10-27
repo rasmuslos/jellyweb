@@ -54,21 +54,21 @@
 {#if showHero && combined != null && combined.length > 0}
     <ListHero items={combined} />
 {:else if random != null}
-    <Hero item={random} tip="{$t("watch_this")}" includeWave />
+    <Hero item={random} tip="{$t(`watch_this`)}" includeWave />
 {/if}
 
 {#if genres != null && genres.length > 0}
     <Genres {genres} />
 {/if}
 {#if recommendations != null && recommendations.length > 0}
-    <VerticalList items={recommendations} title="{$t("recommended")}" />
+    <VerticalList items={recommendations} title="{$t(`recommended`)}" wide={false} />
 {/if}
 {#if showHero && random != null}
-    <Hero item={random} tip="{$t("watch_this")}" reduceOffset />
+    <Hero item={random} tip="{$t(`watch_this`)}" reduceOffset />
 {/if}
 {#if bestRated != null && bestRated.length > 0}
-    <VerticalList items={bestRated} title="{$t("best_rated")}" />
+    <VerticalList items={bestRated} title="{$t(`best_rated`)}" wide={false} />
 {/if}
 {#if latest != null && latest.length > 0}
-    <VerticalList items={latest} title="{$t("latest")}" />
+    <VerticalList items={latest} title="{$t(`latest`)}" wide={false} />
 {/if}
