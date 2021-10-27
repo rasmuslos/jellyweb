@@ -150,7 +150,7 @@
         }
     }
 
-    h1, span, p {
+    span, p {
         text-shadow: 0 0 20px black;
     }
 </style>

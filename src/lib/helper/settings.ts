@@ -4,10 +4,13 @@ import {subscribeButIgnoreFirst} from "$lib/helper/utils";
 import {browser} from "$app/env";
 import {deleteDisplayPreferences, updateDisplayPreferences} from "$lib/api/internal";
 
+export const fallbackLocale = "en"
+
 export const scrimBackdropImages = writable<boolean>(false)
 export const showHeroImages = writable<boolean>(false)
 export const maxBitrate = writable<number>(-1)
 export const lightMode = writable<boolean>(false)
+export const locale = writable<string>(fallbackLocale)
 
 if(browser) {
     subscribeButIgnoreFirst(settings, updateDisplayPreferences)
@@ -17,6 +20,7 @@ if(browser) {
         maxBitrate.set(settings["bitrate"] ?? 80000000)
 
         lightMode.set(settings["theme"] === "light")
+        locale.set(settings["locale"] ?? fallbackLocale)
     })
 }
 

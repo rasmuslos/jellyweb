@@ -1,23 +1,29 @@
 <script lang="ts">
-    import {locale, locales} from "$lib/i18n";
+    import {locales} from "$lib/i18n";
     import flags from "$lib/i18n/flags";
+    import {locale, updatePreference} from "$lib/helper";
 </script>
 
 <style>
     select {
         background-color: transparent;
-        cursor: pointer;
+        border: none;
 
         height: 20px;
         width: 20px;
 
         margin: 7px;
+
+        cursor: pointer;
         -webkit-appearance: none;
+    }
+    select:focus {
+        outline: none;
     }
 </style>
 
-<select bind:value={$locale}>
+<select on:change={({ target }) => updatePreference("locale", target.value)}>
     {#each locales as l}
-        <option value={l}>{flags[l] || "🗿"}</option>
+        <option selected={l === $locale} value={l}>{flags[l] || "🗿"}</option>
     {/each}
 </select>

@@ -5,12 +5,10 @@
  * Nice language flag selector in top menu or possibly user settings
  *
  */
-import { derived, writable } from "svelte/store";
+import { derived } from "svelte/store";
 import * as translations from "./lang";
+import {fallbackLocale, locale} from "$lib/helper";
 
-const fallbackLocale = "en"
-
-export const locale = writable(fallbackLocale);
 export const locales = Object.keys(translations);
 
 function translate(locale, key, vars) {
