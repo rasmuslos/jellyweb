@@ -1,11 +1,13 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
-    import {generateItemUrl} from "$lib/helper";
+    import {changeScrollDirection, generateItemUrl} from "$lib/helper";
     import {t} from "$lib/i18n";
 
     export let genres: Item[]
     export let big: boolean = false
+
+    let holder
 </script>
 
 <style>
@@ -93,7 +95,7 @@
         {#if !big}
             <h1>{$t("nav.genres")}</h1>
         {/if}
-        <div class="holder" class:big>
+        <div class="holder" class:big bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
             {#each genres as genre, i}
                 <a href={generateItemUrl(genre.Id)}  class="genre">
                     <div class="gradient no{i % 5}"></div>
