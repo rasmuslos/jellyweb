@@ -9,14 +9,14 @@
 
     const imageOptions: Option[] = [
         {
-            title: $t("settings_show_hero"),
-            description: $t("settings_show_hero_desc"),
+            title: "settings_show_hero",
+            description: "settings_show_hero_desc",
             checked: $showHeroImages,
             identifier: "images.hero",
         },
         {
-            title: $t("settings_scrim_hero"),
-            description: $t("settings_scrim_hero_desc"),
+            title: "settings_scrim_hero",
+            description: "settings_scrim_hero_desc",
             checked: $scrimBackdropImages,
             identifier: "images.scrim",
         },
@@ -49,7 +49,7 @@
 <ApplyWidth>
     <h1>{$t("settings")}</h1>
     {#key imageOptions}
-        <OptionGroup options={imageOptions} title="{$t("Images")}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
+        <OptionGroup options={imageOptions} title="{$t(`Images`)}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
     {/key}
 </ApplyWidth>
 <section>
@@ -60,8 +60,8 @@
             {$t("settings_danger_zone_desc")}
         </p>
         <figure class="center">
-            <GenericButton on:click={deletePreferences} label="{$t("settings_reset_all")}" />
-            <GenericButton on:click={() => window.location.href = "user/logout"} label="{$t("logout")}" />
+            <GenericButton on:click={deletePreferences} label="{$t(`settings_reset_all`)}" />
+            <GenericButton on:click={() => window.location.href = "user/logout"} label="{$t(`logout`)}" />
         </figure>
     </ApplyWidth>
     <Wave rotated />

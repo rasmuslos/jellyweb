@@ -2,6 +2,7 @@
     import type {Option} from "$lib/typings";
     import {createEventDispatcher} from "svelte";
     import Switch from "../navigation/Switch.svelte";
+    import {t} from "$lib/i18n";
 
     const dispatcher = createEventDispatcher()
 
@@ -41,8 +42,8 @@
     {#each options as { identifier, title, description, checked }}
         <div class="option">
             <div>
-                <h2>{title}</h2>
-                <p>{description}</p>
+                <h2>{$t(title)}</h2>
+                <p>{$t(description)}</p>
             </div>
             <Switch {checked} on:change={event => dispatcher("change", { identifier, checked: event.target.checked })} />
         </div>

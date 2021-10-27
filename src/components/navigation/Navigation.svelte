@@ -12,10 +12,10 @@
     let itemsHolder
     let expanded = false
     const items: NavigationItem[] = [
-        { title: $t("nav.home"), href: "/", regex: "^\/$" },
-        { title: $t("nav.movies"), href: "/library/movies", regex: "^\/?library\/movies\/?.*$" },
-        { title: $t("nav.series"), href: "/library/series", regex: "^\/?library\/series\/?.*$" },
-        { title: $t("nav.genres"), href: "/genres", regex: "^\/?genres\/?.*$" },
+        { title: "nav.home", href: "/", regex: "^\/$" },
+        { title: "nav.movies", href: "/library/movies", regex: "^\/?library\/movies\/?.*$" },
+        { title: "nav.series", href: "/library/series", regex: "^\/?library\/series\/?.*$" },
+        { title: "nav.genres", href: "/genres", regex: "^\/?genres\/?.*$" },
     ]
 
     $: {
