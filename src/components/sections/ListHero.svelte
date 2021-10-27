@@ -14,6 +14,7 @@
 <style>
     div.list {
         margin-top: 75px;
+        padding: -50px;
     }
 </style>
 
@@ -22,7 +23,7 @@
     <div class="list">
         <ApplyWidth>
             <h1>{$t("hero.nextup")}</h1>
-            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
+            <VerticalListInner {items} big on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
         </ApplyWidth>
     </div>
 </BackgroundSection>
