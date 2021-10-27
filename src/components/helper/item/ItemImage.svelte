@@ -114,6 +114,8 @@
 
         opacity: 0;
         transition: opacity 150ms ease;
+
+        color: var(--white);
     }
     div:hover div.play {
         opacity: 1;
