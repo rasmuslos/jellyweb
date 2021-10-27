@@ -12,23 +12,17 @@
 </script>
 
 <style>
-    div.wrapper {
-        min-height: 100vh;
-    }
-
     div.list {
         margin-top: 75px;
     }
 </style>
 
-<div class="wrapper">
-    <BackgroundSection url={getLargeBackdrop(active)}>
-        <AlternateHero item={active} />
-        <div class="list">
-            <ApplyWidth>
-                <h1>{$t("hero.nextup")}</h1>
-                <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
-            </ApplyWidth>
-        </div>
-    </BackgroundSection>
-</div>
+<BackgroundSection url={getLargeBackdrop(active)}>
+    <AlternateHero item={active} />
+    <div class="list">
+        <ApplyWidth>
+            <h1>{$t("hero.nextup")}</h1>
+            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
+        </ApplyWidth>
+    </div>
+</BackgroundSection>
