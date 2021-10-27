@@ -3,7 +3,7 @@
     import ItemImage from "../helper/item/ItemImage.svelte";
     import {session} from "$app/stores";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
-    import {generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
+    import {changeScrollDirection, generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
     import {createEventDispatcher} from "svelte";
     import {t} from "$lib/i18n";
 
@@ -11,6 +11,7 @@
     export let chapters: Chapter[] = []
 
     export let handleClick: boolean = true
+    let holder
 
     const dispatcher = createEventDispatcher()
     const click = (ticks) => dispatcher("click", ticks)
@@ -53,7 +54,7 @@
         {#if !chapters || chapters.length === 0}
             <h3>{$t("no_chapters")}</h3>
             {:else}
-            <div class="holder">
+            <div class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
                 {#each chapters as chapter, index}
                     <a on:click={() => click(chapter.StartPositionTicks)}
                        href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null}

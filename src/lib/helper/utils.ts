@@ -90,3 +90,11 @@ export const getOS = (): osTypes => {
 
     return os
 }
+
+export const changeScrollDirection = (event: WheelEvent, element: HTMLElement) => {
+    // @ts-ignore
+    const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+    const scrollSpeed = 60
+
+    element.scrollLeft -= (delta * scrollSpeed);
+}

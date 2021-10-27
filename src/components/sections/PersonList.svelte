@@ -1,10 +1,11 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
-    import {generateImageUrl, generateItemUrl} from "$lib/helper";
+    import {changeScrollDirection, generateImageUrl, generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import {t} from "$lib/i18n";
 
+    let holder
     export let persons: Item[]
 </script>
 
@@ -75,7 +76,7 @@
         {#if !persons || persons.length === 0}
             <h3>{$t("no_actors")}</h3>
         {:else}
-            <div class="holder">
+            <div class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
                 {#each persons as person}
                     <a class="person" href={generateItemUrl(person.Id)}>
                         <div class="image">
