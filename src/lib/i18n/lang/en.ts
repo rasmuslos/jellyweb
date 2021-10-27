@@ -27,6 +27,8 @@ export const en = {
     "settings_show_hero_desc": "Show big images on the home screen and detail view",
     "settings_scrim_hero": "Scrim hero images",
     "settings_scrim_hero_desc": "Make text more readable but reduce vibrant colors",
+    "settings_blur_hero": "Blur hero images",
+    "settings_blur_hero_desc": "Smoothen (blur) the hero image",
     "settings_danger_zone": "DANGER ZONE",
     "settings_danger_zone_desc": "Warning: deleting your preferences will reset you theme, bitrate & additional settings",
     "settings_reset_all": "Reset all Settings",

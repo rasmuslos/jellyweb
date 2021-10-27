@@ -3,7 +3,13 @@
     import OptionGroup from "../helper/OptionGroup.svelte";
     import type {Option} from "$lib/typings";
     import GenericButton from "../input/GenericButton.svelte";
-    import {scrimBackdropImages, deletePreferences, showHeroImages, updatePreference} from "$lib/helper";
+    import {
+        scrimBackdropImages,
+        deletePreferences,
+        showHeroImages,
+        updatePreference,
+        blurHeroImages
+    } from "$lib/helper";
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
 
@@ -19,6 +25,12 @@
             description: "settings_scrim_hero_desc",
             checked: $scrimBackdropImages,
             identifier: "images.scrim",
+        },
+        {
+            title: "settings_blur_hero",
+            description: "settings_blur_hero_desc",
+            checked: $blurHeroImages,
+            identifier: "images.blur",
         },
     ]
 </script>

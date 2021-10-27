@@ -26,7 +26,7 @@ export const de: typeof en = {
 
     // Settings
     "settings_show_hero": "Zeige hero Bilder",
-    "settings_danger_zone": "Gefahren-Zone",
+    "settings_danger_zone": "Gefahrenzone",
     "settings_reset_all": "Alle Einstellungen zurücksetzten",
 
     // Item page

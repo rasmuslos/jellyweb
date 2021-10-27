@@ -8,6 +8,7 @@ export const fallbackLocale = "en"
 
 export const scrimBackdropImages = writable<boolean>(false)
 export const showHeroImages = writable<boolean>(false)
+export const blurHeroImages = writable<boolean>(false)
 export const maxBitrate = writable<number>(-1)
 export const lightMode = writable<boolean>(false)
 export const locale = writable<string>(fallbackLocale)
@@ -17,6 +18,7 @@ if(browser) {
     settings.subscribe(settings => {
         scrimBackdropImages.set(settings["images.scrim"] !== "false")
         showHeroImages.set(settings["images.hero"] !== "false")
+        blurHeroImages.set(settings["images.blur"] === "true")
         maxBitrate.set(settings["bitrate"] ?? 80000000)
 
         lightMode.set(settings["theme"] === "light")
