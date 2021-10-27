@@ -1,21 +1,39 @@
 <script lang="ts">
-    import {generateImageUrl, getIconByType, getLargeBackdrop} from "$lib/helper";
+    import {generateImageUrl, getIconByType, getImageData, getLargeBackdrop} from "$lib/helper";
     import {icons} from "feather-icons";
-    import Item from "../../navigation/Item.svelte";
+    import type {Item} from "$lib/typings";
+    import {onMount} from "svelte";
+    import {decode, isBlurhashValid} from "blurhash";
+    import {browser} from "$app/env";
 
     export let wide: boolean = false
     export let item: Item
 
     export let badge: number | string = null
+    let canvas: HTMLCanvasElement
 
     export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
     export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
-    export let url =
-        wide
-            ? getLargeBackdrop(item)
-            : item.ImageTags && item.ImageTags.Primary
-            ? generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200)
-            : null
+
+    const imageData = getImageData(item, wide)
+
+    onMount(async () => {
+        if(browser && canvas && isBlurhashValid(imageData.hash)) {
+            const width = 18
+            const height = 18
+
+            const data = decode(imageData.hash, width, height)
+
+            canvas.width = 18
+            canvas.height = 18
+
+            const context = canvas.getContext("2d")
+            const image = context.createImageData(width, height)
+
+            image.data.set(data)
+            context.putImageData(image, 0, 0)
+        }
+    })
 </script>
 
 <style>
@@ -34,6 +52,15 @@
     div.holder.wide {
         width: 300px;
         height: 170px;
+    }
+
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        width: 100%;
     }
 
     div.image {
@@ -112,8 +139,11 @@
 </style>
 
 <div class="holder" class:wide on:click>
-    {#if url != null}
-        <div class="image" style="background-image: url('{url}')"></div>
+    {#if imageData.hash != null}
+        <canvas bind:this={canvas}></canvas>
+    {/if}
+    {#if imageData.url != null}
+        <div class="image" style="background-image: url('{imageData.url}')"></div>
     {:else}
         <div class="type">
             {@html getIconByType(item)}
