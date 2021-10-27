@@ -8,7 +8,6 @@
     export let wide: boolean = true
 
     let holder
-    export let big: boolean = true
 
     const dispatcher = createEventDispatcher()
     const handleMouseOver = (item) => dispatcher("mouseover", item)
@@ -23,8 +22,8 @@
         color: var(--error);
     }
 
-    div.wrapper.big {
-        margin: -200px;
+    div.wrapper {
+        margin: -200px 0;
     }
     div.holder {
         display: flex;
@@ -33,14 +32,14 @@
         cursor: grab;
         overflow-x: auto;
     }
-    div.holder.big {
-        padding: 200px;
+    div.holder {
+        padding: 200px 0;
     }
 </style>
 
 {#if items && items.length > 0}
-    <div class:big class="wrapper">
-        <div class:big class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
+    <div class="wrapper">
+        <div class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
             {#each items as item}
                 <Item {item} {wide} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
             {/each}
