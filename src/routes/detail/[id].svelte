@@ -62,7 +62,7 @@
 {/if}
 
 {#if nextUp}
-    <Hero item={nextUp} tip="{$t("hero.nextup")}" includeMoreButton={false} reduceOffset hideImage />
+    <Hero item={nextUp} tip="{$t(`hero.nextup`)}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
 {#if item.Type === "Series" || item.Type === "Season"}
     {#key item}
@@ -79,7 +79,7 @@
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type === "Movie"}
-    <VerticalList items={similar || []} title="{$t("similar")}" />
+    <VerticalList items={similar || []} title="{$t(`similar`)}" />
 {/if}
 
 {#if item.Type !== "Person" && item.People && item.People.length > 0}

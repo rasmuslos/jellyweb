@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl, getIconByType, getImageData, getLargeBackdrop} from "$lib/helper";
+    import {getIconByType, getImageData} from "$lib/helper";
     import {icons} from "feather-icons";
     import type {Item} from "$lib/typings";
     import {onMount} from "svelte";
@@ -15,7 +15,8 @@
     export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
     export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
-    const imageData = getImageData(item, wide)
+    export let url
+    const imageData = url ? { url, hash: null } : getImageData(item, wide)
 
     onMount(async () => {
         if(browser && canvas && isBlurhashValid(imageData.hash)) {
