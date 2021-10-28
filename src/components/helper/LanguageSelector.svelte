@@ -12,7 +12,8 @@
         height: 20px;
         width: 20px;
 
-        margin: 7px;
+        padding: 0;
+        margin: 0 7px;
 
         cursor: pointer;
         -webkit-appearance: none;
