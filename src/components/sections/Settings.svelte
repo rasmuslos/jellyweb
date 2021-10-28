@@ -56,6 +56,14 @@
     section {
         background-color: var(--background-light);
     }
+
+    p.about {
+        text-align: center;
+        background-color: var(--background);
+
+        margin: 0;
+        padding: 50px 0;
+    }
 </style>
 
 <ApplyWidth>
@@ -77,4 +85,7 @@
         </figure>
     </ApplyWidth>
     <Wave rotated />
+    <p class="about dimmed">
+        <span class="highlight">Jellyweb</span> {import.meta.env.MODE} ({import.meta.env.PROD})
+    </p>
 </section>
