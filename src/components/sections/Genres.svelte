@@ -95,7 +95,7 @@
         {#if !big}
             <h1>{$t("nav.genres")}</h1>
         {/if}
-        <div class="holder" class:big bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
+        <div class="holder" class:big bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
             {#each genres as genre, i}
                 <a href={generateItemUrl(genre.Id)}  class="genre">
                     <div class="gradient no{i % 5}"></div>

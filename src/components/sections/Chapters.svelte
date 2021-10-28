@@ -54,7 +54,7 @@
         {#if !chapters || chapters.length === 0}
             <h3>{$t("no_chapters")}</h3>
             {:else}
-            <div class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
+            <div class="holder" bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
                 {#each chapters as chapter, index}
                     <a on:click={() => click(chapter.StartPositionTicks)}
                        href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null}

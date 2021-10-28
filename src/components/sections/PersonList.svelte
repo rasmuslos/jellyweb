@@ -76,7 +76,7 @@
         {#if !persons || persons.length === 0}
             <h3>{$t("no_actors")}</h3>
         {:else}
-            <div class="holder" bind:this={holder} on:wheel|preventDefault={event => changeScrollDirection(event, holder)}>
+            <div class="holder" bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
                 {#each persons as person}
                     <a class="person" href={generateItemUrl(person.Id)}>
                         <div class="image">
