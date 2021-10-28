@@ -11,19 +11,10 @@
     export let active: Item = items[0]
 </script>
 
-<style>
-    div.list {
-        margin-top: 75px;
-        padding: -50px;
-    }
-</style>
-
 <BackgroundSection url={getLargeBackdrop(active)}>
     <AlternateHero item={active} />
-    <div class="list">
-        <ApplyWidth>
-            <h1>{$t("hero.nextup")}</h1>
-            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
-        </ApplyWidth>
-    </div>
+    <ApplyWidth>
+        <h1>{$t("hero.nextup")}</h1>
+        <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
+    </ApplyWidth>
 </BackgroundSection>
