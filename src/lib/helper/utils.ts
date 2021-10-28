@@ -94,6 +94,18 @@ export const getOS = (): osTypes => {
 export const changeScrollDirection = (event: WheelEvent, element: HTMLElement) => {
     if(event.deltaX !== 0) return
 
+    const parent = element.parentElement
+    const style = getComputedStyle(parent)
+    const rect = parent.getBoundingClientRect()
+
+    const marginBottom = parseInt(style.marginBottom)
+    const marginTop = parseInt(style.marginTop)
+    const height = parseInt(style.height)
+    const y = event.clientY - rect.top
+
+    if(marginBottom < 0 && height - Math.abs(marginBottom) * 0.85 < y) return
+    if(marginTop < 0 && Math.abs(marginTop) * 0.85 > y) return
+
     // @ts-ignore
     const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)))
     const scrollSpeed = 40
