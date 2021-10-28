@@ -9,16 +9,40 @@
     export let item: Item
     export let wide: boolean = true
 
+    let link: HTMLAnchorElement
+
     const isWatchable = item.Type === "Movie" || item.Type === "Episode"
     const badge = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played) ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.UserData && item.UserData.UnplayedItemCount || null
 
     let expandTimeout: number
     let expanded: boolean = false
 
-    const handleMouseEnter = () => expandTimeout = window.setTimeout(() => expanded = true, 1000)
+    const handleMouseEnter = () => expandTimeout = window.setTimeout(() => {
+        expanded = true
+        setTimeout(calculateBounds, 1)
+    }, 1000)
     const handleMouseLeave = () => {
+        link.style.left = null
+        link.classList.remove("center")
+
         expanded = false
         clearTimeout(expandTimeout)
+    }
+
+    const calculateBounds = () => {
+        console.log(link)
+        if(!link) return
+
+        let parentRect = link.parentElement.parentElement.getBoundingClientRect()
+        let rect = link.getBoundingClientRect()
+
+        const boundRight = (parentRect.width + parentRect.left) - (rect.width + rect.left)
+        const boundLeft = rect.left - parentRect.left
+
+        console.log(boundLeft - rect.width / 2)
+
+        if(boundRight < 0) link.style.left = `${(parentRect.width + parentRect.left) - (rect.width + rect.left)}px`
+        else if(boundLeft - rect.width / 2 > 0) link.classList.add("center")
     }
 </script>
 
@@ -63,9 +87,9 @@
         box-sizing: content-box;
 
         width: 400px;
+        z-index: 2;
 
         bottom: 0;
-        z-index: 2;
 
         display: grid;
         grid-template-rows: 1fr auto;
@@ -75,6 +99,11 @@
         background-color: var(--background-secondary);
         border-radius: 10px;
     }
+    a.item.expanded:global(.center) {
+        left: 50%;
+        transform: translate(-50%);
+    }
+
     div.image {
         width: 100%;
         height: 200px;
@@ -99,7 +128,7 @@
 </style>
 
 <div class:wide on:focus on:mouseover class="holder">
-    <a class="item" class:expanded href={generateItemUrl(item.Id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>
+    <a class="item" class:expanded href={generateItemUrl(item.Id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
         {#if expanded}
             <div class="image">
                 <BackgroundSection url={getLargeBackdrop(item)} />
