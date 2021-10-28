@@ -1,6 +1,6 @@
 {
   "name": "jellyweb",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "scripts": {
     "dev": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit dev --host",
     "build": "svelte-kit build",
