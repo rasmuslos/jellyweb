@@ -56,12 +56,12 @@
         flex-shrink: 0;
         margin: 0.5% 10px;
 
-        height: 300px;
+        min-height: 300px;
         width: 200px;
     }
     .holder.wide {
         width: 300px;
-        height: 170px;
+        min-height: 170px;
     }
 
     a.item {
