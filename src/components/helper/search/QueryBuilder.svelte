@@ -8,45 +8,45 @@
 
     const Sort = {
         SORT_NAME: {
-            title: $t("sort.title"),
+            title: "sort.title",
             query: "SortName",
         },
         COMMUNITY_RATING: {
-            title: $t("sort.community_rating"),
+            title: "sort.community_rating",
             query: "CommunityRating",
         },
         CRITIC_RATING: {
-            title: $t("sort.critic_rating"),
+            title: "sort.critic_rating",
             query: "CriticRating",
         },
         DATE_CREATED: {
-            title: $t("sort.datecreated"),
+            title: "sort.datecreated",
             query: "DateCreated",
         },
         PLAY_COUNT: {
-            title: $t("sort.playcount"),
+            title: "sort.playcount",
             query: "PlayCount",
         },
         PREMIERE_DATE: {
-            title: $t("sort.premieredate"),
+            title: "sort.premieredate",
             query: "PremiereDate",
         },
         PRODUKTION_YEAR: {
-            title: $t("sort.productionyear"),
+            title: "sort.productionyear",
             query: "ProductionYear",
         },
         RUNTIME: {
-            title: $t("sort.runtime"),
+            title: "sort.runtime",
             query: "Runtime",
         },
     }
     const Order = {
         ASCENDING: {
-            title: $t("sort.ascending"),
+            title: "sort.ascending",
             query: "ascending",
         },
         DESCENDING: {
-            title: $t("sort.descending"),
+            title: "sort.descending",
             query: "descending",
         },
     }
@@ -140,16 +140,16 @@
         <div class="wrapper" class:expanded>
             <input placeholder="{$t(`search`)}" bind:value type="text" />
             <div class="holder" on:click={() => expanded = !expanded}>
-                <div class="preview">{$t("sort.by")}&#160;<span>{sort.title}</span></div>
-                <div class="preview">{$t("sort.order")}&#160;<span>{order.title}</span></div>
+                <div class="preview">{$t("sort.by")}&#160;<span>{$t(sort.title)}</span></div>
+                <div class="preview">{$t("sort.order")}&#160;<span>{$t(order.title)}</span></div>
                 <div class="content">
                     {#each Object.values(Sort) as item}
-                        <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
+                        <div on:click={() => sort = item} class:selected={item.query === sort.query} class="item">{$t(item.title)}</div>
                     {/each}
                 </div>
                 <div class="content">
                     {#each Object.values(Order) as item}
-                        <div on:click={() => order = item} class:selected={item.query === order.query} class="item">{item.title}</div>
+                        <div on:click={() => order = item} class:selected={item.query === order.query} class="item">{$t(item.title)}</div>
                     {/each}
                 </div>
             </div>

@@ -11,7 +11,8 @@ export const generateImageUrlIndex = (id: string, tag: string, index: number, ty
 
 const getRandomBackdrop = (id: string, tags: string[]) => getRandomBackdropWithHash(id, tags, null).url
 const getRandomBackdropWithHash = (id: string, tags: string[], hashes) => {
-    const index = Math.floor(Math.random() * (tags.length - 1))
+    const index = Math.floor(Math.random() * tags.length)
+
     return {
         url: generateImageUrlIndex(id, tags[index], index, "Backdrop"),
         hash: hashes ? hashes[tags[index]] : null
