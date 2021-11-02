@@ -18,6 +18,9 @@
     let expanded: boolean = false
 
     const handleMouseEnter = () => expandTimeout = window.setTimeout(() => {
+        link.style.left = null
+        link.classList.remove("center")
+
         expanded = true
         calculateBounds()
     }, 1000)
@@ -38,8 +41,8 @@
         const left = parentRect.left - rect.left
         const right = parentRect.right - rect.right
 
-        if(left > 0) link.style.left = `${left}px`
-        if(right < 0) link.style.right = `${Math.abs(right)}px`
+        if(left > 0) link.style.left = `${Math.abs(left)}px`
+        else if(right < 0) link.style.right = `${Math.abs(right)}px`
         else link.classList.add("center")
     }
 </script>

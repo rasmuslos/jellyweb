@@ -12,28 +12,28 @@
 </script>
 
 <style>
-    div {
-        margin-top: 60px;
+    section {
+        background-color: var(--background-light);
     }
 
     svg {
         position: relative;
-        bottom: -4px;
+        bottom: -5px;
     }
     polygon {
         fill: var(--background);
     }
 </style>
 
-<BackgroundSection url={getLargeBackdrop(active)}>
+<BackgroundSection fade url={getLargeBackdrop(active)}>
     <AlternateHero item={active} />
+</BackgroundSection>
+<section>
     <ApplyWidth>
-        <div>
-            <h1>{$t("hero.nextup")}</h1>
-            <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
-        </div>
+        <h1>{$t("hero.nextup")}</h1>
+        <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
     </ApplyWidth>
     <svg viewBox="0 0 100 7" preserveAspectRatio="none">
         <polygon points="0,0 100,7 0,7" />
     </svg>
-</BackgroundSection>
+</section>

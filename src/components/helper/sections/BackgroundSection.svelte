@@ -3,7 +3,8 @@
     import {blurHeroImages, scrimBackdropImages, showHeroImages} from "$lib/helper";
 
     export let url: string
-    export let transparent: boolean = false
+    export let transparent: boolean
+    export let fade: boolean
 </script>
 
 <style>
@@ -17,6 +18,10 @@
         height: 100%;
         width: 100%;
     }
+    section.fade {
+        padding-bottom: 50px;
+    }
+
     section:not(.transparent) {
         background-color: var(--background-light);
     }
@@ -52,6 +57,18 @@
         filter: blur(10px);
     }
 
+    section.fade div.image::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        height: 75px;
+        width: 100%;
+
+        content: "";
+        background-image: linear-gradient(#3B425200 0%, #3B4252 100%);
+    }
+
     div.holder {
         position: relative;
         height: 100%;
@@ -59,7 +76,7 @@
     }
 </style>
 
-<section class:transparent>
+<section class:transparent class:fade>
     {#key $settings["images.hero"], url}
         {#if $showHeroImages}
             <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}')"></div>
