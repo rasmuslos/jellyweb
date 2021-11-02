@@ -19,7 +19,7 @@
 
     const handleMouseEnter = () => expandTimeout = window.setTimeout(() => {
         expanded = true
-        setTimeout(calculateBounds, 1)
+        calculateBounds()
     }, 1000)
     const handleMouseLeave = () => {
         link.style.left = null
@@ -30,19 +30,17 @@
     }
 
     const calculateBounds = () => {
-        console.log(link)
         if(!link) return
 
-        let parentRect = link.parentElement.parentElement.getBoundingClientRect()
-        let rect = link.getBoundingClientRect()
+        const parentRect = link.parentElement.parentElement.getBoundingClientRect()
+        const rect = link.getBoundingClientRect()
 
-        const boundRight = (parentRect.width + parentRect.left) - (rect.width + rect.left)
-        const boundLeft = rect.left - parentRect.left
+        const left = parentRect.left - rect.left
+        const right = parentRect.right - rect.right
 
-        console.log(boundLeft - rect.width / 2)
-
-        if(boundRight < 0) link.style.left = `${(parentRect.width + parentRect.left) - (rect.width + rect.left)}px`
-        else if(boundLeft - rect.width / 2 > 0) link.classList.add("center")
+        if(left > 0) link.style.left = `${left}px`
+        if(right < 0) link.style.right = `${Math.abs(right)}px`
+        else link.classList.add("center")
     }
 </script>
 
@@ -54,12 +52,12 @@
         flex-shrink: 0;
         margin: 0.5% 10px;
 
-        min-height: 300px;
+        height: 300px;
         width: 200px;
     }
     .holder.wide {
         width: 300px;
-        min-height: 170px;
+        height: 170px;
     }
 
     a.item {
@@ -67,7 +65,10 @@
         grid-template-rows: auto auto;
         align-items: center;
 
+        /*
         transition: transform 200ms ease;
+        */
+        transition: bottom 500ms ease, width 500ms ease;
         width: 100%;
     }
 
@@ -89,7 +90,7 @@
         width: 400px;
         z-index: 2;
 
-        bottom: 0;
+        bottom: -20px;
 
         display: grid;
         grid-template-rows: 1fr auto;
@@ -120,7 +121,6 @@
         background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-
     }
     div.actions {
         margin-top: 20px;

@@ -24,6 +24,7 @@
 
     div.wrapper {
         margin: -200px 0;
+        padding-bottom: 50px;
     }
     div.holder {
         display: flex;
