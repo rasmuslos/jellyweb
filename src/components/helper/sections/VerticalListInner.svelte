@@ -29,10 +29,16 @@
     div.holder {
         display: flex;
         flex-shrink: 0;
+
+        align-items: start;
         overflow-x: auto;
     }
     div.holder {
         padding: 200px 0;
+        scrollbar-width: none;
+    }
+    div.holder::-webkit-scrollbar {
+        display: none;
     }
 </style>
 
