@@ -28,8 +28,6 @@
     div.holder {
         display: flex;
         flex-shrink: 0;
-
-        cursor: grab;
         overflow-x: auto;
     }
     div.holder {
