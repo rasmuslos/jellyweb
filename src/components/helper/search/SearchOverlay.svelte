@@ -64,7 +64,7 @@
     }
     const handleInput = async () => query !== "" ? results = (await search(query)).Items : hints
 </script>
-<svelte:window on:keydown={handleKeydown} on:click={() => modal.set(null)} />
+<svelte:window on:keydown={handleKeydown} />
 
 <style>
     div.holder {
@@ -143,7 +143,7 @@
         </div>
         {#if results && results.length > 0}
             {#each results as result}
-                <a class="result" href={generateItemUrl(result.Id)} data-item={result.Id}>
+                <a class="result" href={generateItemUrl(result.Id)} data-item={result.Id} on:click={() => modal.set(null)}>
                     <div class="icon">{@html getIconByType(result)}</div>
                     <span>{result.Name}</span>
                 </a>
