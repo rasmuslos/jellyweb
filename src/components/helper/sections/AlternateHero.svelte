@@ -47,10 +47,6 @@
         -webkit-text-fill-color: transparent;
     }
 
-    div.watch {
-        margin-top: 20px;
-    }
-
     a, span, p {
         text-shadow: 0 0 20px black;
     }
@@ -67,8 +63,6 @@
             {#if item.Taglines && item.Taglines.length > 0}
                 <span>{item.Taglines[0]}</span>
             {/if}
-            <div class="watch">
-                <HeroActions {item} includeMoreButton={true} />
-            </div>
+            <HeroActions {item} includeMoreButton={true} />
         </div>
     </div>

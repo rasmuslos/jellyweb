@@ -41,7 +41,7 @@
     div {
         display: flex;
         align-items: center;
-        margin: auto auto auto 0;
+        margin: 20px auto auto 0;
     }
     .action {
         width: 24px;

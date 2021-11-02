@@ -6,7 +6,7 @@
     import {search, searchHints} from "$lib/api/internal";
     import type {Item} from "$lib/typings";
     import {onMount} from "svelte";
-    import { t, locale, locales } from "$lib/i18n";
+    import { t } from "$lib/i18n";
 
     let query: string = ""
     let index: number = -1
@@ -64,7 +64,7 @@
     }
     const handleInput = async () => query !== "" ? results = (await search(query)).Items : hints
 </script>
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} on:click={() => modal.set(null)} />
 
 <style>
     div.holder {
@@ -135,7 +135,7 @@
 </style>
 
 <div class="holder">
-    <input autofocus placeholder="{$t("search")}" type="text" bind:value={query} on:keydown={handleInput} />
+    <input autofocus placeholder="{$t(`search`)}" type="text" bind:value={query} on:keydown={handleInput} />
     <div class="results">
         <div class="result dimmed" data-item="-1">
             <div class="icon">{@html icons.search.toSvg()}</div>

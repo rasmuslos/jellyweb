@@ -69,10 +69,7 @@
         grid-template-rows: auto auto;
         align-items: center;
 
-        /*
-        transition: transform 200ms ease;
-        */
-        transition: bottom 500ms ease, width 500ms ease;
+        transition: bottom 500ms ease, width 500ms ease, left 500ms ease, right 500ms ease, bottom 500ms ease;
         width: 100%;
     }
 
