@@ -37,12 +37,13 @@
 
         const parentRect = link.parentElement.parentElement.getBoundingClientRect()
         const rect = link.getBoundingClientRect()
+        const modifier =  + (wide ? 50 : 100)
 
         const left = parentRect.left - rect.left
         const right = parentRect.right - rect.right
 
-        if(left > 0) link.style.left = `${Math.abs(left)}px`
-        else if(right < 0) link.style.right = `${Math.abs(right)}px`
+        if(left + modifier > 0) link.style.left = `${left}px`
+        else if(right - modifier < 0) link.style.right = `${Math.abs(right)}px`
         else link.classList.add("center")
     }
 </script>
