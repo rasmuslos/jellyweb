@@ -47,7 +47,7 @@
         display: flex;
         flex-wrap: wrap;
 
-        align-items: center;
+        align-items: start;
         justify-content: center;
 
         margin: 0 auto;
@@ -56,10 +56,6 @@
         cursor: grab;
         overflow-y: hidden;
         overflow-x: auto;
-    }
-    div.item {
-        margin: 10px;
-        flex: 0 0 auto;
     }
 
     div.icon_holder {
@@ -98,9 +94,7 @@
     {:else}
         <div class="holder">
             {#each items as item}
-                <div class="item">
-                    <Item {item} wide={false}/>
-                </div>
+                <Item {item} wide={false}/>
             {/each}
         </div>
         <IntersectionObserver bind:intersecting top={1000}/>

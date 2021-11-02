@@ -55,4 +55,6 @@ export const de: typeof en = {
     "sort.title": "Name",
     "sort.by": "Sortieren nach",
     "sort.order": "Ordnen nach",
+    "sort.ascending": "Aufsteigend",
+    "sort.descending": "Absteigend",
 }

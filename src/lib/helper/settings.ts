@@ -9,9 +9,14 @@ export const fallbackLocale = "en"
 export const scrimBackdropImages = writable<boolean>(false)
 export const showHeroImages = writable<boolean>(false)
 export const blurHeroImages = writable<boolean>(false)
+
 export const maxBitrate = writable<number>(-1)
+
 export const lightMode = writable<boolean>(false)
 export const locale = writable<string>(fallbackLocale)
+
+export const sortOrder = writable<string>()
+export const orderBy = writable<string>(null)
 
 if(browser) {
     subscribeButIgnoreFirst(settings, updateDisplayPreferences)
@@ -23,6 +28,9 @@ if(browser) {
 
         lightMode.set(settings["theme"] === "light")
         locale.set(settings["locale"] ?? fallbackLocale)
+
+        sortOrder.set(settings["sort.order"] ?? null)
+        orderBy.set(settings["sort.by"] ?? null)
     })
 }
 

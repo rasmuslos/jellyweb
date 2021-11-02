@@ -2,6 +2,7 @@
     import ApplyWidth from "../sections/ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings";
     import {t} from "$lib/i18n";
+    import {orderBy, sortOrder, updatePreference} from "$lib/helper";
 
     export let value: string = ""
 
@@ -40,23 +41,25 @@
         },
     }
     const Order = {
-        ascending: {
+        ASCENDING: {
             title: $t("sort.ascending"),
             query: "ascending",
         },
-        descending: {
+        DESCENDING: {
             title: $t("sort.descending"),
             query: "descending",
         },
     }
 
-    let sort: SortItem = Sort.SORT_NAME
-    let order: SortItem = Order.ascending
+    let sort: SortItem = Object.values(Sort).find(item => item.query === $sortOrder) ?? Sort.SORT_NAME
+    let order: SortItem = Object.values(Order).find(item => item.query === $orderBy) ?? Order.ASCENDING
 
     let expanded: boolean = false
 
     export let sortQuery
     $: sortQuery = `sortBy=${sort.query}&sortOrder=${order.query}${value !== "" ? `&searchTerm=${value}` : ""}`
+    $: sort != Sort[$sortOrder] && updatePreference("sort.order", sort.query)
+    $: order != Order[$orderBy] && updatePreference("sort.by", order.query)
 </script>
 
 <style>
@@ -135,7 +138,7 @@
 <section>
     <ApplyWidth>
         <div class="wrapper" class:expanded>
-            <input placeholder="{$t("search")}" bind:value type="text" />
+            <input placeholder="{$t(`search`)}" bind:value type="text" />
             <div class="holder" on:click={() => expanded = !expanded}>
                 <div class="preview">{$t("sort.by")}&#160;<span>{sort.title}</span></div>
                 <div class="preview">{$t("sort.order")}&#160;<span>{order.title}</span></div>
@@ -146,7 +149,7 @@
                 </div>
                 <div class="content">
                     {#each Object.values(Order) as item}
-                        <div on:click={() => order = item} class:selected={item.query === sort.query} class="item">{item.title}</div>
+                        <div on:click={() => order = item} class:selected={item.query === order.query} class="item">{item.title}</div>
                     {/each}
                 </div>
             </div>
