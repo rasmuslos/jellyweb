@@ -6,14 +6,46 @@
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
     import {t} from "$lib/i18n";
     import AlternateHero from "../helper/sections/AlternateHero.svelte";
+    import {icons} from "feather-icons";
 
     export let items: Item[]
     export let active: Item = items[0]
+
+    const updateActive = (increment: boolean) => {
+        console.log(active.Id)
+        const current = items.findIndex(({ Id }) => active.Id === Id)
+
+        if(current === -1) active = items[0]
+        else if(increment) {
+            if(current === items.length - 1) active = items[0]
+            else active = items[current + 1]
+        } else {
+            if(current === 0) active = items[items.length - 1]
+            else active = items[current - 1]
+        }
+    }
 </script>
 
 <style>
     section {
         background-color: var(--background-light);
+    }
+
+    div {
+        position: absolute;
+        bottom: 30px;
+        right: 50px;
+
+        display: flex;
+        align-items: center;
+        height: 43px;
+    }
+    div :global(svg) {
+        width: 24px;
+        height: 24px;
+
+        cursor: pointer;
+        margin: 6px;
     }
 
     svg {
@@ -27,6 +59,10 @@
 
 <BackgroundSection fade url={getLargeBackdrop(active)}>
     <AlternateHero item={active} />
+    <div>
+        <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>
+        <span on:click={() => updateActive(true)}>{@html icons["arrow-right-circle"].toSvg()}</span>
+    </div>
 </BackgroundSection>
 <section>
     <ApplyWidth>

@@ -9,7 +9,7 @@
 <style>
     div.wrapper {
         height: 700px;
-        min-height: calc(100vh - 400px);
+        min-height: calc(100vh - 300px);
 
         display: flex;
         position: relative;
