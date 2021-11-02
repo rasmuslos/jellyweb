@@ -43,6 +43,7 @@
         align-items: center;
         margin: 20px auto auto 0;
     }
+
     .action {
         width: 24px;
         height: 24px;
@@ -50,6 +51,10 @@
         cursor: pointer;
         margin-left: 12px;
     }
+    .action:first-child {
+        margin-left: 0;
+    }
+
     .action.liked {
         fill: var(--error);
     }
