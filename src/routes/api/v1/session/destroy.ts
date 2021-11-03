@@ -5,7 +5,7 @@ export async function del({ locals }) {
         try {
             await logout(locals.session.data.active)
         } catch (error) {
-            console.error("Cannot logout of session", error)
+            console.error("Cannot log out of session", error)
         }
     }
     locals.session.data = {

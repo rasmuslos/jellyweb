@@ -8,18 +8,16 @@
 
 <style>
     div.wrapper {
+        position: relative;
+
         height: 700px;
         min-height: calc(100vh - 300px);
-
-        display: flex;
-        position: relative;
     }
 
     div.holder {
-        margin-top: auto;
-        max-width: 100%;
-
         position: absolute;
+        padding-right: 30px;
+
         bottom: 30px;
         left: 50px;
     }
@@ -48,21 +46,25 @@
     }
 
     a, span, p {
+        display: block;
         text-shadow: 0 0 20px black;
+    }
+    span > a {
+        display: inline-block;
     }
 </style>
 
-    <div class="wrapper">
-        <div class="holder">
-            {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-                <span class="dimmed"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-            {:else if item.SeriesName && item.SeriesId}
-                <span class="dimmed"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-            {/if}
-            <a class="heading" href={generateItemUrl(item.Id)}>{item.Name}</a>
-            {#if item.Taglines && item.Taglines.length > 0}
-                <span>{item.Taglines[0]}</span>
-            {/if}
-            <HeroActions {item} includeMoreButton={true} />
-        </div>
+<div class="wrapper">
+    <div class="holder">
+        {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
+            <span class="dimmed"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+        {:else if item.SeriesName && item.SeriesId}
+            <span class="dimmed"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+        {/if}
+        <a class="heading" href={generateItemUrl(item.Id)}>{item.Name}</a>
+        {#if item.Taglines && item.Taglines.length > 0}
+            <span>{item.Taglines[0]}</span>
+        {/if}
+        <HeroActions {item} includeMoreButton={true} />
     </div>
+</div>

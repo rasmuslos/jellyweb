@@ -48,6 +48,11 @@
         margin: 6px;
     }
 
+    span {
+        height: 36px;
+        width: 36px;
+    }
+
     svg {
         position: relative;
         bottom: -5px;
