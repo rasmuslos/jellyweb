@@ -18,6 +18,8 @@ export const locale = writable<string>(fallbackLocale)
 export const sortOrder = writable<string>()
 export const orderBy = writable<string>(null)
 
+export const large = writable<boolean>(false)
+
 if(browser) {
     subscribeButIgnoreFirst(settings, updateDisplayPreferences)
     settings.subscribe(settings => {
@@ -31,6 +33,8 @@ if(browser) {
 
         sortOrder.set(settings["sort.order"] ?? null)
         orderBy.set(settings["sort.by"] ?? null)
+
+        large.set(settings["large"] === "true")
     })
 }
 

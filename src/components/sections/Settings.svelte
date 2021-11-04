@@ -8,7 +8,7 @@
         deletePreferences,
         showHeroImages,
         updatePreference,
-        blurHeroImages
+        blurHeroImages, large
     } from "$lib/helper";
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
@@ -31,6 +31,14 @@
             description: "settings_blur_hero_desc",
             checked: $blurHeroImages,
             identifier: "images.blur",
+        },
+    ]
+    const otherOptions: Option[] = [
+        {
+            title: "settings.large",
+            description: "settings.large.desc",
+            checked: $large,
+            identifier: "large",
         },
     ]
 </script>
@@ -71,6 +79,7 @@
     {#key imageOptions}
         <OptionGroup options={imageOptions} title="{$t(`Images`)}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
     {/key}
+    <OptionGroup options={otherOptions} title="{$t(`settings.other`)}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
 </ApplyWidth>
 <section>
     <Wave />
