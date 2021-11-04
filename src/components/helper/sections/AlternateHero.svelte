@@ -29,15 +29,6 @@
         display: block;
         margin-bottom: 0;
     }
-    p {
-        width: 500px;
-        max-width: 90%;
-
-        margin-top: 17px;
-        overflow-y: auto;
-
-        max-height: 300px;
-    }
     span:not(.dimmed) {
         background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
 
@@ -45,7 +36,7 @@
         -webkit-text-fill-color: transparent;
     }
 
-    a, span, p {
+    a, span {
         display: block;
         text-shadow: 0 0 20px black;
     }
