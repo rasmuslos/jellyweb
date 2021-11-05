@@ -94,7 +94,7 @@
     {:else}
         <div class="holder">
             {#each items as item}
-                <Item {item} wide={false}/>
+                <Item {item} wide={false} />
             {/each}
         </div>
         <IntersectionObserver bind:intersecting top={1000}/>

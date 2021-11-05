@@ -6,6 +6,7 @@
 
     export let items: ItemType[]
     export let wide: boolean = true
+    export let small: boolean
 
     let holder
 
@@ -46,7 +47,7 @@
     <div class="wrapper">
         <div class="holder" bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
             {#each items as item}
-                <Item {item} {wide} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
+                <Item {item} {wide} {small} on:focus={() => handleMouseOver(item.Id)} on:mouseover={() => handleMouseOver(item.Id)} />
             {/each}
         </div>
     </div>

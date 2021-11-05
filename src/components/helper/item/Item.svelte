@@ -7,7 +7,8 @@
     import BackgroundSection from "../sections/BackgroundSection.svelte";
 
     export let item: Item
-    export let wide: boolean = true
+    export let wide: boolean
+    export let small: boolean
 
     let link: HTMLAnchorElement
 
@@ -58,6 +59,10 @@
 
         min-height: 300px;
         width: 200px;
+    }
+    .holder.small {
+        min-height: 200px;
+        width: 133px;
     }
     .holder.wide {
         width: 300px;
@@ -128,7 +133,7 @@
     }
 </style>
 
-<div class:wide on:focus on:mouseover class="holder">
+<div class:wide class:small on:focus on:mouseover class="holder">
     <a class="item" class:expanded href={generateItemUrl(item.Id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
         {#if expanded}
             <div class="image">
@@ -148,7 +153,7 @@
                 </div>
             </div>
         {:else}
-            <ItemImage {wide} {item} {badge} />
+            <ItemImage {wide} {small} {item} {badge} />
             <span class="title">{item.Name}</span>
         {/if}
     </a>

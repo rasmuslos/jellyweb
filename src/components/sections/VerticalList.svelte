@@ -6,6 +6,7 @@
     export let items: Item[]
     export let title: string = ""
     export let wide: boolean = true
+    export let small: boolean
 </script>
 
 <style>
@@ -19,6 +20,6 @@
         {#if title}
             <h1>{title}</h1>
         {/if}
-        <VerticalListInner on:mouseover {items} {wide} />
+        <VerticalListInner on:mouseover {items} {wide} {small} />
     </ApplyWidth>
 </section>

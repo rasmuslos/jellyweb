@@ -6,7 +6,8 @@
     import {decode, isBlurhashValid} from "blurhash";
     import {browser} from "$app/env";
 
-    export let wide: boolean = false
+    export let wide: boolean
+    export let small: boolean
     export let item: Item
 
     export let badge: number | string = null
@@ -49,6 +50,10 @@
 
         width: 200px;
         height: 300px;
+    }
+    div.holder.small {
+        width: 133px;
+        height: 200px;
     }
     div.holder.wide {
         width: 300px;
@@ -141,7 +146,7 @@
     }
 </style>
 
-<div class="holder" class:wide on:click>
+<div class="holder" class:wide class:small on:click>
     {#if imageData.hash != null}
         <canvas bind:this={canvas}></canvas>
     {/if}

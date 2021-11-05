@@ -28,6 +28,7 @@
 
 <style>
     section {
+        padding-top: 25px;
         background-color: var(--background-light);
     }
 

@@ -79,7 +79,7 @@
     <Chapters chapters={item.Chapters || []} itemId={item.Id} />
 {/if}
 {#if item.Type === "Movie"}
-    <VerticalList items={similar || []} title="{$t(`similar`)}" />
+    <VerticalList items={similar || []} title="{$t(`similar`)}" wide={false} small />
 {/if}
 
 {#if item.Type !== "Person" && item.People && item.People.length > 0}

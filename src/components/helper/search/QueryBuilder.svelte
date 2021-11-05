@@ -63,6 +63,10 @@
 </script>
 
 <style>
+    section {
+        margin: 50px 0;
+    }
+
     div.wrapper {
         position: relative;
         overflow: hidden;
