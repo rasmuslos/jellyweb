@@ -28,27 +28,24 @@
     import {onMount} from "svelte";
     import {browser} from "$app/env";
     import {t} from "$lib/i18n";
+    import LargeHeading from "../components/helper/LargeHeading.svelte";
+    import {page} from "$app/stores";
 
     export let hints: Item[]
 
-    let value: string
-    let sortQuery: string
+    let value: string = $page.query.get("query") ?? ""
+    let sortQuery: string = ""
     let query: string
 
-    onMount(() => {
-        if(browser && window) {
-            const params = new URLSearchParams(window.location.search)
-            value = params.get("query") ?? ""
-        }
-    })
-
     $: query = `includeItemTypes=Movie,Series,Season,Episode&${sortQuery}`
+    $: browser && window.history.replaceState({}, document.title, `/search?query=${value}`)
 </script>
 
 <svelte:head>
     <title>{value !== "" ? `${value} - ` : null}{$t("search")}</title>
 </svelte:head>
 
+<LargeHeading>{$t("search")}</LargeHeading>
 <section>
     <QueryBuilder bind:value bind:sortQuery />
     {#if value === ""}

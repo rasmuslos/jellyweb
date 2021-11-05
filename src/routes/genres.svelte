@@ -22,6 +22,7 @@
 </script>
 <script lang="ts">
     import Genres from "../components/sections/Genres.svelte";
+    import LargeHeading from "../components/helper/LargeHeading.svelte";
     export let genres: Item[]
 </script>
 
@@ -29,4 +30,5 @@
     <title>{$t("nav.genres")}</title>
 </svelte:head>
 
+<LargeHeading>{$t("genres")}</LargeHeading>
 <Genres big {genres} />

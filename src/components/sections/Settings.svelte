@@ -12,6 +12,7 @@
     } from "$lib/helper";
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
+    import LargeHeading from "../helper/LargeHeading.svelte";
 
     const imageOptions: Option[] = [
         {
@@ -75,7 +76,7 @@
 </style>
 
 <ApplyWidth>
-    <h1>{$t("settings")}</h1>
+    <LargeHeading>{$t("settings")}</LargeHeading>
     {#key imageOptions}
         <OptionGroup options={imageOptions} title="{$t(`Images`)}" on:change={({detail}) => updatePreference(detail.identifier, detail.checked)} />
     {/key}

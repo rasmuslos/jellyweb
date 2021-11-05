@@ -5,6 +5,8 @@ export const en = {
     "nav.series": "Series",
     "nav.genres": "Genres",
 
+    "genres": "Genres",
+
     // Main Hero
     "hero.continue": "Continue watching",
     "hero.watch": "Watch now",
