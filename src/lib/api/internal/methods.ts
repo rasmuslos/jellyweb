@@ -36,3 +36,5 @@ export const reportPlaybackProgress = async (body) => await makeRequest("playbac
 
 export const markAsPlayed = async (itemId) => await makeRequest("items/played", "POST", { itemId })
 export const markAsUnplayed = async (itemId) => await makeRequest("items/played", "DELETE", { itemId })
+
+export const getTasks = async () => await makeRequest("server/tasks")

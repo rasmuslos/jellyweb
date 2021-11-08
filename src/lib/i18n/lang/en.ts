@@ -71,4 +71,7 @@ export const en = {
     "sort.title": "Name",
     "sort.by": "Sort by",
     "sort.order": "Order by",
+
+    // Server
+    "server": "Server-Settings",
 }
