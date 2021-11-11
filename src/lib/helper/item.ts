@@ -25,13 +25,17 @@ const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: J
 const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageTags, ImageTags }: JellyfinItem, wide: boolean): ItemImage => {
     if(wide) {
         let tag
+        let parent = false
 
         if(BackdropImageTags && BackdropImageTags.length > 0) tag = getRandomEntry(BackdropImageTags)
-        else if(ParentBackdropImageTags && ParentBackdropImageTags.length > 0) tag = getRandomEntry(ParentBackdropImageTags)
+        else if(ParentBackdropImageTags && ParentBackdropImageTags.length > 0) {
+            tag = getRandomEntry(ParentBackdropImageTags)
+            parent = true
+        }
 
         if(tag) {
             const hash = ImageBlurHashes && ImageBlurHashes.Backdrop ? ImageBlurHashes.Backdrop[tag] || null : null
-            return {tag, hash}
+            return {tag, hash, parent}
         }
     } else if(ImageTags && ImageTags.Primary) return {
         tag: ImageTags.Primary,

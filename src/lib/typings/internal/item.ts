@@ -34,4 +34,5 @@ export type ItemImages = {
 export type ItemImage = {
     tag: string,
     hash: string,
+    parent?: boolean,
 }

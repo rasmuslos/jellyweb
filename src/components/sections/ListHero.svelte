@@ -23,6 +23,8 @@
             else active = items[current - 1]
         }
     }
+
+    console.log(items)
 </script>
 
 <style>
@@ -62,7 +64,7 @@
     }
 </style>
 
-<BackgroundSection fade url={generateImageUrl(active.id, active.images.wide.tag, "Backdrop")}>
+<BackgroundSection fade url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
     <AlternateHero item={active} />
     <div>
         <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>
