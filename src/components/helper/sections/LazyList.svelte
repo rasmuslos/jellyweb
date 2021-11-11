@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Item as ItemType} from "$lib/typings";
+    import {JellyfinItem as ItemType} from "$lib/typings/jellyfin";
     import IntersectionObserver from '../IntersectionObserver.svelte'
     import {onDestroy} from "svelte";
     import Item from "../item/Item.svelte";

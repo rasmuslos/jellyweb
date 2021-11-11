@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NavigationItem, User} from "$lib/typings";
+    import type {NavigationItem, User} from "$lib/typings/jellyfin";
     import Item from "./Item.svelte"
     import {noPadding} from "$lib/stores";
     import Search from "./Search.svelte";

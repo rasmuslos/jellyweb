@@ -21,7 +21,7 @@
     }
 </script>
 <script lang="ts">
-    import type {Item, PlaybackInfo, ProgressSegment} from "$lib/typings";
+    import type {JellyfinItem, PlaybackInfo, ProgressSegment} from "$lib/typings/jellyfin";
     import {
         bitrateTest,
         exitFullscreen,
@@ -46,9 +46,9 @@
     import Debug from "../../components/player/Debug.svelte";
     import {goto} from "$app/navigation";
     import Info from "../../components/player/Info.svelte";
-    import {SubtitleSegment} from "$lib/typings";
+    import {SubtitleSegment} from "$lib/typings/jellyfin";
 
-    export let item: Item
+    export let item: JellyfinItem
     let returnUrl: string = "/"
 
     getMediaData(item, true)

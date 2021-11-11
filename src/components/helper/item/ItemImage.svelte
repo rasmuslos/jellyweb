@@ -1,14 +1,14 @@
 <script lang="ts">
     import {getIconByType, getImageData} from "$lib/helper";
     import {icons} from "feather-icons";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {onMount} from "svelte";
     import {decode, isBlurhashValid} from "blurhash";
     import {browser} from "$app/env";
 
     export let wide: boolean
     export let small: boolean
-    export let item: Item
+    export let item: JellyfinItem
 
     export let badge: number | string = null
     let canvas: HTMLCanvasElement

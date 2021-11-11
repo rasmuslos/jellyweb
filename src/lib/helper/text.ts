@@ -1,7 +1,7 @@
 // https://github.com/jellyfin/jellyfin-web/blob/38f486339f191af50215532cb86679f53efd0aec/src/components/mediainfo/mediainfo.js#L437
-import type {Item} from "$lib/typings";
+import type {JellyfinItem} from "$lib/typings/jellyfin";
 
-export const getResolutionText = ({ Height, Width }: Item) => {
+export const getResolutionText = ({ Height, Width }: JellyfinItem) => {
     if(Width && Height) {
         if (Width >= 3800 || Height >= 2000) return "4K"
         else if (Width >= 2500 || Height >= 1400) return "1440p"

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import {Item} from "$lib/typings";
+    import {JellyfinItem} from "$lib/typings/jellyfin";
     import ItemImage from "../item/ItemImage.svelte";
     import {generateItemUrl, getResolutionText} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
 
-    export let item: Item
+    export let item: JellyfinItem
     export let tip: string = null
     export let includeMoreButton: boolean = true
     export let reduceOffset: boolean = false

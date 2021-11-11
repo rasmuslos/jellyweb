@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {changeScrollDirection, generateItemUrl} from "$lib/helper";
     import {t} from "$lib/i18n";
 
-    export let genres: Item[]
+    export let genres: JellyfinItem[]
     export let big: boolean = false
 
     let holder

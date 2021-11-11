@@ -22,7 +22,7 @@
     }
 </script>
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {noPadding} from "$lib/stores";
     import {onDestroy} from "svelte";
     import VerticalList from "../../components/sections/VerticalList.svelte";
@@ -32,12 +32,12 @@
     import LazyList from "../../components/helper/sections/LazyList.svelte";
     import QueryBuilder from "../../components/helper/search/QueryBuilder.svelte";
 
-    export let item: Item
-    export let seasons: Item[]
-    export let nextUp: Item[]
-    export let media: Item[]
-    export let episodes: Item[]
-    export let similar: Item[]
+    export let item: JellyfinItem
+    export let seasons: JellyfinItem[]
+    export let nextUp: JellyfinItem[]
+    export let media: JellyfinItem[]
+    export let episodes: JellyfinItem[]
+    export let similar: JellyfinItem[]
 
     let sort: string
 

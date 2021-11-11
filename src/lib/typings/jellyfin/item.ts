@@ -1,4 +1,4 @@
-export type Item = {
+export type JellyfinItem = {
     Name:                         string;
     OriginalTitle:                string;
     ServerId:                     string;
@@ -189,12 +189,13 @@ export type UserData = {
     PlayCount:             number;
     IsFavorite:            boolean;
     Likes:                 boolean;
-    LastPlayedDate:        Date;
+    LastPlayedDate:        string;
     Played:                boolean;
     Key:                   string;
     ItemId:                string;
 }
 
+/*
 export interface MediaStream {
     Codec: string;
     Language: string;
@@ -275,3 +276,5 @@ export interface MediaSource {
     DefaultSubtitleStreamIndex: number;
     DeliveryUrl: string;
 }
+
+ */

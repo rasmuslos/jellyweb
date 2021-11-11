@@ -1,6 +1,6 @@
 import {get} from "svelte/store";
 import {session} from "$app/stores";
-import type {Item, JellyfinSession} from "$lib/typings";
+import type {JellyfinItem, JellyfinSession} from "$lib/typings/jellyfin";
 import {browser} from "$app/env";
 
 export const generatePlayerUrl = (itemId: string, startAt: number = 0) => `/player/${itemId}?start=${startAt}&url=${browser ? window.location.href : "/"}`
@@ -18,7 +18,7 @@ const getRandomBackdropWithHash = (id: string, tags: string[], hashes) => {
     }
 }
 
-export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags }: Item) => getLargeBackdropWithTag({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags, ImageBlurHashes: { Backdrop: null } }).url
+export const getLargeBackdrop = ({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags }: JellyfinItem) => getLargeBackdropWithTag({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags, ImageBlurHashes: { Backdrop: null } }).url
 export const getLargeBackdropWithTag = ({ BackdropImageTags, Id, SeriesId, ParentBackdropImageTags, ImageBlurHashes }) => {
     if(BackdropImageTags && BackdropImageTags.length > 0) return getRandomBackdropWithHash(Id, BackdropImageTags, ImageBlurHashes.Backdrop)
     else if(SeriesId && ParentBackdropImageTags && ParentBackdropImageTags.length > 0) return getRandomBackdropWithHash(SeriesId, ParentBackdropImageTags, ImageBlurHashes.Backdrop)
@@ -26,7 +26,7 @@ export const getLargeBackdropWithTag = ({ BackdropImageTags, Id, SeriesId, Paren
     return { url: null, hash: null }
 }
 
-export const getImageData = (item: Item, wide: boolean) => {
+export const getImageData = (item: JellyfinItem, wide: boolean) => {
     if(wide) return getLargeBackdropWithTag(item)
     if(item.ImageTags && item.ImageTags.Primary) return {
         url: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200),

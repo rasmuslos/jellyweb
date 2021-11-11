@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {changeScrollDirection, generateImageUrl, generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import {t} from "$lib/i18n";
 
     let holder
-    export let persons: Item[]
+    export let persons: JellyfinItem[]
 </script>
 
 <style>

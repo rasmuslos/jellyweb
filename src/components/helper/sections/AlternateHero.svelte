@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
     import {generateItemUrl} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
+    import type {Item} from "$lib/typings/internal";
 
     export let item: Item
 </script>
@@ -47,14 +47,14 @@
 
 <div class="wrapper">
     <div class="holder">
-        {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-            <span class="dimmed"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-        {:else if item.SeriesName && item.SeriesId}
-            <span class="dimmed"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+        {#if item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+        {:else if item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
-        <a class="heading" href={generateItemUrl(item.Id)}>{item.Name}</a>
-        {#if item.Taglines && item.Taglines.length > 0}
-            <span>{item.Taglines[0]}</span>
+        <a class="heading" href={generateItemUrl(item.id)}>{item.name}</a>
+        {#if item.tagline}
+            <span>{item.tagline}</span>
         {/if}
         <HeroActions {item} includeMoreButton={true} />
     </div>

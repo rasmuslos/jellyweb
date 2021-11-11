@@ -1,19 +1,18 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
-    import {getLargeBackdrop} from "$lib/helper";
+    import {generateImageUrl} from "$lib/helper";
     import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
     import {t} from "$lib/i18n";
     import AlternateHero from "../helper/sections/AlternateHero.svelte";
     import {icons} from "feather-icons";
+    import type {Item} from "$lib/typings/internal";
 
     export let items: Item[]
     export let active: Item = items[0]
 
     const updateActive = (increment: boolean) => {
-        console.log(active.Id)
-        const current = items.findIndex(({ Id }) => active.Id === Id)
+        const current = items.findIndex(({ id }) => active.id === id)
 
         if(current === -1) active = items[0]
         else if(increment) {
@@ -63,7 +62,7 @@
     }
 </style>
 
-<BackgroundSection fade url={getLargeBackdrop(active)}>
+<BackgroundSection fade url={generateImageUrl(active.id, active.images.wide.tag, "Backdrop")}>
     <AlternateHero item={active} />
     <div>
         <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>
@@ -73,7 +72,7 @@
 <section>
     <ApplyWidth>
         <h1>{$t("hero.nextup")}</h1>
-        <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ Id }) => Id === detail)} />
+        <VerticalListInner {items} on:mouseover={({ detail }) => active = items.find(({ id }) => id === detail)} />
     </ApplyWidth>
     <svg viewBox="0 0 100 7" preserveAspectRatio="none">
         <polygon points="0,0 100,7 0,7" />

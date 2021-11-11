@@ -1,4 +1,4 @@
-import type {JellyfinSession} from "$lib/typings";
+import type {JellyfinSession} from "$lib/typings/jellyfin";
 import {createApiError} from "$lib/apiHelper";
 
 export const createRequest = async (endpoint: string, session: JellyfinSession, method: string = "GET", body: any = null, parse: boolean = true) => {
@@ -35,4 +35,4 @@ export const handleError = (error) => {
     else return createApiError(error.status, error.error)
 }
 
-export * from "./methods"
+export * from "./methods/v1"

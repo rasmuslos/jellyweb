@@ -4,15 +4,15 @@
     import {addClass, generateItemUrl, getIconByType, removeClass} from "$lib/helper";
     import {goto} from "$app/navigation";
     import {search, searchHints} from "$lib/api/internal";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {onMount} from "svelte";
     import { t } from "$lib/i18n";
 
     let query: string = ""
     let index: number = -1
     let selected
-    let hints: Item[]
-    let results: Item[]
+    let hints: JellyfinItem[]
+    let results: JellyfinItem[]
 
     onMount(async () => results = hints = await searchHints())
     const handleKeydown = (event: KeyboardEvent) => {

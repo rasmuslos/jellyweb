@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {icons} from "feather-icons";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import Chapters from "../sections/Chapters.svelte";
@@ -10,7 +10,7 @@
     import Stream from "./Stream.svelte";
     import Wave from "../sections/Wave.svelte";
 
-    export let item: Item
+    export let item: JellyfinItem
     export let returnUrl: string
 
     const streams = getMediaData(item)

@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {getLargeBackdrop} from "$lib/helper";
     import HeroInner from "../helper/sections/HeroInner.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
     import Wave from "./Wave.svelte";
 
-    export let item: Item
+    export let item: JellyfinItem
     export let tip: string = null
     export let includeWave: boolean = false
     export let includeMoreButton: boolean = true

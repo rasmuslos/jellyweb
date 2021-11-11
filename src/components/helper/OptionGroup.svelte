@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Option} from "$lib/typings";
+    import type {Option} from "$lib/typings/jellyfin";
     import {createEventDispatcher} from "svelte";
     import Switch from "../navigation/Switch.svelte";
     import {t} from "$lib/i18n";

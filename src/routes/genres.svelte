@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
     import {genres as requestGenres, setFetcher} from "$lib/api/internal";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
 
     export async function load({ fetch }) {
@@ -23,7 +23,7 @@
 <script lang="ts">
     import Genres from "../components/sections/Genres.svelte";
     import LargeHeading from "../components/helper/LargeHeading.svelte";
-    export let genres: Item[]
+    export let genres: JellyfinItem[]
 </script>
 
 <svelte:head>

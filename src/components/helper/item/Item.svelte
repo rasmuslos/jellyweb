@@ -1,12 +1,12 @@
 <script lang="ts">
     import ItemImage from "./ItemImage.svelte";
     import {generateItemUrl, getLargeBackdrop} from "$lib/helper";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {icons} from "feather-icons";
     import HeroActions from "../sections/HeroActions.svelte";
     import BackgroundSection from "../sections/BackgroundSection.svelte";
 
-    export let item: Item
+    export let item: JellyfinItem
     export let wide: boolean
     export let small: boolean
 

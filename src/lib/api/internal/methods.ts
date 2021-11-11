@@ -1,8 +1,10 @@
-import {makeRequest} from "$lib/api/internal/index";
-import type {PlaybackInfoRequest} from "$lib/typings";
+import {createRequest, makeRequest} from "$lib/api/internal";
+import type {PlaybackInfoRequest} from "$lib/typings/jellyfin";
 
+/**
+ * API V1
+ */
 export const login = async (server, username, password, name) => await makeRequest("session/login", "POST", { server, username, password, name }, false)
-export const home = async () => await makeRequest("items/home")
 
 export const genres = async () => await makeRequest("items/genres")
 export const me = async (handleLoginError: boolean = false) => await makeRequest("session/me", "GET", null, handleLoginError)
@@ -38,3 +40,9 @@ export const markAsPlayed = async (itemId) => await makeRequest("items/played", 
 export const markAsUnplayed = async (itemId) => await makeRequest("items/played", "DELETE", { itemId })
 
 export const getTasks = async () => await makeRequest("server/tasks")
+
+/**
+ * API V2
+ */
+
+export const getHomeItems = async () => await createRequest("pages/home")

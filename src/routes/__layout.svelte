@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
     import {setFetcher, me as getMe, getDisplayPreferences} from "$lib/api/internal";
-    import type {Settings, User} from "$lib/typings";
+    import type {Settings, User} from "$lib/typings/jellyfin";
     import {settings} from "$lib/stores";
     import {lightMode} from "$lib/helper";
 

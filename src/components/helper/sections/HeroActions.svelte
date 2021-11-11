@@ -1,11 +1,11 @@
 <script lang="ts">
     import {like, markAsPlayed, markAsUnplayed, unlike} from "$lib/api/internal";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import WatchNowButton from "../../input/WatchNowButton.svelte";
 
-    export let item: Item
+    export let item: JellyfinItem
 
     let isFavorite: boolean = false
     let isWatched: boolean = false

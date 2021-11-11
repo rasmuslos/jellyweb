@@ -1,4 +1,4 @@
-import type {JellyfinSession, Session} from "$lib/typings";
+import type {JellyfinSession, Session} from "$lib/typings/jellyfin";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import {authoriseUserByName, handleError} from "$lib/api/jellyfin";
 import {HOST} from "$lib/environment";

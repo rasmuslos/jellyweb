@@ -1,6 +1,6 @@
 import {getBoxSets, handleError} from "$lib/api/jellyfin"
 import {createApiResponse} from "$lib/apiHelper";
-import type {VirtualFolder} from "$lib/typings";
+import type {VirtualFolder} from "$lib/typings/jellyfin";
 
 export async function get({ locals }) {
     try {

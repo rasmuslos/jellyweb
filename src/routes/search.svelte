@@ -23,7 +23,7 @@
 <script lang="ts">
     import QueryBuilder from "../components/helper/search/QueryBuilder.svelte";
     import LazyList from "../components/helper/sections/LazyList.svelte";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import VerticalList from "../components/sections/VerticalList.svelte";
     import {onMount} from "svelte";
     import {browser} from "$app/env";
@@ -31,7 +31,7 @@
     import LargeHeading from "../components/helper/LargeHeading.svelte";
     import {page} from "$app/stores";
 
-    export let hints: Item[]
+    export let hints: JellyfinItem[]
 
     let value: string = $page.query.get("query") ?? ""
     let sortQuery: string = ""

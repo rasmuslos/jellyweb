@@ -1,9 +1,9 @@
 <script lang="ts">
     import {getMediaData, getTranscodingReasons, isTranscoding} from "$lib/helper";
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {activeAudioTrack, activeMediaSource, activeSubtitleTrack, bitrate} from "$lib/stores";
 
-    export let item: Item
+    export let item: JellyfinItem
     export let waiting: boolean
 
     export let videoWidth: number

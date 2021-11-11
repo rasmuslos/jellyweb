@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Chapter} from "$lib/typings";
+    import {Chapter} from "$lib/typings/jellyfin";
     import ItemImage from "../helper/item/ItemImage.svelte";
     import {session} from "$app/stores";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";

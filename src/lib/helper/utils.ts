@@ -1,10 +1,10 @@
-import type {Item, JellyfinSession} from "$lib/typings";
+import type {JellyfinItem, JellyfinSession} from "$lib/typings/jellyfin";
 import {icons} from "feather-icons";
 import {testBitrate} from "$lib/api/jellyfin";
 import {bitrate} from "$lib/stores";
 import {browser} from "$app/env";
 
-export const getIconByType = ({ Type }: Item) => {
+export const getIconByType = ({ Type }: JellyfinItem) => {
     let icon = "alert-triangle"
 
     if(Type === "Movie") icon = "film"
