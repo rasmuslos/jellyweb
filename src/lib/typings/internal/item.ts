@@ -1,3 +1,5 @@
+// TODO: include ticks
+
 export type Item = {
     name: string,
     tagline: string,

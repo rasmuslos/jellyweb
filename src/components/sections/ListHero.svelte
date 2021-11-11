@@ -23,8 +23,6 @@
             else active = items[current - 1]
         }
     }
-
-    console.log(items)
 </script>
 
 <style>

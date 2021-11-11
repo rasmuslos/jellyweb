@@ -1,11 +1,11 @@
 <script lang="ts">
     import {like, markAsPlayed, markAsUnplayed, unlike} from "$lib/api/internal";
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import WatchNowButton from "../../input/WatchNowButton.svelte";
+    import type {Item} from "$lib/typings/internal";
 
-    export let item: JellyfinItem
+    export let item: Item
 
     let isFavorite: boolean = false
     let isWatched: boolean = false
@@ -14,25 +14,24 @@
     export let includeMoreButton: boolean = true
     export let noButton: boolean = false
 
-    $: isFavorite = item.UserData && item.UserData.IsFavorite
-    $: isWatched = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played)
+    $: isFavorite = item.favorite
+    $: isWatched = item.watched
 
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
     const toggleLike = async () => {
         if(processing) return
         processing = true
 
-        if(isFavorite) isFavorite = (await unlike(item.Id)).favorite
-        else isFavorite = (await like(item.Id)).favorite
+        if(isFavorite) isFavorite = (await unlike(item.id)).favorite
+        else isFavorite = (await like(item.id)).favorite
         processing = false
     }
     const togglePlayed = async () => {
         if(processing) return
         processing = true
 
-        if(isWatched) isWatched = (await markAsUnplayed(item.Id)).played
-        else isWatched = (await markAsPlayed(item.Id)).played
+        if(isWatched) isWatched = (await markAsUnplayed(item.id)).played
+        else isWatched = (await markAsPlayed(item.id)).played
         processing = false
     }
 </script>
@@ -64,21 +63,24 @@
 </style>
 
 <div>
-    {#key isWatchable, noButton}
-        {#if isWatchable && !noButton}
-            <WatchNowButton itemId={item.Id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
+    {#key item.playable, noButton}
+        {#if item.playable && !noButton}
+            <!--
+            TODO: ticks
+            -->
+            <WatchNowButton itemId={item.id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
         {/if}
     {/key}
     <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {
         stroke: "var(--highlight)"
     } : {})}</span>
     {#key isFavorite}
-                <span class="action" class:liked={item.UserData && item.UserData.IsFavorite} class:processing on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
+                <span class="action" class:liked={isFavorite} class:processing on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
                     fill: "var(--error)",
                     stroke: "var(--error)"
                 } : {})}</span>
     {/key}
     {#if includeMoreButton}
-        <a class="action" href={generateItemUrl(item.Id)}>{@html icons["info"].toSvg()}</a>
+        <a class="action" href={generateItemUrl(item.id)}>{@html icons["info"].toSvg()}</a>
     {/if}
 </div>

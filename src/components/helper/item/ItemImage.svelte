@@ -1,30 +1,27 @@
 <script lang="ts">
-    import {getIconByType, getImageData} from "$lib/helper";
+    import {generateImageUrl, getIconByType, getImageData} from "$lib/helper";
     import {icons} from "feather-icons";
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {onMount} from "svelte";
     import {decode, isBlurhashValid} from "blurhash";
     import {browser} from "$app/env";
+    import type {Item} from "$lib/typings/internal";
 
     export let wide: boolean
     export let small: boolean
-    export let item: JellyfinItem
+    export let item: Item
 
     export let badge: number | string = null
     let canvas: HTMLCanvasElement
 
-    export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
-    export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
 
     export let url
-    const imageData = url ? { url, hash: null } : getImageData(item, wide)
 
     onMount(async () => {
-        if(browser && canvas && isBlurhashValid(imageData.hash)) {
+        if(browser && canvas && isBlurhashValid(item.images.normal.hash)) {
             const width = 18
             const height = 18
 
-            const data = decode(imageData.hash, width, height)
+            const data = decode(item.images.normal.hash, width, height)
 
             canvas.width = 18
             canvas.height = 18
@@ -147,19 +144,19 @@
 </style>
 
 <div class="holder" class:wide class:small on:click>
-    {#if imageData.hash != null}
+    {#if item.images.normal.hash != null}
         <canvas bind:this={canvas}></canvas>
     {/if}
-    {#if imageData.url != null}
-        <div class="image" style="background-image: url('{imageData.url}')"></div>
+    {#if item.images.normal.tag != null}
+        <div class="image" style="background-image: url('{wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)}')"></div>
     {:else}
         <div class="type">
             {@html getIconByType(item)}
         </div>
     {/if}
-    <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
+    <div style="width: {item.playedPercentage || `0`}%" class="progress"></div>
     <div class="overlay"></div>
-    {#if isWatchable}
+    {#if item.playable}
         <div class="play">
             {@html icons.play.toSvg({height: 50, width: 50})}
         </div>

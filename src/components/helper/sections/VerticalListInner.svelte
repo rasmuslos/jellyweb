@@ -10,7 +10,7 @@
     let holder
 
     const dispatcher = createEventDispatcher()
-    const handleMouseOver = (item) => dispatcher("mouseover", item)
+    const handleMouseOver = id => dispatcher("mouseover", id)
 </script>
 
 <style>
