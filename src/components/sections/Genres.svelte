@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {changeScrollDirection, generateItemUrl} from "$lib/helper";
     import {t} from "$lib/i18n";
+    import type {Genre} from "$lib/typings/internal";
 
-    export let genres: JellyfinItem[]
+    export let genres: Genre[]
     export let big: boolean = false
 
     let holder
@@ -97,9 +97,9 @@
         {/if}
         <div class="holder" class:big bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
             {#each genres as genre, i}
-                <a href={generateItemUrl(genre.Id)}  class="genre">
+                <a href={generateItemUrl(genre.id)}  class="genre">
                     <div class="gradient no{i % 5}"></div>
-                    <h1>{genre.Name}</h1>
+                    <h1>{genre.name}</h1>
                 </a>
             {/each}
         </div>

@@ -61,10 +61,10 @@
 -->
 {/if}
 
-<!--
 {#if genres != null && genres.length > 0}
     <Genres {genres} />
 {/if}
+<!--
 {#if recommendations != null && recommendations.length > 0}
     <VerticalList items={recommendations} title="{$t(`recommended`)}" wide={false} />
 {/if}
