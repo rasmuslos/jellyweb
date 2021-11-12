@@ -1,21 +1,16 @@
 <script lang="ts" context="module">
-    import {genres as requestGenres, setFetcher} from "$lib/api/internal";
+    import {getGenres, setFetcher} from "$lib/api/internal";
     import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
 
     export async function load({ fetch }) {
-        try {
-            setFetcher(fetch);
-            const genresObj = await requestGenres()
+        setFetcher(fetch);
+        const genres = await getGenres()
 
-            return {
-                status: 200,
-                props: { genres: genresObj.genres }
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                genres
             }
         }
     }

@@ -29,7 +29,7 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     return res.json()
 }
 export const handleError = (error) => {
-    console.error(error)
+    console.error("Jellyfin error", error)
 
     if(error.message != null) return createApiError(500, error.message)
     else return createApiError(error.status, error.error)

@@ -46,3 +46,4 @@ export const getTasks = async () => await makeRequest("server/tasks")
  */
 
 export const getHomeItems = async () => await createRequest("pages/home")
+export const getGenres = async () => await createRequest("pages/genres")

@@ -1,5 +1,6 @@
 import type {InternalApiRequest} from "$lib/typings/jellyfin";
 import {goto} from "$app/navigation";
+import {browser} from "$app/env";
 
 let customFetch
 
@@ -38,7 +39,7 @@ export const createRequest = async (endpoint: string, requestOptions?: RequestOp
     const { ok, payload }: InternalApiRequest = await res.json()
 
     if(!ok) {
-        if(payload.status === 401 && options.handleLoginError) return goto("/user/logout")
+        if(payload.status === 401 && options.handleLoginError && browser) return goto("/user/logout")
         else return Promise.reject(payload)
     }
 

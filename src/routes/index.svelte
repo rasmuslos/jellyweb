@@ -3,20 +3,13 @@
     import type {JellyfinItem} from "$lib/typings/jellyfin";
 
     export async function load({ fetch }) {
-        try {
-            setFetcher(fetch)
-            const home = await getHomeItems()
+        setFetcher(fetch)
+        const home = await getHomeItems()
 
-            return {
-                status: 200,
-                props: {
-                    ...home
-                }
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                ...home
             }
         }
     }

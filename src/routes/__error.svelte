@@ -5,9 +5,26 @@
                 title: "An unknown error occurred"
             }
         }
-        else return {
-            props: {
-                title: `${status}: ${error.message}`
+
+        try {
+            const message = JSON.parse(error.message)
+            const status = message.status || 500
+
+            if(status === 401) return {
+                status: 301,
+                redirect: "/error"
+            }
+            else return {
+                props: {
+                    title: `[${status}] ${message.error}`,
+                    status,
+                }
+            }
+        } catch (error) {
+            return {
+                props: {
+                    title: `${status}: ${error.message}`,
+                }
             }
         }
     }
