@@ -10,7 +10,7 @@ const getRandomEntry = (entries: any[]) => {
 }
 
 const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: JellyfinItem): ShowData => {
-    if(SeriesId == null || SeasonId == null) return null
+    if(SeriesId == null) return null
 
     return {
         showId: SeriesId,
@@ -48,7 +48,8 @@ const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageT
 export const convert = (jellyfinItem: JellyfinItem): Item => {
     const { Id, Name, Taglines, UserData, Type } = jellyfinItem
 
-    const type = Type.toLowerCase() as ItemType
+    let type = Type === "Series" ? "show" : Type.toLowerCase() as ItemType
+
     const watchable = type === "movie" || type === "episode"
 
     return {

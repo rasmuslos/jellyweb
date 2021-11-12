@@ -34,4 +34,15 @@ export const getLatestItems = async (session: JellyfinSession) => (await createR
 export const getGenre = async (session: JellyfinSession, genreId: string) => convertGenre(await createRequest(`Users/${session.userId}/Items/${genreId}`, session))
 
 export const getItem = async (session: JellyfinSession, itemId: string) => convert(await createRequest(`Users/${session.userId}/Items/${itemId}`, session))
+export const getNextUpItem = async (session: JellyfinSession, showId: string) => {
+    const items = (await createRequest(`Shows/NextUp?userId=${session.userId}&limit=1&seriesId=${showId}&${fields}`, session)).Items
+
+    if(items && items.length > 0) return convert(items[0])
+    else return null
+}
+
 export const getSimilarItems = async (session: JellyfinSession, itemId: string) => (await createRequest(`Items/${itemId}/Similar?limit=14&${includeFilterBoth}`, session)).Items.map(convert)
+export const getItemsBasedOnPerson = async (session: JellyfinSession, personId: string) => (await createRequest(`Users/${session.userId}/Items?personIds=${personId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=${includeFilterSeries}`, session)).Items.map(convert)
+
+export const getSeasons = async (session: JellyfinSession, showId: string) => (await createRequest(`Shows/${showId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)).Items.map(convert)
+export const getEpisodes = async (session: JellyfinSession, seriesId: string, seasonId: string) => (await createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${includeFilterBoth}&${fields}`, session)).Items.map(convert)

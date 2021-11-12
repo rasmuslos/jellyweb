@@ -27,13 +27,13 @@
     import type {Item} from "$lib/typings/internal";
 
     export let item: Item
-    export let seasons: JellyfinItem[]
-    export let nextUp: JellyfinItem[]
-    export let media: JellyfinItem[]
-    export let episodes: JellyfinItem[]
+    export let seasons: Item[]
+    export let nextUp: Item[]
+    export let media: Item[]
+    export let episodes: Item[]
     export let similar: Item[]
 
-    if(item.type !== "Genre") noPadding.set(true)
+    noPadding.set(true)
     onDestroy(() => noPadding.set(false))
 </script>
 
@@ -49,16 +49,13 @@
     <title>{item.name}</title>
 </svelte:head>
 
-{#if item.type !== "genre"}
-    <Hero {item} includeMoreButton={false} includeWave={item.type !== "Person"} />
-{/if}
-
+<Hero {item} includeMoreButton={false} includeWave={item.type !== "Person"} />
 {#if nextUp}
     <Hero item={nextUp} tip="{$t(`hero.nextup`)}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
-{#if item.type === "Series" || item.type === "Season"}
+{#if item.type === "show" || item.type === "season"}
     {#key item}
-        <VerticalList items={item.name === "Series" ? seasons : episodes} wide={false} title={item.type === "Series" ? $t("seasons") : $t("episodes")} />
+        <VerticalList items={item.type === "show" ? seasons : episodes} wide={false} title={item.type === "show" ? $t("seasons") : $t("episodes")} />
     {/key}
 {/if}
 
