@@ -11,7 +11,7 @@ export const getUnfinishedItems = async (session: JellyfinSession) => (await cre
 export const getNextUpItems = async (session: JellyfinSession) => (await createRequest(`Shows/NextUp?userId=${session.userId}&${includeFilterEpisode}&${fields}&filters=IsUnplayed`, session)).Items.map(convert)
 export const getGenres = async (session: JellyfinSession) => (await createRequest(`Genres`, session)).Items.map(convertGenre)
 export const getRandomItem = async (session: JellyfinSession) => {
-    const items = (await createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${includeFilterSeries}&${fields}`, session)).Items.map(convertGenre)
+    const items = (await createRequest(`Users/${session.userId}/Items?SortBy=IsFavoriteOrLiked,Random&Limit=1&Recursive=true&EnableTotalRecordCount=false&${includeFilterSeries}&${fields}`, session)).Items.map(convert)
 
     if(items.length > 0) return items[0]
     else return null

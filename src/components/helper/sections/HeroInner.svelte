@@ -3,16 +3,15 @@
     import ItemImage from "../item/ItemImage.svelte";
     import {generateItemUrl, getResolutionText} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
+    import type {Item} from "$lib/typings/internal";
 
-    export let item: JellyfinItem
+    export let item: Item
     export let tip: string = null
     export let includeMoreButton: boolean = true
     export let reduceOffset: boolean = false
 
     export let noImage: boolean = false
     export let noButton: boolean = false
-
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 </script>
 
 <style>
@@ -126,9 +125,11 @@
         {/if}
         <div>
             <div class="heading">
-                <a href={generateItemUrl(item.Id)}>{item.Name}</a>
+                <a href={generateItemUrl(item.id)}>{item.name}</a>
                 <div class="badges">
-                    {#if isWatchable}
+                    <!--
+                    TODO: BADGES
+                    {#if item.playable}
                         <span>{getResolutionText(item)}</span>
                         <span>{item.HasSubtitles ? "CC" : "/"}</span>
                     {/if}
@@ -141,19 +142,23 @@
                     {#if item.CriticRating}
                         <span>{item.CriticRating}%</span>
                     {/if}
+                    -->
                 </div>
             </div>
         </div>
-        {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-            <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-        {:else if item.SeriesName && item.SeriesId}
-            <span class="dimmed info"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-        {:else if item.Taglines && item.Taglines.length > 0}
-            <p class="tagline">{item.Taglines[0]}</p>
+        {#if item.tagline}
+            <span class="tagline">{item.tagline}</span>
+        {:else if item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+        {:else if item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
+        <!--
+        TODO: OVERVIEW
         {#if item.Overview !== undefined}
             <p>{item.Overview}</p>
         {/if}
+        -->
         <HeroActions {item} {includeMoreButton} {noButton} />
     </div>
 </div>

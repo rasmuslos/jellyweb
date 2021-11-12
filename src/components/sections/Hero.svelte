@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
-    import {getLargeBackdrop} from "$lib/helper";
+    import {generateImageUrl} from "$lib/helper";
     import HeroInner from "../helper/sections/HeroInner.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
     import Wave from "./Wave.svelte";
+    import type {Item} from "$lib/typings/internal";
 
-    export let item: JellyfinItem
+    export let item: Item
     export let tip: string = null
     export let includeWave: boolean = false
     export let includeMoreButton: boolean = true
@@ -16,7 +16,7 @@
     export let noButton: boolean = false
 </script>
 
-<BackgroundSection transparent={hideImage} url={!hideImage && getLargeBackdrop(item)}>
+<BackgroundSection transparent={hideImage} url={!hideImage && generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")}>
     <HeroInner {item} {tip} {includeMoreButton} {reduceOffset} {noImage} {noButton} />
     {#if includeWave}
         <Wave colored={false} />

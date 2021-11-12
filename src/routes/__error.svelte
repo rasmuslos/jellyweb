@@ -20,7 +20,7 @@
                     status,
                 }
             }
-        } catch (error) {
+        } catch (err) {
             return {
                 props: {
                     title: `${status}: ${error.message}`,

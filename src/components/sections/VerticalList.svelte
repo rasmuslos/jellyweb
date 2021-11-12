@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
+    import type {Item} from "$lib/typings/internal";
 
-    export let items: JellyfinItem[]
+    export let items: Item[]
     export let title: string = ""
     export let wide: boolean = true
     export let small: boolean

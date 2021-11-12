@@ -23,13 +23,14 @@
     import Hero from "../components/sections/Hero.svelte";
     import VerticalList from "../components/sections/VerticalList.svelte";
     import type {Item} from "$lib/typings/internal";
+    import {t} from "$lib/i18n"
 
     export let unfinished: Item[]
     export let nextUp: Item[]
     export let genres: Item[]
     export let random: Item
     export let bestRated: Item[]
-    export let recommendations: Item[]
+    export let recommended: Item[]
     export let latest: Item[]
 
     const combined = unfinished.concat(nextUp).sort((a, b) => {
@@ -48,18 +49,15 @@
 
 {#if showHero && combined != null && combined.length > 0}
     <ListHero items={combined} />
-<!--
 {:else if random != null}
     <Hero item={random} tip="{$t(`watch_this`)}" includeWave />
--->
 {/if}
 
 {#if genres != null && genres.length > 0}
     <Genres {genres} />
 {/if}
-<!--
-{#if recommendations != null && recommendations.length > 0}
-    <VerticalList items={recommendations} title="{$t(`recommended`)}" wide={false} />
+{#if recommended != null && recommended.length > 0}
+    <VerticalList items={recommended} title="{$t(`recommended`)}" wide={false} />
 {/if}
 {#if showHero && random != null}
     <Hero item={random} tip="{$t(`watch_this`)}" reduceOffset />
@@ -70,4 +68,3 @@
 {#if latest != null && latest.length > 0}
     <VerticalList items={latest} title="{$t(`latest`)}" wide={false} />
 {/if}
--->
