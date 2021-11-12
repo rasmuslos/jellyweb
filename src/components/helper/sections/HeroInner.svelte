@@ -147,18 +147,15 @@
             </div>
         </div>
         {#if item.tagline}
-            <span class="tagline">{item.tagline}</span>
+            <p class="tagline">{item.tagline}</p>
         {:else if item.showData}
             <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {:else if item.showData}
             <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
-        <!--
-        TODO: OVERVIEW
-        {#if item.Overview !== undefined}
-            <p>{item.Overview}</p>
+        {#if item.overview}
+            <p>{item.overview}</p>
         {/if}
-        -->
         <HeroActions {item} {includeMoreButton} {noButton} />
     </div>
 </div>

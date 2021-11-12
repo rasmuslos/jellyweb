@@ -15,7 +15,6 @@ export const searchHints = async () => await makeRequest(`items/search/hints`)
 export const like = async (itemId) => await makeRequest("items/like", "POST", { itemId })
 export const unlike = async (itemId) => await makeRequest("items/unlike", "DELETE", { itemId })
 
-export const getItem = async (itemId, complex: boolean = false) => await makeRequest(`items/${itemId}?complex=${complex}`)
 export const getItemsByPerson = async (personId) => await makeRequest(`items/person/${personId}`)
 
 export const getDisplayPreferences = async (handleLoginError: boolean = false) => (await makeRequest("session/preferences", "GET", null, handleLoginError)).CustomPrefs
@@ -47,3 +46,6 @@ export const getTasks = async () => await makeRequest("server/tasks")
 
 export const getHomeItems = async () => await createRequest("pages/home")
 export const getGenres = async () => await createRequest("pages/genres")
+
+export const getGenre = async (genreId) => await createRequest(`pages/genres/${genreId}`)
+export const getItem = async (itemId, complex: boolean = false) => await createRequest(`pages/detail/${itemId}?complex=${complex}`)

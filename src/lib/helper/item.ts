@@ -56,6 +56,7 @@ export const convert = (jellyfinItem: JellyfinItem): Item => {
         name: Name || UNKNOWN,
         type,
 
+        overview: jellyfinItem.Overview,
         tagline: Taglines && Taglines.length > 0 ? Taglines[0] : null,
         lastPlayed: UserData && UserData.LastPlayedDate ? UserData.LastPlayedDate : 0,
 

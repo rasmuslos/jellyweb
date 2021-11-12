@@ -1,6 +1,6 @@
 <script lang="ts">
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
-    import {changeScrollDirection, generateItemUrl} from "$lib/helper";
+    import {changeScrollDirection, generateGenreUrl} from "$lib/helper";
     import {t} from "$lib/i18n";
     import type {Genre} from "$lib/typings/internal";
 
@@ -97,7 +97,7 @@
         {/if}
         <div class="holder" class:big bind:this={holder} on:wheel={event => !big && changeScrollDirection(event, holder)}>
             {#each genres as genre, i}
-                <a href={generateItemUrl(genre.id)}  class="genre">
+                <a href={generateGenreUrl(genre.id)}  class="genre">
                     <div class="gradient no{i % 5}"></div>
                     <h1>{genre.name}</h1>
                 </a>

@@ -30,3 +30,8 @@ export const getRecommendedItems = async (session: JellyfinSession) => {
     return recommended
 }
 export const getLatestItems = async (session: JellyfinSession) => (await createRequest(`Users/${session.userId}/Items/Latest?Limit=25&${fields}`, session)).map(convert)
+
+export const getGenre = async (session: JellyfinSession, genreId: string) => convertGenre(await createRequest(`Users/${session.userId}/Items/${genreId}`, session))
+
+export const getItem = async (session: JellyfinSession, itemId: string) => convert(await createRequest(`Users/${session.userId}/Items/${itemId}`, session))
+export const getSimilarItems = async (session: JellyfinSession, itemId: string) => (await createRequest(`Items/${itemId}/Similar?limit=14&${includeFilterBoth}`, session)).Items.map(convert)

@@ -2,7 +2,9 @@
 
 export type Item = {
     name: string,
+    overview: string,
     tagline: string,
+
     type: ItemType,
     id: string,
 
@@ -17,7 +19,7 @@ export type Item = {
     playedPercentage: number,
 }
 
-export type ItemType = "movie" | "episode" | "season" | "show"
+export type ItemType = "movie" | "episode" | "season" | "show" | "person"
 
 export type ShowData = {
     showId: string,

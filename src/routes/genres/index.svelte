@@ -16,8 +16,9 @@
     }
 </script>
 <script lang="ts">
-    import Genres from "../components/sections/Genres.svelte";
-    import LargeHeading from "../components/helper/LargeHeading.svelte";
+    import LargeHeading from "../../components/helper/LargeHeading.svelte";
+    import Genres from "../../components/sections/Genres.svelte";
+
     export let genres: JellyfinItem[]
 </script>
 
