@@ -24,7 +24,7 @@
         */
     }
     span:hover {
-        color: var(--text);
+        color: var(--white);
     }
 
     div :global(svg:not(:first-child)) {
