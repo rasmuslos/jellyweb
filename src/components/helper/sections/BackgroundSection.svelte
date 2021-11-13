@@ -66,7 +66,7 @@
         width: 100%;
 
         content: "";
-        background-image: linear-gradient(#3B425200 0%, #3B4252 100%);
+        background-image: linear-gradient(#00000000 0%, var(--background-light) 100%);
     }
 
     div.holder {
