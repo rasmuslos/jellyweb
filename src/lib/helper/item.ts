@@ -1,9 +1,10 @@
-import type {ImageTags, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
-import type {Badges, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
+import type {Chapter as JellyfinChapter, ImageTags, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
+import type {Badges, Chapter, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
 import type {ItemType} from "$lib/typings/internal";
 import {getResolutionText} from "$lib/helper/text";
 import {VALID_TYPES} from "$lib/typings/internal";
 import type {Person} from "$lib/typings/internal/person";
+import {convertTicksToMillis} from "$lib/helper/utils";
 
 const UNKNOWN = "unknown"
 
@@ -11,8 +12,9 @@ const getRandomEntry = (entries: any[]) => {
     const index = Math.floor(Math.random() * entries.length)
     return entries[index]
 }
-const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles, Height, Width, MediaStreams }: JellyfinItem, watchable: boolean): Badges => {
+const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles, Height, Width, MediaStreams, MediaSources }: JellyfinItem, watchable: boolean): Badges => {
     const videoStream = MediaStreams && MediaStreams.find(stream => stream.Type === "Video")
+    const mediaSource = MediaSources && MediaSources.length > 0 && MediaSources[0]
 
     return {
         ageRating: OfficialRating === "0" ? "PG-0" : OfficialRating,
@@ -22,6 +24,7 @@ const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles
 
         videoRange: watchable ? videoStream && videoStream.VideoRange ? videoStream.VideoRange : "SDR" : null,
         resolution: watchable ? getResolutionText({ Height, Width }) : null,
+        runtime: mediaSource ? convertTicksToMillis(mediaSource.RunTimeTicks) : null,
     }
 }
 
@@ -97,6 +100,7 @@ export const convert = (jellyfinItem: JellyfinItem, complex: boolean = false): I
         showData: getShowData(jellyfinItem),
 
         people: complex && jellyfinItem.People && jellyfinItem.People.length > 0 ? jellyfinItem.People.map(convertSimplePerson) : null,
+        chapters: complex && jellyfinItem.Chapters && jellyfinItem.Chapters.length > 0 ? jellyfinItem.Chapters.map(convertChatper) : null
     }
 }
 export const convertGenre = (jellyfinItem: JellyfinItem): Genre => {
@@ -126,5 +130,12 @@ export const convertSimplePerson = (person: JellyfinPerson): Person => {
             normal: getPrimaryImage(person.PrimaryImageTag, person.ImageBlurHashes),
             wide: null,
         },
+    }
+}
+export const convertChatper = (chapter: JellyfinChapter): Chapter => {
+    return {
+        name: chapter.Name,
+        start: chapter.StartPositionTicks,
+        tag: chapter.ImageTag,
     }
 }

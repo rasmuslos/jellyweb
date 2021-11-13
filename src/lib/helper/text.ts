@@ -15,7 +15,6 @@ export const getResolutionText = ({ Height, Width }: { Height: number, Width: nu
 
 export const padding2 = (number: number) => `0${number}`.substr(-2)
 export const ticksToHumanReadable = (ticks: number, offset = 1) => {
-    // * 10000 because jellyfin returns an absurdly high number
     let seconds = Math.floor(ticks / (1000 * offset))
     let hour = Math.floor((seconds / 3600) % 24)
     let minute = Math.floor((seconds / 60) % 60)

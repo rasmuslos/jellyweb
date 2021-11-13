@@ -152,10 +152,10 @@
                 <h2>{item.name}</h2>
                 {#if item.tagline}
                     <span class="tagline">{item.tagline}</span>
+                {:else if item.showData && item.type === "season"}
+                    <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
                 {:else if item.showData}
                     <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
-                {:else if item.showData}
-                    <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
                 {/if}
                 <div class="actions">
                     <HeroActions {item} />

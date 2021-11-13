@@ -103,7 +103,7 @@
 
 <svelte:head>
     {#if $lightMode}
-        <meta name="theme-color" content="#2E3440">
+        <meta name="theme-color" content="#D8DEE9">
     {:else}
         <meta name="theme-color" content="#2E3440">
     {/if}

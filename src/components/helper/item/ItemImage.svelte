@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl, getIconByType, getImageData} from "$lib/helper";
+    import {generateImageUrl, getIconByType} from "$lib/helper";
     import {icons} from "feather-icons";
     import {onMount} from "svelte";
     import {decode, isBlurhashValid} from "blurhash";
@@ -12,7 +12,6 @@
 
     export let badge: number | string = null
     let canvas: HTMLCanvasElement
-
 
     export let url
 
@@ -144,19 +143,21 @@
 </style>
 
 <div class="holder" class:wide class:small on:click>
-    {#if item.images.normal.hash != null}
+    {#if item && item.images.normal.hash != null}
         <canvas bind:this={canvas}></canvas>
     {/if}
-    {#if item.images.normal.tag != null}
-        <div class="image" style="background-image: url('{wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)}')"></div>
+    {#if url || (item && item.images.normal.tag != null)}
+        <div class="image" style="background-image: url('{url ? url : wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)}')"></div>
     {:else}
         <div class="type">
             {@html getIconByType(item)}
         </div>
     {/if}
-    <div style="width: {item.playedPercentage || `0`}%" class="progress"></div>
+    {#if item}
+        <div style="width: {item.playedPercentage || `0`}%" className="progress"></div>
+    {/if}
     <div class="overlay"></div>
-    {#if item.playable}
+    {#if url || item.playable}
         <div class="play">
             {@html icons.play.toSvg({height: 50, width: 50})}
         </div>

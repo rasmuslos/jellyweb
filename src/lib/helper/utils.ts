@@ -112,3 +112,6 @@ export const changeScrollDirection = (event: WheelEvent, element: HTMLElement) =
     element.scrollLeft -= (delta * scrollSpeed)
     event.preventDefault()
 }
+
+const MILLIS_PER_TICK = 10000
+export const convertTicksToMillis = (ticks: number): number => ticks / MILLIS_PER_TICK

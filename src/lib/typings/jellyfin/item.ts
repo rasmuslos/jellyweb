@@ -1,4 +1,4 @@
-import type {MediaStream} from "$lib/typings/jellyfin/playback";
+import type {MediaSource, MediaStream} from "$lib/typings/jellyfin/playback";
 
 export type JellyfinItem = {
     Name:                         string;

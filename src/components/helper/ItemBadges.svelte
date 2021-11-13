@@ -2,6 +2,7 @@
     import type {Badges} from "$lib/typings/internal";
     import Tomato from "./../assets/icons/tomato.svelte"
     import {icons} from "feather-icons";
+    import {ticksToHumanReadable} from "$lib/helper";
 
     export let badges: Badges
 </script>
@@ -43,6 +44,9 @@
     {#if badges.communityRating}
         {@html icons["star"].toSvg({ height: 14, width: 14 })}
         <span>{badges.communityRating}</span>
+    {/if}
+    {#if badges.runtime}
+        <span>{ticksToHumanReadable(badges.runtime)}</span>
     {/if}
     {#if badges.resolution}
         <span>{badges.resolution}</span>

@@ -21,6 +21,7 @@
     import Hero from "../../components/sections/Hero.svelte";
     import PersonList from "../../components/sections/PersonList.svelte";
     import type {Item} from "$lib/typings/internal";
+    import Chapters from "../../components/sections/Chapters.svelte";
 
     export let item: Item
     export let seasons: Item[]
@@ -55,11 +56,9 @@
     {/key}
 {/if}
 
-<!--
-{#if item.type === "episode" || item.Type === "movie"}
-    <Chapters chapters={item.Chapters || []} itemId={item.Id} />
+{#if item.chapters && item.playable}
+    <Chapters chapters={item.chapters || []} itemId={item.id} />
 {/if}
--->
 {#if item.type === "movie"}
     <VerticalList items={similar || []} title="{$t(`similar`)}" wide={false} small />
 {/if}

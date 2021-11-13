@@ -1,3 +1,5 @@
+import type {Person} from "$lib/typings/internal/person";
+
 export const VALID_TYPES = ["movie", "episode", "season", "show"]
 
 export type Item = {
@@ -20,8 +22,8 @@ export type Item = {
     playedPercentage: number,
     playbackTicks: number,
 
-    chapters?,
-    people?,
+    chapters?: Chapter[],
+    people?: Person[],
 }
 
 export type ItemType = "movie" | "episode" | "season" | "show"
@@ -33,6 +35,7 @@ export type Badges = {
 
     criticRating: number,
     communityRating: number,
+    runtime: number,
 
     hasSubtitles: boolean,
 }
@@ -55,4 +58,10 @@ export type ItemImage = {
     tag: string,
     hash: string,
     parent?: boolean,
+}
+
+export type Chapter = {
+    start: number,
+    name: string,
+    tag: string,
 }
