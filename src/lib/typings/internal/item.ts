@@ -1,3 +1,5 @@
+export const VALID_TYPES = ["movie", "episode", "season", "show"]
+
 export type Item = {
     name: string,
     overview: string,
@@ -17,9 +19,12 @@ export type Item = {
     lastPlayed: string | number,
     playedPercentage: number,
     playbackTicks: number,
+
+    chapters?,
+    people?,
 }
 
-export type ItemType = "movie" | "episode" | "season" | "show" | "person"
+export type ItemType = "movie" | "episode" | "season" | "show"
 
 export type Badges = {
     ageRating: string,

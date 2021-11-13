@@ -12,16 +12,15 @@ export const get = async ({ locals, params, query }) => {
 
     if(id === null || id === "" || id == "false") return  createApiError(400, "Include item id")
 
-    let seasons, nextUp, media, episodes, similar
-    const item: Item = await getItem(session, id)
+    let seasons, nextUp, episodes, similar
+    const item: Item = await getItem(session, id, complex)
+
+    if(item == null) return createApiError(404, "item not found")
 
     if(complex) {
         switch(item.type) {
             case "movie":
                 similar = await getSimilarItems(session, id)
-                break
-            case "person":
-                media = await getItemsBasedOnPerson(session, id)
                 break
             case "show":
                 [nextUp, seasons] = await Promise.all([getNextUpItem(session, id), getSeasons(session, id)])
@@ -36,7 +35,6 @@ export const get = async ({ locals, params, query }) => {
         item,
         seasons,
         nextUp,
-        media,
         episodes,
         similar,
     })

@@ -9,6 +9,7 @@
     export let item: Item
     export let tip: string = null
     export let includeMoreButton: boolean = true
+    export let includeActions: boolean = true
     export let reduceOffset: boolean = false
 
     export let noImage: boolean = false
@@ -115,6 +116,8 @@
         {#if item.badges}
             <ItemBadges badges={item.badges} />
         {/if}
-        <HeroActions {item} {includeMoreButton} {noButton} />
+        {#if includeActions}
+            <HeroActions {item} {includeMoreButton} {noButton} />
+        {/if}
     </div>
 </div>

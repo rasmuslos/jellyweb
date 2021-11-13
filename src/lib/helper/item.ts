@@ -1,7 +1,9 @@
-import type {JellyfinItem} from "$lib/typings/jellyfin";
+import type {ImageTags, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
 import type {Badges, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
 import type {ItemType} from "$lib/typings/internal";
 import {getResolutionText} from "$lib/helper/text";
+import {VALID_TYPES} from "$lib/typings/internal";
+import type {Person} from "$lib/typings/internal/person";
 
 const UNKNOWN = "unknown"
 
@@ -36,6 +38,12 @@ const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: J
         unplayedItems: UserData ? UserData.UnplayedItemCount : null
     }
 }
+const getPrimaryImage = (primary: string, ImageBlurHashes: any) => {
+    return {
+        tag: primary,
+        hash: ImageBlurHashes.Primary[primary]
+    }
+}
 const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageTags, ImageTags }: JellyfinItem, wide: boolean): ItemImage => {
     if(wide) {
         let tag
@@ -51,19 +59,18 @@ const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageT
             const hash = ImageBlurHashes && ImageBlurHashes.Backdrop ? ImageBlurHashes.Backdrop[tag] || null : null
             return {tag, hash, parent}
         }
-    } else if(ImageTags && ImageTags.Primary) return {
-        tag: ImageTags.Primary,
-        hash: ImageBlurHashes.Primary[ImageTags.Primary]
-    }
+    } else if(ImageTags && ImageTags.Primary) return getPrimaryImage(ImageTags.Primary, ImageBlurHashes)
 
     return { tag: null, hash: null }
 }
 
-export const convert = (jellyfinItem: JellyfinItem): Item => {
+export const convert = (jellyfinItem: JellyfinItem, complex: boolean = false): Item => {
     const { Id, Name, Taglines, UserData, Type } = jellyfinItem
 
     let type = Type === "Series" ? "show" : Type.toLowerCase() as ItemType
     const watchable = type === "movie" || type === "episode"
+
+    if(!VALID_TYPES.includes(type)) return null
 
     return {
         id: Id,
@@ -88,11 +95,36 @@ export const convert = (jellyfinItem: JellyfinItem): Item => {
         playbackTicks: watchable && UserData ? UserData.PlaybackPositionTicks : null,
         playedPercentage: watchable && UserData ? UserData.PlayedPercentage : null,
         showData: getShowData(jellyfinItem),
+
+        people: complex && jellyfinItem.People && jellyfinItem.People.length > 0 ? jellyfinItem.People.map(convertSimplePerson) : null,
     }
 }
 export const convertGenre = (jellyfinItem: JellyfinItem): Genre => {
     return {
         id: jellyfinItem.Id,
         name: jellyfinItem.Name || UNKNOWN,
+    }
+}
+export const convertPerson = (jellyfinItem: JellyfinItem): Person => {
+    return {
+        id: jellyfinItem.Id,
+        name: jellyfinItem.Name || UNKNOWN,
+        role: null,
+        overview: jellyfinItem.Overview || UNKNOWN,
+        images: {
+            normal: getImageData(jellyfinItem, false),
+            wide: null,
+        }
+    }
+}
+export const convertSimplePerson = (person: JellyfinPerson): Person => {
+    return {
+        id: person.Id,
+        name: person.Name || UNKNOWN,
+        role: person.Role || person.Type || UNKNOWN,
+        images: {
+            normal: getPrimaryImage(person.PrimaryImageTag, person.ImageBlurHashes),
+            wide: null,
+        },
     }
 }

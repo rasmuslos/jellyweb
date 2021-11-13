@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
-    import {changeScrollDirection, generateImageUrl, generateItemUrl} from "$lib/helper";
+    import {changeScrollDirection, generateImageUrl, generatePeopleUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import {t} from "$lib/i18n";
+    import type {Person} from "$lib/typings/internal/person";
 
     let holder
-    export let persons: JellyfinItem[]
+    export let persons: Person[]
 </script>
 
 <style>
@@ -78,16 +78,16 @@
         {:else}
             <div class="holder" bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
                 {#each persons as person}
-                    <a class="person" href={generateItemUrl(person.Id)}>
+                    <a class="person" href={generatePeopleUrl(person.id)}>
                         <div class="image">
-                            {#if person.Id && person.PrimaryImageTag}
-                                <div class="photo" style="background-image: url('{generateImageUrl(person.Id, person.PrimaryImageTag, `Primary`, 100)}')"></div>
+                            {#if person.id && person.images.normal.tag}
+                                <div class="photo" style="background-image: url('{generateImageUrl(person.id, person.images.normal.tag, `Primary`, 100)}')"></div>
                             {:else}
                                 <div class="fallback">{@html icons["user"].toSvg()}</div>
                             {/if}
                         </div>
-                        <span>{person.Name}</span>
-                        <span class="dimmed">{person.Role || person.Type || "unknown"}</span>
+                        <span>{person.name}</span>
+                        <span class="dimmed">{person.role}</span>
                     </a>
                 {/each}
             </div>
