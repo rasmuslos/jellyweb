@@ -1,3 +1,5 @@
+import type {MediaStream} from "$lib/typings/jellyfin/playback";
+
 export type JellyfinItem = {
     Name:                         string;
     OriginalTitle:                string;

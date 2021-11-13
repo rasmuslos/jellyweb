@@ -65,10 +65,7 @@
 <div>
     {#key item.playable, noButton}
         {#if item.playable && !noButton}
-            <!--
-            TODO: ticks
-            -->
-            <WatchNowButton itemId={item.id} position={item.UserData && item.UserData.PlaybackPositionTicks ? item.UserData.PlaybackPositionTicks : 0} />
+            <WatchNowButton itemId={item.id} position={item.playbackTicks} />
         {/if}
     {/key}
     <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {

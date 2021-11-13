@@ -1,12 +1,26 @@
 import type {JellyfinItem} from "$lib/typings/jellyfin";
-import type {Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
+import type {Badges, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
 import type {ItemType} from "$lib/typings/internal";
+import {getResolutionText} from "$lib/helper/text";
 
 const UNKNOWN = "unknown"
 
 const getRandomEntry = (entries: any[]) => {
     const index = Math.floor(Math.random() * entries.length)
     return entries[index]
+}
+const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles, Height, Width, MediaStreams }: JellyfinItem, watchable: boolean): Badges => {
+    const videoStream = MediaStreams && MediaStreams.find(stream => stream.Type === "Video")
+
+    return {
+        ageRating: OfficialRating === "0" ? "PG-0" : OfficialRating,
+        communityRating: CommunityRating,
+        criticRating: CriticRating,
+        hasSubtitles: HasSubtitles,
+
+        videoRange: watchable ? videoStream && videoStream.VideoRange ? videoStream.VideoRange : "SDR" : null,
+        resolution: watchable ? getResolutionText({ Height, Width }) : null,
+    }
 }
 
 const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: JellyfinItem): ShowData => {
@@ -49,12 +63,13 @@ export const convert = (jellyfinItem: JellyfinItem): Item => {
     const { Id, Name, Taglines, UserData, Type } = jellyfinItem
 
     let type = Type === "Series" ? "show" : Type.toLowerCase() as ItemType
-
     const watchable = type === "movie" || type === "episode"
 
     return {
         id: Id,
         name: Name || UNKNOWN,
+
+        badges: getBadges(jellyfinItem, watchable),
         type,
 
         overview: jellyfinItem.Overview,
@@ -70,7 +85,8 @@ export const convert = (jellyfinItem: JellyfinItem): Item => {
             wide: getImageData(jellyfinItem, true),
         },
 
-        playedPercentage: watchable ? UserData ? UserData.PlayedPercentage : null : null,
+        playbackTicks: watchable && UserData ? UserData.PlaybackPositionTicks : null,
+        playedPercentage: watchable && UserData ? UserData.PlayedPercentage : null,
         showData: getShowData(jellyfinItem),
     }
 }

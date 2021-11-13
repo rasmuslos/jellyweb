@@ -4,6 +4,7 @@
     import {generateItemUrl, getResolutionText} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
     import type {Item} from "$lib/typings/internal";
+    import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
     export let tip: string = null
@@ -49,31 +50,11 @@
         margin: 0;
         color: var(--highlight);
     }
-    div.heading {
-        display: grid;
-        grid-template-columns: auto 1fr;
-    }
-    div.badges {
-        display: flex;
-        align-items: center;
-
-        color: var(--text);
-        margin-bottom: 10px;
-    }
-    div.heading a {
+    a.heading {
         font-size: 40px;
         font-weight: 600;
 
         margin: 0 10px 0 0;
-    }
-    div.heading span {
-        margin: 0 5px;
-        padding: 5px 7px;
-        font-size: 12px;
-        border-radius: 7px;
-        background-color: var(--background);
-
-        border: 1px solid var(--text);
     }
 
     @media screen and (max-width: 1000px) {
@@ -85,12 +66,6 @@
             display: none;
             margin-bottom: 50px;
         }
-        div.heading {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto;
-
-            justify-content: left;
-        }
     }
 
     p.tagline {
@@ -98,6 +73,9 @@
 
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+    p.overview {
+        margin-bottom: 5px;
     }
 
     @media screen and (max-width: 1000px) {
@@ -123,29 +101,7 @@
         {#if tip}
             <p class="tip">{tip}</p>
         {/if}
-        <div>
-            <div class="heading">
-                <a href={generateItemUrl(item.id)}>{item.name}</a>
-                <div class="badges">
-                    <!--
-                    TODO: BADGES
-                    {#if item.playable}
-                        <span>{getResolutionText(item)}</span>
-                        <span>{item.HasSubtitles ? "CC" : "/"}</span>
-                    {/if}
-                    {#if item.OfficialRating}
-                        <span>{item.OfficialRating}</span>
-                    {/if}
-                    {#if item.CommunityRating}
-                        <span>{item.CommunityRating}</span>
-                    {/if}
-                    {#if item.CriticRating}
-                        <span>{item.CriticRating}%</span>
-                    {/if}
-                    -->
-                </div>
-            </div>
-        </div>
+        <a class="heading" href={generateItemUrl(item.id)}>{item.name}</a>
         {#if item.tagline}
             <p class="tagline">{item.tagline}</p>
         {:else if item.type === "season" && item.showData}
@@ -154,7 +110,10 @@
             <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
         {#if item.overview}
-            <p>{item.overview}</p>
+            <p class="overview">{item.overview}</p>
+        {/if}
+        {#if item.badges}
+            <ItemBadges badges={item.badges} />
         {/if}
         <HeroActions {item} {includeMoreButton} {noButton} />
     </div>

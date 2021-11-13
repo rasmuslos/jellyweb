@@ -5,6 +5,7 @@
     import HeroActions from "../sections/HeroActions.svelte";
     import BackgroundSection from "../sections/BackgroundSection.svelte";
     import type {Item} from "$lib/typings/internal";
+    import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
     export let wide: boolean
@@ -139,6 +140,9 @@
                 <BackgroundSection url={generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")} />
             </div>
             <div class="inner">
+                {#if item.badges}
+                    <ItemBadges badges={item.badges} />
+                {/if}
                 <h2>{item.name}</h2>
                 {#if item.tagline}
                     <span class="tagline">{item.tagline}</span>

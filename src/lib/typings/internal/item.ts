@@ -1,10 +1,9 @@
-// TODO: include ticks
-
 export type Item = {
     name: string,
     overview: string,
     tagline: string,
 
+    badges: Badges,
     type: ItemType,
     id: string,
 
@@ -17,9 +16,21 @@ export type Item = {
 
     lastPlayed: string | number,
     playedPercentage: number,
+    playbackTicks: number,
 }
 
 export type ItemType = "movie" | "episode" | "season" | "show" | "person"
+
+export type Badges = {
+    ageRating: string,
+    resolution: string,
+    videoRange: string,
+
+    criticRating: number,
+    communityRating: number,
+
+    hasSubtitles: boolean,
+}
 
 export type ShowData = {
     showId: string,
