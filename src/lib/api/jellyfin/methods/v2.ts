@@ -54,3 +54,5 @@ export const getItemsBasedOnPerson = async (session: JellyfinSession, personId: 
 
 export const getSeasons = async (session: JellyfinSession, showId: string) => (await createRequest(`Shows/${showId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)).Items.reduce(reduceItems, [])
 export const getEpisodes = async (session: JellyfinSession, seriesId: string, seasonId: string) => (await createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${includeFilterBoth}&${fields}`, session)).Items.reduce(reduceItems, [])
+
+export const searchItems = async (session: JellyfinSession, term: string) => (await createRequest(`Users/${session.userId}/Items?searchTerm=${encodeURIComponent(term)}&${includeFilterBoth}&limit=13&Recursive=true&EnableTotalRecordCount=false`, session)).Items.reduce(reduceItems, [])

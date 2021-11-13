@@ -47,6 +47,9 @@ export const getTasks = async () => await makeRequest("server/tasks")
 export const getHomeItems = async () => await createRequest("pages/home")
 export const getGenres = async () => await createRequest("pages/genres")
 
-export const getGenre = async (genreId) => await createRequest(`pages/genres/${genreId}`)
-export const getPerson = async (personId) => await createRequest(`pages/people/${personId}`)
+export const getGenre = async genreId => await createRequest(`pages/genres/${genreId}`)
+export const getPerson = async personId => await createRequest(`pages/people/${personId}`)
 export const getItem = async (itemId, complex: boolean = false) => await createRequest(`pages/detail/${itemId}?complex=${complex}`)
+
+export const getSearchHints = async () => await createRequest("pages/search/hints")
+export const searchItems = async term => await createRequest(`pages/search?term=${encodeURIComponent(term)}`)
