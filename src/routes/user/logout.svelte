@@ -1,9 +1,9 @@
 <script context="module">
+    import {logout, setFetcher} from "$lib/api/internal";
+
     export async function load({fetch}) {
-        const res = await fetch("/api/v1/session/destroy", {
-            method: "DELETE",
-        })
-        console.log(await res.text())
+        setFetcher(fetch)
+        await logout()
 
         return {
             status: 302,

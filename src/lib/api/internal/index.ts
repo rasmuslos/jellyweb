@@ -14,7 +14,7 @@ export const makeRequest = async (endpoint: string, method: any = "GET", body: a
 
 type RequestOptions = {
     version?: 1 | 2,
-    method?: "GET" | "POST" | "DELETE",
+    method?: "GET" | "POST" | "DELETE" | "PUT",
     body?: any,
     handleLoginError?: boolean,
 }

@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
-    import {setFetcher, getTasks} from "$lib/api/internal";
+    import {setFetcher} from "$lib/api/internal";
 
     export async function load({fetch}) {
         try {
             setFetcher(fetch)
-            const tasks = await getTasks()
+            const tasks = {} // await getTasks()
 
             return {
                 status: 200,

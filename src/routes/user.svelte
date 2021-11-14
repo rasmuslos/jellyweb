@@ -1,23 +1,16 @@
 <script context="module" lang="ts">
-    import {setFetcher, me as getMe} from "$lib/api/internal";
+    import {getMe, setFetcher} from "$lib/api/internal";
     import type {User} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
 
     export async function load({fetch}) {
-        try {
-            setFetcher(fetch)
-            const me: User = await getMe()
+        setFetcher(fetch)
+        const me: User = await getMe()
 
-            return {
-                status: 200,
-                props: {
-                    me,
-                }
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                me,
             }
         }
     }

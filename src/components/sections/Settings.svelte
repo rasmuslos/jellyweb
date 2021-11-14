@@ -13,6 +13,7 @@
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
     import LargeHeading from "../helper/LargeHeading.svelte";
+    import {goto} from "$app/navigation";
 
     const imageOptions: Option[] = [
         {
@@ -91,7 +92,7 @@
         </p>
         <figure class="center">
             <GenericButton on:click={deletePreferences} label="{$t(`settings_reset_all`)}" />
-            <GenericButton on:click={() => window.location.href = "user/logout"} label="{$t(`logout`)}" />
+            <GenericButton on:click={() => goto("user/logout")} label="{$t(`logout`)}" />
         </figure>
     </ApplyWidth>
     <Wave rotated />

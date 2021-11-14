@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
-    import {searchHints, setFetcher} from "$lib/api/internal";
+    import {getSearchHints, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch }) {
         try {
             setFetcher(fetch)
-            const hints = await searchHints()
+            const hints = await getSearchHints()
 
             return {
                 status: 200,
@@ -23,15 +23,14 @@
 <script lang="ts">
     import QueryBuilder from "../components/helper/search/QueryBuilder.svelte";
     import LazyList from "../components/helper/sections/LazyList.svelte";
-    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import VerticalList from "../components/sections/VerticalList.svelte";
-    import {onMount} from "svelte";
     import {browser} from "$app/env";
     import {t} from "$lib/i18n";
     import LargeHeading from "../components/helper/LargeHeading.svelte";
     import {page} from "$app/stores";
+    import type {Item} from "$lib/typings/internal";
 
-    export let hints: JellyfinItem[]
+    export let hints: Item[]
 
     let value: string = $page.query.get("query") ?? ""
     let sortQuery: string = ""

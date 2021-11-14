@@ -3,7 +3,7 @@
     import {modal} from "$lib/stores";
     import {addClass, generateItemUrl, getIconByType, removeClass} from "$lib/helper";
     import {goto} from "$app/navigation";
-    import {getSearchHints, search, searchItems} from "$lib/api/internal";
+    import {getSearchHints, searchItems} from "$lib/api/internal";
     import {onMount} from "svelte";
     import { t } from "$lib/i18n";
     import type {Item} from "$lib/typings/internal";

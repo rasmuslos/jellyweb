@@ -127,17 +127,14 @@
         if(source.TranscodingUrl) {
             const transcodeUrl = `${$session.active.server}${source.TranscodingUrl}`
 
-            if(source.TranscodingSubProtocol === "hls") {
-                if(Hls.isSupported()) {
-                    const hls = new Hls({
-                        debug: true,
-                    })
-                    hls.attachMedia(video)
-                    hls.loadSource(transcodeUrl)
-                } else if(video.canPlayType('application/vnd.apple.mpegurl')) src = transcodeUrl
+            if(source.TranscodingSubProtocol === "hls" && Hls.isSupported()) {
+                const hls = new Hls({
+                    startPosition: startAt / (1000 * 10000),
+                })
+                hls.attachMedia(video)
+                hls.loadSource(transcodeUrl)
             } else src = transcodeUrl
-        }
-        else {
+        } else {
             src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
             currentTime = startAt / (1000 * 10000)
             src += `#t=${currentTime}`
