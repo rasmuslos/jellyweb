@@ -1,19 +1,18 @@
 <script lang="ts">
-    import {JellyfinItem as ItemType} from "$lib/typings/jellyfin";
     import IntersectionObserver from '../IntersectionObserver.svelte'
     import {onDestroy} from "svelte";
     import Item from "../item/Item.svelte";
-    import {getItemsBasedOnQuery} from "$lib/api/internal";
     import {icons} from "feather-icons";
     import {scrollUp} from "$lib/helper";
     import {dev} from "$app/env";
+    import {getItemsByQuery} from "$lib/api/internal";
 
     export let query: string = ""
 
     if(query.startsWith("?") || query.startsWith("&") || query === "") throw new Error("Query cannot be empty or start with ? or &")
 
     let prevQuery: string = ""
-    let items: ItemType[] = []
+    let items: Item[] = []
     let intersecting: boolean = false
 
     let loading = false
@@ -32,7 +31,7 @@
         if(intersecting && !loading && !end) {
             loading = true
 
-            const newItems: ItemType[] = await getItemsBasedOnQuery(`limit=30&startIndex=${items.length}&${query}`)
+            const newItems: Item[] = await getItemsByQuery(`limit=30&startIndex=${items.length}&${query}`)
             if(newItems.length === 0) end = true
             else items = [...items, ...newItems]
 

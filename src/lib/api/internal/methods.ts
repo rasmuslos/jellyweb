@@ -53,3 +53,5 @@ export const getItem = async (itemId, complex: boolean = false) => await createR
 
 export const getSearchHints = async () => await createRequest("pages/search/hints")
 export const searchItems = async term => await createRequest(`pages/search?term=${encodeURIComponent(term)}`)
+
+export const getItemsByQuery = async (term: string) => await createRequest(`items/query?term=${encodeURIComponent(term)}`)
