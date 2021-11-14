@@ -1,9 +1,9 @@
 import type {JellyfinSession} from "$lib/typings/jellyfin";
 import {icons} from "feather-icons";
-import {testBitrate} from "$lib/api/jellyfin";
 import {bitrate} from "$lib/stores";
 import {browser} from "$app/env";
 import type {Item} from "$lib/typings/internal";
+import {testBitrate} from "$lib/api/jellyfin/methods";
 
 export const getIconByType = ({ type }: Item) => {
     let icon = "alert-triangle"

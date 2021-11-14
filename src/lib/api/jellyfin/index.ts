@@ -1,7 +1,19 @@
 import type {JellyfinSession} from "$lib/typings/jellyfin";
 import {createApiError} from "$lib/apiHelper";
 
-export const createRequest = async (endpoint: string, session: JellyfinSession, method: string = "GET", body: any = null, parse: boolean = true) => {
+export type RequestOptions = {
+    method?: "GET" | "POST" | "DELETE" | "PUT",
+    body?: any,
+    parse?: boolean,
+}
+export const createRequest = async (endpoint: string, session: JellyfinSession, requestOptions: RequestOptions = {}) => {
+    const { method, body, parse } = Object.assign({
+        method: "GET",
+        body: null,
+        parse: true,
+
+    } as RequestOptions, requestOptions)
+
     // TODO: Read version from package.json
     const { deviceId, server, token } = session
     const url = `${server}/${endpoint}`
@@ -35,4 +47,4 @@ export const handleError = (error) => {
     else return createApiError(error.status, error.error)
 }
 
-export * from "./methods/v1"
+export * from "./methods"

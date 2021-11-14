@@ -1,6 +1,6 @@
 import {
     getJellyfinItem
-} from "$lib/api/jellyfin/methods/v2";
+} from "$lib/api/jellyfin/methods";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import type {JellyfinItem} from "$lib/typings/jellyfin";
 

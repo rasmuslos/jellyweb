@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    import {getHostUrl, setFetcher, me as getMe} from "$lib/api/internal";
+    import {getHostUrl, getMe, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch, session }) {
         if(session.active != null) {
@@ -19,18 +19,12 @@
             }
         }
 
-        try {
-            setFetcher(fetch)
-            const host = await getHostUrl()
+        setFetcher(fetch)
+        const host = await getHostUrl()
 
-            return {
-                status: 200,
-                props: { host }
-            }
-        } catch(error) {
-            return {
-                status: 200,
-            }
+        return {
+            status: 200,
+            props: { host }
         }
     }
 </script>
@@ -38,7 +32,7 @@
     import GenericInput from "../../components/input/GenericInput.svelte";
     import GenericButton from "../../components/input/GenericButton.svelte";
     import {onMount} from "svelte";
-    import {login} from "$lib/api/internal";
+    import {authoriseUserByName} from "$lib/api/internal";
     import {getBrowserName} from "$lib/helper";
 
     export let host: string = ""
@@ -59,7 +53,7 @@
         else if(!/^(http|https):\/\/[^ "]+$/.test(server) || server.endsWith("/")) return error = "Provide a url like http(s)://HOST.TLD"
 
         loading = true
-        login(server, username, password, getBrowserName())
+        authoriseUserByName(server, username, password, getBrowserName())
             .then(() => window.location.href = "/")
             .catch(err => {
                 console.error(err)

@@ -1,9 +1,6 @@
-import {
-    getGenre,
-    getGenres, getItem, getSimilarItems,
-} from "$lib/api/jellyfin/methods/v2";
+import {getGenre} from "$lib/api/jellyfin/methods";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import type {Genre, Item} from "$lib/typings/internal";
+import type {Genre} from "$lib/typings/internal";
 
 export const get = async ({ locals, params }) => {
     const session = locals.session.data.active

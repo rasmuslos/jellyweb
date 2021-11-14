@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    import {setFetcher, me as getMe, getDisplayPreferences} from "$lib/api/internal";
+    import {setFetcher, getMe, getPreferences} from "$lib/api/internal";
     import type {Settings, User} from "$lib/typings/jellyfin";
     import {settings} from "$lib/stores";
     import {lightMode} from "$lib/helper";
@@ -13,7 +13,7 @@
         } else {
             try {
                 setFetcher(fetch)
-                const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getDisplayPreferences()])
+                const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getPreferences()])
 
                 settings.set(preferences)
 

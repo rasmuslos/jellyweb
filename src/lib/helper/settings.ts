@@ -2,7 +2,7 @@ import {settings} from "$lib/stores";
 import {writable} from "svelte/store";
 import {subscribeButIgnoreFirst} from "$lib/helper/utils";
 import {browser} from "$app/env";
-import {deleteDisplayPreferences, updateDisplayPreferences} from "$lib/api/internal";
+import {updatePreferences, deletePreferences as deleteCustomPreferences} from "$lib/api/internal";
 
 export const fallbackLocale = "en"
 
@@ -21,7 +21,7 @@ export const orderBy = writable<string>(null)
 export const large = writable<boolean>(false)
 
 if(browser) {
-    subscribeButIgnoreFirst(settings, updateDisplayPreferences)
+    subscribeButIgnoreFirst(settings, updatePreferences)
     settings.subscribe(settings => {
         scrimBackdropImages.set(settings["images.scrim"] !== "false")
         showHeroImages.set(settings["images.hero"] !== "false")
@@ -39,7 +39,7 @@ if(browser) {
 }
 
 export const deletePreferences = async () => {
-    await deleteDisplayPreferences()
+    await deleteCustomPreferences()
     settings.set({})
 }
 export const updatePreference = (identifier: string, value: any) => {

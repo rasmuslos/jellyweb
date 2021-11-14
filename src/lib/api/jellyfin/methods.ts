@@ -1,4 +1,4 @@
-import type {JellyfinSession} from "$lib/typings/jellyfin";
+import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings/jellyfin";
 import {createRequest} from "$lib/api/jellyfin";
 import {convert, convertGenre, convertPerson} from "$lib/helper";
 import type {Item} from "$lib/typings/internal";
@@ -59,3 +59,55 @@ export const getEpisodes = async (session: JellyfinSession, seriesId: string, se
 
 export const searchItems = async (session: JellyfinSession, term: string) => (await createRequest(`Users/${session.userId}/Items?searchTerm=${encodeURIComponent(term)}&${includeFilterBoth}&limit=13&Recursive=true&EnableTotalRecordCount=false`, session)).Items.reduce(reduceItems, [])
 export const getItemsByQuery = async (session: JellyfinSession, term: string) => (await createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&${term}`, session)).Items.reduce(reduceItems, [])
+
+export const getMe = (session: JellyfinSession) => createRequest("Users/Me", session)
+export const authoriseUserByName = (server, username, password, deviceId, name) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null, name }, {
+    method: "POST",
+    body: JSON.stringify({ "Username": username, "Pw": password }),
+})
+
+export const markItemAsFavorite = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, {
+    method: "POST",
+})
+export const markItemAsUnFavorite = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/FavoriteItems/${itemId}`, session, {
+    method: "DELETE",
+})
+
+export const markItemAsWatched = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, {
+    method: "POST",
+})
+export const markItemAsUnWatched = (session: JellyfinSession, itemId: string) => createRequest(`Users/${session.userId}/PlayedItems/${itemId}`, session, {
+    method: "DELETE",
+})
+
+export const getPreferences = (session: JellyfinSession) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session)
+export const updatePreferences = (session: JellyfinSession, preferences: any) => createRequest(`DisplayPreferences/jellyweb?client=jellyweb&userId=${session.userId}`, session, {
+    method: "POST",
+    body: JSON.stringify({ ...preferences }),
+})
+
+export const testBitrate = (session: JellyfinSession) => createRequest("Playback/BitrateTest", session, {
+    parse: false,
+})
+
+export const startPlayback = (session: JellyfinSession, itemId: string, info: PlaybackInfoRequest) => createRequest(`Items/${itemId}/PlaybackInfo`, session, {
+    method: "POST",
+    body: JSON.stringify(info),
+})
+export const stopPlayback = (session: JellyfinSession, streamId: string) => createRequest("LiveStreams/Close", session, {
+    method: "POST",
+    body: JSON.stringify({ liveStreamId: streamId }),
+})
+
+export const reportPlaybackStart = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing", session, {
+    method: "POST",
+    body:  JSON.stringify(body),
+})
+export const reportPlaybackStop = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Stopped", session, {
+    method: "POST",
+    body:  JSON.stringify(body),
+})
+export const reportPlaybackProgress = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Progress", session, {
+    method: "POST",
+    body:  JSON.stringify(body),
+})

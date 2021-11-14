@@ -1,6 +1,6 @@
 import {
     getItemsByQuery
-} from "$lib/api/jellyfin/methods/v2";
+} from "$lib/api/jellyfin/methods";
 import {createApiResponse} from "$lib/apiHelper";
 import type {Item} from "$lib/typings/internal";
 

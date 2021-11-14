@@ -1,5 +1,8 @@
 <script lang="ts">
-    import {like, markAsPlayed, markAsUnplayed, unlike} from "$lib/api/internal";
+    import {
+        markItemAsFavorite,
+        markItemAsUnFavorite, markItemAsUnWatched, markItemAsWatched,
+    } from "$lib/api/internal";
     import {generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import WatchNowButton from "../../input/WatchNowButton.svelte";
@@ -22,16 +25,16 @@
         if(processing) return
         processing = true
 
-        if(isFavorite) isFavorite = (await unlike(item.id)).favorite
-        else isFavorite = (await like(item.id)).favorite
+        if(isFavorite) isFavorite = await markItemAsUnFavorite(item.id)
+        else isFavorite = await markItemAsFavorite(item.id)
         processing = false
     }
     const togglePlayed = async () => {
         if(processing) return
         processing = true
 
-        if(isWatched) isWatched = (await markAsUnplayed(item.id)).played
-        else isWatched = (await markAsPlayed(item.id)).played
+        if(isWatched) isWatched = await markItemAsUnWatched(item.id)
+        else isWatched = await markItemAsWatched(item.id)
         processing = false
     }
 </script>

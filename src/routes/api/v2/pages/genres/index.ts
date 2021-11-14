@@ -1,7 +1,7 @@
 import {
     getGenres,
-} from "$lib/api/jellyfin/methods/v2";
-import {createApiError, createApiResponse} from "$lib/apiHelper";
+} from "$lib/api/jellyfin/methods";
+import {createApiResponse} from "$lib/apiHelper";
 
 export const get = async ({ locals }) => {
     const session = locals.session.data.active
