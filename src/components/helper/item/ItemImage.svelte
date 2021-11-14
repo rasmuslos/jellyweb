@@ -98,15 +98,31 @@
         height: 100%;
         width: 100%;
     }
+
+    div.progress_holder {
+        position: absolute;
+        left: 15px;
+        bottom: 13px;
+
+        height: 5px;
+        width: calc(100% - 30px);
+
+        opacity: 0.8;
+        border-radius: 5px;
+        background-color: var(--background-light);
+    }
     div.progress {
         position: absolute;
         top: 0;
         left: 0;
 
         height: 100%;
-        opacity: 0.4;
+        opacity: 0.8;
+
         background-color: var(--highlight);
+        border-radius: 5px;
     }
+
     div.play {
         position: absolute;
         top: 50%;
@@ -153,8 +169,10 @@
             {@html getIconByType(item)}
         </div>
     {/if}
-    {#if item}
-        <div style="width: {item.playedPercentage || `0`}%" className="progress"></div>
+    {#if item && item.playedPercentage > 0}
+        <div class="progress_holder">
+            <div style="width: {item.playedPercentage || `0`}%" class="progress"></div>
+        </div>
     {/if}
     <div class="overlay"></div>
     {#if url || item.playable}
