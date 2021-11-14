@@ -1,5 +1,5 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import {markItemAsFavorite, markItemAsUnFavorite} from "$lib/api/jellyfin/methods/v2";
+import {markItemAsFavorite, markItemAsUnFavorite} from "$lib/api/jellyfin/methods";
 
 export const get = async ({ locals, params }) => {
     const session = locals.session.data.active

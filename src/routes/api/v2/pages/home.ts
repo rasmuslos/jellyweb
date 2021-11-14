@@ -4,7 +4,7 @@ import {
     getNextUpItems,
     getRandomItem, getRecommendedItems,
     getUnfinishedItems
-} from "$lib/api/jellyfin/methods/v2";
+} from "$lib/api/jellyfin/methods";
 import {createApiResponse} from "$lib/apiHelper";
 
 export const get = async ({ locals }) => {

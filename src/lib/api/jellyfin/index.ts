@@ -35,4 +35,4 @@ export const handleError = (error) => {
     else return createApiError(error.status, error.error)
 }
 
-export * from "./methods/v1"
+export * from "./methods"

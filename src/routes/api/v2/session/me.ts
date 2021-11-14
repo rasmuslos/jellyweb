@@ -1,4 +1,4 @@
-import {getMe} from "$lib/api/jellyfin/methods/v2";
+import {getMe} from "$lib/api/jellyfin/methods";
 import {createApiResponse} from "$lib/apiHelper";
 
 export const get = async ({ locals }) => {

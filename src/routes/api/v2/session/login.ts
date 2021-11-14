@@ -1,7 +1,7 @@
 import {HOST} from "$lib/environment";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import type {JellyfinSession, Session} from "$lib/typings/jellyfin";
-import {authoriseUserByName} from "$lib/api/jellyfin/methods/v2";
+import {authoriseUserByName} from "$lib/api/jellyfin/methods";
 
 export const post = async ({ locals, body }) => {
     const { server, username, password, name } = body

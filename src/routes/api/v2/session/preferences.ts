@@ -1,5 +1,5 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import {getPreferences, updatePreferences} from "$lib/api/jellyfin/methods/v2";
+import {getPreferences, updatePreferences} from "$lib/api/jellyfin/methods";
 
 export const get = async ({ locals }) => {
     const session = locals.session.data.active

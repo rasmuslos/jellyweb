@@ -1,5 +1,5 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import {startPlayback, stopPlayback} from "$lib/api/jellyfin/methods/v2";
+import {startPlayback, stopPlayback} from "$lib/api/jellyfin/methods";
 
 export const post = async ({ locals, params, body }) => {
     const session = locals.session.data.active
