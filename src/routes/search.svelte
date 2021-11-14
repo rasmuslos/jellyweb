@@ -2,21 +2,12 @@
     import {getSearchHints, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch }) {
-        try {
-            setFetcher(fetch)
-            const hints = await getSearchHints()
+        setFetcher(fetch)
+        const hints = await getSearchHints()
 
-            return {
-                status: 200,
-                props: { hints }
-            }
-        } catch(error) {
-            console.error(error)
-
-            return {
-                status: 301,
-                redirect: "/error"
-            }
+        return {
+            status: 200,
+            props: { hints }
         }
     }
 </script>

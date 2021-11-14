@@ -140,7 +140,7 @@
             src += `#t=${currentTime}`
         }
 
-        const subtitleTrack = source.MediaStreams.find(item => item.Index === $activeSubtitleTrack)
+        const subtitleTrack = source.MediaStreams.find(item => item.Index == $activeSubtitleTrack)
         if(subtitleTrack && subtitleTrack.DeliveryMethod === "External") {
             fetch(`${$session.active.server}${subtitleTrack.DeliveryUrl.replace("Stream.vtt", "Stream.js")}`).then(response => response.json()).then((data: { TrackEvents: SubtitleSegment[] }) => subtitleData = data.TrackEvents).catch(error => console.error("Failed to load subtitle data", error))
             subtitleInterval = setInterval(updateSubtitles, 100)
@@ -435,7 +435,7 @@
     <span class="icon waiting" class:show={waiting} on:click={togglePaused}>{@html icons["loader"].toSvg({ height: 50, width: 50 })}</span>
 
     {#if displaySubtitle}
-        <div class="subtitles">{displaySubtitle}</div>
+        <div class="subtitles">{@html displaySubtitle}</div>
     {/if}
     <Controls
             {item} show={showControls} {paused} {played} {buffered} {duration} {currentTime}

@@ -11,24 +11,16 @@
                 redirect: "/user/logout",
             }
         } else {
-            try {
-                setFetcher(fetch)
-                const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getPreferences()])
+            setFetcher(fetch)
+            const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getPreferences()])
 
-                settings.set(preferences)
+            settings.set(preferences)
 
-                return {
-                    status: 200,
-                    props: {
-                        me,
-                    }
+            return {
+                status: 200,
+                props: {
+                    me,
                 }
-            } catch(error) {
-                if(error.status && error.status == 401) return {
-                    status: 302,
-                    redirect: "/user/logout",
-                }
-                else throw error
             }
         }
     }
