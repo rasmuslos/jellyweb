@@ -26,21 +26,12 @@
     export let item: Item
     export let seasons: Item[]
     export let nextUp: Item[]
-    export let media: Item[]
     export let episodes: Item[]
     export let similar: Item[]
 
     noPadding.set(true)
     onDestroy(() => noPadding.set(false))
 </script>
-
-<style>
-    h1 {
-        font-weight: 600;
-        font-size: 50px;
-        text-align: center;
-    }
-</style>
 
 <svelte:head>
     <title>{item.name}</title>
