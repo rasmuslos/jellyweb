@@ -92,7 +92,7 @@ export const testBitrate = (session: JellyfinSession) => createRequest("Playback
 
 export const startPlayback = (session: JellyfinSession, itemId: string, info: PlaybackInfoRequest) => createRequest(`Items/${itemId}/PlaybackInfo`, session, {
     method: "POST",
-    body: JSON.stringify({ info }),
+    body: JSON.stringify(info),
 })
 export const stopPlayback = (session: JellyfinSession, streamId: string) => createRequest("LiveStreams/Close", session, {
     method: "POST",
