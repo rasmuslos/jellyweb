@@ -15,9 +15,11 @@ export const get = async ({ locals, params, query }) => {
     let seasons, nextUp, episodes, similar
     const item: Item = await getItem(session, id, complex)
 
+    console.log(complex === "false" ? "yes" : "no")
+
     if(item == null) return createApiError(404, "item not found")
 
-    if(complex) {
+    if(complex !== "false") {
         switch(item.type) {
             case "movie":
                 similar = await getSimilarItems(session, id)

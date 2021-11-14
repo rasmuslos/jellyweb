@@ -1,21 +1,16 @@
 <script lang="ts" context="module">
-    import {getItem, setFetcher} from "$lib/api/internal";
+    import {getJellyfinItem, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch, page }) {
         const { id } = page.params
 
-        try {
-            setFetcher(fetch);
-            const { item } = await getItem(id, false)
+        setFetcher(fetch);
+        const item = await getJellyfinItem(id)
 
-            return {
-                status: 200,
-                props: { item }
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                item
             }
         }
     }
@@ -439,4 +434,4 @@
     {/if}
 </div>
 
-<Info {item} {returnUrl} on:seek={({detail}) => currentTime = detail / (10000 * 1000)} />
+<Info jellyfinItem={item} {returnUrl} on:seek={({detail}) => currentTime = detail / (10000 * 1000)} />

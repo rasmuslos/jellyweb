@@ -33,8 +33,6 @@
     export let recommended: Item[]
     export let latest: Item[]
 
-    console.log(unfinished)
-
     const combined = unfinished.concat(nextUp).sort((a, b) => {
         if(!a.lastPlayed || !b.lastPlayed) return 0
         return new Date(a.lastPlayed).getTime() > new Date(b.lastPlayed).getTime() ? -1 : 1

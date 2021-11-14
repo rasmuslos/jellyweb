@@ -1,13 +1,14 @@
 import type {JellyfinSession} from "$lib/typings/jellyfin";
 import {createRequest} from "$lib/api/jellyfin";
 import {convert, convertGenre, convertPerson} from "$lib/helper";
+import type {Item} from "$lib/typings/internal";
 
 const includeFilterEpisode = "includeItemTypes=Movie,Episode"
 const includeFilterSeries = "includeItemTypes=Movie,Series"
 const includeFilterBoth = "includeItemTypes=Movie,Episode,Series"
 const fields = `fields=Overview,Height,Width,SeasonName,EpisodeTitle,ParentId,ParentBackdropImageTags,Taglines`
 
-const reduceItems = (array, item) => {
+const reduceItems = (array, item): Item[] => {
     const converted = convert(item)
     if(converted != null) array.push(converted)
 
@@ -42,6 +43,7 @@ export const getGenre = async (session: JellyfinSession, genreId: string) => con
 export const getPerson = async (session: JellyfinSession, genreId: string) => convertPerson(await createRequest(`Users/${session.userId}/Items/${genreId}`, session))
 
 export const getItem = async (session: JellyfinSession, itemId: string, complex: boolean = false) => convert(await createRequest(`Users/${session.userId}/Items/${itemId}`, session), complex)
+export const getJellyfinItem = async (session: JellyfinSession, itemId: string) => await createRequest(`Users/${session.userId}/Items/${itemId}`, session)
 export const getNextUpItem = async (session: JellyfinSession, showId: string) => {
     const items = (await createRequest(`Shows/NextUp?userId=${session.userId}&limit=1&seriesId=${showId}&${fields}`, session)).Items
 

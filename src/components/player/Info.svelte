@@ -9,11 +9,13 @@
     import {getMediaData} from "$lib/helper";
     import Stream from "./Stream.svelte";
     import Wave from "../sections/Wave.svelte";
+    import {getItem} from "$lib/api/internal";
 
-    export let item: JellyfinItem
+    export let jellyfinItem: JellyfinItem
     export let returnUrl: string
 
-    const streams = getMediaData(item)
+    let itemPromise = getItem(jellyfinItem.Id, true)
+    const streams = getMediaData(jellyfinItem)
 
     const dispatcher = createEventDispatcher()
     const seek = (ticks: number) => dispatcher("seek", ticks)
@@ -61,9 +63,16 @@
     <div class="container">
         <ApplyWidth>
             <a href={returnUrl}>{@html icons["arrow-left"].toSvg({ height: 20, width: 20 })} go Back</a>
-            <Hero hideImage={true} item={item} includeMoreButton={false} reduceOffset={true} noButton={true} noImage={true} />
-            <Chapters chapters={item.Chapters || []} itemId={item.Id} handleClick={false} on:click={({detail}) => seek(detail)} />
-            <PersonList persons={item.People || []} />
+
+            {#await itemPromise}
+                <h1>Loading...</h1>
+            {:then { item }}
+                <Hero hideImage={true} {item} includeMoreButton={false} reduceOffset={true} noButton={true} noImage={true} />
+                <Chapters chapters={item.chapters || []} itemId={item.id} handleClick={false} on:click={({detail}) => seek(detail)} />
+                <PersonList persons={item.people || []} />
+            {:catch error}
+                <h1>Error while loading</h1>
+            {/await}
         </ApplyWidth>
         <Wave />
         <div class="wrapper">
