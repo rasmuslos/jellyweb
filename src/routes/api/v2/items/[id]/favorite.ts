@@ -1,12 +1,12 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import {markItemAsFavorite, markItemAsUnFavorite} from "$lib/api/jellyfin/methods";
-import {isValidParam} from "$lib/helper";
+import {isInvalidParam} from "$lib/helper";
 
 export const get = async ({ locals, params }) => {
     const session = locals.session.data.active
     const itemId = params.id
 
-    if(isValidParam(itemId)) return createApiError(400, "Provide itemId")
+    if(isInvalidParam(itemId)) return createApiError(400, "Provide itemId")
 
     const { IsFavorite } = await markItemAsFavorite(session, itemId)
     return createApiResponse(true, IsFavorite)

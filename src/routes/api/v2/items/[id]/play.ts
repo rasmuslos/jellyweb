@@ -1,13 +1,13 @@
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import {startPlayback, stopPlayback} from "$lib/api/jellyfin/methods";
-import {isValidParam} from "$lib/helper";
+import {isInvalidParam} from "$lib/helper";
 
 export const post = async ({ locals, params, body }) => {
     const session = locals.session.data.active
     const info = body.info
     const itemId = params.id
 
-    if(isValidParam(itemId) && isValidParam(info)) return createApiError(400, "Provide itemId & info")
+    if(isInvalidParam(itemId) || isInvalidParam(info)) return createApiError(400, "Provide itemId & info")
 
     const response = await startPlayback(session, itemId, info)
     return createApiResponse(true, response)
