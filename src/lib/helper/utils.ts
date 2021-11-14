@@ -115,3 +115,5 @@ export const changeScrollDirection = (event: WheelEvent, element: HTMLElement) =
 
 const MILLIS_PER_TICK = 10000
 export const convertTicksToMillis = (ticks: number): number => ticks / MILLIS_PER_TICK
+
+export const isValidParam = (param: any) => param != null && param != "null" && param != "false"

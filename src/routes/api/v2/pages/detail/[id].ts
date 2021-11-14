@@ -4,13 +4,14 @@ import {
 } from "$lib/api/jellyfin/methods";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import type {Item} from "$lib/typings/internal";
+import {isValidParam} from "$lib/helper";
 
 export const get = async ({ locals, params, query }) => {
     const session = locals.session.data.active
     const complex = query.get("complex")
     const { id } = params
 
-    if(id === null || id === "" || id == "false") return  createApiError(400, "Include item id")
+    if(isValidParam(id)) return  createApiError(400, "Include item id")
 
     let seasons, nextUp, episodes, similar
     const item: Item = await getItem(session, id, complex)
