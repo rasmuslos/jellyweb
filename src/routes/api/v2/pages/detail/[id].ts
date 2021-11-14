@@ -1,6 +1,6 @@
 import {
     getEpisodes,
-    getItem, getItemsBasedOnPerson, getNextUpItem, getSeasons, getSimilarItems,
+    getItem, getNextUpItem, getSeasons, getSimilarItems,
 } from "$lib/api/jellyfin/methods/v2";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import type {Item} from "$lib/typings/internal";

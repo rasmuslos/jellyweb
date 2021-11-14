@@ -229,22 +229,22 @@ export const getDeviceProfile = (bitrate) => {
     const hlsInTsAudioCodecs = getSupportedTsAudioCodecs(video)
 
     if(canPlayHls) {
-        if(hlsInFmp4VideoCodecs.length > 0 && hlsInFmp4AudioCodecs.length > 0) transcode.push({
-            Container: "mp4",
+        if(hlsInTsVideoCodecs.length > 0 && hlsInTsAudioCodecs.length > 0) transcode.push({
+            Container: "ts",
             Type: "Video",
-            AudioCodec: hlsInFmp4AudioCodecs.join(","),
-            VideoCodec: hlsInFmp4VideoCodecs.join(","),
+            AudioCodec: hlsInTsAudioCodecs.join(","),
+            VideoCodec: hlsInTsVideoCodecs.join(","),
             Context: "Streaming",
             Protocol: "hls",
             MaxAudioChannels: 2,
             MinSegments: getBrowserName() === "Safari" ? 2 : 1,
             BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
         })
-        if(hlsInTsVideoCodecs.length > 0 && hlsInTsAudioCodecs.length > 0) transcode.push({
-            Container: "ts",
+        if(hlsInFmp4VideoCodecs.length > 0 && hlsInFmp4AudioCodecs.length > 0) transcode.push({
+            Container: "mp4",
             Type: "Video",
-            AudioCodec: hlsInTsAudioCodecs.join(","),
-            VideoCodec: hlsInTsVideoCodecs.join(","),
+            AudioCodec: hlsInFmp4AudioCodecs.join(","),
+            VideoCodec: hlsInFmp4VideoCodecs.join(","),
             Context: "Streaming",
             Protocol: "hls",
             MaxAudioChannels: 2,

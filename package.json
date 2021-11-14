@@ -33,5 +33,8 @@
     "typescript": "^4.0.0",
     "blurhash": "^1.1.4"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "hls.js": "^1.1.1"
+  }
 }

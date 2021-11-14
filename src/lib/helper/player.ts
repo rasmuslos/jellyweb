@@ -30,11 +30,15 @@ export const getMediaData = (item: JellyfinItem, update: boolean = false) => {
 
 export const isTranscoding = (url: string) => getTranscodingReasons(url)
 export const getTranscodingReasons = (url: string) => {
-    const parsed = new URL(url)
-    const reason = parsed.searchParams.get("TranscodeReasons")
+    try {
+        const parsed = new URL(url)
+        const reason = parsed.searchParams.get("TranscodeReasons")
 
-    if(!reason) return false
-    return reason.split(",").join(", ")
+        if(!reason) return false
+        return reason.split(",").join(", ")
+    } catch (error) {
+        return "INVALID URL"
+    }
 }
 
 export const reportPlayStart = async (item: JellyfinItem, paused: boolean, ticks: number, playbackId: string) => reportPlaybackStart({

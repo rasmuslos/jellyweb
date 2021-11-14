@@ -42,6 +42,7 @@
     import {goto} from "$app/navigation";
     import Info from "../../components/player/Info.svelte";
     import {SubtitleSegment} from "$lib/typings/jellyfin";
+    import Hls from "hls.js";
 
     export let item: JellyfinItem
     let returnUrl: string = "/"
@@ -59,6 +60,7 @@
 
     // binds
     let playerHolder
+    let video
 
     // General vars
     let url = getLargeBackdrop(item)
@@ -122,11 +124,24 @@
 
         if(source == null) return
 
-        if(source.TranscodingUrl) src = `${$session.active.server}${source.TranscodingUrl}`
-        else src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
+        if(source.TranscodingUrl) {
+            const transcodeUrl = `${$session.active.server}${source.TranscodingUrl}`
 
-        currentTime = startAt / (1000 * 10000)
-        src += `#t=${currentTime}`
+            if(source.TranscodingSubProtocol === "hls") {
+                if(Hls.isSupported()) {
+                    const hls = new Hls({
+                        debug: true,
+                    })
+                    hls.attachMedia(video)
+                    hls.loadSource(transcodeUrl)
+                } else if(video.canPlayType('application/vnd.apple.mpegurl')) src = transcodeUrl
+            } else src = transcodeUrl
+        }
+        else {
+            src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
+            currentTime = startAt / (1000 * 10000)
+            src += `#t=${currentTime}`
+        }
 
         const subtitleTrack = source.MediaStreams.find(item => item.Index === $activeSubtitleTrack)
         if(subtitleTrack && subtitleTrack.DeliveryMethod === "External") {
@@ -412,7 +427,7 @@
 <div class="player" bind:this={playerHolder}>
     <video
             on:waiting={() => waiting = true} on:playing={() => waiting = false}
-            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered bind:playbackRate
+            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered bind:playbackRate bind:this={video}
             {src} poster={url} preload="metadata"></video>
     <div on:mousemove={displayControls} on:click={() => {
         togglePaused()
