@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NavigationItem} from "$lib/typings";
+    import type {NavigationItem} from "$lib/typings/jellyfin";
     import {page} from "$app/stores"
     import {t} from "$lib/i18n"
 

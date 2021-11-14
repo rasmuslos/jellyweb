@@ -1,9 +1,9 @@
-import type {Item} from "$lib/typings";
+import type {JellyfinItem} from "$lib/typings/jellyfin";
 import {activeAudioTrack, activeMediaSource, activeSubtitleTrack} from "$lib/stores";
 import {get} from "svelte/store";
 import {reportPlaybackProgress, reportPlaybackStart, reportPlaybackStop} from "$lib/api/internal";
 
-export const getMediaData = (item: Item, update: boolean = false) => {
+export const getMediaData = (item: JellyfinItem, update: boolean = false) => {
     // Get media-sources & streams
     let mediaSources = item.MediaSources
     if(update) activeMediaSource.set(mediaSources[0].Id)
@@ -30,14 +30,18 @@ export const getMediaData = (item: Item, update: boolean = false) => {
 
 export const isTranscoding = (url: string) => getTranscodingReasons(url)
 export const getTranscodingReasons = (url: string) => {
-    const parsed = new URL(url)
-    const reason = parsed.searchParams.get("TranscodeReasons")
+    try {
+        const parsed = new URL(url)
+        const reason = parsed.searchParams.get("TranscodeReasons")
 
-    if(!reason) return false
-    return reason.split(",").join(", ")
+        if(!reason) return false
+        return reason.split(",").join(", ")
+    } catch (error) {
+        return "INVALID URL"
+    }
 }
 
-export const reportPlayStart = async (item: Item, paused: boolean, ticks: number, playbackId: string) => reportPlaybackStart({
+export const reportPlayStart = async (item: JellyfinItem, paused: boolean, ticks: number, playbackId: string) => reportPlaybackStart({
     CanSeek: true,
     ItemId: item.Id,
     SessionId: playbackId,
@@ -50,7 +54,7 @@ export const reportPlayStart = async (item: Item, paused: boolean, ticks: number
 
     // TODO: include VolumeLevel
 })
-export const reportPlayProgress = async (item: Item, paused: boolean, currentTime: number, playbackId: string) => await reportPlaybackProgress({
+export const reportPlayProgress = async (item: JellyfinItem, paused: boolean, currentTime: number, playbackId: string) => await reportPlaybackProgress({
         CanSeek: true,
         ItemId: item.Id,
         SessionId: playbackId,

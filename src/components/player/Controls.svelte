@@ -1,12 +1,12 @@
 <script lang="ts">
     import {createEventDispatcher} from "svelte";
     import {icons} from "feather-icons";
-    import type {Item, ProgressSegment} from "$lib/typings";
+    import type {JellyfinItem, ProgressSegment} from "$lib/typings/jellyfin";
     import {generateItemUrl, getMediaData, maxBitrate, ticksToHumanReadable, updatePreference} from "$lib/helper";
     import Setting from "./Setting.svelte";
     import {activeAudioTrack, activeMediaSource, activeSubtitleTrack} from "$lib/stores";
 
-    export let item: Item
+    export let item: JellyfinItem
     let progressHolder
 
     export let show: boolean

@@ -7,7 +7,7 @@ import {
     handleError, nextUpEpisode,
     searchByPerson
 } from "$lib/api/jellyfin";
-import type {Item} from "$lib/typings";
+import type {JellyfinItem} from "$lib/typings/jellyfin";
 
 export async function get({ locals, params, query }) {
     try {
@@ -23,7 +23,7 @@ export async function get({ locals, params, query }) {
         let episodes
         let similar
 
-        const item: Item = (await getItem(session, id))
+        const item: JellyfinItem = (await getItem(session, id))
 
         if(complex) {
             if(item.Type === "Series") {

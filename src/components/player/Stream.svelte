@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {MediaSource, MediaStream} from "$lib/typings";
+    import type {MediaSource, MediaStream} from "$lib/typings/jellyfin";
 
     export let stream: MediaSource | MediaStream
 </script>

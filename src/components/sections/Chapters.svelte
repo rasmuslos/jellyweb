@@ -1,11 +1,11 @@
 <script lang="ts">
-    import {Chapter} from "$lib/typings";
     import ItemImage from "../helper/item/ItemImage.svelte";
     import {session} from "$app/stores";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import {changeScrollDirection, generatePlayerUrl, ticksToHumanReadable} from "$lib/helper";
     import {createEventDispatcher} from "svelte";
     import {t} from "$lib/i18n";
+    import type {Chapter} from "$lib/typings/internal";
 
     export let itemId: string
     export let chapters: Chapter[] = []
@@ -56,14 +56,15 @@
             {:else}
             <div class="holder" bind:this={holder} on:wheel={event => changeScrollDirection(event, holder)}>
                 {#each chapters as chapter, index}
-                    <a on:click={() => click(chapter.StartPositionTicks)}
-                       href={handleClick ? generatePlayerUrl(itemId, chapter.StartPositionTicks) : null}
+                    <a on:click={() => click(chapter.start)}
+                       href={handleClick ? generatePlayerUrl(itemId, chapter.start) : null}
                        class="item">
                         <ItemImage
-                                url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.ImageTag}`}
+                                url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.tag}`}
                                 wide showProgress={false} isWatchable/>
-                        <p>{chapter.Name} <span
-                                class="dimmed">{ticksToHumanReadable(chapter.StartPositionTicks || 0, 10000)}</span>
+                        <p>
+                            {chapter.name}
+                            <span class="dimmed">{ticksToHumanReadable(chapter.start || 0, 10000)}</span>
                         </p>
                     </a>
                 {/each}

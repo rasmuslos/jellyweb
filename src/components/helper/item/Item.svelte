@@ -1,10 +1,11 @@
 <script lang="ts">
     import ItemImage from "./ItemImage.svelte";
-    import {generateItemUrl, getLargeBackdrop} from "$lib/helper";
-    import type {Item} from "$lib/typings";
+    import {generateImageUrl, generateItemUrl} from "$lib/helper";
     import {icons} from "feather-icons";
     import HeroActions from "../sections/HeroActions.svelte";
     import BackgroundSection from "../sections/BackgroundSection.svelte";
+    import type {Item} from "$lib/typings/internal";
+    import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
     export let wide: boolean
@@ -12,8 +13,7 @@
 
     let link: HTMLAnchorElement
 
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
-    const badge = item.UserData && (item.UserData.UnplayedItemCount === 0 || item.UserData.Played) ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.UserData && item.UserData.UnplayedItemCount || null
+    const badge = item.watched ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.showData && item.showData.unplayedItems || null
 
     let expandTimeout: number
     let expanded: boolean = false
@@ -117,6 +117,12 @@
     }
     div.inner {
         padding: 20px;
+
+        border: 1px solid var(--background);
+        border-top: none;
+
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 
     h2 {
@@ -134,19 +140,22 @@
 </style>
 
 <div class:wide class:small on:focus on:mouseover class="holder">
-    <a class="item" class:expanded href={generateItemUrl(item.Id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
+    <a class="item" class:expanded href={generateItemUrl(item.id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
         {#if expanded}
             <div class="image">
-                <BackgroundSection url={getLargeBackdrop(item)} />
+                <BackgroundSection url={generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")} />
             </div>
             <div class="inner">
-                <h2>{item.Name}</h2>
-                {#if item.Taglines && item.Taglines.length > 0}
-                    <span class="tagline">{item.Taglines[0]}</span>
-                {:else if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-                    <span class="dimmed"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-                {:else if item.SeriesName && item.SeriesId}
-                    <span class="dimmed"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
+                {#if item.badges}
+                    <ItemBadges badges={item.badges} />
+                {/if}
+                <h2>{item.name}</h2>
+                {#if item.tagline}
+                    <span class="tagline">{item.tagline}</span>
+                {:else if item.showData && item.type === "season"}
+                    <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+                {:else if item.showData}
+                    <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
                 {/if}
                 <div class="actions">
                     <HeroActions {item} />
@@ -154,7 +163,7 @@
             </div>
         {:else}
             <ItemImage {wide} {small} {item} {badge} />
-            <span class="title">{item.Name}</span>
+            <span class="title">{item.name}</span>
         {/if}
     </a>
 </div>

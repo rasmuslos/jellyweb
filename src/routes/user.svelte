@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
     import {setFetcher, me as getMe} from "$lib/api/internal";
-    import type {User} from "$lib/typings";
+    import type {User} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
 
     export async function load({fetch}) {

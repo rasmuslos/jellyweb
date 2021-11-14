@@ -1,7 +1,7 @@
 <script lang="ts">
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import OptionGroup from "../helper/OptionGroup.svelte";
-    import type {Option} from "$lib/typings";
+    import type {Option} from "$lib/typings/jellyfin";
     import GenericButton from "../input/GenericButton.svelte";
     import {
         scrimBackdropImages,

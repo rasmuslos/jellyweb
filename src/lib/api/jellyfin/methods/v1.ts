@@ -1,9 +1,9 @@
 import {createRequest} from "$lib/api/jellyfin";
-import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings";
+import type {JellyfinSession, PlaybackInfoRequest} from "$lib/typings/jellyfin";
 
 /**
- * I know that this isn't the best way to build an api. But i don't care
- * */
+ * API V1
+ */
 
 const includeFilterEpisode = "includeItemTypes=Movie,Episode"
 const includeFilterSeries = "includeItemTypes=Movie,Series"

@@ -1,6 +1,6 @@
 <script lang="ts">
     import ApplyWidth from "../sections/ApplyWidth.svelte";
-    import type {SortItem} from "$lib/typings";
+    import type {SortItem} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
     import {orderBy, sortOrder, updatePreference} from "$lib/helper";
 

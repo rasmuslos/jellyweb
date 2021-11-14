@@ -1,45 +1,41 @@
 <script lang="ts" context="module">
-    import {home, setFetcher} from "$lib/api/internal";
-    import type {Item} from "$lib/typings";
-    import {t} from "$lib/i18n";
+    import {getHomeItems, setFetcher} from "$lib/api/internal";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
 
     export async function load({ fetch }) {
-        try {
-            setFetcher(fetch)
-            const homeObj = await home()
+        setFetcher(fetch)
+        const home = await getHomeItems()
 
-            return {
-                status: 200,
-                props: { ...homeObj}
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                ...home
             }
         }
     }
 </script>
 <script lang="ts">
-    import type {Item} from "$lib/typings";
+    import type {JellyfinItem} from "$lib/typings/jellyfin";
     import {noPadding} from "$lib/stores";
     import {onDestroy} from "svelte";
     import ListHero from "../components/sections/ListHero.svelte";
     import Genres from "../components/sections/Genres.svelte";
     import Hero from "../components/sections/Hero.svelte";
     import VerticalList from "../components/sections/VerticalList.svelte";
+    import type {Item} from "$lib/typings/internal";
+    import {t} from "$lib/i18n"
 
-    export let resume: Item[]
+    export let unfinished: Item[]
     export let nextUp: Item[]
     export let genres: Item[]
     export let random: Item
     export let bestRated: Item[]
-    export let recommendations: Item[]
+    export let recommended: Item[]
     export let latest: Item[]
 
-    const combined = resume.concat(nextUp).sort((a, b) => {
-        if(!a.UserData || !a.UserData.LastPlayedDate || !b.UserData || !b.UserData.LastPlayedDate) return 0
-        return new Date(a.UserData.LastPlayedDate).getTime() > new Date(b.UserData.LastPlayedDate).getTime() ? -1 : 1
+    const combined = unfinished.concat(nextUp).sort((a, b) => {
+        if(!a.lastPlayed || !b.lastPlayed) return 0
+        return new Date(a.lastPlayed).getTime() > new Date(b.lastPlayed).getTime() ? -1 : 1
     })
     const showHero = combined.length > 0
 
@@ -60,8 +56,8 @@
 {#if genres != null && genres.length > 0}
     <Genres {genres} />
 {/if}
-{#if recommendations != null && recommendations.length > 0}
-    <VerticalList items={recommendations} title="{$t(`recommended`)}" wide={false} />
+{#if recommended != null && recommended.length > 0}
+    <VerticalList items={recommended} title="{$t(`recommended`)}" wide={false} />
 {/if}
 {#if showHero && random != null}
     <Hero item={random} tip="{$t(`watch_this`)}" reduceOffset />

@@ -1,27 +1,22 @@
 <script lang="ts" context="module">
-    import {getItem, setFetcher} from "$lib/api/internal";
+    import {getJellyfinItem, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch, page }) {
         const { id } = page.params
 
-        try {
-            setFetcher(fetch);
-            const { item } = await getItem(id, false)
+        setFetcher(fetch);
+        const item = await getJellyfinItem(id)
 
-            return {
-                status: 200,
-                props: { item }
-            }
-        } catch(error) {
-            return {
-                status: 301,
-                redirect: "/error"
+        return {
+            status: 200,
+            props: {
+                item
             }
         }
     }
 </script>
 <script lang="ts">
-    import type {Item, PlaybackInfo, ProgressSegment} from "$lib/typings";
+    import type {JellyfinItem, PlaybackInfo, ProgressSegment} from "$lib/typings/jellyfin";
     import {
         bitrateTest,
         exitFullscreen,
@@ -46,9 +41,10 @@
     import Debug from "../../components/player/Debug.svelte";
     import {goto} from "$app/navigation";
     import Info from "../../components/player/Info.svelte";
-    import {SubtitleSegment} from "$lib/typings";
+    import {SubtitleSegment} from "$lib/typings/jellyfin";
+    import Hls from "hls.js";
 
-    export let item: Item
+    export let item: JellyfinItem
     let returnUrl: string = "/"
 
     getMediaData(item, true)
@@ -64,6 +60,7 @@
 
     // binds
     let playerHolder
+    let video
 
     // General vars
     let url = getLargeBackdrop(item)
@@ -127,11 +124,24 @@
 
         if(source == null) return
 
-        if(source.TranscodingUrl) src = `${$session.active.server}${source.TranscodingUrl}`
-        else src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
+        if(source.TranscodingUrl) {
+            const transcodeUrl = `${$session.active.server}${source.TranscodingUrl}`
 
-        currentTime = startAt / (1000 * 10000)
-        src += `#t=${currentTime}`
+            if(source.TranscodingSubProtocol === "hls") {
+                if(Hls.isSupported()) {
+                    const hls = new Hls({
+                        debug: true,
+                    })
+                    hls.attachMedia(video)
+                    hls.loadSource(transcodeUrl)
+                } else if(video.canPlayType('application/vnd.apple.mpegurl')) src = transcodeUrl
+            } else src = transcodeUrl
+        }
+        else {
+            src = ` ${$session.active.server}/Videos/${item.Id}/stream.${source.Container}?Static=true&mediaSourceId=${$activeMediaSource}&deviceId=${$session.active.deviceId}`
+            currentTime = startAt / (1000 * 10000)
+            src += `#t=${currentTime}`
+        }
 
         const subtitleTrack = source.MediaStreams.find(item => item.Index === $activeSubtitleTrack)
         if(subtitleTrack && subtitleTrack.DeliveryMethod === "External") {
@@ -417,7 +427,7 @@
 <div class="player" bind:this={playerHolder}>
     <video
             on:waiting={() => waiting = true} on:playing={() => waiting = false}
-            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered bind:playbackRate
+            bind:paused bind:videoHeight bind:videoWidth bind:duration bind:currentTime bind:played bind:buffered bind:playbackRate bind:this={video}
             {src} poster={url} preload="metadata"></video>
     <div on:mousemove={displayControls} on:click={() => {
         togglePaused()
@@ -439,4 +449,4 @@
     {/if}
 </div>
 
-<Info {item} {returnUrl} on:seek={({detail}) => currentTime = detail / (10000 * 1000)} />
+<Info jellyfinItem={item} {returnUrl} on:seek={({detail}) => currentTime = detail / (10000 * 1000)} />

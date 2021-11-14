@@ -3,10 +3,10 @@
     import {modal} from "$lib/stores";
     import {addClass, generateItemUrl, getIconByType, removeClass} from "$lib/helper";
     import {goto} from "$app/navigation";
-    import {search, searchHints} from "$lib/api/internal";
-    import type {Item} from "$lib/typings";
+    import {getSearchHints, search, searchItems} from "$lib/api/internal";
     import {onMount} from "svelte";
     import { t } from "$lib/i18n";
+    import type {Item} from "$lib/typings/internal";
 
     let query: string = ""
     let index: number = -1
@@ -14,7 +14,7 @@
     let hints: Item[]
     let results: Item[]
 
-    onMount(async () => results = hints = await searchHints())
+    onMount(async () => results = hints = await getSearchHints())
     const handleKeydown = (event: KeyboardEvent) => {
         const items = document.querySelectorAll(".result")
         const length = items.length - 1
@@ -62,7 +62,7 @@
             modal.set(null)
         }
     }
-    const handleInput = async () => query !== "" ? results = (await search(query)).Items : hints
+    const handleInput = async () => query !== "" ? results = await searchItems(query) : hints
 </script>
 <svelte:window on:keydown={handleKeydown} />
 
@@ -135,7 +135,7 @@
 </style>
 
 <div class="holder">
-    <input autofocus placeholder="{$t(`search`)}" type="text" bind:value={query} on:keydown={handleInput} />
+    <input autofocus placeholder="{$t(`search`)}" type="text" bind:value={query} on:keyup={handleInput} />
     <div class="results">
         <div class="result dimmed" data-item="-1">
             <div class="icon">{@html icons.search.toSvg()}</div>
@@ -143,9 +143,9 @@
         </div>
         {#if results && results.length > 0}
             {#each results as result}
-                <a class="result" href={generateItemUrl(result.Id)} data-item={result.Id} on:click={() => modal.set(null)}>
+                <a class="result" href={generateItemUrl(result.id)} data-item={result.id} on:click={() => modal.set(null)}>
                     <div class="icon">{@html getIconByType(result)}</div>
-                    <span>{result.Name}</span>
+                    <span>{result.name}</span>
                 </a>
             {/each}
         {:else if results && results.length === 0 && query !== ""}

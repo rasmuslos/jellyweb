@@ -1,8 +1,10 @@
-import {makeRequest} from "$lib/api/internal/index";
-import type {PlaybackInfoRequest} from "$lib/typings";
+import {createRequest, makeRequest} from "$lib/api/internal";
+import type {PlaybackInfoRequest} from "$lib/typings/jellyfin";
 
+/**
+ * API V1
+ */
 export const login = async (server, username, password, name) => await makeRequest("session/login", "POST", { server, username, password, name }, false)
-export const home = async () => await makeRequest("items/home")
 
 export const genres = async () => await makeRequest("items/genres")
 export const me = async (handleLoginError: boolean = false) => await makeRequest("session/me", "GET", null, handleLoginError)
@@ -13,7 +15,6 @@ export const searchHints = async () => await makeRequest(`items/search/hints`)
 export const like = async (itemId) => await makeRequest("items/like", "POST", { itemId })
 export const unlike = async (itemId) => await makeRequest("items/unlike", "DELETE", { itemId })
 
-export const getItem = async (itemId, complex: boolean = false) => await makeRequest(`items/${itemId}?complex=${complex}`)
 export const getItemsByPerson = async (personId) => await makeRequest(`items/person/${personId}`)
 
 export const getDisplayPreferences = async (handleLoginError: boolean = false) => (await makeRequest("session/preferences", "GET", null, handleLoginError)).CustomPrefs
@@ -38,3 +39,20 @@ export const markAsPlayed = async (itemId) => await makeRequest("items/played", 
 export const markAsUnplayed = async (itemId) => await makeRequest("items/played", "DELETE", { itemId })
 
 export const getTasks = async () => await makeRequest("server/tasks")
+
+/**
+ * API V2
+ */
+
+export const getHomeItems = async () => await createRequest("pages/home")
+export const getGenres = async () => await createRequest("pages/genres")
+
+export const getGenre = async genreId => await createRequest(`pages/genres/${genreId}`)
+export const getPerson = async personId => await createRequest(`pages/people/${personId}`)
+export const getItem = async (itemId, complex: boolean = false) => await createRequest(`pages/detail/${itemId}?complex=${complex}`)
+
+export const getSearchHints = async () => await createRequest("pages/search/hints")
+export const searchItems = async term => await createRequest(`pages/search?term=${encodeURIComponent(term)}`)
+
+export const getItemsByQuery = async (term: string) => await createRequest(`items/query?term=${encodeURIComponent(term)}`)
+export const getJellyfinItem = async (itemId: string) => await createRequest(`items/jellyfin/${itemId}`)

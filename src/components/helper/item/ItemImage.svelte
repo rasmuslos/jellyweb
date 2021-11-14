@@ -1,10 +1,10 @@
 <script lang="ts">
-    import {getIconByType, getImageData} from "$lib/helper";
+    import {generateImageUrl, getIconByType} from "$lib/helper";
     import {icons} from "feather-icons";
-    import type {Item} from "$lib/typings";
     import {onMount} from "svelte";
     import {decode, isBlurhashValid} from "blurhash";
     import {browser} from "$app/env";
+    import type {Item} from "$lib/typings/internal";
 
     export let wide: boolean
     export let small: boolean
@@ -13,18 +13,14 @@
     export let badge: number | string = null
     let canvas: HTMLCanvasElement
 
-    export let showProgress = item.Type === "Movie" || item.Type === "Episode" && item.UserData && item.UserData.PlayedPercentage
-    export let isWatchable = item.Type === "Movie" || item.Type === "Episode"
-
     export let url
-    const imageData = url ? { url, hash: null } : getImageData(item, wide)
 
     onMount(async () => {
-        if(browser && canvas && isBlurhashValid(imageData.hash)) {
+        if(browser && canvas && isBlurhashValid(item.images.normal.hash)) {
             const width = 18
             const height = 18
 
-            const data = decode(imageData.hash, width, height)
+            const data = decode(item.images.normal.hash, width, height)
 
             canvas.width = 18
             canvas.height = 18
@@ -102,15 +98,31 @@
         height: 100%;
         width: 100%;
     }
+
+    div.progress_holder {
+        position: absolute;
+        left: 15px;
+        bottom: 13px;
+
+        height: 5px;
+        width: calc(100% - 30px);
+
+        opacity: 0.8;
+        border-radius: 5px;
+        background-color: var(--background-light);
+    }
     div.progress {
         position: absolute;
         top: 0;
         left: 0;
 
         height: 100%;
-        opacity: 0.4;
+        opacity: 0.8;
+
         background-color: var(--highlight);
+        border-radius: 5px;
     }
+
     div.play {
         position: absolute;
         top: 50%;
@@ -147,19 +159,23 @@
 </style>
 
 <div class="holder" class:wide class:small on:click>
-    {#if imageData.hash != null}
+    {#if item && item.images.normal.hash != null}
         <canvas bind:this={canvas}></canvas>
     {/if}
-    {#if imageData.url != null}
-        <div class="image" style="background-image: url('{imageData.url}')"></div>
+    {#if url || (item && item.images.normal.tag != null)}
+        <div class="image" style="background-image: url('{url ? url : wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)}')"></div>
     {:else}
         <div class="type">
             {@html getIconByType(item)}
         </div>
     {/if}
-    <div style="width: {showProgress && item.UserData ? item.UserData.PlayedPercentage ?? `` : `0`}%" class="progress"></div>
+    {#if item && item.playedPercentage > 0}
+        <div class="progress_holder">
+            <div style="width: {item.playedPercentage || `0`}%" class="progress"></div>
+        </div>
+    {/if}
     <div class="overlay"></div>
-    {#if isWatchable}
+    {#if url || item.playable}
         <div class="play">
             {@html icons.play.toSvg({height: 50, width: 50})}
         </div>

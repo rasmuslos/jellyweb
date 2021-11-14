@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {NavigationItem, User} from "$lib/typings";
+    import type {NavigationItem, User} from "$lib/typings/jellyfin";
     import Item from "./Item.svelte"
     import {noPadding} from "$lib/stores";
     import Search from "./Search.svelte";
@@ -74,20 +74,29 @@
 
         cursor: pointer;
         transition: transform 200ms ease;
+
+        position: relative;
+        height: 35px;
+        width: 35px;
+
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: var(--background-secondary);
     }
     a.user:hover {
         transform: scale(1.1);
     }
     a.user .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        width: 100%;
+
         background-size: cover;
         background-repeat: no-repeat;
         background-position: 50%;
-
-        border-radius: 50%;
-        background-color: var(--background-secondary);
-
-        height: 35px;
-        width: 35px;
     }
     div.toggle {
         display: none;
@@ -111,6 +120,19 @@
 
     a.active :global(svg) {
         stroke: var(--highlight);
+    }
+
+    div.fallback {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    div.fallback :global(svg) {
+        height: 15px;
+        width: 15px;
+
+        stroke-width: 3px;
     }
 
     /* Possibly the worst thing i have ever created */
@@ -175,6 +197,7 @@
                 <a class:active={new RegExp("^\/?server\/?.*$").test($page.path)} href="/server" class="icon">{@html icons["server"].toSvg({ height: 20, width: 20 })}</a>
             {/if}
             <a href="/user" class="user">
+                <div class="fallback">{@html icons["user"].toSvg()}</div>
                 <div class="image" style="background-image: url('{me && generateImageUrl(me.Id, me.PrimaryImageTag, `Primary`, 30, `Users`)}')"></div>
             </a>
         </div>

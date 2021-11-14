@@ -1,18 +1,19 @@
 <script lang="ts">
-    import {Item} from "$lib/typings";
+    import {JellyfinItem} from "$lib/typings/jellyfin";
     import ItemImage from "../item/ItemImage.svelte";
     import {generateItemUrl, getResolutionText} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
+    import type {Item} from "$lib/typings/internal";
+    import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
     export let tip: string = null
     export let includeMoreButton: boolean = true
+    export let includeActions: boolean = true
     export let reduceOffset: boolean = false
 
     export let noImage: boolean = false
     export let noButton: boolean = false
-
-    const isWatchable = item.Type === "Movie" || item.Type === "Episode"
 </script>
 
 <style>
@@ -50,31 +51,11 @@
         margin: 0;
         color: var(--highlight);
     }
-    div.heading {
-        display: grid;
-        grid-template-columns: auto 1fr;
-    }
-    div.badges {
-        display: flex;
-        align-items: center;
-
-        color: var(--text);
-        margin-bottom: 10px;
-    }
-    div.heading a {
+    a.heading {
         font-size: 40px;
         font-weight: 600;
 
         margin: 0 10px 0 0;
-    }
-    div.heading span {
-        margin: 0 5px;
-        padding: 5px 7px;
-        font-size: 12px;
-        border-radius: 7px;
-        background-color: var(--background);
-
-        border: 1px solid var(--text);
     }
 
     @media screen and (max-width: 1000px) {
@@ -86,12 +67,6 @@
             display: none;
             margin-bottom: 50px;
         }
-        div.heading {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto;
-
-            justify-content: left;
-        }
     }
 
     p.tagline {
@@ -99,6 +74,9 @@
 
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+    p.overview {
+        margin-bottom: 5px;
     }
 
     @media screen and (max-width: 1000px) {
@@ -124,36 +102,22 @@
         {#if tip}
             <p class="tip">{tip}</p>
         {/if}
-        <div>
-            <div class="heading">
-                <a href={generateItemUrl(item.Id)}>{item.Name}</a>
-                <div class="badges">
-                    {#if isWatchable}
-                        <span>{getResolutionText(item)}</span>
-                        <span>{item.HasSubtitles ? "CC" : "/"}</span>
-                    {/if}
-                    {#if item.OfficialRating}
-                        <span>{item.OfficialRating}</span>
-                    {/if}
-                    {#if item.CommunityRating}
-                        <span>{item.CommunityRating}</span>
-                    {/if}
-                    {#if item.CriticRating}
-                        <span>{item.CriticRating}%</span>
-                    {/if}
-                </div>
-            </div>
-        </div>
-        {#if item.SeasonName && item.SeriesName && item.SeasonId && item.SeriesId}
-            <span class="dimmed info"><a href={generateItemUrl(item.SeasonId)}>{item.SeasonName}</a> - <a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-        {:else if item.SeriesName && item.SeriesId}
-            <span class="dimmed info"><a href={generateItemUrl(item.SeriesId)}>{item.SeriesName}</a></span>
-        {:else if item.Taglines && item.Taglines.length > 0}
-            <p class="tagline">{item.Taglines[0]}</p>
+        <a class="heading" href={generateItemUrl(item.id)}>{item.name}</a>
+        {#if item.tagline}
+            <p class="tagline">{item.tagline}</p>
+        {:else if item.type === "season" && item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+        {:else if item.showData}
+            <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
-        {#if item.Overview !== undefined}
-            <p>{item.Overview}</p>
+        {#if item.overview}
+            <p class="overview">{item.overview}</p>
         {/if}
-        <HeroActions {item} {includeMoreButton} {noButton} />
+        {#if item.badges}
+            <ItemBadges badges={item.badges} />
+        {/if}
+        {#if includeActions}
+            <HeroActions {item} {includeMoreButton} {noButton} />
+        {/if}
     </div>
 </div>
