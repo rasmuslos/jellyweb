@@ -27,13 +27,3 @@ export const getLargeBackdropWithTag = ({ BackdropImageTags, Id, SeriesId, Paren
 
     return { url: null, hash: null }
 }
-
-export const getImageData = (item: JellyfinItem, wide: boolean) => {
-    if(wide) return getLargeBackdropWithTag(item)
-    if(item.ImageTags && item.ImageTags.Primary) return {
-        url: generateImageUrl(item.Id, item.ImageTags.Primary, "Primary", 200),
-        hash: item.ImageBlurHashes.Primary[item.ImageTags.Primary],
-    }
-
-    return { url: null, hash: null }
-}

@@ -1,6 +1,4 @@
 // https://github.com/jellyfin/jellyfin-web/blob/38f486339f191af50215532cb86679f53efd0aec/src/components/mediainfo/mediainfo.js#L437
-import type {JellyfinItem} from "$lib/typings/jellyfin";
-
 export const getResolutionText = ({ Height, Width }: { Height: number, Width: number }) => {
     if(Width && Height) {
         if (Width >= 3800 || Height >= 2000) return "4K"
