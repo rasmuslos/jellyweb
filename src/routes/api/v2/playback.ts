@@ -10,12 +10,12 @@ export const post = async ({ locals, body }) => {
 export const put = async ({ locals, body }) => {
     const session = locals.session.data.active
 
-    const response = await reportPlaybackStop(session, body)
+    const response = await reportPlaybackProgress(session, body)
     return createApiResponse(true, response)
 }
 export const del = async ({ locals, body }) => {
     const session = locals.session.data.active
 
-    const response = await reportPlaybackProgress(session, body)
+    const response = await reportPlaybackStop(session, body)
     return createApiResponse(true, response)
 }

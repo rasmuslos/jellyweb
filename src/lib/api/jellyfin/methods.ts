@@ -101,13 +101,13 @@ export const stopPlayback = (session: JellyfinSession, streamId: string) => crea
 
 export const reportPlaybackStart = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing", session, {
     method: "POST",
-    body:  JSON.stringify(body),
+    body: JSON.stringify(body),
 })
 export const reportPlaybackStop = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Stopped", session, {
     method: "POST",
-    body:  JSON.stringify(body),
+    body: JSON.stringify(body),
 })
 export const reportPlaybackProgress = (session: JellyfinSession, body: any) => createRequest("Sessions/Playing/Progress", session, {
     method: "POST",
-    body:  JSON.stringify(body),
+    body: JSON.stringify(body),
 })

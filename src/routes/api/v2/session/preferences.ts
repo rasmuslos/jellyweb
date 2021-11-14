@@ -12,7 +12,6 @@ export const post = async ({ locals, body }) => {
     const current = await getPreferences(session)
     const { preferences } = body
 
-    console.log(current)
     if(preferences == null || preferences == {}) return createApiError(400, "Provide new preferences")
     current["CustomPrefs"] = {
         ...current.CustomPrefs,
