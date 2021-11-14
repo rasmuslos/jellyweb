@@ -1,4 +1,4 @@
-import type {Chapter as JellyfinChapter, ImageTags, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
+import type {Chapter as JellyfinChapter, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
 import type {Badges, Chapter, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
 import type {ItemType} from "$lib/typings/internal";
 import {getResolutionText} from "$lib/helper/text";
@@ -44,7 +44,7 @@ const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: J
 const getPrimaryImage = (primary: string, ImageBlurHashes: any) => {
     return {
         tag: primary,
-        hash: ImageBlurHashes.Primary[primary]
+        hash: ImageBlurHashes ? ImageBlurHashes.Primary[primary] : null,
     }
 }
 const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageTags, ImageTags }: JellyfinItem, wide: boolean): ItemImage => {
