@@ -1,7 +1,6 @@
 <script lang="ts">
-    import {JellyfinItem} from "$lib/typings/jellyfin";
     import ItemImage from "../item/ItemImage.svelte";
-    import {generateItemUrl, getResolutionText} from "$lib/helper";
+    import {generateItemUrl} from "$lib/helper";
     import HeroActions from "./HeroActions.svelte";
     import type {Item} from "$lib/typings/internal";
     import ItemBadges from "../ItemBadges.svelte";
@@ -14,6 +13,13 @@
 
     export let noImage: boolean = false
     export let noButton: boolean = false
+
+    const highlightName = () => {
+        let { overview } = item
+        item.name.split(" ").forEach(segment => overview = overview.replace(segment, `<b>${segment}</b>`))
+
+        return overview
+    }
 </script>
 
 <style>
@@ -78,6 +84,9 @@
     p.overview {
         margin-bottom: 5px;
     }
+    p.overview :global(b) {
+        color: var(--highlight);
+    }
 
     @media screen and (max-width: 1000px) {
         div.inner {
@@ -111,7 +120,11 @@
             <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {/if}
         {#if item.overview}
-            <p class="overview">{item.overview}</p>
+            {#if item.type == null}
+                <p class="overview">{@html highlightName()}</p>
+            {:else}
+                <p class="overview">{item.overview}</p>
+            {/if}
         {/if}
         {#if item.badges}
             <ItemBadges badges={item.badges} />
