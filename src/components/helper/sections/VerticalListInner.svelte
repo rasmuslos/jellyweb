@@ -23,8 +23,7 @@
     }
 
     div.wrapper {
-        margin: -200px 0;
-        padding-bottom: 50px;
+        padding-bottom: 25px;
     }
     div.holder {
         display: flex;
@@ -34,7 +33,6 @@
         overflow-x: auto;
     }
     div.holder {
-        padding: 200px 0;
         scrollbar-width: none;
     }
     div.holder::-webkit-scrollbar {
