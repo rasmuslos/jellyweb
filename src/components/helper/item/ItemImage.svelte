@@ -6,14 +6,14 @@
     import {browser} from "$app/env";
     import type {Item} from "$lib/typings/internal";
 
-    export let wide: boolean
-    export let small: boolean
+    export let wide: boolean = false
+    export let small: boolean = false
     export let item: Item
 
     export let badge: number | string = null
     let canvas: HTMLCanvasElement
 
-    export let url
+    export let url = null
 
     onMount(async () => {
         if(browser && canvas && isBlurhashValid(item.images.normal.hash)) {

@@ -3,8 +3,8 @@
     import {blurHeroImages, scrimBackdropImages, showHeroImages} from "$lib/helper";
 
     export let url: string
-    export let transparent: boolean
-    export let fade: boolean
+    export let transparent: boolean = false
+    export let fade: boolean = false
 </script>
 
 <style>

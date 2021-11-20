@@ -2,21 +2,28 @@
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import type {Item} from "$lib/typings/internal";
     import {t} from "$lib/i18n"
-    import {generateItemUrl} from "$lib/helper";
+    import {generateItemUrl, getBadge} from "$lib/helper";
     import {icons} from "feather-icons";
+    import {getEpisodes} from "$lib/api/internal";
+    import ItemImage from "../helper/item/ItemImage.svelte";
+    import ItemBadges from "../helper/ItemBadges.svelte";
+    import {browser} from "$app/env";
 
     export let selected: string
     export let showId: string
 
+    let episodes: Item[]
     export let seasons: Item[]
-    export let episodes: Item[]
-
-    selected = selected ?? seasons[0].id
 
     let expanded
     let active
 
+    selected = selected ?? seasons[0].id
+    const updateEpisodes = async () => episodes = await getEpisodes(selected, showId)
+
     $: active = seasons.find(seasons => seasons.id === selected)
+    $: browser && window.history.replaceState({}, document.title, generateItemUrl(showId, selected))
+    $: if(!episodes || episodes.length < 1 || episodes[0].showData.seasonId != selected) updateEpisodes()
 </script>
 
 <style>
@@ -47,6 +54,8 @@
         margin: 0;
     }
     div.content a {
+        font-weight: 700;
+
         padding: 20px;
 
         white-space: nowrap;
@@ -63,6 +72,30 @@
     }
     div.seasons:hover h1 :global(svg), .seasons.expanded h1 :global(svg) {
         transform: rotate(180deg);
+    }
+
+    div.episodes {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    a.episode {
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        flex: 1 0 calc(50% - 40px);
+        margin: 20px;
+    }
+    a.episode div.inner {
+        margin-left: 20px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        a.episode {
+            grid-template-columns: 1fr;
+        }
+        a.episode div.image {
+            display: none;
+        }
     }
 </style>
 
@@ -84,6 +117,20 @@
                     <h3>{$t("episodes.loading")}</h3>
                 {:else}
                     {#each episodes as episode}
+                        <a class="episode" href={generateItemUrl(episode.id)}>
+                            <div class="image">
+                                <ItemImage small badge={getBadge(episode)} item={episode} />
+                            </div>
+                            <div class="inner">
+                                <h1>{episode.name}</h1>
+                                {#if episode.overview}
+                                    <p>{episode.overview}</p>
+                                {/if}
+                                {#if episode.badges}
+                                    <ItemBadges badges={episode.badges} />
+                                {/if}
+                            </div>
+                        </a>
                     {/each}
                 {/if}
             </div>

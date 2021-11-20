@@ -1,5 +1,4 @@
 import {
-    getEpisodes,
     getItem, getNextUpItem, getSeasons, getSimilarItems,
 } from "$lib/api/jellyfin/methods";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
@@ -13,7 +12,7 @@ export const get = async ({ locals, params, query }) => {
 
     if(isInvalidParam(id)) return  createApiError(400, "Include item id")
 
-    let seasons, nextUp, episodes, similar
+    let seasons, nextUp, similar
     const item: Item = await getItem(session, id, complex)
 
     if(item == null) return createApiError(404, "item not found")
@@ -26,9 +25,6 @@ export const get = async ({ locals, params, query }) => {
             case "show":
                 [nextUp, seasons] = await Promise.all([getNextUpItem(session, id), getSeasons(session, id)])
                 break
-            case "season":
-                episodes = await getEpisodes(session, item.showData.showId, id)
-                break
         }
     }
 
@@ -36,7 +32,6 @@ export const get = async ({ locals, params, query }) => {
         item,
         seasons,
         nextUp,
-        episodes,
         similar,
     })
 }

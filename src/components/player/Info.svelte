@@ -14,6 +14,7 @@
     export let jellyfinItem: JellyfinItem
     export let returnUrl: string
 
+    // TODO: user convert() instead of getItem()
     let itemPromise = getItem(jellyfinItem.Id, true)
     const streams = getMediaData(jellyfinItem)
 

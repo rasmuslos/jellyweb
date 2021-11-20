@@ -1,7 +1,6 @@
 <script lang="ts">
     import ItemImage from "./ItemImage.svelte";
-    import {generateImageUrl, generateItemUrl} from "$lib/helper";
-    import {icons} from "feather-icons";
+    import {generateImageUrl, generateItemUrl, getBadge} from "$lib/helper";
     import HeroActions from "../sections/HeroActions.svelte";
     import BackgroundSection from "../sections/BackgroundSection.svelte";
     import type {Item} from "$lib/typings/internal";
@@ -13,7 +12,7 @@
 
     let link: HTMLAnchorElement
 
-    const badge = item.watched ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : item.showData && item.showData.unplayedItems || null
+    const badge = getBadge(item)
 
     let expandTimeout: number
     let expanded: boolean = false

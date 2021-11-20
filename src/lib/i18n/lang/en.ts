@@ -76,5 +76,6 @@ export const en = {
     "server": "Server-Settings",
 
     // Episodes
-    "episodes.error": "Error while retrieving episodes"
+    "episodes.error": "Error while retrieving episodes",
+    "episodes.loading": "Loading episodes...",
 }

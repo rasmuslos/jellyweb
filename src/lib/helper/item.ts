@@ -5,6 +5,7 @@ import {getResolutionText} from "$lib/helper/text";
 import {VALID_TYPES} from "$lib/typings/internal";
 import type {Person} from "$lib/typings/internal/person";
 import {convertTicksToMillis} from "$lib/helper/utils";
+import {icons} from "feather-icons";
 
 const UNKNOWN = "unknown"
 
@@ -100,7 +101,7 @@ export const convert = (jellyfinItem: JellyfinItem, complex: boolean = false): I
         showData: getShowData(jellyfinItem),
 
         people: complex && jellyfinItem.People && jellyfinItem.People.length > 0 ? jellyfinItem.People.map(convertSimplePerson) : null,
-        chapters: complex && jellyfinItem.Chapters && jellyfinItem.Chapters.length > 0 ? jellyfinItem.Chapters.map(convertChatper) : null
+        chapters: complex && jellyfinItem.Chapters && jellyfinItem.Chapters.length > 0 ? jellyfinItem.Chapters.map(convertChapter) : null
     }
 }
 export const convertGenre = (jellyfinItem: JellyfinItem): Genre => {
@@ -132,10 +133,12 @@ export const convertSimplePerson = (person: JellyfinPerson): Person => {
         },
     }
 }
-export const convertChatper = (chapter: JellyfinChapter): Chapter => {
+export const convertChapter = (chapter: JellyfinChapter): Chapter => {
     return {
         name: chapter.Name,
         start: chapter.StartPositionTicks,
         tag: chapter.ImageTag,
     }
 }
+
+export const getBadge = ({ watched, showData }: Item) => watched ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : showData && showData.unplayedItems || null
