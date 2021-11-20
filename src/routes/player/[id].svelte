@@ -70,6 +70,7 @@
     let id: string
     let liveStreamId: string
     let src: string
+    let hls
 
     // Controls
     let showControlsHover: boolean = false
@@ -123,12 +124,13 @@
         const source = response.MediaSources.find(ms => ms.Id === $activeMediaSource)
 
         if(source == null) return
+        if(hls) hls.destroy()
 
         if(source.TranscodingUrl) {
             const transcodeUrl = `${$session.active.server}${source.TranscodingUrl}`
 
             if(source.TranscodingSubProtocol === "hls" && Hls.isSupported()) {
-                const hls = new Hls({
+                hls = new Hls({
                     startPosition: startAt / (1000 * 10000),
                 })
                 hls.attachMedia(video)
@@ -321,6 +323,7 @@
     onDestroy(() => {
         if(liveStreamId) stopPlayback(liveStreamId)
         if(reportInterval) clearInterval(reportInterval)
+        if(hls) hls.destroy()
 
         clearInterval(subtitleInterval)
 
