@@ -1,16 +1,28 @@
 <script lang="ts" context="module">
     import {getItem, setFetcher} from "$lib/api/internal";
     import {t} from "$lib/i18n";
+    import {generateItemUrl} from "$lib/helper";
+    import type {Item} from "$lib/typings/internal";
 
     export async function load({ fetch, page }) {
-        const { id } = page.params
+        const { ids } = page.params
+        const [id, season] = ids.split("/")
 
         setFetcher(fetch);
-        const item = await getItem(id, true)
+        const { item, ...rest }: { item: Item } = await getItem(id, true)
+
+        if(item.type === "season" && item.showData) return {
+            status: 301,
+            redirect: generateItemUrl(item.showData.showId),
+        }
 
         return {
             status: 200,
-            props: { ...item }
+            props: {
+                item,
+                season,
+                ...rest
+            }
         }
     }
 </script>
@@ -22,11 +34,13 @@
     import PersonList from "../../components/sections/PersonList.svelte";
     import type {Item} from "$lib/typings/internal";
     import Chapters from "../../components/sections/Chapters.svelte";
+    import Episodes from "../../components/sections/Episodes.svelte";
+
+    export let season: string
 
     export let item: Item
     export let seasons: Item[]
     export let nextUp: Item[]
-    export let episodes: Item[]
     export let similar: Item[]
 
     noPadding.set(true)
@@ -41,10 +55,8 @@
 {#if nextUp}
     <Hero item={nextUp} tip="{$t(`hero.nextup`)}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
-{#if item.type === "show" || item.type === "season"}
-    {#key item}
-        <VerticalList items={item.type === "show" ? seasons : episodes} wide={false} title={item.type === "show" ? $t("seasons") : $t("episodes")} />
-    {/key}
+{#if item.type === "show" && seasons && seasons.length > 0}
+    <Episodes {seasons} showId={item.id} selected={season} />
 {/if}
 
 {#if item.chapters && item.playable}

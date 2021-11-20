@@ -52,7 +52,7 @@ export const getNextUpItem = async (session: JellyfinSession, showId: string) =>
 }
 
 export const getSimilarItems = async (session: JellyfinSession, itemId: string) => (await createRequest(`Items/${itemId}/Similar?limit=14&${includeFilterBoth}`, session)).Items.reduce(reduceItems, [])
-export const getItemsBasedOnPerson = async (session: JellyfinSession, personId: string) => (await createRequest(`Users/${session.userId}/Items?personIds=${personId}&Recursive=true&EnableTotalRecordCount=false&includeItemTypes=${includeFilterSeries}`, session)).Items.reduce(reduceItems, [])
+export const getItemsBasedOnPerson = async (session: JellyfinSession, personId: string) => (await createRequest(`Users/${session.userId}/Items?personIds=${personId}&Recursive=true&EnableTotalRecordCount=false&${includeFilterSeries}`, session)).Items.reduce(reduceItems, [])
 
 export const getSeasons = async (session: JellyfinSession, showId: string) => (await createRequest(`Shows/${showId}/Seasons?Fields=ItemCounts,ChildCount&userId=${session.userId}`, session)).Items.reduce(reduceItems, [])
 export const getEpisodes = async (session: JellyfinSession, seriesId: string, seasonId: string) => (await createRequest(`Shows/${seriesId}/Episodes?seasonId=${seasonId}&userId=${session.userId}&${includeFilterBoth}&${fields}`, session)).Items.reduce(reduceItems, [])

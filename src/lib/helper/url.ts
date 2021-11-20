@@ -4,7 +4,7 @@ import type {JellyfinItem, JellyfinSession} from "$lib/typings/jellyfin";
 import {browser} from "$app/env";
 
 export const generatePlayerUrl = (itemId: string, startAt: number = 0) => `/player/${itemId}?start=${startAt}&url=${browser ? window.location.href : "/"}`
-export const generateItemUrl = (itemId: string) => `/detail/${itemId}`
+export const generateItemUrl = (itemId: string, seasonId: string = null) => `/detail/${itemId}${seasonId ? `/${seasonId}` : ""}`
 export const generateGenreUrl = (genreId: string) => `/genres/${genreId}`
 export const generatePeopleUrl = (personId: string) => `/people/${personId}`
 export const generateImageUrl = (id: string, tag: string, type: "Backdrop" | "Primary", maxWidth: number = null, scope: string = "Items", maxHeight: number = null, jellyfinSession: JellyfinSession = null) => generateImageUrlIndex(id, tag, 0, type, maxWidth, scope, maxHeight, jellyfinSession)
