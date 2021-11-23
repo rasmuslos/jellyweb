@@ -13,6 +13,7 @@
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
     import LargeHeading from "../helper/LargeHeading.svelte";
+    import {goto} from "$app/navigation";
 
     const imageOptions: Option[] = [
         {
@@ -55,7 +56,6 @@
         font-weight: 600;
 
         text-align: center;
-        color: var(--error);
     }
     p {
         text-align: center;
@@ -73,6 +73,11 @@
         margin: 0;
         padding: 50px 0;
     }
+
+    hr {
+        margin: 50px 0;
+        border-color: var(--background-light);
+    }
 </style>
 
 <ApplyWidth>
@@ -85,7 +90,15 @@
 <section>
     <Wave />
     <ApplyWidth>
-        <h2>{$t("settings_danger_zone")}</h2>
+        <h2>{$t("settings.login")}</h2>
+        <p>{$t("settings.login.description")}</p>
+        <figure class="center">
+            <GenericButton on:click={() => goto("handoff")} label="{$t(`settings.login.action`)}" />
+        </figure>
+
+        <hr>
+
+        <h2 class="error">{$t("settings_danger_zone")}</h2>
         <p>
             {$t("settings_danger_zone_desc")}
         </p>

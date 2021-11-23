@@ -19,6 +19,11 @@ export const searchItems = async term => await createRequest(`pages/search?term=
 export const getItemsByQuery = async (term: string) => await createRequest(`items/query?term=${encodeURIComponent(term)}`)
 export const getJellyfinItem = async (itemId: string) => await createRequest(`items/jellyfin/${itemId}`)
 
+export const getHostUrl = async () => await createRequest("session/host")
+export const createHandoff = async () => await createRequest("session/handoff", {
+    method: "POST",
+})
+
 export const getMe = async (handleLoginError: boolean = true) => await createRequest("session/me", {
     handleLoginError,
 })
@@ -26,7 +31,6 @@ export const logout = async () => await createRequest("session/logout", {
     method: "DELETE",
     handleLoginError: false,
 })
-export const getHostUrl = async () => await createRequest("session/host")
 export const authoriseUserByName = async (server, username, password, name) => await createRequest("session/login", {
     method: "POST",
     body: {

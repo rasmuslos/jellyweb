@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-    import {getHostUrl, getMe, setFetcher} from "$lib/api/internal";
+    import {createHandoff, getHostUrl, getMe, setFetcher} from "$lib/api/internal";
+    import {toDataURL} from "qrcode";
 
     export async function load({ fetch, session }) {
         if(session.active != null) {
@@ -20,11 +21,18 @@
         }
 
         setFetcher(fetch)
-        const host = await getHostUrl()
+        const [host, { hash }] = await Promise.all([getHostUrl(), createHandoff()])
 
         return {
             status: 200,
-            props: { host }
+            props: {
+                host,
+                stage: 1,
+                data: {
+                    hash,
+                    code: await toDataURL(hash, {}),
+                },
+            }
         }
     }
 </script>
@@ -44,6 +52,15 @@
     let loading: boolean = false
 
     let error: string = null
+
+    type HandoffData = {
+        hash: string,
+        code: string,
+    }
+
+    export let data: HandoffData
+    export let stage = 0
+    let remainingAttempts = 5
 
     onMount(() => {
         secure = window.location.protocol === "https:"
@@ -67,14 +84,46 @@
 </script>
 
 <style>
-    div {
+    div.wrapper {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
 
         width: 100%;
-        max-width: 400px;
+        max-width: 700px;
+
+        display: grid;
+        grid-template-columns: 400px 1fr;
+    }
+
+    aside {
+        position: relative;
+    }
+    aside div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+
+        text-align: center;
+    }
+    aside div[data-stage="1"] {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: white;
+    }
+    aside img {
+        height: 150px;
+        width: 150px;
+    }
+    aside span {
+        cursor: pointer;
+        margin-top: 10px;
     }
 
     h1 {
@@ -90,33 +139,61 @@
     p.error, span.error {
         color: var(--error);
     }
+
+    @media screen and (max-width: 750px) {
+        div.wrapper {
+            max-width: 400px;
+            grid-template-columns: 1fr;
+        }
+
+        main {
+
+        }
+        aside {
+            display: none;
+        }
+    }
 </style>
 
 <svelte:head>
     <title>Login</title>
 </svelte:head>
 
-<div>
-    <h1>Login</h1>
-    <span class="dimmed">{server}</span>
-    <p>
-        Login with your Jellyfin account credentials
-        <span class="highlight">This application wont store your password</span>
-        {#if !secure}
+<div class="wrapper">
+    <main>
+        <h1>Login</h1>
+        <span class="dimmed">{server}</span>
+        <p>
+            Login with your Jellyfin account credentials
+            <span class="highlight">This application wont store your password</span>
+            {#if !secure}
             <span class="error">
                 This connection is not secure
             </span>
-        {/if}
-    </p>
-    {#if error}
-        <p class="error">
-            {error}
+            {/if}
         </p>
-    {/if}
-    <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={host !== ""} />
-    <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
-    <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
-    <figure class="center">
-        <GenericButton label="Login" on:click={handleLogin} />
-    </figure>
+        {#if error}
+            <p class="error">
+                {error}
+            </p>
+        {/if}
+        <GenericInput type="url" placeholder="Server" bind:value={server} on:keydown={handleKeydown} disabled={host !== ""} />
+        <GenericInput type="name" placeholder="Username" bind:value={username} on:keydown={handleKeydown} />
+        <GenericInput type="password" placeholder="Password" bind:value={password} on:keydown={handleKeydown} />
+        <figure class="center">
+            <GenericButton label="Login" on:click={handleLogin} />
+        </figure>
+    </main>
+    <aside>
+        <div data-stage={stage}>
+            {#if stage === 0}
+                <h2 class="dimmed">Loading...</h2>
+            {:else if stage === 1}
+                <img src={data.code} alt="QR code used for simple login" />
+                {#if remainingAttempts <= 0}
+                    <span on:click={() => remainingAttempts = 5} class="dimmed">retry</span>
+                {/if}
+            {/if}
+        </div>
+    </aside>
 </div>
