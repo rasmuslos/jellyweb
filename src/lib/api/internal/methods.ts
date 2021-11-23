@@ -35,7 +35,7 @@ export const authoriseUserByName = async (server, username, password, name) => a
         password,
         name,
     },
-    handleLoginError: false,
+    handleLoginError: true,
 })
 
 export const markItemAsFavorite = async (itemId: string) => await createRequest(`items/${itemId}/favorite`, {

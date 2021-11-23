@@ -61,6 +61,10 @@ export const searchItems = async (session: JellyfinSession, term: string) => (aw
 export const getItemsByQuery = async (session: JellyfinSession, term: string) => (await createRequest(`Users/${session.userId}/Items?includeGenres=true&Recursive=true&EnableTotalRecordCount=false&${term}`, session)).Items.reduce(reduceItems, [])
 
 export const getMe = (session: JellyfinSession) => createRequest("Users/Me", session)
+export const destroySession = (session: JellyfinSession) => createRequest("Sessions/Logout", session, {
+    method: "POST",
+    parse: false,
+})
 export const authoriseUserByName = (server, username, password, deviceId, name) => createRequest("Users/AuthenticateByName", { server, deviceId, token: "", userId: null, name }, {
     method: "POST",
     body: JSON.stringify({ "Username": username, "Pw": password }),
