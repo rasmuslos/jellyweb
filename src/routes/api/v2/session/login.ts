@@ -1,7 +1,8 @@
 import {HOST} from "$lib/environment";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
-import type {JellyfinSession, Session} from "$lib/typings/jellyfin";
+import type {Session} from "$lib/typings/jellyfin";
 import {authoriseUserByName} from "$lib/api/jellyfin/methods";
+import {create} from "$lib/session";
 
 export const post = async ({ locals, body }) => {
     const { server, username, password, name } = body
@@ -12,18 +13,7 @@ export const post = async ({ locals, body }) => {
 
     const uuid = Date.now().toString(36) + Math.random().toString(36).substring(2)
     const session: Session = await authoriseUserByName(url, username, password, uuid, browser)
-    const oldSession: Session = locals.session.data ? locals.session.data.active : null
 
-    locals.session.data = {
-        active: {
-            server: url,
-            userId: session["User"]["Id"],
-            token: session["AccessToken"],
-            deviceId: uuid,
-            name: browser,
-        } as JellyfinSession,
-        stored: locals.session.data ? locals.session.data.stored ? [...locals.session.data.stored, oldSession] : oldSession ? [oldSession] : [] : oldSession ? [oldSession] : [],
-    } as Session
-
+    locals.session.data = create(locals.session.data, url, session["User"]["Id"], session["AccessToken"], uuid, browser)
     return createApiResponse(true, { session: locals.session.data.active })
 }

@@ -35,6 +35,10 @@ export const en = {
     "settings_danger_zone_desc": "Warning: deleting your preferences will reset you theme, bitrate & additional settings",
     "settings_reset_all": "Reset all Settings",
 
+    "settings.login": "Quick login",
+    "settings.login.description": "Log another device in just by scanning a QR-Code",
+    "settings.login.action": "Login",
+
     "settings.other": "Other",
     "settings.large": "Large",
     "settings.large.desc": "Make lists & other components take up you full screen width",

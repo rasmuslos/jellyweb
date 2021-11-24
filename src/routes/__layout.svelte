@@ -2,7 +2,7 @@
     import {setFetcher, getMe, getPreferences} from "$lib/api/internal";
     import type {Settings, User} from "$lib/typings/jellyfin";
     import {settings} from "$lib/stores";
-    import {lightMode} from "$lib/helper";
+    import {init, lightMode} from "$lib/helper";
 
     export async function load({session, fetch}) {
         if(session == null || session.active == null) {
@@ -11,16 +11,25 @@
                 redirect: "/user/logout",
             }
         } else {
-            setFetcher(fetch)
-            const [me, preferences]: [User, Settings] = await Promise.all([getMe(true), getPreferences()])
+            try {
+                setFetcher(fetch)
+                const [me, preferences]: [User, Settings] = await Promise.all([getMe(false), getPreferences()])
 
-            settings.set(preferences)
+                init()
+                settings.set(preferences)
 
-            return {
-                status: 200,
-                props: {
-                    me,
+                return {
+                    status: 200,
+                    props: {
+                        me,
+                    }
                 }
+            } catch (error) {
+                if(error.status === 401) return {
+                        status: 302,
+                        redirect: "/user/logout",
+                    }
+                else throw error
             }
         }
     }

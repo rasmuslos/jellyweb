@@ -56,7 +56,6 @@
         font-weight: 600;
 
         text-align: center;
-        color: var(--error);
     }
     p {
         text-align: center;
@@ -74,6 +73,11 @@
         margin: 0;
         padding: 50px 0;
     }
+
+    hr {
+        margin: 50px 0;
+        border: 1px dashed var(--background);
+    }
 </style>
 
 <ApplyWidth>
@@ -86,13 +90,21 @@
 <section>
     <Wave />
     <ApplyWidth>
-        <h2>{$t("settings_danger_zone")}</h2>
+        <h2>{$t("settings.login")}</h2>
+        <p>{$t("settings.login.description")}</p>
+        <figure class="center">
+            <GenericButton on:click={() => goto("handoff")} label="{$t(`settings.login.action`)}" />
+        </figure>
+
+        <hr>
+
+        <h2 class="error">{$t("settings_danger_zone")}</h2>
         <p>
             {$t("settings_danger_zone_desc")}
         </p>
         <figure class="center">
             <GenericButton on:click={deletePreferences} label="{$t(`settings_reset_all`)}" />
-            <GenericButton on:click={() => goto("user/logout")} label="{$t(`logout`)}" />
+            <GenericButton on:click={() => window.location = "user/logout"} label="{$t(`logout`)}" />
         </figure>
     </ApplyWidth>
     <Wave rotated />

@@ -7,6 +7,8 @@ export type RequestOptions = {
     parse?: boolean,
 }
 export const createRequest = async (endpoint: string, session: JellyfinSession, requestOptions: RequestOptions = {}) => {
+    if(!session) return Promise.reject({ status: 401, error: "provide session" })
+
     const { method, body, parse } = Object.assign({
         method: "GET",
         body: null,
@@ -32,7 +34,7 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     // if(!res.ok) throw new Error("Fetch failed")
     if(res.status == 204 || !parse) return
     if(res.status != 200) {
-        console.warn("got non 200 status", method, res.status, await res.clone().text(), url)
+        // console.warn("got non 200 status", method, res.status, await res.clone().text(), url)
 
         if(res.status == 401) return Promise.reject({ status: 401, error: "auth failed" })
         else return Promise.reject({ status: res.status, error: "Request returned other status then 200" })
@@ -41,8 +43,6 @@ export const createRequest = async (endpoint: string, session: JellyfinSession, 
     return res.json()
 }
 export const handleError = (error) => {
-    console.error("Jellyfin error", error)
-
     if(error.message != null) return createApiError(500, error.message)
     else return createApiError(error.status, error.error)
 }
