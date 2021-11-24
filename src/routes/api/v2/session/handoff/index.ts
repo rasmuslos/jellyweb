@@ -1,6 +1,7 @@
 import {createApiResponse} from "$lib/apiHelper";
-import {createHandoff} from "$lib/session";
+import {cleanUp, createHandoff} from "$lib/session";
 
-export const post = async ({ body }) => {
+export const post = async () => {
+    cleanUp()
     return createApiResponse(true, await createHandoff())
 }

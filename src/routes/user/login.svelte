@@ -2,6 +2,16 @@
     import {createHandoff, getHostUrl, getMe, setFetcher} from "$lib/api/internal";
     import {toDataURL} from "qrcode";
 
+    enum Stage {
+        LOADING,
+        WAITING,
+        PASSWORD,
+        CONFIRMATION,
+
+        LOADING,
+        FAILED,
+    }
+
     export async function load({ fetch, session }) {
         if(session.active != null) {
             try {
@@ -21,16 +31,25 @@
         }
 
         setFetcher(fetch)
-        const [host, { hash }] = await Promise.all([getHostUrl(), createHandoff()])
+        const [host, { hash, ...handoffData }] = await Promise.all([getHostUrl(), createHandoff()])
+        // @ts-ignore
+        const code = await toDataURL(hash, {
+            color: {
+                light: "#00000000",
+                dark: "#2E3440",
+            },
+            margin: 0,
+        })
 
         return {
             status: 200,
             props: {
                 host,
-                stage: 1,
+                stage: Stage.WAITING,
                 data: {
+                    ...handoffData,
                     hash,
-                    code: await toDataURL(hash, {}),
+                    code,
                 },
             }
         }
@@ -39,9 +58,9 @@
 <script lang="ts">
     import GenericInput from "../../components/input/GenericInput.svelte";
     import GenericButton from "../../components/input/GenericButton.svelte";
-    import {onMount} from "svelte";
-    import {authoriseUserByName} from "$lib/api/internal";
-    import {getBrowserName} from "$lib/helper";
+    import {onDestroy, onMount} from "svelte";
+    import {authoriseUserByName, getHandoffStatus, getSession} from "$lib/api/internal";
+    import {getBrowserName, hash as hashString} from "$lib/helper";
 
     export let host: string = ""
     let secure: boolean = true
@@ -55,15 +74,57 @@
 
     type HandoffData = {
         hash: string,
+        secret: string,
         code: string,
+
+        name?: string,
+        userId?: string,
+        avatar?: number,
+        server?: string,
     }
 
     export let data: HandoffData
-    export let stage = 0
-    let remainingAttempts = 5
+    export let stage: Stage = Stage.LOADING
+
+    // We make a request every two seconds and the handoff expires after 5 minutes
+    let remainingAttempts = 30 * 5
+    let interval: number
 
     onMount(() => {
         secure = window.location.protocol === "https:"
+
+        interval = window.setInterval(async () => {
+            if((stage === Stage.WAITING || stage === Stage.PASSWORD) && remainingAttempts > 0) {
+                try {
+                    const { name, userId, server, ready } = await getHandoffStatus(data.hash)
+                    remainingAttempts--
+
+                    if(name && userId && server) {
+                        const hashed = hashString(userId)
+
+                        data = {
+                            ...data,
+                            name,
+                            userId,
+                            avatar: hashed,
+                            server,
+                        }
+                        stage = Stage.PASSWORD
+                    }
+                    if(ready) {
+                        stage = Stage.CONFIRMATION
+                        clearInterval(interval)
+                    }
+                } catch (error) {
+                    stage = Stage.FAILED
+                    clearInterval(interval)
+                    console.error("Handoff failed", error)
+                }
+            }
+        }, 2000)
+    })
+    onDestroy(() => {
+        if(interval) clearInterval(interval)
     })
     const handleLogin = async () => {
         if(server.trim() === "" || username.trim() === "") return error = "Please provide a server and a username"
@@ -77,6 +138,14 @@
 
                 loading = false
                 error = "Login failed"
+            })
+    }
+    const retrieveSession = async (destroy: boolean = true) => {
+        getSession(data.hash, destroy === false ? data.secret : null)
+            .then(() => window.location.href = "/")
+            .catch(err => {
+                console.error(err)
+                stage = Stage.FAILED
             })
     }
 
@@ -100,24 +169,27 @@
     aside {
         position: relative;
     }
-    aside div {
+    aside div[data-stage] {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-
+        text-align: center;
+    }
+    aside div[data-stage="1"] {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
 
-        text-align: center;
-    }
-    aside div[data-stage="1"] {
-        padding: 10px;
+        padding: 15px 15px;
         border-radius: 10px;
-        background-color: white;
+
+        background-color: var(--background-secondary);
     }
-    aside img {
+    aside div[data-stage="1"] p {
+        margin: 10px 0 0 0;
+    }
+    aside div[data-stage="1"] img {
         height: 150px;
         width: 150px;
     }
@@ -138,6 +210,36 @@
     }
     p.error, span.error {
         color: var(--error);
+    }
+
+    div.image {
+        display: block;
+        margin: 0 auto 10px auto;
+        border-radius: 50%;
+
+        position: relative;
+        width: 100px;
+        height: 100px;
+
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50%;
+    }
+    div.image span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-weight: 600;
+        font-size: 26px;
+
+        color: var(--black);
+        margin: 0;
+    }
+    p.dimmed span {
+        text-align: left;
+        color: var(--text);
     }
 
     @media screen and (max-width: 750px) {
@@ -186,13 +288,28 @@
     </main>
     <aside>
         <div data-stage={stage}>
-            {#if stage === 0}
+            {#if stage === Stage.LOADING}
                 <h2 class="dimmed">Loading...</h2>
-            {:else if stage === 1}
+            {:else if stage === Stage.FAILED}
+                <h2 class="error">Handoff failed</h2>
+            {:else if stage === Stage.WAITING}
                 <img src={data.code} alt="QR code used for simple login" />
-                {#if remainingAttempts <= 0}
-                    <span on:click={() => remainingAttempts = 5} class="dimmed">retry</span>
+                <p class="dimmed">Login with other device</p>
+            {:else if stage === Stage.PASSWORD || stage === Stage.CONFIRMATION}
+                <div class="image" style="background: linear-gradient({data.avatar % 360}deg, hsl({data.avatar % 360}, 95%, 50%), hsl({data.avatar + 120 % 360}, 95%, 50%))">
+                    <span>{data.name.split(" ").map(str => str[0]).join("")}</span>
+                </div>
+                <p class="dimmed">
+                    Logging in as <span>{data.name}</span>...
+                </p>
+                {#if stage === Stage.CONFIRMATION}
+                    <figure class="center">
+                        <GenericButton label="Yes, this is me" on:click={() => retrieveSession(false)} />
+                        <span class="error" on:click={() => retrieveSession(true)}>Abort</span>
+                    </figure>
                 {/if}
+            {:else if stage === Stage.LOADING}
+                <h2 class="dimmed">Retrieving session data...</h2>
             {/if}
         </div>
     </aside>

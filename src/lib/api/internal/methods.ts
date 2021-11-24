@@ -20,8 +20,25 @@ export const getItemsByQuery = async (term: string) => await createRequest(`item
 export const getJellyfinItem = async (itemId: string) => await createRequest(`items/jellyfin/${itemId}`)
 
 export const getHostUrl = async () => await createRequest("session/host")
+export const getHandoffStatus = async (hash: string) => await createRequest(`session/handoff/${hash}`)
 export const createHandoff = async () => await createRequest("session/handoff", {
     method: "POST",
+})
+export const postHandoffData = async (hash: string, body) => await createRequest(`session/handoff/${hash}`, {
+    method: "PUT",
+    body,
+})
+export const sendPassword = async (hash: string, password: string) => await createRequest(`session/handoff/${hash}`, {
+    method: "POST",
+    body: {
+        password,
+    },
+})
+export const getSession = async (hash: string, secret: string) => await createRequest(`session/handoff/${hash}`, {
+    method: "DELETE",
+    body: {
+        secret,
+    },
 })
 
 export const getMe = async (handleLoginError: boolean = true) => await createRequest("session/me", {
@@ -39,7 +56,7 @@ export const authoriseUserByName = async (server, username, password, name) => a
         password,
         name,
     },
-    handleLoginError: true,
+    handleLoginError: false,
 })
 
 export const markItemAsFavorite = async (itemId: string) => await createRequest(`items/${itemId}/favorite`, {

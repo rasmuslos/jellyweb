@@ -117,3 +117,9 @@ const MILLIS_PER_TICK = 10000
 export const convertTicksToMillis = (ticks: number): number => ticks / MILLIS_PER_TICK
 
 export const isInvalidParam = param => param == null || param == "null" || param == "false"
+export const hash = value => {
+    let hash = 5381, i = value.length
+    while(i) hash = (hash * 33) ^ value.charCodeAt(--i)
+
+    return hash >>> 0
+}

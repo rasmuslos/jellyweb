@@ -2,7 +2,7 @@
     import {setFetcher, getMe, getPreferences} from "$lib/api/internal";
     import type {Settings, User} from "$lib/typings/jellyfin";
     import {settings} from "$lib/stores";
-    import {lightMode} from "$lib/helper";
+    import {init, lightMode} from "$lib/helper";
 
     export async function load({session, fetch}) {
         if(session == null || session.active == null) {
@@ -15,6 +15,7 @@
                 setFetcher(fetch)
                 const [me, preferences]: [User, Settings] = await Promise.all([getMe(false), getPreferences()])
 
+                init()
                 settings.set(preferences)
 
                 return {

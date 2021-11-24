@@ -1,8 +1,11 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {modal} from "$lib/stores";
+    import {init} from "$lib/helper";
 
     let Modal
+
+    init()
 
     onMount(async () => {
         const svelteSimpleModal = await import('svelte-simple-modal')
