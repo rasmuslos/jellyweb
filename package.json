@@ -1,6 +1,6 @@
 {
   "name": "jellyweb",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "scripts": {
     "dev": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit dev --host",
     "dev:secure": "COOKIE_SECRET=qwertzuiopasdfghjklyxcvbnm svelte-kit dev --https --host",
@@ -36,10 +36,8 @@
     "svelte-preprocess": "^4.9.8",
     "svelte-simple-modal": "^1.1.1",
     "tslib": "^2.0.0",
-    "typescript": "^4.5.2"
-  },
-  "type": "module",
-  "dependencies": {
+    "typescript": "^4.5.2",
     "jsqr": "^1.4.0"
-  }
+  },
+  "type": "module"
 }
