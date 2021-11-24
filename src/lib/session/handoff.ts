@@ -51,11 +51,10 @@ export const getHandoff = (hash: string) => {
     const handoff: Handoff = ongoing[hash]
     if(!isHandoffValid(handoff)) throw new Error("handoff has expired")
 
-    const { name, userId, server, session } = handoff
+    const { name, userId, session } = handoff
     return {
         name,
         userId,
-        server,
 
         ready: session != null,
     }
