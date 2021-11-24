@@ -76,7 +76,7 @@
 
     hr {
         margin: 50px 0;
-        border-color: var(--background-light);
+        border: 1px dashed var(--background);
     }
 </style>
 

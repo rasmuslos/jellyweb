@@ -26,7 +26,7 @@ export const cleanUp = async () => {
         if(!isHandoffValid(handoff)) destroy(key)
     })
 }
-export const destroy = async (hash: string, logout: boolean = false) => {
+export const destroy = async (hash: string, logout: boolean = true) => {
     try {
         const {
             server,
