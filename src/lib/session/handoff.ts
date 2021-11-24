@@ -70,9 +70,10 @@ export const getSessionData = async (hash: string, validate: string) => {
         server,
         uuid,
     } = handoff
-    await destroy(hash, false)
+    const valid = secret === validate
 
-    if(secret === validate) return {
+    await destroy(hash, !valid)
+    if(valid) return {
         session,
         userId,
         server,

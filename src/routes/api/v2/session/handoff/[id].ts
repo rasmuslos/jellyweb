@@ -2,10 +2,17 @@ import {isInvalidParam} from "$lib/helper";
 import {createApiError, createApiResponse} from "$lib/apiHelper";
 import {create, finishHandoff, getHandoff, getSessionData, updateHandoff} from "$lib/session";
 import type {JellyfinSession} from "$lib/typings/jellyfin";
+import {limiter} from "$lib/api/limiter";
 
 export const get = async ({ params }) => {
     const { id } = params
     if(isInvalidParam(id)) return createApiError(400, "provide id & body")
+
+    try {
+        await limiter.consume(id, 1)
+    } catch (error) {
+        return createApiError(403, "rate limit reached")
+    }
 
     try {
         return createApiResponse(true, getHandoff(id))
@@ -20,6 +27,12 @@ export const put = async ({ params, body, locals }) => {
     const { id } = params
     if(isInvalidParam(id) || !body) return createApiError(400, "provide id & body")
 
+    try {
+        await limiter.consume(id, 2)
+    } catch (error) {
+        return createApiError(403, "rate limit reached")
+    }
+
     const {
         name,
     } = body
@@ -32,6 +45,12 @@ export const put = async ({ params, body, locals }) => {
 export const post = async ({ params, body }) => {
     const { id } = params
     if(isInvalidParam(id) || !body) return createApiError(400, "provide id & body")
+
+    try {
+        await limiter.consume(id, 2)
+    } catch (error) {
+        return createApiError(403, "rate limit reached")
+    }
 
     const {
         password,
@@ -49,6 +68,12 @@ export const post = async ({ params, body }) => {
 export const del = async ({ params, body, locals }) => {
     const { id } = params
     if(isInvalidParam(id) || !body) return createApiError(400, "provide id & body")
+
+    try {
+        await limiter.consume(id, 2)
+    } catch (error) {
+        return createApiError(403, "rate limit reached")
+    }
 
     const {
         secret,

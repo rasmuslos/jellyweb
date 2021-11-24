@@ -8,7 +8,6 @@
         PASSWORD,
         CONFIRMATION,
 
-        LOADING,
         FAILED,
     }
 
@@ -80,7 +79,6 @@
         name?: string,
         userId?: string,
         avatar?: number,
-        server?: string,
     }
 
     export let data: HandoffData
@@ -96,10 +94,10 @@
         interval = window.setInterval(async () => {
             if((stage === Stage.WAITING || stage === Stage.PASSWORD) && remainingAttempts > 0) {
                 try {
-                    const { name, userId, server, ready } = await getHandoffStatus(data.hash)
+                    const { name, userId, ready } = await getHandoffStatus(data.hash)
                     remainingAttempts--
 
-                    if(name && userId && server) {
+                    if(name && userId) {
                         const hashed = hashString(userId)
 
                         data = {
@@ -107,7 +105,6 @@
                             name,
                             userId,
                             avatar: hashed,
-                            server,
                         }
                         stage = Stage.PASSWORD
                     }
@@ -308,8 +305,6 @@
                         <span class="error" on:click={() => retrieveSession(true)}>Abort</span>
                     </figure>
                 {/if}
-            {:else if stage === Stage.LOADING}
-                <h2 class="dimmed">Retrieving session data...</h2>
             {/if}
         </div>
     </aside>
