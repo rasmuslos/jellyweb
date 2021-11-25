@@ -109,7 +109,7 @@
         <meta name="theme-color" content="#2E3440">
     {/if}
 </svelte:head>
-<div class:light={$lightMode}>
+<div id="root" class:light={$lightMode}>
     <Navigation {me} />
     <main class:no-padding={$noPadding}>
         <slot />

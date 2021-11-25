@@ -1,10 +1,31 @@
 <script lang="ts">
     import {settings} from "$lib/stores";
     import {blurHeroImages, scrimBackdropImages, showHeroImages} from "$lib/helper";
+    import {onDestroy, onMount} from "svelte";
+    import {browser} from "$app/env";
 
     export let url: string
     export let transparent: boolean = false
     export let fade: boolean = false
+
+    export let parallax: boolean = false
+    let transform: number = 0
+    let root: HTMLDivElement
+
+    const onScroll = event => transform = root.scrollTop * 0.6 || 0
+    const getRootElement = (): HTMLDivElement => {
+        if(!browser) return null
+
+        return document.querySelector("#root")
+    }
+
+    onMount(() => {
+        root = getRootElement()
+        if(root && parallax) root.addEventListener("scroll", onScroll)
+    })
+    onDestroy(() => {
+        if(root && parallax) root.removeEventListener("scroll", onScroll)
+    })
 </script>
 
 <style>
@@ -38,6 +59,9 @@
         background-position: center;
         background-size: cover;
 
+        /*
+        transition: transform 50ms ease;
+        */
         animation: show 1.5s;
         z-index: 0;
     }
@@ -79,7 +103,7 @@
 <section class:transparent class:fade>
     {#key $settings["images.hero"], url}
         {#if $showHeroImages}
-            <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}')"></div>
+            <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}'); transform: translateY({transform}px)"></div>
         {/if}
     {/key}
     <div class="holder">

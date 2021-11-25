@@ -7,6 +7,7 @@
 
     export let item: Item
     export let tip: string = null
+    export let parallax: boolean = false
     export let includeWave: boolean = false
     export let includeMoreButton: boolean = true
     export let includeActions: boolean = true
@@ -17,7 +18,7 @@
     export let noButton: boolean = false
 </script>
 
-<BackgroundSection transparent={hideImage} url={!hideImage && item.images.wide && generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")}>
+<BackgroundSection {parallax} transparent={hideImage} url={!hideImage && item.images.wide && generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")}>
     <HeroInner {item} {tip} {includeMoreButton} {reduceOffset} {noImage} {noButton} {includeActions} />
     {#if includeWave}
         <Wave colored={false} />

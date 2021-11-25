@@ -51,7 +51,7 @@
     <title>{item.name}</title>
 </svelte:head>
 
-<Hero {item} includeMoreButton={false} includeWave />
+<Hero {item} includeMoreButton={false} includeWave parallax />
 {#if nextUp}
     <Hero item={nextUp} tip="{$t(`hero.nextup`)}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
