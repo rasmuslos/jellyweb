@@ -71,11 +71,11 @@
             <WatchNowButton itemId={item.id} position={item.playbackTicks} />
         {/if}
     {/key}
-    <span class="action" class:processing on:click={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {
+    <span class="action" class:processing on:click|preventDefault={togglePlayed}>{@html icons["check"].toSvg(isWatched ? {
         stroke: "var(--highlight)"
     } : {})}</span>
     {#key isFavorite}
-                <span class="action" class:liked={isFavorite} class:processing on:click={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
+                <span class="action" class:liked={isFavorite} class:processing on:click|preventDefault={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
                     fill: "var(--error)",
                     stroke: "var(--error)"
                 } : {})}</span>
