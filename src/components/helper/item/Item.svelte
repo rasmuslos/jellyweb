@@ -7,8 +7,8 @@
     import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
-    export let wide: boolean
-    export let small: boolean
+    export let wide: boolean = false
+    export let small: boolean = false
 
     let link: HTMLAnchorElement
 

@@ -6,7 +6,7 @@
     export let items: Item[]
     export let title: string = ""
     export let wide: boolean = true
-    export let small: boolean
+    export let small: boolean = false
 </script>
 
 <style>

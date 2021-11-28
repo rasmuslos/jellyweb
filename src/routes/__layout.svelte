@@ -51,7 +51,7 @@
 
         // oof
         history.pushState = new Proxy(history.pushState, {
-            apply (target, thisArg, argumentsList) {
+            apply(target, thisArg, argumentsList) {
                 scrollUp()
                 Reflect.apply(target, thisArg, argumentsList)
             }

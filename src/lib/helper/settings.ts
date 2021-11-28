@@ -1,8 +1,10 @@
 import {settings} from "$lib/stores";
 import {writable} from "svelte/store";
-import {subscribeButIgnoreFirst} from "$lib/helper/utils";
+import {compareObjects, subscribeButIgnoreFirst} from "$lib/helper/utils";
 import {browser} from "$app/env";
 import {updatePreferences, deletePreferences as deleteCustomPreferences} from "$lib/api/internal";
+
+let last = {}
 
 export const fallbackLocale = "en"
 
@@ -33,7 +35,10 @@ export const updatePreference = (identifier: string, value: any) => {
 
 export const init = () => {
     if(browser) {
-        subscribeButIgnoreFirst(settings, updatePreferences)
+        subscribeButIgnoreFirst(settings, data => {
+            if(!compareObjects(data, last)) updatePreferences(data)
+            last = data
+        })
         settings.subscribe(settings => {
             scrimBackdropImages.set(settings["images.scrim"] !== "false")
             showHeroImages.set(settings["images.hero"] !== "false")
