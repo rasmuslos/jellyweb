@@ -6,6 +6,7 @@
     import {getMe, postHandoffData, sendPassword} from "$lib/api/internal";
     import GenericInput from "../components/input/GenericInput.svelte";
     import GenericButton from "../components/input/GenericButton.svelte";
+    import LargeHeading from "../components/helper/LargeHeading.svelte";
 
     let found: string
     let password = null
@@ -104,7 +105,7 @@
 
 <ApplyWidth>
     <div>
-        <h1>Quick Login</h1>
+        <LargeHeading>Quick Login</LargeHeading>
         {#if failed}
             <h2 class="error">Handoff failed</h2>
         {:else if done}

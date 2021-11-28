@@ -1,6 +1,5 @@
 <script lang="ts" context="module">
-    import {getGenre, getItem, setFetcher} from "$lib/api/internal";
-    import {t} from "$lib/i18n";
+    import {getGenre, setFetcher} from "$lib/api/internal";
 
     export async function load({ fetch, page }) {
         const { id } = page.params

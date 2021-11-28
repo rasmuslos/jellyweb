@@ -96,6 +96,7 @@
 
     main {
         position: relative;
+        padding-bottom: 50px;
     }
     main:not(.no-padding) {
         padding-top: 75px;
