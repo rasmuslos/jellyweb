@@ -13,9 +13,12 @@ export const handle = handleSession<Session>(
         secret: SECRET,
         expires: 365,
         key: "session",
+        cookie: {
+            sameSite: "lax",
+        }
     },
     async ({ request, resolve }) => {
-        // We don't want all request to fail just because of this
+        // We don't want all requests to fail just because of this
         cleanUp()
             .catch(error => console.error("Handoff cleanup failed", error))
 
