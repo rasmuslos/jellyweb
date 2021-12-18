@@ -24,10 +24,13 @@
 
     div.wrapper {
         padding-bottom: 25px;
+        margin: -200px 0;
     }
     div.holder {
         display: flex;
         flex-shrink: 0;
+
+        padding: 200px 0;
 
         align-items: start;
         overflow-x: auto;

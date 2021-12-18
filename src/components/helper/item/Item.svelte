@@ -18,6 +18,8 @@
     let expanded: boolean = false
 
     const handleMouseEnter = () => expandTimeout = window.setTimeout(() => {
+        if(window && window.matchMedia && window.matchMedia("screen and (max-width: 1000px)").matches) return
+
         link.style.left = null
         link.classList.remove("center")
 

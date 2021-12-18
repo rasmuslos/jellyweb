@@ -31,7 +31,11 @@
         background-color: var(--background-light);
     }
 
-    div {
+    div.hero {
+        display: block;
+    }
+
+    div.controls {
         position: absolute;
         bottom: 30px;
         right: 50px;
@@ -40,7 +44,7 @@
         align-items: center;
         height: 43px;
     }
-    div :global(svg) {
+    div.controls :global(svg) {
         width: 24px;
         height: 24px;
 
@@ -60,15 +64,26 @@
     polygon {
         fill: var(--background);
     }
+
+    @media screen and (max-width: 1000px) {
+        div.hero {
+            display: none;
+        }
+        section {
+            padding-top: 50px;
+        }
+    }
 </style>
 
-<BackgroundSection fade parallax url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
-    <AlternateHero item={active} />
-    <div>
-        <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>
-        <span on:click={() => updateActive(true)}>{@html icons["arrow-right-circle"].toSvg()}</span>
-    </div>
-</BackgroundSection>
+<div class="hero">
+    <BackgroundSection fade parallax url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
+        <AlternateHero item={active} />
+        <div class="controls">
+            <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>
+            <span on:click={() => updateActive(true)}>{@html icons["arrow-right-circle"].toSvg()}</span>
+        </div>
+    </BackgroundSection>
+</div>
 <section>
     <ApplyWidth>
         <h1>{$t("hero.nextup")}</h1>
