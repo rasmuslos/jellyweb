@@ -82,6 +82,9 @@
     }
 
     span.title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         line-break: normal;
 
         padding: 10px;
@@ -116,6 +119,13 @@
 
     h2 {
         margin-bottom: 0;
+    }
+
+    @media screen and (max-width: 1000px) {
+        .holder, .holder.small {
+            width: min(calc(33vw - 20px), 133px);
+            min-height: min(calc((33vw - 20px) * 1.66), 133px);
+        }
     }
 </style>
 

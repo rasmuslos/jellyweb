@@ -162,6 +162,13 @@
         border-bottom-left-radius: 10px;
         background-color: rgba(0, 0, 0, 0.4);
     }
+
+    @media screen and (max-width: 1000px) {
+        div.holder, div.holder.small {
+            width: min(calc(33vw - 20px), 120px);
+            height: min(calc((33vw - 20px) * 1.4), 168px);
+        }
+    }
 </style>
 
 <div class="holder" class:wide class:small class:stretch on:click>
