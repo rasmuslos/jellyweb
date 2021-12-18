@@ -1,10 +1,8 @@
 <script lang="ts">
     import ItemImage from "./ItemImage.svelte";
-    import {generateImageUrl, generateItemUrl, getBadge} from "$lib/helper";
+    import {generateItemUrl, getBadge} from "$lib/helper";
     import HeroActions from "../sections/HeroActions.svelte";
-    import BackgroundSection from "../sections/BackgroundSection.svelte";
     import type {Item} from "$lib/typings/internal";
-    import ItemBadges from "../ItemBadges.svelte";
 
     export let item: Item
     export let wide: boolean = false
@@ -75,7 +73,7 @@
         grid-template-rows: auto auto;
         align-items: center;
 
-        transition: bottom 500ms ease, width 500ms ease, left 500ms ease, right 500ms ease, bottom 500ms ease;
+        transition: width 500ms ease, left 500ms ease, right 500ms ease, bottom 500ms ease;
         width: 100%;
     }
 
@@ -112,58 +110,33 @@
         transform: translate(-50%);
     }
 
-    div.image {
-        width: 100%;
-        height: 200px;
-    }
-    div.inner {
+    div.expanded {
         padding: 20px;
-
-        border: 1px solid var(--background);
-        border-top: none;
-
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
     }
 
     h2 {
         margin-bottom: 0;
     }
-
-    span.tagline {
-        background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    div.actions {
-        margin-top: 20px;
-    }
 </style>
 
 <div class:wide class:small on:focus on:mouseover class="holder">
     <a class="item" class:expanded href={generateItemUrl(item.id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
+        <ItemImage {wide} {small} {item} {badge} stretch={expanded} />
         {#if expanded}
-            <div class="image">
-                <BackgroundSection url={generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, "Backdrop")} />
-            </div>
-            <div class="inner">
-                {#if item.badges}
-                    <ItemBadges badges={item.badges} />
-                {/if}
+            <div class="expanded">
                 <h2>{item.name}</h2>
-                {#if item.tagline}
-                    <span class="tagline">{item.tagline}</span>
-                {:else if item.showData && item.type === "season"}
-                    <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
-                {:else if item.showData}
-                    <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+                {#if item.overview}
+                    {#if item.tagline}
+                        <p class="tagline">{item.tagline}</p>
+                    {:else if item.type === "season" && item.showData}
+                        <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+                    {:else if item.showData}
+                        <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
+                    {/if}
                 {/if}
-                <div class="actions">
-                    <HeroActions {item} />
-                </div>
+                <HeroActions {item} />
             </div>
         {:else}
-            <ItemImage {wide} {small} {item} {badge} />
             <span class="title">{item.name}</span>
         {/if}
     </a>

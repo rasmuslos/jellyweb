@@ -6,6 +6,7 @@
     import {browser} from "$app/env";
     import type {Item} from "$lib/typings/internal";
 
+    export let stretch: boolean = false
     export let wide: boolean = false
     export let small: boolean = false
     export let item: Item
@@ -42,6 +43,7 @@
         border-radius: 10px;
         overflow: hidden;
 
+        transition: width 250ms ease;
         background-color: var(--background-secondary);
 
         width: 200px;
@@ -54,6 +56,10 @@
     div.holder.wide {
         width: 300px;
         height: 170px;
+    }
+    div.holder.stretch {
+        width: 100%;
+        height: 200px;
     }
 
     canvas {
@@ -158,7 +164,7 @@
     }
 </style>
 
-<div class="holder" class:wide class:small on:click>
+<div class="holder" class:wide class:small class:stretch on:click>
     {#if item && item.images.normal.hash != null}
         <canvas bind:this={canvas}></canvas>
     {/if}

@@ -50,7 +50,7 @@
     <div class="holder">
         {#if item.showData}
             <span class="dimmed"><a href={generateItemUrl(item.showData.seasonId)}>{item.showData.seasonName}</a> - <a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
-        {:else if item.showData}
+        {:else if item.type === "season" && item.showData}
             <span class="dimmed"><a href={generateItemUrl(item.showData.showId)}>{item.showData.showName}</a></span>
         {:else if item.badges}
             <ItemBadges badges={item.badges} />
