@@ -59,9 +59,7 @@
         background-position: center;
         background-size: cover;
 
-        /*
-        transition: transform 50ms ease;
-        */
+        transition: background-position 20ms ease;
         animation: show 1.5s;
         z-index: 0;
     }
@@ -103,7 +101,7 @@
 <section class:transparent class:fade>
     {#key $settings["images.hero"], url}
         {#if $showHeroImages}
-            <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}'); transform: translateY({transform}px)"></div>
+            <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}'); background-position: 50% {transform}px"></div>
         {/if}
     {/key}
     <div class="holder">

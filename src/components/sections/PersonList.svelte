@@ -33,13 +33,10 @@
         border-radius: 50%;
         background-color: var(--background-secondary);
     }
-    div.photo {
+    img {
         height: 100%;
         width: 100%;
-
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: 50%;
+        object-fit: cover;
     }
     div.fallback {
         position: absolute;
@@ -81,7 +78,10 @@
                     <a class="person" href={generatePeopleUrl(person.id)}>
                         <div class="image">
                             {#if person.id && person.images.normal.tag}
+                                <!--
                                 <div class="photo" style="background-image: url('{generateImageUrl(person.id, person.images.normal.tag, `Primary`, 100)}')"></div>
+                                -->
+                                <img src={generateImageUrl(person.id, person.images.normal.tag, `Primary`, 100)} alt={person.name} />
                             {:else}
                                 <div class="fallback">{@html icons["user"].toSvg()}</div>
                             {/if}

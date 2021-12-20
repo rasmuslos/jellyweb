@@ -71,17 +71,14 @@
         width: 100%;
     }
 
-    div.image {
+    img {
         position: absolute;
         top: 0;
         left: 0;
 
         height: 100%;
         width: 100%;
-
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
+        object-fit: cover;
     }
     div.holder .type {
         position: absolute;
@@ -166,7 +163,7 @@
     @media screen and (max-width: 1000px) {
         div.holder:not(.wide), div.holder.small {
             width: min(calc(33vw - 20px), 120px);
-            height: min(calc((33vw - 20px) * 1.4), 168px);
+            height: min(calc((33vw - 20px) * 1.5), 180px);
         }
     }
 </style>
@@ -176,7 +173,7 @@
         <canvas bind:this={canvas}></canvas>
     {/if}
     {#if url || (item && item.images.normal.tag != null)}
-        <div class="image" style="background-image: url('{url ? url : wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)}')"></div>
+        <img src={url ? url : wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)} alt="{item ? item.name : null}" />
     {:else}
         <div class="type">
             {@html getIconByType(item)}
