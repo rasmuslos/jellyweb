@@ -122,7 +122,7 @@
     }
 
     @media screen and (max-width: 1000px) {
-        .holder, .holder.small {
+        .holder:not(.wide), .holder.small {
             width: min(calc(33vw - 20px), 133px);
             min-height: min(calc((33vw - 20px) * 1.66), 133px);
         }

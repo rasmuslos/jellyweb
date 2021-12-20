@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl} from "$lib/helper";
+    import {generateImageUrl, showHero} from "$lib/helper";
     import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
@@ -66,16 +66,16 @@
     }
 
     @media screen and (max-width: 1000px) {
-        div.hero {
+        div.hero.hide {
             display: none;
         }
-        section {
+        div.hero.hide + section {
             padding-top: 50px;
         }
     }
 </style>
 
-<div class="hero">
+<div class="hero" class:hide={!$showHero}>
     <BackgroundSection fade url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
         <AlternateHero item={active} />
         <div class="controls">

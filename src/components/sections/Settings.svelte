@@ -8,7 +8,7 @@
         deletePreferences,
         showHeroImages,
         updatePreference,
-        blurHeroImages, large
+        blurHeroImages, large, showHero
     } from "$lib/helper";
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
@@ -41,6 +41,12 @@
             description: "settings.large.desc",
             checked: $large,
             identifier: "large",
+        },
+        {
+            title: "settings.showHero",
+            description: "settings.showHero.desc",
+            checked: $showHero,
+            identifier: "showHero",
         },
     ]
 </script>

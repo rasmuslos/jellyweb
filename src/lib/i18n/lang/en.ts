@@ -42,6 +42,8 @@ export const en = {
     "settings.other": "Other",
     "settings.large": "Large",
     "settings.large.desc": "Make lists & other components take up you full screen width",
+    "settings.showHero": "Show Hero",
+    "settings.showHero.desc": "Show a large image on mobile devices when visiting the homepage",
 
     // Item page
     "chapters": "Chapters",

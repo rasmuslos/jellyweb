@@ -1,6 +1,6 @@
 import {settings} from "$lib/stores";
 import {writable} from "svelte/store";
-import {compareObjects, subscribeButIgnoreFirst} from "$lib/helper/utils";
+import {compareObjects} from "$lib/helper/utils";
 import {browser} from "$app/env";
 import {updatePreferences, deletePreferences as deleteCustomPreferences} from "$lib/api/internal";
 
@@ -21,6 +21,7 @@ export const sortOrder = writable<string>()
 export const orderBy = writable<string>(null)
 
 export const large = writable<boolean>(false)
+export const showHero = writable<boolean>(false)
 
 export const deletePreferences = async () => {
     await deleteCustomPreferences()
@@ -29,13 +30,15 @@ export const deletePreferences = async () => {
 export const updatePreference = (identifier: string, value: any) => {
     settings.update(preferences => {
         preferences[identifier] = value
+        last = {}
         return preferences
     })
 }
 
 export const init = () => {
     if(browser) {
-        subscribeButIgnoreFirst(settings, data => {
+        settings.subscribe(data => {
+            console.log(data, last, compareObjects(data, last))
             if(!compareObjects(data, last)) updatePreferences(data)
             last = data
         })
@@ -52,6 +55,7 @@ export const init = () => {
             orderBy.set(settings["sort.by"] ?? null)
 
             large.set(settings["large"] === "true")
+            showHero.set(settings["showHero"] === "true")
         })
     }
 }
