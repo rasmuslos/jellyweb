@@ -76,7 +76,7 @@
 </style>
 
 <div class="hero">
-    <BackgroundSection fade parallax url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
+    <BackgroundSection fade url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
         <AlternateHero item={active} />
         <div class="controls">
             <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>

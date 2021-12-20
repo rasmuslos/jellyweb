@@ -22,6 +22,10 @@
     font-family: "Glory";
     src: url("/Glory.ttf");
 }
+@font-face {
+    font-family: "Dosis";
+    src: url("/Dosis.ttf");
+}
 
 body, #svelte {
     margin: 0;
