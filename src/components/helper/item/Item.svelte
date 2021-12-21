@@ -3,6 +3,7 @@
     import {generateItemUrl, getBadge} from "$lib/helper";
     import HeroActions from "../sections/HeroActions.svelte";
     import type {Item} from "$lib/typings/internal";
+    import {afterUpdate} from "svelte";
 
     export let item: Item
     export let wide: boolean = false
@@ -19,6 +20,7 @@
         if(window && window.matchMedia && window.matchMedia("screen and (max-width: 1000px)").matches) return
 
         link.style.left = null
+        link.style.height = `${link.scrollHeight}px`
         link.classList.remove("center")
 
         expanded = true
@@ -27,6 +29,7 @@
     const handleMouseLeave = () => {
         link.style.left = null
         link.classList.remove("center")
+        link.style.height = `auto`
 
         expanded = false
         clearTimeout(expandTimeout)
@@ -46,6 +49,10 @@
         else if(right - modifier < 0) link.style.right = `${Math.abs(right)}px`
         else link.classList.add("center")
     }
+
+    afterUpdate(() => {
+        if(link) link.style.height = `${link.scrollHeight}px`
+    })
 </script>
 
 <style>
@@ -73,8 +80,9 @@
         grid-template-rows: auto auto;
         align-items: center;
 
-        transition: width 500ms ease, left 500ms ease, right 500ms ease, bottom 500ms ease;
+        transition: width 500ms ease, left 500ms ease, right 500ms ease, bottom 500ms ease, height 500ms ease;
         width: 100%;
+        height: 100%;
     }
 
     a:hover {

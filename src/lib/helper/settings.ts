@@ -38,7 +38,6 @@ export const updatePreference = (identifier: string, value: any) => {
 export const init = () => {
     if(browser) {
         settings.subscribe(data => {
-            console.log(data, last, compareObjects(data, last))
             if(!compareObjects(data, last)) updatePreferences(data)
             last = data
         })

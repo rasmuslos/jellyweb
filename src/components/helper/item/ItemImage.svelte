@@ -43,7 +43,9 @@
         border-radius: 10px;
         overflow: hidden;
 
-        transition: width 250ms ease;
+        /*
+        transition: width 500ms ease;
+        */
         background-color: var(--background-secondary);
 
         width: 200px;
