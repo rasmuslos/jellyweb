@@ -58,7 +58,7 @@
     }
 
     .action.liked {
-        fill: var(--error);
+        fill: var(--red);
     }
     .action.processing {
         animation: spin 5s infinite;
@@ -76,8 +76,8 @@
     } : {})}</span>
     {#key isFavorite}
                 <span class="action" class:liked={isFavorite} class:processing on:click|preventDefault={toggleLike}>{@html icons["heart"].toSvg(isFavorite ? {
-                    fill: "var(--error)",
-                    stroke: "var(--error)"
+                    fill: "var(--red)",
+                    stroke: "var(--red)"
                 } : {})}</span>
     {/key}
     {#if includeMoreButton}

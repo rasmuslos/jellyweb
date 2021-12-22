@@ -99,6 +99,10 @@
         outline: none;
     }
 
+    div.wrapper {
+        height: 100%;
+        overflow: scroll;
+    }
     div.results {
         width: 100%;
         padding: 0 20px 20px 20px;
@@ -136,27 +140,29 @@
 
 <div class="holder">
     <input autofocus placeholder="{$t(`search`)}" type="text" bind:value={query} on:keyup={handleInput} />
-    <div class="results">
-        <div class="result dimmed" data-item="-1">
-            <div class="icon">{@html icons.search.toSvg()}</div>
-            <span>{$t("advanced_search")}</span>
+    <div class="wrapper">
+        <div class="results">
+            <div class="result dimmed" data-item="-1">
+                <div class="icon">{@html icons.search.toSvg()}</div>
+                <span>{$t("advanced_search")}</span>
+            </div>
+            {#if results && results.length > 0}
+                {#each results as result}
+                    <a class="result" href={generateItemUrl(result.id)} data-item={result.id} on:click={() => modal.set(null)}>
+                        <div class="icon">{@html getIconByType(result)}</div>
+                        <span>{result.name}</span>
+                    </a>
+                {/each}
+            {:else if results && results.length === 0 && query !== ""}
+                <p class="error">
+                    {$t("no_results")}
+                </p>
+            {:else}
+                <p class="dimmed">
+                    {$t("type_query")}
+                </p>
+            {/if}
         </div>
-        {#if results && results.length > 0}
-            {#each results as result}
-                <a class="result" href={generateItemUrl(result.id)} data-item={result.id} on:click={() => modal.set(null)}>
-                    <div class="icon">{@html getIconByType(result)}</div>
-                    <span>{result.name}</span>
-                </a>
-            {/each}
-        {:else if results && results.length === 0 && query !== ""}
-            <p class="error">
-                {$t("no_results")}
-            </p>
-        {:else}
-            <p class="dimmed">
-                {$t("type_query")}
-            </p>
-        {/if}
     </div>
 
     <div class="close" on:click={() => modal.set(null)}>{@html icons["minimize-2"].toSvg({ height: 17, width: 17, stroke: "var(--text)" })}</div>

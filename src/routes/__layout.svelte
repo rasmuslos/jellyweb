@@ -2,7 +2,7 @@
     import {setFetcher, getMe, getPreferences} from "$lib/api/internal";
     import type {Settings, User} from "$lib/typings/jellyfin";
     import {settings} from "$lib/stores";
-    import {init, lightMode} from "$lib/helper";
+    import {init} from "$lib/helper";
 
     export async function load({session, fetch}) {
         if(session == null || session.active == null) {
@@ -38,9 +38,10 @@
     import "normalize.css"
 
     import Navigation from "../components/navigation/Navigation.svelte";
-    import {modal, noPadding} from "$lib/stores";
+    import {modal, noPadding, preferences} from "$lib/stores";
     import {onMount} from "svelte";
     import {scrollUp} from "$lib/helper";
+    import Layout from "../components/Layout.svelte";
 
     let Modal
     export let me: User
@@ -60,40 +61,6 @@
 </script>
 
 <style>
-    div {
-        position: relative;
-
-        height: 100%;
-        width: 100%;
-
-        color: var(--text);
-        font-size: var(--size);
-        font-family: var(--font);
-
-        background-color: var(--background);
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    div:not(.light) {
-        --background: #2E3440;
-        --background-light: #3B4252;
-        --background-secondary: #4C566A;
-
-        --text: #D8DEE9;
-        --dimmed: #6e788a;
-        --secondary: #ECEFF4;
-    }
-    div.light {
-        --background: #D8DEE9;
-        --background-light: #E5E9F0;
-        --background-secondary: #E5E9F0;
-
-        --text: #2E3440;
-        --dimmed: #4C566A;
-        --secondary: #3B4252;
-    }
-
     main {
         position: relative;
         padding-bottom: 50px;
@@ -103,14 +70,7 @@
     }
 </style>
 
-<svelte:head>
-    {#if $lightMode}
-        <meta name="theme-color" content="#D8DEE9">
-    {:else}
-        <meta name="theme-color" content="#2E3440">
-    {/if}
-</svelte:head>
-<div id="root" class:light={$lightMode}>
+<Layout theme={$preferences.theme}>
     <Navigation {me} />
     <main class:no-padding={$noPadding}>
         <slot />
@@ -121,9 +81,25 @@
             show={$modal}
             closeButton={false}
 
-            styleContent={{ padding: 0 }}
-            styleWindow={{ "background-color": "transparent", "margin-top": "200px" }}
+            styleWindowWrap={{
+                "height": "100%",
+                "width": "100%",
+                "margin": 0,
+                "padding": "200px 0",
+                "overflow": "hidden",
+            }}
+            styleWindow={{
+                "display": "block",
+                "margin": "0 auto",
+                "height": "100%",
+                "background-color": "transparent",
+                "overflow": "hidden",
+            }}
+            styleContent={{
+                "padding": 0,
+                "overflow": "hidden",
+            }}
             styleBg={{ "display": "block" }}
 
             on:close={() => modal.set(null)} />
-</div>
+</Layout>

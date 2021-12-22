@@ -1,9 +1,9 @@
 <script lang="ts">
     import type {NavigationItem, User} from "$lib/typings/jellyfin";
     import Item from "./Item.svelte"
-    import {noPadding} from "$lib/stores";
+    import {noPadding, preferences} from "$lib/stores";
     import Search from "./Search.svelte";
-    import {generateImageUrl, lightMode, updatePreference} from "$lib/helper";
+    import {generateImageUrl, updatePreference} from "$lib/helper";
     import {icons} from "feather-icons";
     import LanguageSelector from "../helper/LanguageSelector.svelte";
     import {page} from "$app/stores";
@@ -191,7 +191,7 @@
         <div class="holder">
             <Search />
             <LanguageSelector />
-            <div class="icon" on:click={() => updatePreference("theme", $lightMode ? "dark" : "light")}>{@html icons[$lightMode ? "moon" : "sun"].toSvg({ height: 20, width: 20 })}</div>
+            <div class="icon" on:click={() => updatePreference("theme", $preferences.theme === "dark" ? "light" : "dark")}>{@html icons[$preferences.theme === "light" ? "moon" : "sun"].toSvg({ height: 20, width: 20 })}</div>
             <div class="toggle" class:expanded on:click={() => expanded = !expanded}>{@html icons["arrow-down"].toSvg()}</div>
             {#if me && me.Policy.IsAdministrator && false}
                 <a class:active={new RegExp("^\/?server\/?.*$").test($page.path)} href="/server" class="icon">{@html icons["server"].toSvg({ height: 20, width: 20 })}</a>

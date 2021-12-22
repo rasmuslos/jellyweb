@@ -19,7 +19,7 @@
         font-weight: 400;
 
         text-align: center;
-        color: var(--error);
+        color: var(--red);
     }
 
     div.wrapper {

@@ -9,7 +9,7 @@
     export let stretch: boolean = false
     export let wide: boolean = false
     export let small: boolean = false
-    export let item: Item
+    export let item: Item = null
 
     export let badge: number | string = null
     let canvas: HTMLCanvasElement

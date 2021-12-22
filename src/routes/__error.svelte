@@ -38,7 +38,7 @@
         text-align: center;
     }
     h1 {
-        color: var(--error);
+        color: var(--red);
     }
     a {
         background-color: #8FBCBB80;

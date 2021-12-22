@@ -1,6 +1,5 @@
 <script lang="ts">
-    import {settings} from "$lib/stores";
-    import {blurHeroImages, scrimBackdropImages, showHeroImages} from "$lib/helper";
+    import {preferences, settings} from "$lib/stores";
     import {onDestroy, onMount} from "svelte";
     import {browser} from "$app/env";
 
@@ -100,8 +99,8 @@
 
 <section class:transparent class:fade>
     {#key $settings["images.hero"], url}
-        {#if $showHeroImages}
-            <div class="image" class:blur={$blurHeroImages} class:scrim={$scrimBackdropImages} style="background-image: url('{url}'); background-position: 50% {transform}px"></div>
+        {#if $preferences.showHeroImages}
+            <div class="image" class:blur={$preferences.blurHeroImages} class:scrim={$preferences.scrimBackdropImages} style="background-image: url('{url}'); background-position: 50% {transform}px"></div>
         {/if}
     {/key}
     <div class="holder">

@@ -206,7 +206,7 @@
         margin-bottom: 20px;
     }
     p.error, span.error {
-        color: var(--error);
+        color: var(--red);
     }
 
     div.image {

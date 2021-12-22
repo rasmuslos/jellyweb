@@ -60,7 +60,7 @@
 
     h3 {
         margin: 75px 0;
-        color: var(--error);
+        color: var(--red);
 
         font-weight: 600;
         text-align: center;

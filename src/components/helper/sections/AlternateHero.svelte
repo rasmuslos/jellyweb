@@ -25,6 +25,7 @@
 
     .heading {
         font-size: 50px;
+        font-weight: 600;
         line-height: 61px;
 
         display: block;

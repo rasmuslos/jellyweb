@@ -1,7 +1,8 @@
 <script lang="ts">
     import {locales} from "$lib/i18n";
     import flags from "$lib/i18n/flags";
-    import {locale, updatePreference} from "$lib/helper";
+    import {updatePreference} from "$lib/helper";
+    import {preferences} from "$lib/stores";
 </script>
 
 <style>
@@ -25,6 +26,6 @@
 
 <select on:change={({ target }) => updatePreference("locale", target.value)}>
     {#each locales as l}
-        <option selected={l === $locale} value={l}>{flags[l] || "🗿"}</option>
+        <option selected={l === $preferences.locale} value={l}>{flags[l] || "🗿"}</option>
     {/each}
 </select>
