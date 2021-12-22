@@ -76,6 +76,7 @@
     }
 
     p.tagline {
+        margin: 0;
         color: var(--highlight);
         /*
         background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
