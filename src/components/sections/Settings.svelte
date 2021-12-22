@@ -107,6 +107,7 @@
             {$t("settings_danger_zone_desc")}
         </p>
         <figure class="center">
+            <GenericButton on:click={() => updatePreference("theme", "ugly")} label="{$t(`pain`)}" />
             <GenericButton on:click={deletePreferences} label="{$t(`settings_reset_all`)}" />
             <GenericButton on:click={() => window.location = "user/logout"} label="{$t(`logout`)}" />
         </figure>

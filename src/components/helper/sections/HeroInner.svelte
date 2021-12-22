@@ -55,7 +55,7 @@
     }
     p.tip {
         margin: 0;
-        color: var(--highlight);
+        color: var(--dimmed);
     }
     a.heading {
         font-size: 40px;
@@ -76,10 +76,13 @@
     }
 
     p.tagline {
+        color: var(--highlight);
+        /*
         background: radial-gradient(circle, #8FBCBB 0%, #88C0D0 100%);
 
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        */
     }
     p.overview {
         margin-bottom: 5px;
