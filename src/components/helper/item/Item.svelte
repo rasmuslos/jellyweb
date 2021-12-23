@@ -3,6 +3,7 @@
     import {generateItemUrl, getBadge} from "$lib/helper";
     import HeroActions from "../sections/HeroActions.svelte";
     import type {Item} from "$lib/typings/internal";
+    import {afterUpdate} from "svelte";
 
     export let item: Item
     export let wide: boolean = false
@@ -20,6 +21,7 @@
 
         link.style.left = null
         link.classList.remove("center")
+        link.style.height = `${link.scrollHeight}px`
 
         expanded = true
         calculateBounds()
@@ -27,6 +29,7 @@
     const handleMouseLeave = () => {
         link.style.left = null
         link.classList.remove("center")
+        link.style.height = `auto`
 
         expanded = false
         clearTimeout(expandTimeout)
@@ -46,6 +49,15 @@
         else if(right - modifier < 0) link.style.right = `${Math.abs(right)}px`
         else link.classList.add("center")
     }
+
+    afterUpdate(() => {
+        if(link) link.style.height = `${link.scrollHeight}px`
+        link.style.height = "unset"
+        setTimeout(() => {
+            link.style.height = "unset"
+            // link.style.height = `${link.scrollHeight}px`
+        }, 350)
+    })
 </script>
 
 <style>
@@ -66,6 +78,11 @@
     .holder.wide {
         width: 300px;
         min-height: 170px;
+    }
+    .holder:not(.wide).expanded {
+        /*
+        min-height: 170px;
+        */
     }
 
     a.item {
@@ -96,8 +113,8 @@
         position: absolute;
         box-sizing: content-box;
 
-        height: auto;
         width: 400px;
+
         z-index: 2;
 
         bottom: -20px;
@@ -123,6 +140,7 @@
         margin: 0;
     }
     p {
+        text-wrap: none;
         margin: 5px 0 10px 0;
     }
 
@@ -134,7 +152,7 @@
     }
 </style>
 
-<div class:wide class:small on:focus on:mouseover class="holder">
+<div class:wide class:expanded class:small on:focus on:mouseover class="holder">
     <a class="item" class:expanded href={generateItemUrl(item.id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
         <ItemImage {wide} {small} {item} {badge} stretch={expanded} />
         {#if expanded}

@@ -32,7 +32,7 @@
 
         padding: 200px 0;
 
-        align-items: start;
+        align-items: baseline;
         overflow-x: auto;
     }
     div.holder {
