@@ -51,12 +51,12 @@
     }
 
     afterUpdate(() => {
-        if(link) link.style.height = `${link.scrollHeight}px`
-        link.style.height = "unset"
-        setTimeout(() => {
-            link.style.height = "unset"
-            // link.style.height = `${link.scrollHeight}px`
-        }, 350)
+        if(link) {
+            link.style.height = `${link.scrollHeight}px`
+            setTimeout(() => {
+                link.style.height = "unset"
+            }, 350)
+        }
     })
 </script>
 
