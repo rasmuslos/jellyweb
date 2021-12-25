@@ -1,9 +1,11 @@
 import type {JellyfinItem} from "$lib/typings/jellyfin";
-import {activeAudioTrack, activeMediaSource, activeSubtitleTrack} from "$lib/stores";
 import {get} from "svelte/store";
 import {reportPlaybackProgress, reportPlaybackStart, reportPlaybackStop} from "$lib/api/internal";
 
 export const getMediaData = (item: JellyfinItem, update: boolean = false) => {
+    return
+    /*
+
     // Get media-sources & streams
     let mediaSources = item.MediaSources
     if(update) activeMediaSource.set(mediaSources[0].Id)
@@ -26,6 +28,7 @@ export const getMediaData = (item: JellyfinItem, update: boolean = false) => {
         audioStreams,
         subtitleStreams,
     }
+     */
 }
 
 export const isTranscoding = (url: string) => getTranscodingReasons(url)
@@ -46,9 +49,9 @@ export const reportPlayStart = async (item: JellyfinItem, paused: boolean, ticks
     ItemId: item.Id,
     SessionId: playbackId,
 
-    MediaSourceId: get(activeMediaSource),
-    AudioStreamIndex: get(activeAudioTrack),
-    SubtitleStreamIndex: get(activeSubtitleTrack),
+    MediaSourceId: null, // get(activeMediaSource),
+    AudioStreamIndex: null, // get(activeAudioTrack),
+    SubtitleStreamIndex: null, // get(activeSubtitleTrack),
 
     PlaybackStartTimeTicks: ticks,
 
@@ -59,9 +62,9 @@ export const reportPlayProgress = async (item: JellyfinItem, paused: boolean, cu
         ItemId: item.Id,
         SessionId: playbackId,
 
-        MediaSourceId: get(activeMediaSource),
-        AudioStreamIndex: get(activeAudioTrack),
-        SubtitleStreamIndex: get(activeSubtitleTrack),
+        MediaSourceId: null, // get(activeMediaSource),
+        AudioStreamIndex: null, // get(activeAudioTrack),
+        SubtitleStreamIndex: null, // get(activeSubtitleTrack),
 
         IsPaused: paused,
         PositionTicks: Math.round(currentTime * (1000 * 10000)),
