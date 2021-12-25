@@ -55,6 +55,7 @@ export type ItemImages = {
     wide: ItemImage,
 }
 export type ItemImage = {
+    index: number,
     tag: string,
     hash: string,
     parent?: boolean,

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl} from "$lib/helper";
+    import {generateImageUrlIndex} from "$lib/helper";
     import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
@@ -77,7 +77,7 @@
 </style>
 
 <div class="hero" class:hide={!$preferences.showHero}>
-    <BackgroundSection fade url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
+    <BackgroundSection fade url={generateImageUrlIndex(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, active.images.wide.index, `Backdrop`)}>
         <AlternateHero item={active} />
         <div class="controls">
             <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>

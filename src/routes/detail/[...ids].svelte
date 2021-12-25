@@ -35,6 +35,10 @@
     import type {Item} from "$lib/typings/internal";
     import Chapters from "../../components/sections/Chapters.svelte";
     import Episodes from "../../components/sections/Episodes.svelte";
+    import BackgroundSection from "../../components/helper/sections/BackgroundSection.svelte";
+    import {generateImageUrl, generateImageUrlIndex} from "$lib/helper";
+    import HeroInner from "../../components/helper/sections/HeroInner.svelte";
+    import Wave from "../../components/sections/Wave.svelte";
 
     export let season: string
 
@@ -51,10 +55,17 @@
     <title>{item.name}</title>
 </svelte:head>
 
+<BackgroundSection parallax url={generateImageUrlIndex(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, item.images.wide.index, `Backdrop`)}>
+    <HeroInner {item} includeMoreButton={false} />
+    <HeroInner item={nextUp} tip="{$t(`hero.nextup`)}" reduceOffset noImage />
+    <Wave colored={false} />
+</BackgroundSection>
+<!--
 <Hero {item} includeMoreButton={false} includeWave parallax />
 {#if nextUp}
     <Hero item={nextUp} tip="{$t(`hero.nextup`)}" includeMoreButton={false} reduceOffset hideImage />
 {/if}
+-->
 {#if item.type === "show" && seasons && seasons.length > 0}
     <Episodes {seasons} showId={item.id} selected={season} />
 {/if}

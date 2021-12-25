@@ -23,7 +23,7 @@
 
     $: active = seasons.find(seasons => seasons.id === selected)
     $: browser && window.history.replaceState({}, document.title, generateItemUrl(showId, selected))
-    $: if(!episodes || episodes.length < 1 || episodes[0].showData.seasonId != selected) updateEpisodes()
+    $: if(!episodes || episodes.length < 1 || episodes[0].showData.seasonId != selected) updateEpisodes().catch(console.error)
 </script>
 
 <style>

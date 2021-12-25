@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl, getIconByType} from "$lib/helper";
+    import {generateImageUrl, generateImageUrlIndex, getIconByType} from "$lib/helper";
     import {icons} from "feather-icons";
     import {onMount} from "svelte";
     import {decode, isBlurhashValid} from "blurhash";
@@ -176,7 +176,7 @@
         <canvas bind:this={canvas}></canvas>
     {/if}
     {#if (url || (item && item.images.normal.tag != null)) && visible}
-        <img src={url ? url : wide ? generateImageUrl(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)} alt="{item ? item.name : null}" on:error={() => visible = false} />
+        <img src={url ? url : wide ? generateImageUrlIndex(item.images.wide.parent ? item.showData.showId : item.id, item.images.wide.tag, item.images.wide.index, `Backdrop`) : generateImageUrl(item.id, item.images.normal.tag, `Primary`)} alt="{item ? item.name : null}" on:error={() => visible = false} />
     {:else}
         <div class="type">
             {@html getIconByType(item)}

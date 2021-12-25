@@ -55,7 +55,7 @@
     }
     p.tip {
         margin: 0;
-        color: var(--dimmed);
+        color: var(--highlight);
     }
     a.heading {
         font-size: 40px;
