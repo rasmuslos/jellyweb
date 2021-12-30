@@ -7,8 +7,8 @@
 </div>
 
 <style>
-    :global(div[mobile].showNavigation) div {
-        padding: 25px;
+    :global(#root:not(.mobile).showNavigation) div {
+        padding: 0 calc(env(safe-area-inset-right, 20px) + 25px) 0 calc(env(safe-area-inset-left, 20px) + 25px);
     }
     div:not(.large) {
         display: block;

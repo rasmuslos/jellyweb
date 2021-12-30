@@ -28,7 +28,7 @@
         overflow-y: scroll;
 
         padding: 20px 0;
-        background-color: var(--background-secodary);
+        border-right: 1px solid black;
     }
     nav.expanded {
         width: var(--expanded);

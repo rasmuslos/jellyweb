@@ -4,6 +4,7 @@
     import "normalize.css"
     import {mobile} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
+    import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
 
     const version = `?v=${encodeURIComponent(VERSION)}`
 
@@ -23,12 +24,15 @@
     {/if}
 </svelte:head>
 
-<div id="root" mobile={$mobile} class:showNavigation>
+<div id="root" class:mobile={$mobile} class:showNavigation theme={theme} >
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}
     <main>
         <slot />
+        {#if showNavigation && $mobile}
+            <NavigationOverlay />
+        {/if}
     </main>
 </div>
 
@@ -57,11 +61,22 @@
 
         height: 100%;
         width: 100%;
+    }
+    div:not(.mobile).showNavigation {
+        grid-template-columns: auto 1fr;
+    }
+
+    main {
+        position: relative;
+        min-height: 100%;
+        width: 100%;
 
         overflow-x: hidden;
         overflow-y: scroll;
+
+        padding: env(safe-area-inset-top, 20px) 0 env(safe-area-inset-bottom, 20px) 0;
     }
-    div[mobile].showNavigation {
-        grid-template-columns: auto 1fr;
+    div.mobile.showNavigation main {
+        padding-bottom: calc(env(safe-area-inset-top, 20px) + 60px);
     }
 </style>
