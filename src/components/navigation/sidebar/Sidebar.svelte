@@ -4,13 +4,16 @@
 </script>
 
 <nav class:expanded="{$navigationExpanded}">
-    <SidebarItem dimmed noAnimation icon="align-left" title="Collapse" flipped={$navigationExpanded} on:click={() => navigationExpanded.update(expanded => !expanded)} />
+    <SidebarItem dimmed noAnimation icon="align-left" title="collapse" flipped={$navigationExpanded} on:click={() => navigationExpanded.update(expanded => !expanded)} />
     <div class="space"></div>
-    <SidebarItem icon="home" title="Start" />
-    <SidebarItem icon="film" title="Movies" />
-    <SidebarItem icon="tv" title="Series" />
+    <SidebarItem dimmed icon="search" title="search_tip" />
+    <div class="space"></div>
+    <SidebarItem icon="home" title="home" />
+    <SidebarItem icon="film" title="movies" />
+    <SidebarItem icon="tv" title="series" />
     <div class="push"></div>
-    <SidebarItem icon="settings" title="Settings" dimmed />
+    <SidebarItem icon="settings" title="settings" dimmed />
+    <SidebarItem icon="user" title="account" dimmed />
 </nav>
 
 <style>
@@ -28,7 +31,7 @@
         overflow-y: scroll;
 
         padding: 20px 0;
-        border-right: 1px solid black;
+        border-right: 1px solid var(--background-secondary);
     }
     nav.expanded {
         width: var(--expanded);

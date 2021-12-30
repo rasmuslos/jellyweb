@@ -2,14 +2,18 @@
     import { Theme } from '$lib/typings';
     import {VERSION} from "$lib/helper";
     import "normalize.css"
+    import "$lib/i18n"
     import {mobile} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
+    import {waitLocale} from "svelte-i18n";
 
     const version = `?v=${encodeURIComponent(VERSION)}`
 
     export let showNavigation: boolean = true;
     export let theme: Theme = Theme.DARK;
+
+    waitLocale()
 </script>
 
 <svelte:head>
@@ -77,6 +81,6 @@
         padding: env(safe-area-inset-top, 20px) 0 env(safe-area-inset-bottom, 20px) 0;
     }
     div.mobile.showNavigation main {
-        padding-bottom: calc(env(safe-area-inset-top, 20px) + 60px);
+        padding-bottom: calc(env(safe-area-inset-top, 20px) + 70px);
     }
 </style>

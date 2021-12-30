@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "home": "Home",
+    "movies": "Movies",
+    "series":  "Series",
+
+    "search":  "Search",
+    "search_tip":  "Search (⌘K)",
+
+    "account": "Account",
+    "settings": "Settings",
+
+    "collapse": "Collapse",
+    "more": "More"
+  }
+}

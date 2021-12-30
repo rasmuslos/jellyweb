@@ -1,5 +1,6 @@
 <script lang="ts">
     import {icons} from "feather-icons";
+    import {_} from "svelte-i18n";
 
     export let icon: string
     export let href: string
@@ -13,7 +14,7 @@
 <a {href} class:dimmed class:noAnimation class:active class:flipped on:click>
     {@html icons[icon].toSvg()}
     <span>
-        {title}
+        {$_(`navigation.${title}`)}
     </span>
 </a>
 
