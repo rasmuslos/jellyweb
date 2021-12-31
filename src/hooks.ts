@@ -1,7 +1,8 @@
 import type {GetSession, Handle} from '@sveltejs/kit';
-import {JWT_SECRET} from "$lib/helper";
+import {createApiError, JWT_SECRET} from "$lib/helper";
 import type {Locals} from "$lib/typings";
 import {verify} from "$lib/session";
+import {DEVELOPMENT} from "$lib/env";
 
 if(JWT_SECRET == null) throw new Error("provide JWT_SECRET")
 
@@ -27,10 +28,12 @@ export const handle: Handle<Locals> = async ({ request, resolve }) => {
 			}
 		};
 	} catch (error) {
+		console.error("error while handling request", error)
+
 		return {
 			headers: {},
 			status: 500,
-			body: "yikes",
+			body: JSON.stringify(createApiError(500, DEVELOPMENT ? error : "unknown server error")),
 		}
 	}
 };

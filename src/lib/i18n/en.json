@@ -19,7 +19,12 @@
       "server": "Server",
       "username": "Username",
       "password": "Password",
-      "submit": "Login"
+      "submit": "Login",
+
+      "error": {
+        "missing": "Enter username & password",
+        "server": "Provide valid url (http[s]://host.tld)"
+      }
     }
   }
 }

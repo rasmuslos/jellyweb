@@ -35,9 +35,10 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
         })
 
         if(parseResponse) {
-            const data = response.json() as unknown as Response<T>
+            const data = await response.json() as unknown as Response<T>
+
             if(data.status == 200) return data
-            else return Promise.reject(data)
+            else return Promise.reject(data.payload)
         } else return null
     } catch (error) {
         console.error("Error while performing request", {
