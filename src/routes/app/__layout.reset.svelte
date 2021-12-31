@@ -4,8 +4,12 @@
     import {isMobile} from "$lib/helper";
 
     export const load: Load = ({session}) => {
-        mobile.set(isMobile(session.agent))
+        if(session.data == null) return {
+            status: 302,
+            redirect: "/auth/login",
+        }
 
+        mobile.set(isMobile(session.agent))
         return {
             status: 200,
         }

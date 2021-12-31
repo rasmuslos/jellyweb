@@ -12,5 +12,14 @@
 
     "collapse": "Collapse",
     "more": "More"
+  },
+  "auth": {
+    "login": {
+      "hello": "Hello {name}",
+      "server": "Server",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login"
+    }
   }
 }

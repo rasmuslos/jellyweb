@@ -34,6 +34,6 @@
     }
 
     a:focus, a:hover, a.active {
-        color: var(--secondary);
+        color: var(--primary);
     }
 </style>

@@ -38,7 +38,7 @@
         color: var(--grey);
     }
     a:hover:not(.noAnimation), a.active {
-        background: var(--secondary);
+        background: var(--primary);
         color: var(--text);
     }
 

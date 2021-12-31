@@ -6,13 +6,15 @@
     import {mobile} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
-    import {waitLocale} from "svelte-i18n";
+    import {locale, waitLocale} from "svelte-i18n";
 
     const version = `?v=${encodeURIComponent(VERSION)}`
 
-    export let showNavigation: boolean = true;
+    export let i18n: string = "en";
     export let theme: Theme = Theme.DARK;
+    export let showNavigation: boolean = true;
 
+    locale.set(i18n)
     waitLocale()
 </script>
 
