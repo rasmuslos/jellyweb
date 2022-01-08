@@ -1,4 +1,5 @@
 import {requestResource} from "$lib/api/internal";
+import type { PageIndex } from "$lib/typings";
 
 export const performLogin = (server: string, username: string, password: string) => requestResource<any>("auth/login", {
     method: "POST",
@@ -8,3 +9,5 @@ export const performLogin = (server: string, username: string, password: string)
         password,
     },
 })
+
+export const getHomeItems = () => requestResource<PageIndex>("pages/home")

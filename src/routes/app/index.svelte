@@ -1,11 +1,40 @@
-<script>
+<script lang="ts" context="module">
+    import type {Load} from "@sveltejs/kit";
+
+    export const load: Load = async ({fetch}) => {
+        setFetcher(fetch)
+        const {
+            featured,
+        } = await getHomeItems()
+
+        return {
+            props: {
+                featured,
+            }
+        }
+    }
+</script>
+<script lang="ts">
     import {mobile, navigationExpanded} from "$lib/stores";
     import ApplyMeasurements from "../../components/ApplyMeasurements.svelte";
+    import { setFetcher } from "$lib/api/internal";
+    import { getHomeItems } from "$lib/api/internal/methods/v3";
+    import type { Item } from "$lib/typings";
+    import { session } from "$app/stores";
+import { applyHeight } from "$lib/helper";
+
+    export let featured: Item
+
+    console.log(featured);
 </script>
 
 <h1>here</h1>
 <ApplyMeasurements>
-    <h1>oof</h1>
+    <h1>{featured?.name}</h1>
+    <img src={`${$session.data.server}/${applyHeight(featured.images?.primary.url, 500)}`} alt="oof" />
+    <img src={`${$session.data.server}/${applyHeight(featured.images?.backdrop.url, 750)}`} alt="oof2" />
+
+    <hr />
     <p>
         {$mobile}
     </p>

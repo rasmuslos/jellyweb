@@ -2,10 +2,10 @@ import type {RequestOptions} from "$lib/typings";
 import type {Response} from "$lib/typings";
 import {DEVELOPMENT} from "$lib/env";
 
-let fetcher
+let fetcher: any
 
-export const setFetcher = method => fetcher = method
-export const requestResource = async <T>(endpoint: string, requestOptions: RequestOptions): Promise<Response<T>> => {
+export const setFetcher = (method: any) => fetcher = method
+export const requestResource = async <T>(endpoint: string, requestOptions: RequestOptions = {}): Promise<T> => {
     let {
         method,
         body,
@@ -33,11 +33,12 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
                 "Content-Type": "application/json",
             },
         })
-
+        
         if(parseResponse) {
+            if(response.status != 200) throw new Error("invalid response")
             const data = await response.json() as unknown as Response<T>
 
-            if(data.status == 200) return data
+            if(data.status == 200) return data.payload
             else {
                 console.error("Invalid response", {
                     url,
