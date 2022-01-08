@@ -1,26 +1,27 @@
 import type {GetSession, Handle} from '@sveltejs/kit';
 import {createApiError, JWT_SECRET} from "$lib/helper";
-import type {Locals} from "$lib/typings";
-import {verify} from "$lib/session";
+import type {Locals, Session} from "$lib/typings";
 import {DEVELOPMENT} from "$lib/env";
+import {handleSession} from "svelte-kit-cookie-session";
 
 if(JWT_SECRET == null) throw new Error("provide JWT_SECRET")
 
-export const getSession: GetSession<Locals> = (request) => {
+export const getSession: GetSession<Locals> = ({ locals, headers }) => {
 	return {
-		data: request.locals.session,
-		agent: request.headers["user-agent"],
+		data: locals.session.data,
+		agent: headers["user-agent"],
 	}
 }
-export const handle: Handle<Locals> = async ({ request, resolve }) => {
+export const handle: Handle<Locals> = handleSession<Session, Locals>({
+	key: "session",
+	expires: 365,
+	secret: JWT_SECRET,
+	cookie: {
+		sameSite: "lax",
+	},
+}, async ({ request, resolve }) => {
 	try {
-		request.locals.session = verify(null)
-	} catch (error) {
-		request.locals.session = null
-	}
-
-	try {
-		const response = await resolve(request);
+		const response = await resolve(request)
 		return {
 			...response,
 			headers: {
@@ -30,10 +31,7 @@ export const handle: Handle<Locals> = async ({ request, resolve }) => {
 	} catch (error) {
 		console.error("error while handling request", error)
 
-		return {
-			headers: {},
-			status: 500,
-			body: JSON.stringify(createApiError(500, DEVELOPMENT ? error : "unknown server error")),
-		}
+		if(error && error.status) return createApiError(error.status, error.error ?? "unknown server error")
+		return createApiError(500, DEVELOPMENT ? error : "unknown server error")
 	}
-};
+})

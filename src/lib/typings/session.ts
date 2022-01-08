@@ -8,5 +8,8 @@ export type Session = {
 };
 
 export type Locals = {
-	session: Session,
+	session: {
+		data: Session,
+		destroy: () => {},
+	},
 }
