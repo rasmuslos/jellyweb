@@ -5,13 +5,11 @@
 
     export const load: Load = async ({fetch}) => {
         setFetcher(fetch)
-        const {
-            featured,
-        } = await getHomeItems()
+        const items = await getHomeItems()
 
         return {
             props: {
-                featured,
+                ...items,
             }
         }
     }
@@ -26,6 +24,7 @@
     import Push from "../../Push.svelte";
 
     export let featured: Item[]
+    export let suggested: Item[]
 </script>
 
 <Push />

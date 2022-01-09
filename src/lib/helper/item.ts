@@ -1,5 +1,6 @@
-import type { Genre, Image, Item, SeriesInfo, Type, UserData } from "$lib/typings";
+import type { Genre, Image, Item, SeriesInfo, Type } from "$lib/typings";
 import type { JellyfinItem } from "$lib/typings/jellyfin/item";
+import {getRandomIndex} from "$lib/helper/util";
 
 export const convertToMillis = (ticks: number) => ticks / 10000
 export const convertItem = (item: JellyfinItem): Item => {
@@ -68,19 +69,27 @@ const getSeriesInfo = (type: Type, { SeriesId, SeriesName, SeasonId, SeasonName 
 }
 const getPrimaryImage = ({ Id, ImageTags, ImageBlurHashes }: JellyfinItem): Image => {
     const index = 0
-    const tag: string = ImageTags?.Primary?.[index]
+    const tag: string = ImageTags?.Primary
 
     return {
         url: `Items/${Id}/Images/Primary/${index}?tag=${tag}`,
         hash: ImageBlurHashes?.Primary?.[tag],
     }
 }
-const getBackdropImage = ({ Id, BackdropImageTags, ImageBlurHashes }: JellyfinItem): Image => {
-    const index = 0
-    const tag: string = BackdropImageTags?.[index]
-
-    return {
-        url: `Items/${Id}/Images/Backdrop/${index}?tag=${tag}`,
-        hash: ImageBlurHashes?.Backdrop?.[tag],
+const getBackdropImage = ({ Id, BackdropImageTags, ImageBlurHashes, SeriesId, ParentBackdropImageTags }: JellyfinItem): Image => {
+    if(BackdropImageTags.length) {
+        const index = getRandomIndex(BackdropImageTags)
+        const tag: string = BackdropImageTags?.[index]
+        return {
+            url: `Items/${Id}/Images/Backdrop/${index}?tag=${tag}`,
+            hash: ImageBlurHashes?.Backdrop?.[tag],
+        }
+    } else if(SeriesId && ParentBackdropImageTags && ParentBackdropImageTags.length) {
+        const index = getRandomIndex(ParentBackdropImageTags)
+        const tag: string = ParentBackdropImageTags?.[index]
+        return {
+            url: `Items/${SeriesId}/Images/Backdrop/${index}?tag=${tag}`,
+            hash: ImageBlurHashes?.Backdrop?.[tag],
+        }
     }
 }

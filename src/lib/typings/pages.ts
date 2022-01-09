@@ -1,5 +1,6 @@
 import type { Item } from ".";
 
 export type PageIndex = {
-    featured: Item,
+    featured: Item[],
+    suggested: Item[],
 }

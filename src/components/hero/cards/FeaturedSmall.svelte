@@ -4,12 +4,13 @@
     import {applyHeight} from "$lib/helper";
 
     export let item: Item
+    const progress = (item.userData?.position / item.runtime) * 100
 </script>
 
 <a class="holder">
     <img src={`${$session.data.server}/${applyHeight(item.images?.backdrop.url, 500)}`} alt={`${item.name}'s backdrop`} />
     <div class="blur"></div>
-    <h1>{item.name}</h1>
+    <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
 </a>
 
 <style>
@@ -43,7 +44,10 @@
         transform: translateY(-50%);
 
         margin: 0 20px;
-        color: var(--white);
+        color: transparent;
+
+        background-clip: text;
+        -webkit-background-clip: text;
     }
     img {
         position: absolute;
