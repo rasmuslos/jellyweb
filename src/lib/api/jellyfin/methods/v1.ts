@@ -20,4 +20,4 @@ export const authenticateByName = (server: string, username: string, password: s
     })
 })
 
-export const getFeaturedItem = async (session: Session) => convertItem((await createRequest(`Users/${session.id}/Suggestions?limit=1&type=Movie,Series`, session)).Items[0])
+export const getFeaturedItems = async (session: Session) => (await createRequest(`Users/${session.id}/Suggestions?limit=7&type=Movie,Series`, session)).Items.map(convertItem)

@@ -1,5 +1,7 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
+    import {setFetcher} from "$lib/api/internal";
+    import {getHomeItems} from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch}) => {
         setFetcher(fetch)
@@ -16,23 +18,23 @@
 </script>
 <script lang="ts">
     import {mobile, navigationExpanded} from "$lib/stores";
-    import ApplyMeasurements from "../../components/ApplyMeasurements.svelte";
-    import { setFetcher } from "$lib/api/internal";
-    import { getHomeItems } from "$lib/api/internal/methods/v3";
     import type { Item } from "$lib/typings";
     import { session } from "$app/stores";
-import { applyHeight } from "$lib/helper";
+    import { applyHeight, applyWidth } from "$lib/helper";
+    import Hero from "../../components/hero/cards/Hero.svelte";
+    import ApplyMeasurements from "../../components/ApplyMeasurements.svelte";
+    import Push from "../../Push.svelte";
 
-    export let featured: Item
-
-    console.log(featured);
+    export let featured: Item[]
 </script>
 
-<h1>here</h1>
+<Push />
+<Hero items={featured} />
 <ApplyMeasurements>
-    <h1>{featured?.name}</h1>
-    <img src={`${$session.data.server}/${applyHeight(featured.images?.primary.url, 500)}`} alt="oof" />
-    <img src={`${$session.data.server}/${applyHeight(featured.images?.backdrop.url, 750)}`} alt="oof2" />
+    <hr />
+    <h1>{featured?.[0]?.name}</h1>
+    <img src={`${$session.data.server}/${applyHeight(featured?.[0]?.images?.primary.url, 500)}`} alt="oof" />
+    <img src={`${$session.data.server}/${applyWidth(featured?.[0]?.images?.backdrop.url, 1000)}`} alt="oof2" />
 
     <hr />
     <p>
