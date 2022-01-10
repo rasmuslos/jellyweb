@@ -59,3 +59,17 @@ export type Genre = {
     name: string,
     id: string,
 }
+
+export enum RecommendationReason {
+    SimilarToRecentlyPlayed = "recommendation.reason.recent.played",
+    SimilarToLikedItem = "recommendation.reason.liked.similar",
+    HasDirectorFromRecentlyPlayed = "recommendation.reason.recent.director",
+    HasActorFromRecentlyPlayed = "recommendation.reason.recent.actor",
+    HasLikedDirector = "recommendation.reason.liked.director",
+    HasLikedActor = "recommendation.reason.liked.actor",
+}
+export type Recommendation = {
+    reason: RecommendationReason,
+    title: string,
+    items: Item[],
+}

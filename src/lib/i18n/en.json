@@ -26,5 +26,19 @@
         "server": "Provide valid url (http[s]://host.tld)"
       }
     }
+  },
+  "recommendation": {
+    "reason": {
+      "recent": {
+        "played": "Because you recently watched {title}",
+        "director": "Because you recently watched a movie by {title}",
+        "actor": "Because you recently watched a movie with {title}"
+      },
+      "liked": {
+        "similar": "Because you like {title}",
+        "director": "Because you like {title}",
+        "actor": "Because you like {title}"
+      }
+    }
   }
 }

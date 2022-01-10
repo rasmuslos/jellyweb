@@ -7,11 +7,11 @@
     export let items: Item[]
 </script>
 
-<ApplyMeasurements>
+<ApplyMeasurements smaller>
     <div class="wrapper">
         {#if items.length}
             <Featured item={items[0]} />
-            <div class="holder">
+            <div class="holder shadow-top">
                 {#if items.length > 2}
                     {#each items.splice(1) as item}
                         <FeaturedSmall {item} />
@@ -32,8 +32,14 @@
         display: flex;
         flex-direction: column;
 
-        padding: 0 20px;
+        padding: 0 0 0 20px;
         overflow: scroll;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    div.holder::-webkit-scrollbar {
+        display: none;
     }
 
    @media screen and (max-width: 1000px) {

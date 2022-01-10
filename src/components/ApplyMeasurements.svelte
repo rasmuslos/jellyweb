@@ -1,8 +1,9 @@
 <script lang="ts">
     export let large: boolean = false
+    export let smaller: boolean = false
 </script>
 
-<div class:large>
+<div class:large class:smaller>
     <slot />
 </div>
 
@@ -15,6 +16,9 @@
         margin: 0 auto;
 
         width: 95%;
+        max-width: 1700px;
+    }
+    div.smaller {
         max-width: 1500px;
     }
 </style>

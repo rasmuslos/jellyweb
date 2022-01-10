@@ -26,5 +26,5 @@ export const createApiResponse = <T = any>(status: number, payload: any): Server
         })
     }
 }
-export const createApiSuccess = payload => createApiResponse(200, payload)
+export const createApiSuccess = (payload: any) => createApiResponse(200, payload)
 export const createApiError = (status: number = 500, error: any = "unknown server error") => createApiResponse(status, error)

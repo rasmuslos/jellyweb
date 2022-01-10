@@ -1,6 +1,7 @@
-import type { Genre, Image, Item, SeriesInfo, Type } from "$lib/typings";
-import type { JellyfinItem } from "$lib/typings/jellyfin/item";
+import type {Genre, Image, Item, Recommendation, SeriesInfo, Type} from "$lib/typings";
+import type {JellyfinItem, RecommendationCategory} from "$lib/typings/jellyfin/item";
 import {getRandomIndex} from "$lib/helper/util";
+import {RecommendationReason} from "$lib/typings";
 
 export const convertToMillis = (ticks: number) => ticks / 10000
 export const convertItem = (item: JellyfinItem): Item => {
@@ -91,5 +92,14 @@ const getBackdropImage = ({ Id, BackdropImageTags, ImageBlurHashes, SeriesId, Pa
             url: `Items/${SeriesId}/Images/Backdrop/${index}?tag=${tag}`,
             hash: ImageBlurHashes?.Backdrop?.[tag],
         }
+    }
+}
+
+const getReason = (reason: RecommendationCategory): RecommendationReason => RecommendationReason[reason]
+export const convertRecommendation = ({ RecommendationType, BaselineItemName, Items }: any): Recommendation => {
+    return {
+        reason: getReason(RecommendationType),
+        title: BaselineItemName,
+        items: Items.map(convertItem),
     }
 }

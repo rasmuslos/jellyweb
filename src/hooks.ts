@@ -31,7 +31,7 @@ export const handle: Handle<Locals> = handleSession<Session, Locals>({
 	} catch (error) {
 		console.error("error while handling request", error)
 
-		if(error && error.status) return createApiError(error.status, error.error ?? "unknown server error")
+		if(!!(error && error.status)) return createApiError(error.status, error.error ?? "unknown server error")
 		return createApiError(500, DEVELOPMENT ? error : "unknown server error")
 	}
 })

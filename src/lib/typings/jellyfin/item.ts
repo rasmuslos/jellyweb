@@ -339,3 +339,5 @@ export type JellyfinItem = {
     TimerId: string;
     CurrentProgram: CurrentProgram;
 }
+
+export type RecommendationCategory = "SimilarToRecentlyPlayed" | "SimilarToLikedItem" | "HasDirectorFromRecentlyPlayed" | "HasActorFromRecentlyPlayed" | "HasLikedDirector" | "HasLikedActor"
