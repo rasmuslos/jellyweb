@@ -28,6 +28,9 @@
     {:else if theme === Theme.LIGHT}
         <meta name="theme-color" content="#EBF2FA" />
     {/if}
+    {#if $mobile}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    {/if}
 </svelte:head>
 
 <div id="root" class:mobile={$mobile} class:showNavigation theme={theme} >
@@ -59,6 +62,10 @@
         transition: all 500ms ease;
         box-sizing: border-box;
     }
+    :global(a), :global(a:visited) {
+        color: inherit;
+        text-decoration: none;
+    }
 
     div {
         display: grid;
@@ -83,6 +90,6 @@
         padding: env(safe-area-inset-top, 20px) 0 env(safe-area-inset-bottom, 20px) 0;
     }
     div.mobile.showNavigation main {
-        padding-bottom: calc(env(safe-area-inset-top, 20px) + 70px);
+        padding-bottom: calc(env(safe-area-inset-top, 20px) + 150px);
     }
 </style>

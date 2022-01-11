@@ -27,7 +27,7 @@ class Request<T> {
         if(this.options.body != null && this.options.encodeBody) this.options.body = JSON.stringify(this.options.body)
     }
 
-    set fetch(requester) {
+    set fetch(requester: any) {
         this.requester = requester
     }
 

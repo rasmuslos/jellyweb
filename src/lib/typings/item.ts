@@ -38,6 +38,8 @@ export type SeriesInfo = {
 
     showName: string,
     seasonName?: string,
+
+    primaryImage: Image,
 }
 export type UserData = {
     favorite: boolean,
@@ -46,13 +48,35 @@ export type UserData = {
 }
 
 export type ExtendedItem = Item & {
-    chapters: Chapter[],
-    people: Item[],
+    chapters?: Chapter[],
+    people?: Person[],
+    mediaSources?: MediaSource[],
 }
 export type Chapter = {
     start: number,
     name: string,
-    image: string,
+    image: Image,
+}
+export type Person = {
+    name: string,
+    id: string,
+    role: string,
+    image: Image,
+}
+export type MediaSource = {
+    id: string,
+    container: string,
+    bitrate: number,
+    runtime: number,
+    mediaStreams: MediaStream[],
+}
+export type MediaStreamType = "video" | "audio" | "subtitle"
+export type MediaStream = {
+    codec: string,
+    type: MediaStreamType,
+    range?: "sdr" | "hdr",
+    title?: string,
+    language?: string,
 }
 
 export type Genre = {

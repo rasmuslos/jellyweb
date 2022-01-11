@@ -20,6 +20,6 @@
     import {Theme} from "$lib/typings";
 </script>
 
-<Layout showNavigation theme={Theme.LIGHT}>
+<Layout showNavigation theme={Theme.DARK}>
     <slot />
 </Layout>

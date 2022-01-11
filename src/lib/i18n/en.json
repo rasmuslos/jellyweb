@@ -40,5 +40,16 @@
         "actor": "Because you like {title}"
       }
     }
+  },
+  "items": {
+    "actions": {
+      "play": "Watch now",
+      "like": "Favorite",
+      "watched": "Watched"
+    },
+    "sections": {
+      "chapters": "Chapters",
+      "people": "People"
+    }
   }
 }

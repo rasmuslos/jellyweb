@@ -2,12 +2,13 @@
     import type {Item} from "$lib/typings";
     import Image from "./Image.svelte";
     import {wrap, applyMaxWidth} from "$lib/helper";
+    import {getItemPath} from "$lib/helper";
 
     export let item: Item
 </script>
 
-<a class="wrapper">
-    <Image url={wrap(applyMaxWidth(item.images?.primary?.url, 400))} />
+<a class="wrapper" href={getItemPath(item.id)}>
+    <Image url={wrap(applyMaxWidth(item.images?.primary?.url, 400))} alt={item.name} />
     <span>{item.name}</span>
 </a>
 

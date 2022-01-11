@@ -2,7 +2,14 @@
     export let action: string = null
     export let disabled: boolean = false
     export let working: boolean = false
+
+    export let large: boolean = false
+    export let highlight: boolean = false
 </script>
+
+<button class:working class:large class:highlight on:click {action} {disabled}>
+    <slot />
+</button>
 
 <style>
     @keyframes working {
@@ -31,8 +38,10 @@
     button.working {
         animation: 2s ease-in-out working infinite;
     }
+    button.large {
+        width: 100%;
+    }
+    button.highlight {
+        background-color: var(--primary);
+    }
 </style>
-
-<button class:working on:click {action} {disabled}>
-    <slot />
-</button>

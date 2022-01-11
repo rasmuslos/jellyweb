@@ -35,7 +35,6 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
         })
         
         if(parseResponse) {
-            if(response.status != 200) throw new Error("invalid response")
             const data = await response.json() as unknown as Response<T>
 
             if(data.status == 200) return data.payload

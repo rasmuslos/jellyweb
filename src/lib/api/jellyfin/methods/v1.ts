@@ -1,5 +1,5 @@
 import {createRequest} from "$lib/api/jellyfin";
-import {convertItem, convertRecommendation} from "$lib/helper";
+import {convertItem, convertItemExtended, convertRecommendation} from "$lib/helper";
 import type {Session} from "$lib/typings";
 import type {AuthenticationResponse} from "$lib/typings/jellyfin/user";
 
@@ -26,3 +26,5 @@ export const getUnfinishedItems = async (session: Session) => (await createReque
 export const getNextUpItems = async (session: Session) => (await createRequest(`Shows/NextUp?userId=${session.id}&${fields}`, session)).Items.map(convertItem)
 export const getSuggestedItems = async (amount: number, session: Session) => (await createRequest(`Users/${session.id}/Suggestions?limit=${amount}&type=Movie,Series&${fields}`, session)).Items.map(convertItem)
 export const getRecommendedItems = async (session: Session) => (await createRequest(`Movies/Recommendations?userId=${session.id}&Limit=15&${fields}`, session)).map(convertRecommendation)
+
+export const getExtendedItem = async (id: string, session: Session) => convertItemExtended(await createRequest(`Users/${session.id}/Items/${id}?${fields},Chapters,People,MediaSources`, session))

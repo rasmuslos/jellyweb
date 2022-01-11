@@ -10,7 +10,7 @@
         <OverlayItem icon="settings" title="settings" />
     </div>
     <div class="main">
-        <OverlayItem icon="home" title="home" />
+        <OverlayItem icon="home" title="home" href="/app" />
         <OverlayItem icon="film" title="movies" />
         <OverlayItem icon="tv" title="series" />
         <OverlayItem icon="more-horizontal" title="more" on:click={() => navigationExpanded.update(expanded => !expanded)} active={$navigationExpanded} />

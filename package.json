@@ -2,7 +2,7 @@
 	"name": "jellyweb",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "JWT_SECRET=QWERTZUIOPASDFGHJKLYXCVBNM svelte-kit dev --host",
+		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",

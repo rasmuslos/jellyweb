@@ -8,7 +8,7 @@
     <div class="space"></div>
     <SidebarItem dimmed icon="search" title="search_tip" />
     <div class="space"></div>
-    <SidebarItem icon="home" title="home" />
+    <SidebarItem icon="home" title="home" href="/app" />
     <SidebarItem icon="film" title="movies" />
     <SidebarItem icon="tv" title="series" />
     <div class="push"></div>

@@ -163,7 +163,7 @@ export type MediaStream = {
 }
 
 export type ImageTags = {
-    Primary: string;
+    [x: string]: string,
 }
 export type Chapter = {
     StartPositionTicks: number,

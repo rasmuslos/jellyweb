@@ -1,4 +1,15 @@
-import type {Genre, Image, Item, Recommendation, SeriesInfo, Type} from "$lib/typings";
+import type {
+    Chapter,
+    ExtendedItem,
+    Genre,
+    Image,
+    Item,
+    MediaSource,
+    Person,
+    Recommendation,
+    SeriesInfo,
+    Type
+} from "$lib/typings";
 import type {JellyfinItem, RecommendationCategory} from "$lib/typings/jellyfin/item";
 import {getRandomIndex} from "$lib/helper/util";
 import {RecommendationReason} from "$lib/typings";
@@ -48,25 +59,94 @@ export const convertItem = (item: JellyfinItem): Item => {
         }
     }
 }
-export const convertGenre = (item: JellyfinItem): Genre => {
+export const convertItemExtended = (item: JellyfinItem): ExtendedItem => {
     return {
-        id: item.Id,
-        name: item.Name,
+        ...convertItem(item),
+        chapters: convertChapters(item),
+        people: convertPeople(item),
+        mediaSources: getMediaSources(item)
     }
 }
 
-const getSeriesInfo = (type: Type, { SeriesId, SeriesName, SeasonId, SeasonName }: JellyfinItem): SeriesInfo => {
+export const convertChapters = ({ Id, Chapters }: JellyfinItem): Chapter[] => {
+    return Chapters?.map(({ Name, StartPositionTicks, ImageTag }, index) => {
+        return {
+            name: Name,
+            start: convertToMillis(StartPositionTicks),
+            image: {
+                url: `Items/${Id}/Images/Chapter/${index}?tag=${ImageTag}`,
+                hash: null,
+            }
+        }
+    })
+}
+export const convertPeople = ({ People }: JellyfinItem): Person[] => {
+    return People?.map(({ Id, Name, Type, Role, PrimaryImageTag, ImageBlurHashes }) => {
+        return {
+            id: Id,
+            name: Name,
+            role: Role ?? Type ?? "?",
+            image: getPrimaryPersonImage(Id, PrimaryImageTag, ImageBlurHashes),
+        }
+    })
+}
+export const convertGenre = ({ Id, Name }: JellyfinItem): Genre => {
+    return {
+        id: Id,
+        name: Name,
+    }
+}
+
+const getMediaSources = ({ MediaSources }: JellyfinItem): MediaSource[] => {
+    return MediaSources?.map(({ Id, Container, RunTimeTicks, Bitrate, MediaStreams }) => {
+        return {
+            id: Id,
+            container: Container,
+            runtime: convertToMillis(RunTimeTicks),
+            bitrate: Bitrate,
+            mediaStreams: MediaStreams.map(({ Codec, Type, VideoRange, DisplayTitle, Language }) => {
+                return {
+                    codec: Codec,
+                    type: Type.toLowerCase(),
+                    range: VideoRange?.toLowerCase(),
+                    title: DisplayTitle,
+                    language: Language,
+                }
+            }),
+        }
+    })
+}
+const getSeriesInfo = (type: Type, item: JellyfinItem): SeriesInfo => {
+    const { SeriesId, SeriesName, SeasonId, SeasonName } = item
+
     if(type === "season") return {
         show: SeriesId,
         showName: SeriesName,
+        primaryImage: getShowPrimaryImage(item),
     }
     else if(type === "episode") return {
         show: SeriesId,
         showName: SeriesName,
         season: SeasonId,
         seasonName: SeasonName,
+        primaryImage: getShowPrimaryImage(item),
     }
     else return null
+}
+
+const getShowPrimaryImage = ({ SeriesId, SeriesPrimaryImageTag, ImageBlurHashes }: JellyfinItem): Image => {
+    const index = 0
+
+    return {
+        url: `Items/${SeriesId}/Images/Primary/${index}`,
+        hash: ImageBlurHashes?.Primary?.[SeriesPrimaryImageTag],
+    }
+}
+const getPrimaryPersonImage = (id: string, primaryImageTag: string, imageBlurHashes: any): Image => {
+    return {
+        url: `Items/${id}/Images/Primary/0?tag=${primaryImageTag}`,
+        hash: imageBlurHashes?.[primaryImageTag],
+    }
 }
 const getPrimaryImage = ({ Id, ImageTags, ImageBlurHashes }: JellyfinItem): Image => {
     const index = 0
@@ -102,4 +182,8 @@ export const convertRecommendation = ({ RecommendationType, BaselineItemName, It
         title: BaselineItemName,
         items: Items.map(convertItem),
     }
+}
+
+export const getVideoRange = (item: ExtendedItem): "hdr" | "sdr" => {
+    return item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null).range as any
 }
