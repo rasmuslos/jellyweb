@@ -109,7 +109,7 @@
 <style>
     div.sub {
         display: grid;
-        grid-template-columns: 300px 1fr 200px;
+        grid-template-columns: 300px 1fr;
 
         margin-top: 25px;
     }
@@ -168,5 +168,13 @@
 
         margin: 0 auto;
         width: fit-content;
+    }
+
+    :global(#root.mobile) div.sub {
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr;
+    }
+    :global(#root.mobile) div.actions {
+        width: 100%;
     }
 </style>

@@ -9,7 +9,7 @@
         margin-bottom: 75px;
     }
     div.big {
-        margin-top: 150px;
+        margin-bottom: 150px;
     }
 
     :global(#root.mobile) div {

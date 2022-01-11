@@ -68,4 +68,8 @@
         filter: blur(20px);
         background-color: #00000070;
     }
+
+    :global(#root.mobile) div.hero {
+        height: 300px;
+    }
 </style>

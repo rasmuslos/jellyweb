@@ -45,5 +45,26 @@
     h1 {
         font-size: 50px;
     }
+
+    :global(#root.mobile) div.wrapper {
+        height: unset;
+        margin: 25px 0;
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 250px auto;
+    }
+    :global(#root.mobile) a {
+        display: block;
+        margin: 0 auto;
+
+        width: 100%;
+    }
+    :global(#root.mobile) div.holder {
+        padding: 0;
+        margin: 0;
+        border: none;
+
+        text-align: center;
+    }
 </style>
 
