@@ -2,12 +2,14 @@
     import ApplyMeasurements from "../ApplyMeasurements.svelte";
     import {applyMaxHeight, wrap} from "$lib/helper";
     import type {Item} from "$lib/typings";
+    import Image from "../item/Image.svelte";
 
     export let item: Item
 </script>
 
 <ApplyMeasurements>
-    <div class="hero" style="background-image: url('{wrap(applyMaxHeight(item.images?.backdrop?.url, 1200))}')">
+    <div class="hero">
+        <Image url={wrap(applyMaxHeight(item.images?.backdrop?.url, 1200))} />
         <div class="overlay">
             <h1>{item.name}</h1>
             {#if item.tagline}
@@ -21,12 +23,8 @@
 <style>
     div.hero {
         position: relative;
-
         height: 600px;
         width: 100%;
-
-        background-repeat: no-repeat;
-        background-size: cover;
 
         overflow: hidden;
         border-radius: 15px;

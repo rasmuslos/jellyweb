@@ -28,6 +28,6 @@ export const getSuggestedItems = async (amount: number, session: Session) => (aw
 export const getRecommendedItems = async (session: Session) => (await createRequest(`Movies/Recommendations?userId=${session.id}&Limit=15&${fields}`, session)).map(convertRecommendation)
 
 export const getExtendedItem = async (id: string, session: Session) => convertItemExtended(await createRequest(`Users/${session.id}/Items/${id}?${fields},Chapters,People,MediaSources`, session))
-export const getSimilarItems = async (id: string, session: Session) => (await createRequest(`Items/${id}/Similar?${fields}&limit=15`, session)).Items.map(convertItem)
+export const getSimilarItems = async (id: string, session: Session) => (await createRequest(`Items/${id}/Similar?${fields}&limit=21`, session)).Items.map(convertItem)
 
 export const getItemsStarring = async (id: string, session: Session) => (await createRequest(`Users/${session.id}/Items?personIds=${id}&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie,Series`, session)).Items.map(convertItem)

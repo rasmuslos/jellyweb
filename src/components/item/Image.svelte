@@ -1,17 +1,24 @@
 <script lang="ts">
+    import {blur} from "svelte/transition"
+    import {getFallbackGradient} from "$lib/helper";
+
     export let url: string
-    export let alt: string
+    export let alt: string = ""
 
     let showImage = true
 </script>
 
 <div class="holder">
-    <div class="fallback">
+    <div class="fallback" style={getFallbackGradient(url ?? alt)}>
         <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
     </div>
-    {#if showImage}
-        <img src={url} on:error={() => showImage = false} alt={alt ?? url} />
-    {/if}
+    {#key showImage}
+        {#if showImage}
+            {#key url}
+                <img src={url} on:error={() => showImage = false} alt={alt ?? url} title={alt ?? "?"} transition:blur />
+            {/key}
+        {/if}
+    {/key}
     <div class="overlay"></div>
 </div>
 
@@ -36,8 +43,7 @@
     }
 
     div.fallback {
-        border-radius: 11px;
-        background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        border-radius: 10px;
     }
     div.fallback h1 {
         position: absolute;

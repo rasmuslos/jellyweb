@@ -53,9 +53,11 @@
     export let media: Item[]
 
     const range = getVideoRange(item)
-
-    console.log(item)
 </script>
+
+<svelte:head>
+    <title>{item.name}</title>
+</svelte:head>
 
 <Push />
 {#if item.type === "movie" || item.type === "series" || item.type === "season" || item.type === "episode"}
