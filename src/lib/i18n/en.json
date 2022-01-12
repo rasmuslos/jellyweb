@@ -51,7 +51,9 @@
       "chapters": "Chapters",
       "people": "People",
       "similar": "Similar",
-      "media": "Media"
+      "media": "Media",
+      "expand": "Expand",
+      "collapse": "Collapse"
     }
   }
 }

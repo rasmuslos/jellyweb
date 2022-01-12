@@ -1,8 +1,9 @@
 <script lang="ts">
     export let big: boolean = false
+    export let smaller: boolean = false
 </script>
 
-<div class:big></div>
+<div class:big class:smaller></div>
 
 <style>
     div {
@@ -10,6 +11,9 @@
     }
     div.big {
         margin-bottom: 150px;
+    }
+    div.smaller {
+        margin-bottom: 50px;
     }
 
     :global(#root.mobile) div {

@@ -14,12 +14,12 @@
 
 <style>
     a.wrapper {
-        flex: min(33vw, 200px) 0 0;
-        width: min(33vw, 200px);
+        flex: min(calc(33vw - 20px - 4vw), 200px) 0 0;
+        width: min(calc(33vw - 20px - 4vw), 200px);
         height: fit-content;
 
         display: grid;
-        grid-template-rows: min(calc(33vw * 1.5), 300px) auto;
+        grid-template-rows: min(calc(calc(33vw - 20px - 4vw) * 1.5), 300px) auto;
         grid-template-columns: 1fr;
     }
     a.wrapper:not(:last-child) {

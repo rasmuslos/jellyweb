@@ -52,8 +52,6 @@
     export let similar: Item[]
     export let media: Item[]
 
-    console.log(media)
-
     const range = getVideoRange(item)
 </script>
 
@@ -110,20 +108,19 @@
         </div>
     </ApplyMeasurements>
     <Push big />
+    {#if similar?.length}
+        <Push smaller />
+        <ApplyMeasurements>
+            <ItemList items={similar} title="items.sections.similar" />
+        </ApplyMeasurements>
+    {/if}
     {#if item.chapters?.length}
-        <Push />
+        <Push smaller />
         <Chapters chapters={item.chapters} />
     {/if}
     {#if item.people?.length}
-        <Push />
+        <Push smaller />
         <People people={item.people} />
-    {/if}
-    {#if similar?.length}
-        <ApplyMeasurements>
-            <Push />
-            <h2>{$_("items.sections.similar")}</h2>
-            <ItemList items={similar} />
-        </ApplyMeasurements>
     {/if}
 {:else if item.type === "genre"}
     <ApplyMeasurements>
@@ -148,9 +145,8 @@
     {#if media?.length}
         <ApplyMeasurements>
             <Push />
-            <h2>{$_("items.sections.media")}</h2>
             <!--TODO: Replace with lazy loading list-->
-            <ItemList items={media} />
+            <ItemList items={media} title="items.sections.media" />
         </ApplyMeasurements>
     {/if}
 {/if}

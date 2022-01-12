@@ -12,6 +12,7 @@
     {#if showImage}
         <img src={url} on:error={() => showImage = false} alt={alt ?? url} />
     {/if}
+    <div class="overlay"></div>
 </div>
 
 <style>

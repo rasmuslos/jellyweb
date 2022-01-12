@@ -4,15 +4,14 @@
     import Image from "../item/Image.svelte";
     import {wrap} from "$lib/helper";
     import {applyMaxWidth} from "$lib/helper";
-    import {_} from "svelte-i18n";
     import {getItemPath} from "$lib/helper";
+    import List from "./List.svelte";
 
     export let people: Person[]
 </script>
 
 <ApplyMeasurements>
-    <h2>{$_("items.sections.people")}</h2>
-    <div class="wrapper">
+    <List title="items.sections.people">
         {#each people as { id, name, role, image }, index}
             <a class="holder" href={getItemPath(id)}>
                 <Image alt={name} url={wrap(applyMaxWidth(image.url, 300))} />
@@ -23,15 +22,10 @@
                 </p>
             </a>
         {/each}
-    </div>
+    </List>
 </ApplyMeasurements>
 
 <style>
-    .wrapper {
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-    }
     .holder {
         display: grid;
         grid-template-rows: min(25vw, 125px) auto;
