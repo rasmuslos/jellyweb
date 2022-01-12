@@ -53,6 +53,8 @@
     export let media: Item[]
 
     const range = getVideoRange(item)
+
+    console.log(item)
 </script>
 
 <Push />
@@ -91,11 +93,11 @@
                     {#if range}
                         <span>{range.toUpperCase()}</span>
                     {/if}
-                    <!--
-                    {#if item.mediaSources?.[0].container}
-                        <span>{item.mediaSources?.[0].container}</span>
+                    {#if item.externalIds?.imdb}
+                        <a href="https://www.imdb.com/title/{item.externalIds?.imdb ?? `nm0000093`}" rel="noopener" target="_blank">
+                            <img class="imdb-logo" src="/static/assets/images/imdb.png" alt="IMDB" />
+                        </a>
                     {/if}
-                    -->
                 </div>
                 <div class="genres">
                     {#if item.genres}
@@ -238,6 +240,14 @@
     }
     div.person .image h1 {
         text-align: center;
+    }
+
+    .imdb-logo {
+        position: relative;
+        top: 4px;
+
+        height: 20px;
+        width: 20px;
     }
 
     :global(#root.mobile) div.sub {

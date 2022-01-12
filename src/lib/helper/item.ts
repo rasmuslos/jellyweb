@@ -29,7 +29,7 @@ export const convertItem = (item: JellyfinItem): Item => {
         id: Id,
         name: Name,
         type: type,
-        overview: Overview,
+        overview: Overview ?? "?",
 
         tags: Tags,
         tagline: Taglines?.[0],
@@ -185,5 +185,5 @@ export const convertRecommendation = ({ RecommendationType, BaselineItemName, It
 }
 
 export const getVideoRange = (item: ExtendedItem): "hdr" | "sdr" => {
-    return item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null).range as any
+    return item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null)?.range as any
 }

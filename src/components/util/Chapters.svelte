@@ -28,11 +28,13 @@
         grid-template-columns: 1fr;
         flex: min(calc(25vw * 2), 300px) 0 0;
 
-        margin: 0 10px;
-
         background-color: transparent;
         color: transparent;
     }
+    .holder:not(:last-child) {
+        margin-right: 20px;
+    }
+
     span {
         margin-top: 10px;
 
