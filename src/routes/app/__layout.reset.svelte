@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
     import {mobile} from "$lib/stores";
-    import {isMobile} from "$lib/helper";
+    import {isLoggedIn, isMobile} from "$lib/helper";
 
     export const load: Load = ({session}) => {
-        if(session.data == null) return {
+        if(!isLoggedIn(session)) return {
             status: 302,
             redirect: "/auth/login",
         }

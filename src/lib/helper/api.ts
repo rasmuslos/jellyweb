@@ -28,3 +28,8 @@ export const createApiResponse = <T = any>(status: number, payload: any): Server
 }
 export const createApiSuccess = (payload: any) => createApiResponse(200, payload)
 export const createApiError = (status: number = 500, error: any = "unknown server error") => createApiResponse(status, error)
+
+export const isLoggedIn = (session: any) => {
+    console.log(session?.data != null, session.data != {}, Object.keys(session?.data ?? {}).length)
+    return !!(session?.data != null && session.data != {} && Object.keys(session.data ?? {}).length)
+}

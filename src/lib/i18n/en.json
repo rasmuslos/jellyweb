@@ -55,5 +55,10 @@
       "expand": "Expand",
       "collapse": "Collapse"
     }
+  },
+  "pages": {
+    "home": {
+      "search": "Search"
+    }
   }
 }

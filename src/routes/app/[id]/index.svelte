@@ -4,11 +4,6 @@
     import {getExtendedItem, getItemsStarring, getSimilarItems} from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch, session, page}) => {
-        if(session.data == null) return {
-            status: 302,
-            redirect: "/auth/login"
-        }
-
         setFetcher(fetch)
         const id = page.params?.id
         const item = await getExtendedItem(id)
@@ -97,7 +92,7 @@
                     {/if}
                     {#if item.externalIds?.imdb}
                         <a href="https://www.imdb.com/title/{item.externalIds?.imdb ?? `nm0000093`}" rel="noopener" target="_blank">
-                            <img class="imdb-logo" src="/static/assets/images/imdb.png" alt="IMDB" />
+                            <img class="imdb-logo" src="/assets/images/imdb.png" alt="IMDB" />
                         </a>
                     {/if}
                 </div>

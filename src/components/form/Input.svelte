@@ -9,6 +9,8 @@
     export let type: string = "text"
     export let value: string = ""
 
+    export let large: boolean = false
+
     const handleInput = event => value = type.match(/^(number|range)$/) ? + event.target.value : event.target.value
 </script>
 
@@ -29,6 +31,7 @@
     input {
         padding: 10px 20px;
 
+        height: 50px;
         width: calc(400px - 40px);
         max-width: 100%;
 
@@ -43,9 +46,16 @@
     input:focus {
         box-shadow: 0 3px 15px #00000020;
     }
+
+    label.large {
+        width: 100%;
+    }
+    label.large input {
+        width: 100%;
+    }
 </style>
 
-<label>
+<label class:large>
     {#if label}
         <span>{$_(label)}</span>
     {/if}

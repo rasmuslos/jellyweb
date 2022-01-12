@@ -26,6 +26,7 @@
         margin: 10px auto;
         padding: 10px 20px;
 
+        height: 50px;
         width: fit-content;
         max-width: 100%;
 
