@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
     import {setFetcher} from "$lib/api/internal";
-    import {getExtendedItem} from "$lib/api/internal/methods/v3";
+    import {getExtendedItem, getItemsStarring, getSimilarItems} from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch, session, page}) => {
         if(session.data == null) return {
@@ -10,17 +10,29 @@
         }
 
         setFetcher(fetch)
-        const item = await getExtendedItem(page.params?.id)
+        const id = page.params?.id
+        const item = await getExtendedItem(id)
+
+        let similar
+        let media
+
+        if(item.type === "movie" || item.type === "series") similar = getSimilarItems(item.id)
+        if(item.type === "person") media = getItemsStarring(item.id)
+
+        // Resolve all promises simultaneously
+        await Promise.all([similar, media])
 
         return {
             props: {
                 item,
+                similar: await similar,
+                media: await media,
             }
         }
     }
 </script>
 <script lang="ts">
-    import type {ExtendedItem} from "$lib/typings";
+    import type {ExtendedItem, Item} from "$lib/typings";
     import ApplyMeasurements from "../../../components/ApplyMeasurements.svelte";
     import Push from "../../../Push.svelte";
     import Hero from "../../../components/hero/Hero.svelte";
@@ -32,8 +44,16 @@
     import Title from "../../../components/hero/Title.svelte";
     import Chapters from "../../../components/util/Chapters.svelte";
     import People from "../../../components/util/People.svelte";
+    import ItemList from "../../../components/util/ItemList.svelte";
+    import Image from "../../../components/item/Image.svelte";
+    import {applyMaxHeight, wrap} from "$lib/helper";
 
     export let item: ExtendedItem
+    export let similar: Item[]
+    export let media: Item[]
+
+    console.log(media)
+
     const range = getVideoRange(item)
 </script>
 
@@ -89,13 +109,21 @@
             </div>
         </div>
     </ApplyMeasurements>
+    <Push big />
     {#if item.chapters?.length}
-        <Push big />
+        <Push />
         <Chapters chapters={item.chapters} />
     {/if}
     {#if item.people?.length}
         <Push />
         <People people={item.people} />
+    {/if}
+    {#if similar?.length}
+        <ApplyMeasurements>
+            <Push />
+            <h2>{$_("items.sections.similar")}</h2>
+            <ItemList items={similar} />
+        </ApplyMeasurements>
     {/if}
 {:else if item.type === "genre"}
     <ApplyMeasurements>
@@ -103,6 +131,28 @@
             <h1>{item.name}</h1>
         </div>
     </ApplyMeasurements>
+{:else if item.type === "person"}
+    <ApplyMeasurements smaller>
+        <div class="heading">
+            <h1>{item.name}</h1>
+        </div>
+        <div class="person">
+            <div class="image">
+                <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
+            </div>
+            <p>
+                {item.overview}
+            </p>
+        </div>
+    </ApplyMeasurements>
+    {#if media?.length}
+        <ApplyMeasurements>
+            <Push />
+            <h2>{$_("items.sections.media")}</h2>
+            <!--TODO: Replace with lazy loading list-->
+            <ItemList items={media} />
+        </ApplyMeasurements>
+    {/if}
 {/if}
 <Push />
 
@@ -170,11 +220,47 @@
         width: fit-content;
     }
 
+    div.person {
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: auto 1fr;
+
+        align-items: center;
+
+        margin-top: 50px;
+    }
+    div.person .image {
+        width: 200px;
+        height: 200px;
+
+        margin: 17px 50px 0 0;
+
+        overflow: hidden;
+        border-radius: 50%;
+
+        align-self: flex-start;
+    }
+    div.person .image h1 {
+        text-align: center;
+    }
+
     :global(#root.mobile) div.sub {
         grid-template-rows: auto auto;
         grid-template-columns: 1fr;
     }
     :global(#root.mobile) div.actions {
         width: 100%;
+    }
+
+    :global(#root.mobile) div.person {
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr;
+
+        align-items: center;
+        justify-content: center;
+    }
+    :global(#root.mobile) div.person div.image {
+        display: block;
+        margin: 0 auto 25px auto;
     }
 </style>

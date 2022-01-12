@@ -1,5 +1,5 @@
 import {requestResource} from "$lib/api/internal";
-import type {ExtendedItem, PageIndex} from "$lib/typings";
+import type {ExtendedItem, Item, PageIndex} from "$lib/typings";
 
 export const performLogin = (server: string, username: string, password: string) => requestResource<any>("auth/login", {
     method: "POST",
@@ -13,3 +13,5 @@ export const performLogin = (server: string, username: string, password: string)
 export const getHomeItems = () => requestResource<PageIndex>("pages/home")
 
 export const getExtendedItem = (id: string) => requestResource<ExtendedItem>(`items/${id}/extended`)
+export const getSimilarItems = (id: string) => requestResource<Item[]>(`items/${id}/similar`)
+export const getItemsStarring = (id: string) => requestResource<Item[]>(`items/${id}/starring`)

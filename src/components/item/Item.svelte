@@ -14,6 +14,7 @@
 
 <style>
     a.wrapper {
+        flex: min(33vw, 200px) 0 0;
         width: min(33vw, 200px);
         height: fit-content;
 

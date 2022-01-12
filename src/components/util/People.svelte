@@ -8,7 +8,6 @@
     import {getItemPath} from "$lib/helper";
 
     export let people: Person[]
-    console.log(people)
 </script>
 
 <ApplyMeasurements>

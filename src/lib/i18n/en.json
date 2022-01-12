@@ -49,7 +49,9 @@
     },
     "sections": {
       "chapters": "Chapters",
-      "people": "People"
+      "people": "People",
+      "similar": "Similar",
+      "media": "Media"
     }
   }
 }

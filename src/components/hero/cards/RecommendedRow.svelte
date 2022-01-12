@@ -1,18 +1,14 @@
 <script lang="ts">
     import {_} from "svelte-i18n";
     import {Recommendation} from "$lib/typings";
-    import Item from "../../item/Item.svelte";
+    import ItemList from "../../util/ItemList.svelte";
 
     export let recommendation: Recommendation
 </script>
 
 <div class="wrapper">
     <h4>{$_(recommendation.reason, { values: { title: recommendation.title }})}</h4>
-    <div class="holder">
-        {#each recommendation.items as item}
-            <Item {item} />
-        {/each}
-    </div>
+    <ItemList items={recommendation.items} overflow={false} />
 </div>
 
 <style>
@@ -24,10 +20,6 @@
         margin-right: 20px;
 
         position: relative;
-    }
-    div.holder {
-        display: flex;
-        flex-direction: row;
     }
 
     h4 {

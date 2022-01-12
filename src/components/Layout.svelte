@@ -7,8 +7,10 @@
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
     import {locale, waitLocale} from "svelte-i18n";
+    import {onMount} from "svelte";
 
     const version = `?v=${encodeURIComponent(VERSION)}`
+    let main: HTMLDivElement
 
     export let i18n: string = "en";
     export let theme: Theme = Theme.DARK;
@@ -16,6 +18,18 @@
 
     locale.set(i18n)
     waitLocale()
+
+    onMount(() => {
+        history.pushState = new Proxy(history.pushState, {
+            apply(target, thisArg, argumentsList) {
+                Reflect.apply(target, thisArg, argumentsList)
+                if(main) main.scrollTo({
+                    top: 0,
+                    left: 0,
+                })
+            }
+        })
+    })
 </script>
 
 <svelte:head>
@@ -37,7 +51,7 @@
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}
-    <main>
+    <main bind:this={main}>
         <slot />
         {#if showNavigation && $mobile}
             <NavigationOverlay />
