@@ -31,6 +31,8 @@
 
         align-items: center;
         justify-content: center;
+
+        overflow: hidden;
     }
     a {
         height: 100%;
@@ -41,9 +43,13 @@
         margin-left: 25px;
         padding-left: 25px;
         border-left: 2px solid var(--grey);
+
+        height: min(calc(100% - 20px), fit-content);
+        overflow: hidden;
     }
     h1 {
         font-size: 50px;
+        margin: 0;
     }
 
     :global(#root.mobile) div.wrapper {

@@ -13,7 +13,7 @@
             <Featured item={items[0]} />
             <div class="holder shadow-top">
                 {#if items.length > 2}
-                    {#each items.splice(1) as item}
+                    {#each [...items].splice(1) as item}
                         <FeaturedSmall {item} />
                     {/each}
                 {/if}

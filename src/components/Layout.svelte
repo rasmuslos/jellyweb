@@ -8,6 +8,7 @@
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
     import {locale, waitLocale} from "svelte-i18n";
     import {onMount} from "svelte";
+    import {blur} from "svelte/transition"
 
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLDivElement
@@ -47,7 +48,7 @@
     {/if}
 </svelte:head>
 
-<div id="root" class:mobile={$mobile} class:showNavigation theme={theme} >
+<div id="root" class:mobile={$mobile} class:showNavigation theme={theme} transition:blur>
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}

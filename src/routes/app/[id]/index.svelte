@@ -3,7 +3,7 @@
     import {setFetcher} from "$lib/api/internal";
     import {getExtendedItem, getItemsStarring, getSimilarItems} from "$lib/api/internal/methods/v3";
 
-    export const load: Load = async ({fetch, session, page}) => {
+    export const load: Load = async ({fetch, page}) => {
         setFetcher(fetch)
         const id = page.params?.id
         const item = await getExtendedItem(id)
@@ -87,9 +87,11 @@
                     {#if item.ratings?.critic}
                         <span>{item.ratings?.critic}%</span>
                     {/if}
-                    {#if range}
-                        <span>{range.toUpperCase()}</span>
-                    {/if}
+                    {#key item}
+                        {#if range}
+                            <span>{range.toUpperCase()}</span>
+                        {/if}
+                    {/key}
                     {#if item.externalIds?.imdb}
                         <a href="https://www.imdb.com/title/{item.externalIds?.imdb ?? `nm0000093`}" rel="noopener" target="_blank">
                             <img class="imdb-logo" src="/assets/images/imdb.png" alt="IMDB" />

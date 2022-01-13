@@ -58,7 +58,8 @@
   },
   "pages": {
     "home": {
-      "search": "Search"
+      "search": "Search",
+      "recommended": "Recommended"
     }
   }
 }
