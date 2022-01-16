@@ -21,6 +21,7 @@
     waitLocale()
 
     onMount(() => {
+        /*
         history.pushState = new Proxy(history.pushState, {
             apply(target, thisArg, argumentsList) {
                 Reflect.apply(target, thisArg, argumentsList)
@@ -30,6 +31,7 @@
                 })
             }
         })
+         */
     })
 </script>
 
@@ -76,6 +78,9 @@
     :global(*), :global(*::before), :global(*::after) {
         transition: all 500ms ease;
         box-sizing: border-box;
+    }
+    :global(*), :global(*:focus) {
+        outline: none;
     }
     :global(a), :global(a:visited) {
         color: inherit;

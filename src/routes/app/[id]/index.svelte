@@ -1,7 +1,12 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
     import {setFetcher} from "$lib/api/internal";
-    import {getExtendedItem, getItemsStarring, getSimilarItems} from "$lib/api/internal/methods/v3";
+    import {
+        getEpisodesOfSeason,
+        getExtendedItem,
+        getItemsStarring,
+        getSimilarItems
+    } from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch, page}) => {
         setFetcher(fetch)
@@ -10,18 +15,21 @@
 
         let similar
         let media
+        let episodes
 
         if(item.type === "movie" || item.type === "series") similar = getSimilarItems(item.id)
         if(item.type === "person") media = getItemsStarring(item.id)
+        if(item.type === "episode") episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
 
         // Resolve all promises simultaneously
-        await Promise.all([similar, media])
+        await Promise.all([similar, media, episodes])
 
         return {
             props: {
                 item,
                 similar: await similar,
                 media: await media,
+                episodes: await episodes,
             }
         }
     }
@@ -34,7 +42,7 @@
     import Button from "../../../components/form/Button.svelte";
     import {_} from "svelte-i18n";
     import {icons} from "feather-icons";
-    import {getVideoRange} from "$lib/helper";
+    import {convertStreamsToText, getStreamsOfType, getVideoRange} from "$lib/helper";
     import {getItemPath} from "$lib/helper";
     import Title from "../../../components/hero/Title.svelte";
     import Chapters from "../../../components/util/Chapters.svelte";
@@ -42,20 +50,68 @@
     import ItemList from "../../../components/util/ItemList.svelte";
     import Image from "../../../components/item/Image.svelte";
     import {applyMaxHeight, wrap} from "$lib/helper";
+    import {onDestroy, onMount} from "svelte";
+    import {currentItemId} from "$lib/stores";
+
+    type Fields = Array<{
+        title: string,
+        values: Array<{
+            title: string,
+            value: any,
+        }>
+    }>
 
     export let item: ExtendedItem
     export let similar: Item[]
     export let media: Item[]
+    export let episodes: Item[]
 
-    const range = getVideoRange(item)
+    let fields: Fields
+    let range: string
+
+    $: range = getVideoRange(item)
+
+    if(item.type === "movie" || item.type === "episode") {
+        fields = [
+            {
+                title: "General",
+                values: [
+                    { title: "Released", value: new Date(item.release ?? 0).getFullYear() },
+                    { title: "Rating", value: item.rating },
+                    { title: "Runtime (MS)", value: item.runtime },
+                ],
+            },
+            {
+                title: "Media",
+                values: [
+                    { title: "Container", value: item.mediaSources?.map(({ container }) => container)?.join(", ") },
+                    { title: "Codec", value: getStreamsOfType(item.mediaSources, "video").map(streams => streams.map(({ codec }) => codec).join(", ")).join(", ") },
+                    { title: "Bitrate", value: item.mediaSources?.map(({ bitrate }) => bitrate)?.map(bitrate => `${bitrate} Mbps`).join(", ") },
+                ],
+            },
+            {
+                title: "Streams",
+                values: [
+                    { title: "Count", value: item.mediaSources?.map(({ mediaStreams }) => mediaStreams?.length)?.reduce((a, b) => a + b, 0) },
+                    { title: "Languages", value: convertStreamsToText(item.mediaSources, "audio") },
+                    { title: "Subtitles", value: convertStreamsToText(item.mediaSources, "subtitle") },
+                ],
+            },
+        ]
+    }
+
+    $: currentItemId.set(item.id)
+
+    onMount(() => currentItemId.set(item.id))
+    onDestroy(() => $currentItemId === item.id && currentItemId.set(null))
 </script>
 
 <svelte:head>
     <title>{item.name}</title>
 </svelte:head>
 
-<Push />
 {#if item.type === "movie" || item.type === "series" || item.type === "season" || item.type === "episode"}
+    <Push />
     {#if item.type === "movie" || item.type === "series"}
         <Hero {item} />
     {:else}
@@ -108,7 +164,16 @@
             </div>
         </div>
     </ApplyMeasurements>
-    <Push big />
+    <Push />
+    <!--START: SECTIONS-->
+    {#if episodes?.length}
+        <Push smaller />
+        <ApplyMeasurements>
+            <div class="episodes" data-id={item.id}>
+                <ItemList items={episodes} wide title="items.sections.similar" />
+            </div>
+        </ApplyMeasurements>
+    {/if}
     {#if similar?.length}
         <Push smaller />
         <ApplyMeasurements>
@@ -123,13 +188,33 @@
         <Push smaller />
         <People people={item.people} />
     {/if}
+    {#if fields?.length}
+        <Push />
+        <ApplyMeasurements larger>
+            <div class="specs">
+                {#each fields as { title, values }}
+                    <div class="fields">
+                        <h3>{title}</h3>
+                        {#each values as { title, value }}
+                            <div class="field">
+                                <b>{title}</b>
+                                <span>{value}</span>
+                            </div>
+                        {/each}
+                    </div>
+                {/each}
+            </div>
+        </ApplyMeasurements>
+    {/if}
 {:else if item.type === "genre"}
+    <Push />
     <ApplyMeasurements>
         <div class="heading">
             <h1>{item.name}</h1>
         </div>
     </ApplyMeasurements>
 {:else if item.type === "person"}
+    <Push />
     <ApplyMeasurements smaller>
         <div class="heading">
             <h1>{item.name}</h1>
@@ -154,6 +239,13 @@
 <Push />
 
 <style>
+    div.hero {
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+
+        background-color: var(--background-secondary);
+    }
+
     div.sub {
         display: grid;
         grid-template-columns: 300px 1fr;
@@ -249,6 +341,41 @@
         width: 20px;
     }
 
+    div.specs {
+        padding: 50px;
+        border-radius: 15px;
+
+        color: var(--grey);
+        background-color: var(--background-secondary);
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    div.specs div.fields {
+        flex: 1 0 calc(33% - 30px);
+        margin: 10px 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    div.specs div.fields h3 {
+        color: var(--text);
+        margin: 0 0 7px 0;
+    }
+    div.specs div.fields div.field {
+        flex: 0 0 auto;
+        margin: 5px 0;
+
+        height: fit-content;
+        width: fit-content;
+
+        display: flex;
+        flex-direction: column;
+    }
+
     :global(#root.mobile) div.sub {
         grid-template-rows: auto auto;
         grid-template-columns: 1fr;
@@ -267,5 +394,12 @@
     :global(#root.mobile) div.person div.image {
         display: block;
         margin: 0 auto 25px auto;
+    }
+
+    :global(#root.mobile) div.specs {
+        padding: 25px;
+    }
+    :global(#root.mobile) div.specs div.fields {
+        flex: 1 1 300px;
     }
 </style>

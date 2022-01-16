@@ -5,9 +5,10 @@
 
     export let large: boolean = false
     export let highlight: boolean = false
+    export let alternate: boolean = false
 </script>
 
-<button class:working class:large class:highlight on:click {action} {disabled}>
+<button class:working class:large class:highlight class:alternate on:click {action} {disabled}>
     <slot />
 </button>
 
@@ -44,5 +45,8 @@
     }
     button.highlight {
         background-color: var(--primary);
+    }
+    button.alternate {
+        background-color: var(--background);
     }
 </style>

@@ -31,9 +31,6 @@
         overflow-y: scroll;
 
         padding: 20px 0;
-        /*
-        border-right: 1px solid var(--background-secondary);
-         */
     }
     nav.expanded {
         width: var(--expanded);

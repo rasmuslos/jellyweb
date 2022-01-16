@@ -3,12 +3,14 @@
     import Image from "./Image.svelte";
     import {wrap, applyMaxWidth} from "$lib/helper";
     import {getItemPath} from "$lib/helper";
+    import {currentItemId} from "$lib/stores";
 
     export let item: Item
+    export let wide: boolean
 </script>
 
-<a class="wrapper" href={getItemPath(item.id)}>
-    <Image url={wrap(applyMaxWidth(item.images?.primary?.url, 400))} alt={item.name} />
+<a class="wrapper" href={getItemPath(item.id)} class:wide data-id={item.id}>
+    <Image url={wrap(applyMaxWidth(item.images?.primary?.url, 400))} alt={item.name} selected={$currentItemId === item.id} />
     <span>{item.name}</span>
 </a>
 
@@ -24,6 +26,11 @@
     }
     a.wrapper:not(:last-child) {
         margin-right: 20px;
+    }
+
+    a.wrapper.wide {
+        flex: min(calc(calc(35vw - 20px - 4vw) * 1.7), 300px) 0 0;
+        grid-template-rows: min(calc(35vw - 20px - 4vw), 175px) auto;
     }
 
     span {

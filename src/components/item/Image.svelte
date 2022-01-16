@@ -4,11 +4,12 @@
 
     export let url: string
     export let alt: string = ""
+    export let selected: boolean = false
 
     let showImage = true
 </script>
 
-<div class="holder">
+<div class="holder" class:selected>
     <div class="fallback" style={getFallbackGradient(url ?? alt)}>
         <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
     </div>
@@ -32,6 +33,10 @@
 
         overflow: hidden;
         border-radius: 10px;
+
+    }
+    div.holder.selected {
+        border: 4px solid var(--primary);
     }
     div.holder > * {
         position: absolute;

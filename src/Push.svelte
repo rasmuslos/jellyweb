@@ -7,19 +7,19 @@
 
 <style>
     div {
-        margin-bottom: 75px;
+        padding-bottom: 75px;
     }
     div.big {
-        margin-bottom: 150px;
+        padding-bottom: 150px;
     }
     div.smaller {
-        margin-bottom: 50px;
+        padding-bottom: 50px;
     }
 
     :global(#root.mobile) div {
-        margin-bottom: 25px;
+        padding-bottom: 25px;
     }
     :global(#root.mobile) div.big {
-        margin-bottom: 50px;
+        padding-bottom: 50px;
     }
 </style>

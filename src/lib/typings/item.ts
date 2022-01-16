@@ -12,6 +12,7 @@ export type Item = {
 
     rating: string,
     runtime?: number,
+    release?: string,
     userData?: UserData,
 
     images?: {

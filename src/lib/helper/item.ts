@@ -4,7 +4,7 @@ import type {
     Genre,
     Image,
     Item,
-    MediaSource,
+    MediaSource, MediaStreamType,
     Person,
     Recommendation,
     SeriesInfo,
@@ -33,6 +33,7 @@ export const convertItem = (item: JellyfinItem): Item => {
 
         tags: Tags,
         tagline: Taglines?.[0],
+        release: item.PremiereDate as unknown as string,
         genres: GenreItems?.map(convertGenre),
 
         images: {
@@ -184,6 +185,6 @@ export const convertRecommendation = ({ RecommendationType, BaselineItemName, It
     }
 }
 
-export const getVideoRange = (item: ExtendedItem): "hdr" | "sdr" => {
-    return item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null)?.range as any
-}
+export const getVideoRange = (item: ExtendedItem): "hdr" | "sdr" => item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null)?.range as any
+export const getStreamsOfType = (mediaSources: MediaSource[], streamType: MediaStreamType) => mediaSources?.map(({ mediaStreams }) => mediaStreams)?.map(streams => streams?.filter(({ type }) => type === streamType))
+export const convertStreamsToText = (mediaSources: MediaSource[], streamType: MediaStreamType) => getStreamsOfType(mediaSources, streamType).map(streams => streams.map(({ title, language }) => `${title} (${language})`).join(", ")).join(", ")

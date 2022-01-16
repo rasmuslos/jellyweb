@@ -31,3 +31,4 @@ export const getExtendedItem = async (id: string, session: Session) => convertIt
 export const getSimilarItems = async (id: string, session: Session) => (await createRequest(`Items/${id}/Similar?${fields}&limit=21`, session)).Items.map(convertItem)
 
 export const getItemsStarring = async (id: string, session: Session) => (await createRequest(`Users/${session.id}/Items?personIds=${id}&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie,Series`, session)).Items.map(convertItem)
+export const getEpisodesInSeason = async (showId: string, seasonId: string, session: Session) => (await createRequest(`Shows/${showId}/Episodes?SeasonId=${seasonId}&UserId=${session.id}&${fields}`, session)).Items.map(convertItem)
