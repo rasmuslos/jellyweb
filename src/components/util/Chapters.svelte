@@ -31,9 +31,6 @@
         background-color: transparent;
         color: transparent;
     }
-    .holder:not(:last-child) {
-        margin-right: 20px;
-    }
 
     span {
         margin-top: 10px;

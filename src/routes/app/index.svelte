@@ -25,14 +25,54 @@
     import Hero from "../../components/hero/cards/Hero.svelte";
     import Push from "../../Push.svelte";
     import Recommended from "../../components/hero/cards/Recommended.svelte";
+    import ItemList from "../../components/util/ItemList.svelte";
+    import ApplyMeasurements from "../../components/ApplyMeasurements.svelte";
+    import Featured from "../../components/hero/cards/Featured.svelte";
+    import {_} from "svelte-i18n";
+    import List from "../../components/util/List.svelte";
+    import SmallItem from "../../components/item/SmallItem.svelte";
 
-    export let featured: Item[]
-    export let suggested: Item[]
-    export let recommendations: Recommendation[]
+    export let featured: Item[], suggestions: Item[], recommendations: Recommendation[], latest: Item[], random: Item[], genres: Item[], bestRated: Item[]
 </script>
 
 <Hero items={featured} />
-<Push />
+<Push big />
+{#if suggestions?.length}
+    <ApplyMeasurements>
+        <ItemList title="pages.home.current" items={suggestions} wide />
+    </ApplyMeasurements>
+    <Push />
+{/if}
+{#if genres?.length}
+    <ApplyMeasurements>
+        <List title="pages.home.genres">
+            {#each genres as genre}
+                <SmallItem item={genre} hideImage />
+            {/each}
+        </List>
+    </ApplyMeasurements>
+    <Push />
+{/if}
 {#if recommendations?.length}
     <Recommended items={recommendations} />
+    <Push />
+{/if}
+{#if bestRated?.length}
+    <ApplyMeasurements>
+        <ItemList title="pages.home.bestRated" items={bestRated} />
+    </ApplyMeasurements>
+    <Push />
+{/if}
+{#if random?.length}
+    <ApplyMeasurements>
+        <h2>{$_("pages.home.random")}</h2>
+        <Featured item={random[0]} />
+    </ApplyMeasurements>
+    <Push />
+{/if}
+{#if latest?.length}
+    <ApplyMeasurements>
+        <ItemList title="pages.home.latest" items={latest} />
+    </ApplyMeasurements>
+    <Push />
 {/if}

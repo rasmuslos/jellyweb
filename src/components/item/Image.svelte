@@ -1,27 +1,34 @@
 <script lang="ts">
-    import {blur} from "svelte/transition"
     import {getFallbackGradient} from "$lib/helper";
+    import {blur} from "svelte/transition"
 
     export let url: string
     export let alt: string = ""
     export let selected: boolean = false
+    export let progress: number = null
 
     let showImage = true
 </script>
 
-<div class="holder" class:selected>
-    <div class="fallback" style={getFallbackGradient(url ?? alt)}>
-        <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
-    </div>
-    {#key showImage}
-        {#if showImage}
-            {#key url}
-                <img src={url} on:error={() => showImage = false} alt={alt ?? url} title={alt ?? "?"} transition:blur />
-            {/key}
+{#key url}
+    <div class="holder" class:selected transition:blur>
+        <div class="fallback" style={getFallbackGradient(url ?? alt)}>
+            <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
+        </div>
+        {#key showImage}
+            {#if showImage}
+                <img src={url} on:error={() => showImage = false} alt={alt ?? url} title={alt ?? "?"} />
+            {/if}
+        {/key}
+
+        {#if progress}
+            <div class="progress_holder">
+                <div class="progress" style="width: {progress}px"></div>
+            </div>
         {/if}
-    {/key}
-    <div class="overlay"></div>
-</div>
+        <div class="overlay"></div>
+    </div>
+{/key}
 
 <style>
     div.holder {
@@ -58,6 +65,29 @@
 
         margin: 0;
         color: var(--text);
+    }
+
+    div.progress_holder {
+        height: 4px;
+        width: calc(100% - 20px);
+
+        left: 10px;
+        top: unset;
+        bottom: 10px;
+
+        border-radius: 100px;
+        overflow: hidden;
+
+        background-color: var(--background);
+    }
+    div.progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 100%;
+        border-radius: 100px;
+        background-color: var(--primary);
     }
 
     img {

@@ -35,9 +35,6 @@
         background-color: transparent;
         color: transparent;
     }
-    .holder:not(:last-child) {
-        margin-right: 20px;
-    }
 
     p {
         display: inline-block;

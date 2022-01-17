@@ -16,3 +16,5 @@ export const getExtendedItem = (id: string) => requestResource<ExtendedItem>(`it
 export const getSimilarItems = (id: string) => requestResource<Item[]>(`items/${id}/similar`)
 export const getItemsStarring = (id: string) => requestResource<Item[]>(`items/${id}/starring`)
 export const getEpisodesOfSeason = (showId: string, seasonId: string) => requestResource<Item[]>(`items/${showId}/${seasonId}/episodes`)
+export const getEpisodesOfSeasonExtended = (showId: string, seasonId: string) => requestResource<ExtendedItem[]>(`items/${showId}/${seasonId}/episodes/extended`)
+export const getSeasons = (id: string) => requestResource<Item[]>(`items/${id}/seasons`)

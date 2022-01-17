@@ -30,6 +30,8 @@ export const createRequest = async (endpoint: string, session: Session, requestO
         },
     })
 
+    // console.log(await res.clone().text())
+
     if(res.status == 204 || !parse) return
     if(res.status != 200) {
         if(res.status == 401) return Promise.reject({ status: 401, error: "auth failed" })

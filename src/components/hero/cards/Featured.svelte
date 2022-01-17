@@ -3,13 +3,16 @@
     import {applyHeight} from "$lib/helper";
     import {wrap} from "$lib/helper";
     import {getItemPath} from "$lib/helper";
+    import Image from "../../item/Image.svelte";
 
     export let item: Item
-    const progress = (item.userData?.position / item.runtime) * 100
+
+    let progress = (item.userData?.position / item.runtime) * 100
+    if(isNaN(progress)) progress = 0
 </script>
 
 <a class="holder" href={getItemPath(item.id)}>
-    <img src={wrap(applyHeight(item.images?.backdrop.url, 500))} alt={`${item.name}'s backdrop`} />
+    <Image url={wrap(applyHeight(item.images?.backdrop.url, 1000))} alt={`${item.name}'s backdrop`} />
     <div class="text">
         <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
         <p>
@@ -32,12 +35,14 @@
 <style>
     a.holder {
         position: relative;
+        display: block;
+
         height: 500px;
         width: 100%;
+        flex: 0 0 100%;
 
         border-radius: 15px;
         box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-        margin-bottom: 100px;
     }
     div.text {
         position: absolute;
@@ -64,7 +69,6 @@
         height: 100%;
         width: 100%;
 
-        box-sizing: content-box;
         padding: 20px;
 
         filter: blur(20px);
@@ -78,7 +82,7 @@
         margin: 10px 0 0 0;
         color: var(--white);
     }
-    a {
+    a:not(.holder) {
         position: relative;
         padding: 5px;
         margin: 0 5px 0 0;

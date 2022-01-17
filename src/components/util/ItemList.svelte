@@ -4,12 +4,11 @@
     import Item from "../item/Item.svelte";
 
     export let title: string
-    export let wide: boolean
     export let items: ItemType[]
 </script>
 
 <List {...$$props}>
     {#each items as item}
-        <Item {item} {wide} />
+        <Item {item} {...$$props} />
     {/each}
 </List>

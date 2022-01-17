@@ -9,6 +9,7 @@
     import {locale, waitLocale} from "svelte-i18n";
     import {onMount} from "svelte";
     import {blur} from "svelte/transition"
+    import {page} from "$app/stores";
 
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLDivElement
@@ -50,7 +51,7 @@
     {/if}
 </svelte:head>
 
-<div id="root" class:mobile={$mobile} class:showNavigation theme={theme} transition:blur>
+<div id="root" class:mobile={$mobile} class:showNavigation theme={theme}>
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}

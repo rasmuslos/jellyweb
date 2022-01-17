@@ -4,24 +4,27 @@
 
     export let overflow: boolean = true
     export let title: string = null
+    export let values: any = {}
 
     export let hideExpand: boolean = false
     let expanded: boolean = false
 
     const showHeading: boolean = !!(!hideExpand || title)
 
-    let wrapper: HTMLDivElement
-    const isOverflowing = () => wrapper.scrollHeight > wrapper.clientHeight || wrapper.scrollWidth > wrapper.clientWidth
+    let holder: HTMLDivElement
+    const isOverflowing = () => holder.scrollWidth > holder.clientWidth
 
-    onMount(() => !hideExpand && (hideExpand = isOverflowing()))
+    onMount(() => {
+        if(!hideExpand) hideExpand = !isOverflowing()
+    })
 </script>
 
-<div class="wrapper" bind:this={wrapper}>
+<div class="wrapper">
     {#if showHeading}
         <div class="heading">
             {#if title}
                 <h2>
-                    {$_(title)}
+                    {$_(title, { values })}
                 </h2>
             {/if}
             {#if !hideExpand}
@@ -29,7 +32,7 @@
             {/if}
         </div>
     {/if}
-    <div class:overflow class:expanded class="holder">
+    <div class:overflow class:expanded class="holder" bind:this={holder}>
         <slot />
     </div>
 </div>
@@ -42,9 +45,13 @@
     div.holder {
         display: flex;
         flex-direction: row;
+
+        gap: 20px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
-    div.holder.expanded {
-        justify-content: center;
+    div.holder::-webkit-scrollbar {
+        display: none;
     }
     div.holder.overflow {
         overflow-x: auto;
@@ -71,5 +78,9 @@
         color: var(--grey);
 
         text-transform: lowercase;
+    }
+
+    :global(#root.mobile) div.holder.expanded {
+        justify-content: center;
     }
 </style>

@@ -52,6 +52,8 @@
       "people": "People",
       "similar": "Similar",
       "media": "Media",
+      "episodes": "Episodes ({season})",
+      "seasons": "Seasons",
       "expand": "Expand",
       "collapse": "Collapse"
     }
@@ -59,7 +61,12 @@
   "pages": {
     "home": {
       "search": "Search",
-      "recommended": "Recommended"
+      "current": "Current",
+      "recommended": "Recommended",
+      "latest": "Latest",
+      "random": "Watch this",
+      "bestRated": "Best Rated",
+      "genres": "Genres"
     }
   }
 }

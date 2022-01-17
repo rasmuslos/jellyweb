@@ -2,9 +2,10 @@
     export let large: boolean = false
     export let larger: boolean = false
     export let smaller: boolean = false
+    export let full: boolean = false
 </script>
 
-<div class:large class:larger class:smaller>
+<div class:large class:larger class:smaller class:full>
     <slot />
 </div>
 
@@ -24,5 +25,9 @@
     }
     div.larger {
         max-width: 2000px;
+    }
+
+    div.full {
+        width: 100%;
     }
 </style>

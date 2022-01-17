@@ -30,9 +30,9 @@
         overflow: hidden;
         border-radius: 10px;
 
-        background-color: rgba(255, 255, 255, .30);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, .40);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
     :global(#root[theme="dark"]) nav {
         background-color: rgba(0, 0, 0, .30);

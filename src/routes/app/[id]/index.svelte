@@ -2,34 +2,56 @@
     import type {Load} from "@sveltejs/kit";
     import {setFetcher} from "$lib/api/internal";
     import {
-        getEpisodesOfSeason,
+        getEpisodesOfSeason, getEpisodesOfSeasonExtended,
         getExtendedItem,
-        getItemsStarring,
+        getItemsStarring, getSeasons,
         getSimilarItems
     } from "$lib/api/internal/methods/v3";
+    import {DEVELOPMENT} from "$lib/env";
 
-    export const load: Load = async ({fetch, page}) => {
+    export const load: Load = async ({fetch, params}) => {
+        DEVELOPMENT && console.time("preload")
+
         setFetcher(fetch)
-        const id = page.params?.id
+        const id = params.id
         const item = await getExtendedItem(id)
 
         let similar
-        let media
+        let seasons
         let episodes
+        let media
+
+        // When type == season return the first item instead
+        if(item.type === "season") {
+            episodes = await getEpisodesOfSeasonExtended(item.seriesInfo?.show, item.id)
+            const nextUp = episodes?.find(item => item.userData?.position > 0) ?? episodes?.find(item => item.userData?.watched === false) ?? episodes?.[0]
+
+            if(!nextUp) return { status: 404 }
+            return {
+                props: {
+                    item: nextUp,
+                    episodes,
+                }
+            }
+        }
 
         if(item.type === "movie" || item.type === "series") similar = getSimilarItems(item.id)
-        if(item.type === "person") media = getItemsStarring(item.id)
+        if(item.type === "series") seasons = getSeasons(item.id)
         if(item.type === "episode") episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
+        if(item.type === "person") media = getItemsStarring(item.id)
 
         // Resolve all promises simultaneously
-        await Promise.all([similar, media, episodes])
+        await Promise.all([similar, media, episodes, seasons])
+
+        DEVELOPMENT && console.timeEnd("preload")
 
         return {
             props: {
                 item,
                 similar: await similar,
-                media: await media,
+                seasons: await seasons,
                 episodes: await episodes,
+                media: await media,
             }
         }
     }
@@ -41,211 +63,139 @@
     import Hero from "../../../components/hero/Hero.svelte";
     import Button from "../../../components/form/Button.svelte";
     import {_} from "svelte-i18n";
-    import {icons} from "feather-icons";
-    import {convertStreamsToText, getStreamsOfType, getVideoRange} from "$lib/helper";
-    import {getItemPath} from "$lib/helper";
     import Title from "../../../components/hero/Title.svelte";
     import Chapters from "../../../components/util/Chapters.svelte";
     import People from "../../../components/util/People.svelte";
     import ItemList from "../../../components/util/ItemList.svelte";
     import Image from "../../../components/item/Image.svelte";
     import {applyMaxHeight, wrap} from "$lib/helper";
-    import {onDestroy, onMount} from "svelte";
+    import {afterUpdate, beforeUpdate, onDestroy, onMount} from "svelte";
     import {currentItemId} from "$lib/stores";
-
-    type Fields = Array<{
-        title: string,
-        values: Array<{
-            title: string,
-            value: any,
-        }>
-    }>
+    import List from "../../../components/util/List.svelte";
+    import SmallItem from "../../../components/item/SmallItem.svelte";
+    import Meta from "../../../components/item/Meta.svelte";
+    import Fields from "../../../components/item/Fields.svelte";
 
     export let item: ExtendedItem
     export let similar: Item[]
-    export let media: Item[]
+    export let seasons: Item[]
     export let episodes: Item[]
-
-    let fields: Fields
-    let range: string
-
-    $: range = getVideoRange(item)
-
-    if(item.type === "movie" || item.type === "episode") {
-        fields = [
-            {
-                title: "General",
-                values: [
-                    { title: "Released", value: new Date(item.release ?? 0).getFullYear() },
-                    { title: "Rating", value: item.rating },
-                    { title: "Runtime (MS)", value: item.runtime },
-                ],
-            },
-            {
-                title: "Media",
-                values: [
-                    { title: "Container", value: item.mediaSources?.map(({ container }) => container)?.join(", ") },
-                    { title: "Codec", value: getStreamsOfType(item.mediaSources, "video").map(streams => streams.map(({ codec }) => codec).join(", ")).join(", ") },
-                    { title: "Bitrate", value: item.mediaSources?.map(({ bitrate }) => bitrate)?.map(bitrate => `${bitrate} Mbps`).join(", ") },
-                ],
-            },
-            {
-                title: "Streams",
-                values: [
-                    { title: "Count", value: item.mediaSources?.map(({ mediaStreams }) => mediaStreams?.length)?.reduce((a, b) => a + b, 0) },
-                    { title: "Languages", value: convertStreamsToText(item.mediaSources, "audio") },
-                    { title: "Subtitles", value: convertStreamsToText(item.mediaSources, "subtitle") },
-                ],
-            },
-        ]
-    }
+    export let media: Item[]
 
     $: currentItemId.set(item.id)
-
     onMount(() => currentItemId.set(item.id))
     onDestroy(() => $currentItemId === item.id && currentItemId.set(null))
+
+    beforeUpdate(() => DEVELOPMENT && console.time("load"))
+    afterUpdate(() => DEVELOPMENT && console.timeEnd("load"))
 </script>
 
 <svelte:head>
     <title>{item.name}</title>
 </svelte:head>
 
-{#if item.type === "movie" || item.type === "series" || item.type === "season" || item.type === "episode"}
-    <Push />
-    {#if item.type === "movie" || item.type === "series"}
-        <Hero {item} />
-    {:else}
-        <Title {item} />
-    {/if}
-    <ApplyMeasurements smaller>
-        <div class="sub">
-            <div class="actions">
-                <Button large highlight>{$_("items.actions.play")}</Button>
-                <Button large>{$_("items.actions.like")}</Button>
-                <Button large>{$_("items.actions.watched")}</Button>
-            </div>
-            <div>
-                <p class="overview">
-                    {item.overview ?? "?"}
-                </p>
-                {#if item.seriesInfo}
-                    <div class="series">
-                        <a href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
-                        {#if item.seriesInfo.season}
-                            · <a href={getItemPath(item.seriesInfo.season)}>{item.seriesInfo.seasonName}</a>
-                        {/if}
-                    </div>
-                {/if}
-                <div class="meta">
-                    {#if item.ratings?.audience}
-                        <span>{@html icons["star"].toSvg({ "fill": "#F5C518", "stroke": "#F5C518", })} {item.ratings?.audience}</span>
-                    {/if}
-                    {#if item.ratings?.critic}
-                        <span>{item.ratings?.critic}%</span>
-                    {/if}
-                    {#key item}
-                        {#if range}
-                            <span>{range.toUpperCase()}</span>
-                        {/if}
-                    {/key}
-                    {#if item.externalIds?.imdb}
-                        <a href="https://www.imdb.com/title/{item.externalIds?.imdb ?? `nm0000093`}" rel="noopener" target="_blank">
-                            <img class="imdb-logo" src="/assets/images/imdb.png" alt="IMDB" />
-                        </a>
-                    {/if}
-                </div>
-                <div class="genres">
-                    {#if item.genres}
-                        {#each item.genres as {id, name}}
-                            <a href={getItemPath(id)}>{name}</a>
-                        {/each}
-                    {/if}
-                </div>
-            </div>
-        </div>
-    </ApplyMeasurements>
-    <Push />
-    <!--START: SECTIONS-->
-    {#if episodes?.length}
-        <Push smaller />
-        <ApplyMeasurements>
-            <div class="episodes" data-id={item.id}>
-                <ItemList items={episodes} wide title="items.sections.similar" />
-            </div>
-        </ApplyMeasurements>
-    {/if}
-    {#if similar?.length}
-        <Push smaller />
-        <ApplyMeasurements>
-            <ItemList items={similar} title="items.sections.similar" />
-        </ApplyMeasurements>
-    {/if}
-    {#if item.chapters?.length}
-        <Push smaller />
-        <Chapters chapters={item.chapters} />
-    {/if}
-    {#if item.people?.length}
-        <Push smaller />
-        <People people={item.people} />
-    {/if}
-    {#if fields?.length}
-        <Push />
-        <ApplyMeasurements larger>
-            <div class="specs">
-                {#each fields as { title, values }}
-                    <div class="fields">
-                        <h3>{title}</h3>
-                        {#each values as { title, value }}
-                            <div class="field">
-                                <b>{title}</b>
-                                <span>{value}</span>
-                            </div>
-                        {/each}
-                    </div>
-                {/each}
-            </div>
-        </ApplyMeasurements>
-    {/if}
-{:else if item.type === "genre"}
-    <Push />
-    <ApplyMeasurements>
-        <div class="heading">
-            <h1>{item.name}</h1>
-        </div>
-    </ApplyMeasurements>
-{:else if item.type === "person"}
-    <Push />
-    <ApplyMeasurements smaller>
-        <div class="heading">
-            <h1>{item.name}</h1>
-        </div>
-        <div class="person">
-            <div class="image">
-                <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
-            </div>
-            <p>
-                {item.overview}
-            </p>
-        </div>
-    </ApplyMeasurements>
-    {#if media?.length}
-        <ApplyMeasurements>
+<!--
+{#key item}
+    <div transition:blur>
+    -->
+        {#if item.type === "movie" || item.type === "series" || item.type === "episode"}
             <Push />
-            <!--TODO: Replace with lazy loading list-->
-            <ItemList items={media} title="items.sections.media" />
-        </ApplyMeasurements>
-    {/if}
-{/if}
-<Push />
+            {#if item.type === "movie" || item.type === "series"}
+                <Hero {item} />
+            {:else}
+                <Title {item} />
+            {/if}
+            <ApplyMeasurements smaller>
+                <div class="sub">
+                    <div class="actions">
+                        <Button large highlight>{$_("items.actions.play")}</Button>
+                        <Button large>{$_("items.actions.like")}</Button>
+                        <Button large>{$_("items.actions.watched")}</Button>
+                    </div>
+                    <div>
+                        <p class="overview">
+                            {item.overview ?? "?"}
+                        </p>
+                        <Meta {item} />
+                    </div>
+                </div>
+            </ApplyMeasurements>
+            <Push />
+            <!--START: SECTIONS-->
+            {#if seasons?.length}
+                <Push smaller />
+                <ApplyMeasurements>
+                    <List title="items.sections.seasons">
+                        {#each seasons as season}
+                            <SmallItem item={season} />
+                        {/each}
+                    </List>
+                </ApplyMeasurements>
+            {/if}
+            {#if episodes?.length}
+                <Push smaller />
+                <ApplyMeasurements>
+                    <ItemList items={episodes} wide stretch title="items.sections.episodes" values={{ season: item.seriesInfo?.seasonName ?? item.name }} />
+                </ApplyMeasurements>
+            {/if}
+            {#if similar?.length}
+                <Push smaller />
+                <ApplyMeasurements>
+                    <ItemList items={similar} title="items.sections.similar" />
+                </ApplyMeasurements>
+            {/if}
+            {#if item.chapters?.length}
+                <Push smaller />
+                <Chapters chapters={item.chapters} />
+            {/if}
+            {#if item.people?.length}
+                <Push smaller />
+                <People people={item.people} />
+            {/if}
+            {#if item.type === "movie" || item.type === "episode"}
+                <Push />
+                <Fields {item} />
+            {/if}
+        {:else if item.type === "genre"}
+            <Push />
+            <ApplyMeasurements>
+                <div class="heading">
+                    <h1>{item.name}</h1>
+                </div>
+            </ApplyMeasurements>
+        {:else if item.type === "person"}
+            <Push />
+            <ApplyMeasurements smaller>
+                <div class="heading">
+                    <h1>{item.name}</h1>
+                </div>
+                <div class="person">
+                    <div class="image">
+                        <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
+                    </div>
+                    <p>
+                        {item.overview ?? "Actor | Actress | Producer"}
+                    </p>
+                </div>
+            </ApplyMeasurements>
+            {#if media?.length}
+                <ApplyMeasurements>
+                    <Push />
+                    <!--TODO: Replace with lazy loading list-->
+                    <ItemList items={media} title="items.sections.media" />
+                </ApplyMeasurements>
+            {/if}
+        {:else}
+            {item.type}
+            🤔
+        {/if}
+        <Push />
+<!--
+    </div>
+{/key}
+-->
 
 <style>
-    div.hero {
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
-
-        background-color: var(--background-secondary);
-    }
-
     div.sub {
         display: grid;
         grid-template-columns: 300px 1fr;
@@ -257,39 +207,6 @@
     }
     p.overview {
         margin-top: 10px;
-    }
-    div.meta {
-        display: inline-block;
-        color: var(--grey);
-
-        padding-right: 7px;
-        margin-right: 7px;
-        border-right: 1px solid var(--grey);
-    }
-    div.meta :global(svg) {
-        position: relative;
-        top: 1px;
-
-        height: 15px;
-        width: 15px;
-    }
-    div.meta span {
-        margin-right: 4px;
-    }
-    div.series {
-        display: inline-block;
-        color: var(--grey);
-
-        padding-right: 10px;
-        margin-right: 5px;
-        border-right: 1px solid var(--grey);
-    }
-    div.genres {
-        display: inline-block;
-    }
-    div.genres a {
-        margin-right: 6px;
-        color: var(--grey);
     }
 
     div.heading {
@@ -323,57 +240,11 @@
         height: 200px;
 
         margin: 17px 50px 0 0;
-
         overflow: hidden;
-        border-radius: 50%;
-
         align-self: flex-start;
     }
     div.person .image h1 {
         text-align: center;
-    }
-
-    .imdb-logo {
-        position: relative;
-        top: 4px;
-
-        height: 20px;
-        width: 20px;
-    }
-
-    div.specs {
-        padding: 50px;
-        border-radius: 15px;
-
-        color: var(--grey);
-        background-color: var(--background-secondary);
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    div.specs div.fields {
-        flex: 1 0 calc(33% - 30px);
-        margin: 10px 0;
-
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-    div.specs div.fields h3 {
-        color: var(--text);
-        margin: 0 0 7px 0;
-    }
-    div.specs div.fields div.field {
-        flex: 0 0 auto;
-        margin: 5px 0;
-
-        height: fit-content;
-        width: fit-content;
-
-        display: flex;
-        flex-direction: column;
     }
 
     :global(#root.mobile) div.sub {
@@ -394,12 +265,5 @@
     :global(#root.mobile) div.person div.image {
         display: block;
         margin: 0 auto 25px auto;
-    }
-
-    :global(#root.mobile) div.specs {
-        padding: 25px;
-    }
-    :global(#root.mobile) div.specs div.fields {
-        flex: 1 1 300px;
     }
 </style>

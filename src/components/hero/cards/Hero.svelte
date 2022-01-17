@@ -6,25 +6,32 @@
     import Push from "../../../Push.svelte";
     import Input from "../../form/Input.svelte";
     import {_} from "svelte-i18n";
+    import {mobile} from "$lib/stores";
 
     export let items: Item[]
 </script>
 
-<ApplyMeasurements larger>
+<ApplyMeasurements larger full>
     <div class="outer">
         <Push />
         <ApplyMeasurements smaller>
             <div class="wrapper">
                 <div class="inner">
                     {#if items.length}
-                        <Featured item={items[0]} />
-                        <div class="holder shadow-top">
-                            {#if items.length > 2}
-                                {#each [...items].splice(1) as item}
-                                    <FeaturedSmall {item} />
-                                {/each}
-                            {/if}
-                        </div>
+                        {#if $mobile}
+                            {#each items as item}
+                                <Featured {item} />
+                            {/each}
+                        {:else}
+                            <Featured item={items[0]} />
+                            <div class="holder shadow-top">
+                                {#if items.length > 2}
+                                    {#each [...items].splice(1) as item}
+                                        <FeaturedSmall {item} />
+                                    {/each}
+                                {/if}
+                            </div>
+                        {/if}
                     {/if}
                 </div>
                 <Push smaller />
@@ -46,7 +53,7 @@
     div.inner {
         display: grid;
         grid-template-rows: 500px;
-        grid-template-columns: 1000px auto;
+        grid-template-columns: auto 400px;
     }
     div.holder {
         display: flex;
@@ -72,18 +79,24 @@
         width: 700px;
         max-width: 100%;
     }
+    div.input :global(label) {
+        margin: 0;
+    }
     div.input :global(input) {
         border: 3px solid var(--background);
     }
 
-   @media screen and (max-width: 1000px) {
-       div.wrapper {
-           grid-template-rows: 500px 350px;
-           grid-template-columns: 1fr;
-       }
-       div.holder {
-           margin: 20px 0;
-           padding: 0;
-       }
+   :global(#root.mobile) div.inner {
+       display: flex;
+       flex-direction: row;
+       overflow-x: auto;
+
+       gap: 15px;
+
+       width: 100%;
+   }
+    :global(#root.mobile) div.holder {
+       margin: 20px 0;
+       padding: 0;
    }
 </style>

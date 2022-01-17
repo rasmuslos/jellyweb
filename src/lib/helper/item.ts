@@ -29,7 +29,7 @@ export const convertItem = (item: JellyfinItem): Item => {
         id: Id,
         name: Name,
         type: type,
-        overview: Overview ?? "?",
+        overview: Overview,
 
         tags: Tags,
         tagline: Taglines?.[0],
