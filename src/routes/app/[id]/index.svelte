@@ -4,7 +4,7 @@
     import {
         getEpisodesOfSeason, getEpisodesOfSeasonExtended,
         getExtendedItem,
-        getItemsStarring, getSeasons,
+        getItemsStarring, getNextUpItem, getSeasons,
         getSimilarItems
     } from "$lib/api/internal/methods/v3";
     import {DEVELOPMENT} from "$lib/env";
@@ -16,6 +16,7 @@
         const id = params.id
         const item = await getExtendedItem(id)
 
+        let nextUp
         let similar
         let seasons
         let episodes
@@ -36,18 +37,22 @@
         }
 
         if(item.type === "movie" || item.type === "series") similar = getSimilarItems(item.id)
-        if(item.type === "series") seasons = getSeasons(item.id)
+        if(item.type === "series") {
+            seasons = getSeasons(item.id)
+            nextUp = getNextUpItem(item.id)
+        }
         if(item.type === "episode") episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
         if(item.type === "person") media = getItemsStarring(item.id)
 
         // Resolve all promises simultaneously
-        await Promise.all([similar, media, episodes, seasons])
+        await Promise.all([similar, media, episodes, seasons, nextUp])
 
         DEVELOPMENT && console.timeEnd("preload")
 
         return {
             props: {
                 item,
+                nextUp: await nextUp,
                 similar: await similar,
                 seasons: await seasons,
                 episodes: await episodes,
@@ -75,12 +80,16 @@
     import SmallItem from "../../../components/item/SmallItem.svelte";
     import Meta from "../../../components/item/Meta.svelte";
     import Fields from "../../../components/item/Fields.svelte";
+    import {getItemPath} from "$lib/helper";
 
     export let item: ExtendedItem
+    export let nextUp: Item
     export let similar: Item[]
     export let seasons: Item[]
     export let episodes: Item[]
     export let media: Item[]
+
+    let episodesList: HTMLDivElement
 
     $: currentItemId.set(item.id)
     onMount(() => currentItemId.set(item.id))
@@ -88,6 +97,16 @@
 
     beforeUpdate(() => DEVELOPMENT && console.time("load"))
     afterUpdate(() => DEVELOPMENT && console.timeEnd("load"))
+
+    $: {
+        if(episodesList) {
+            const current = episodesList.querySelector(`[data-id="${item.id}"]`)
+            const sibling = current.nextElementSibling
+
+            if(sibling) sibling.scrollIntoView()
+            else if(current) current.scrollIntoView({ inline: "end" })
+        }
+    }
 </script>
 
 <svelte:head>
@@ -104,6 +123,13 @@
                 <Hero {item} />
             {:else}
                 <Title {item} />
+            {/if}
+            {#if nextUp}
+                <ApplyMeasurements smaller>
+                    <a href={getItemPath(nextUp.id)} class="nextUp">
+                        <h4>{$_("items.sections.nextUp", { values: { name: nextUp.name }})} · <span>{nextUp.seriesInfo?.seasonName}</span></h4>
+                    </a>
+                </ApplyMeasurements>
             {/if}
             <ApplyMeasurements smaller>
                 <div class="sub">
@@ -125,7 +151,7 @@
             {#if seasons?.length}
                 <Push smaller />
                 <ApplyMeasurements>
-                    <List title="items.sections.seasons">
+                    <List title="items.sections.seasons" increaseGap>
                         {#each seasons as season}
                             <SmallItem item={season} />
                         {/each}
@@ -134,9 +160,11 @@
             {/if}
             {#if episodes?.length}
                 <Push smaller />
-                <ApplyMeasurements>
-                    <ItemList items={episodes} wide stretch title="items.sections.episodes" values={{ season: item.seriesInfo?.seasonName ?? item.name }} />
-                </ApplyMeasurements>
+                <div bind:this={episodesList}>
+                    <ApplyMeasurements>
+                        <ItemList items={episodes} wide stretch title="items.sections.episodes" values={{ season: item.seriesInfo?.seasonName ?? item.name }} />
+                    </ApplyMeasurements>
+                </div>
             {/if}
             {#if similar?.length}
                 <Push smaller />
@@ -196,6 +224,13 @@
 -->
 
 <style>
+    a.nextUp {
+        text-align: center;
+    }
+    a.nextUp span {
+        color: var(--grey);
+    }
+
     div.sub {
         display: grid;
         grid-template-columns: 300px 1fr;

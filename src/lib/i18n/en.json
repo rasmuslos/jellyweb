@@ -55,12 +55,12 @@
       "episodes": "Episodes ({season})",
       "seasons": "Seasons",
       "expand": "Expand",
-      "collapse": "Collapse"
+      "collapse": "Collapse",
+      "nextUp": "Next up: {name}"
     }
   },
   "pages": {
     "home": {
-      "search": "Search",
       "current": "Current",
       "recommended": "Recommended",
       "latest": "Latest",
@@ -68,5 +68,8 @@
       "bestRated": "Best Rated",
       "genres": "Genres"
     }
+  },
+  "util": {
+    "search": "Search"
   }
 }

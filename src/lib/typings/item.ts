@@ -28,7 +28,7 @@ export type Item = {
         audience?: number,
     },
 }
-export type Type = "movie" | "series" | "season" | "episode" | "person" | "genre"
+export type Type = "movie" | "series" | "season" | "episode" | "person" | "genre" | "boxset"
 export type Image = {
     url: string,
     hash: string,

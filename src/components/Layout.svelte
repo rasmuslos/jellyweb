@@ -1,15 +1,13 @@
 <script lang="ts">
     import { Theme } from '$lib/typings';
     import {VERSION} from "$lib/helper";
-    import "normalize.css"
     import "$lib/i18n"
     import {mobile} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
     import {locale, waitLocale} from "svelte-i18n";
     import {onMount} from "svelte";
-    import {blur} from "svelte/transition"
-    import {page} from "$app/stores";
+    import "normalize.css"
 
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLDivElement
@@ -64,6 +62,10 @@
 </div>
 
 <style>
+    :global(html) {
+        line-height: 1.3;
+    }
+
     :global(body) {
         height: 100vh;
         width: 100vw;

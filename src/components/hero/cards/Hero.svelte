@@ -4,9 +4,8 @@
     import ApplyMeasurements from "../../ApplyMeasurements.svelte";
     import FeaturedSmall from "./FeaturedSmall.svelte";
     import Push from "../../../Push.svelte";
-    import Input from "../../form/Input.svelte";
-    import {_} from "svelte-i18n";
     import {mobile} from "$lib/stores";
+    import Search from "../../util/Search.svelte";
 
     export let items: Item[]
 </script>
@@ -34,12 +33,12 @@
                         {/if}
                     {/if}
                 </div>
-                <Push smaller />
-                <div class="input">
-                    <Input type="text" placeholder={$_("pages.home.search")} large />
-                </div>
+                <Push />
             </div>
         </ApplyMeasurements>
+    </div>
+    <div class="input">
+        <Search />
     </div>
 </ApplyMeasurements>
 
@@ -71,19 +70,15 @@
 
     div.input {
         position: relative;
-        transform: translateY(50%);
+        transform: translateY(-25px);
 
         display: block;
         margin: 0 auto;
 
         width: 700px;
         max-width: 100%;
-    }
-    div.input :global(label) {
-        margin: 0;
-    }
-    div.input :global(input) {
-        border: 3px solid var(--background);
+
+        z-index: 2;
     }
 
    :global(#root.mobile) div.inner {

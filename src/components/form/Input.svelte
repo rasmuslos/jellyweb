@@ -59,5 +59,5 @@
     {#if label}
         <span>{$_(label)}</span>
     {/if}
-    <input {placeholder} {value} {type} {disabled} {required} on:input={handleInput} />
+    <input {placeholder} {value} {type} {disabled} {required} on:input={handleInput} on:keyup on:focus on:blur />
 </label>

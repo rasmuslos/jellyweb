@@ -38,4 +38,8 @@ export const getSimilarItems = async (id: string, session: Session) => (await cr
 export const getItemsStarring = async (id: string, session: Session) => (await createRequest(`Users/${session.id}/Items?personIds=${id}&Recursive=true&EnableTotalRecordCount=false&${fields}&includeItemTypes=Movie,Series`, session)).Items.map(convertItem)
 export const getEpisodesInSeason = async (showId: string, seasonId: string, session: Session) => (await createRequest(`Shows/${showId}/Episodes?SeasonId=${seasonId}&UserId=${session.id}&${fields}`, session)).Items.map(convertItem)
 export const getEpisodesInSeasonExtended = async (showId: string, seasonId: string, session: Session) => (await createRequest(`Shows/${showId}/Episodes?SeasonId=${seasonId}&UserId=${session.id}&${fields},Chapters,People,MediaSources`, session)).Items.map(convertItemExtended)
-export const getSeasons = async (id: string, session: Session) => (await createRequest(`Shows/${id}/Seasons?$UserId=${session.id}&${fields}`, session)).Items.map(convertItem)
+export const getSeasons = async (id: string, session: Session) => (await createRequest(`Shows/${id}/Seasons?UserId=${session.id}&${fields}`, session)).Items.map(convertItem)
+export const getNextUpItem = async (id: string, session: Session) => (await createRequest(`Shows/NextUp?SeriesId=${id}&UserId=${session.id}&${fields}`, session)).Items.map(convertItem)[0]
+
+export const searchItems = async (term: string, session: Session) => (await createRequest(`Users/${session.id}/Items?searchTerm=${term}&${fields}`, session)).Items.map(convertItem)
+export const searchPeople = async (term: string, session: Session) => (await createRequest(`Persons?searchTerm=${term}&${fields}`, session)).Items.map(convertItem)

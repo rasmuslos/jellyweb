@@ -24,7 +24,7 @@
         position: relative;
         height: min(calc(23vw - 20px), 100px);
         flex: min(calc(calc(23vw - 20px) * 3), 300px) 0 0;
-        width: min(calc(calc(23vw - 20px) * 3), 300px);
+        width: min(calc(calc(23vw - 20px) * 3), 30px);
 
         overflow: hidden;
         border-radius: 15px;

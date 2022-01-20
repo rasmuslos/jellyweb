@@ -36,7 +36,7 @@
 </script>
 
 <Hero items={featured} />
-<Push big />
+<Push />
 {#if suggestions?.length}
     <ApplyMeasurements>
         <ItemList title="pages.home.current" items={suggestions} wide />
