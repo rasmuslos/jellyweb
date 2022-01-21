@@ -22,9 +22,9 @@
                     <a>{name}</a>
                 {/each}
             {:else if item.seriesInfo}
-                <a>{item.seriesInfo.showName}</a>
+                <a href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
                 {#if item.seriesInfo.season}
-                    <a>{item.seriesInfo.seasonName}</a>
+                    <a href={getItemPath(item.seriesInfo.season)}>{item.seriesInfo.seasonName}</a>
                 {/if}
             {/if}
         </p>
@@ -88,17 +88,5 @@
         margin: 0 5px 0 0;
 
         color: var(--grey);
-    }
-
-    img {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        object-fit: cover;
-        border-radius: 15px;
-
-        height: 100%;
-        width: 100%;
     }
 </style>

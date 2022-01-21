@@ -4,8 +4,8 @@
 
     export let url: string
     export let alt: string = ""
-    export let selected: boolean = false
     export let progress: number = null
+    export let selected: boolean = false
 
     let showImage = true
 </script>
@@ -92,5 +92,6 @@
 
     img {
         object-fit: cover;
+        object-position: center;
     }
 </style>

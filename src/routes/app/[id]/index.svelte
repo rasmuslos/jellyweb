@@ -20,7 +20,6 @@
         let similar
         let seasons
         let episodes
-        let media
 
         // When type == season return the first item instead
         if(item.type === "season") {
@@ -42,10 +41,9 @@
             nextUp = getNextUpItem(item.id)
         }
         if(item.type === "episode") episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
-        if(item.type === "person") media = getItemsStarring(item.id)
 
         // Resolve all promises simultaneously
-        await Promise.all([similar, media, episodes, seasons, nextUp])
+        await Promise.all([similar, episodes, seasons, nextUp])
 
         DEVELOPMENT && console.timeEnd("preload")
 
@@ -56,7 +54,6 @@
                 similar: await similar,
                 seasons: await seasons,
                 episodes: await episodes,
-                media: await media,
             }
         }
     }
@@ -81,13 +78,14 @@
     import Meta from "../../../components/item/Meta.svelte";
     import Fields from "../../../components/item/Fields.svelte";
     import {getItemPath} from "$lib/helper";
+    import LazyList from "../../../components/util/LazyList.svelte";
+    import Heading from "../../../components/hero/Heading.svelte";
 
     export let item: ExtendedItem
     export let nextUp: Item
     export let similar: Item[]
     export let seasons: Item[]
     export let episodes: Item[]
-    export let media: Item[]
 
     let episodesList: HTMLDivElement
 
@@ -113,115 +111,100 @@
     <title>{item.name}</title>
 </svelte:head>
 
-<!--
-{#key item}
-    <div transition:blur>
-    -->
-        {#if item.type === "movie" || item.type === "series" || item.type === "episode"}
-            <Push />
-            {#if item.type === "movie" || item.type === "series"}
-                <Hero {item} />
-            {:else}
-                <Title {item} />
-            {/if}
-            {#if nextUp}
-                <ApplyMeasurements smaller>
-                    <a href={getItemPath(nextUp.id)} class="nextUp">
-                        <h4>{$_("items.sections.nextUp", { values: { name: nextUp.name }})} · <span>{nextUp.seriesInfo?.seasonName}</span></h4>
-                    </a>
-                </ApplyMeasurements>
-            {/if}
-            <ApplyMeasurements smaller>
-                <div class="sub">
-                    <div class="actions">
-                        <Button large highlight>{$_("items.actions.play")}</Button>
-                        <Button large>{$_("items.actions.like")}</Button>
-                        <Button large>{$_("items.actions.watched")}</Button>
-                    </div>
-                    <div>
-                        <p class="overview">
-                            {item.overview ?? "?"}
-                        </p>
-                        <Meta {item} />
-                    </div>
-                </div>
-            </ApplyMeasurements>
-            <Push />
-            <!--START: SECTIONS-->
-            {#if seasons?.length}
-                <Push smaller />
-                <ApplyMeasurements>
-                    <List title="items.sections.seasons" increaseGap>
-                        {#each seasons as season}
-                            <SmallItem item={season} />
-                        {/each}
-                    </List>
-                </ApplyMeasurements>
-            {/if}
-            {#if episodes?.length}
-                <Push smaller />
-                <div bind:this={episodesList}>
-                    <ApplyMeasurements>
-                        <ItemList items={episodes} wide stretch title="items.sections.episodes" values={{ season: item.seriesInfo?.seasonName ?? item.name }} />
-                    </ApplyMeasurements>
-                </div>
-            {/if}
-            {#if similar?.length}
-                <Push smaller />
-                <ApplyMeasurements>
-                    <ItemList items={similar} title="items.sections.similar" />
-                </ApplyMeasurements>
-            {/if}
-            {#if item.chapters?.length}
-                <Push smaller />
-                <Chapters chapters={item.chapters} />
-            {/if}
-            {#if item.people?.length}
-                <Push smaller />
-                <People people={item.people} />
-            {/if}
-            {#if item.type === "movie" || item.type === "episode"}
-                <Push />
-                <Fields {item} />
-            {/if}
-        {:else if item.type === "genre"}
-            <Push />
+{#if item.type === "movie" || item.type === "series" || item.type === "episode"}
+    <Push />
+    {#if item.type === "movie" || item.type === "series"}
+        <Hero {item} />
+    {:else}
+        <Title {item} />
+    {/if}
+    {#if nextUp}
+        <ApplyMeasurements smaller>
+            <a href={getItemPath(nextUp.id)} class="nextUp">
+                <h4>{$_("items.sections.nextUp", { values: { name: nextUp.name }})} · <span>{nextUp.seriesInfo?.seasonName}</span></h4>
+            </a>
+        </ApplyMeasurements>
+    {/if}
+    <ApplyMeasurements smaller>
+        <div class="sub">
+            <div class="actions">
+                <Button large highlight>{$_("items.actions.play")}</Button>
+                <Button large>{$_("items.actions.like")}</Button>
+                <Button large>{$_("items.actions.watched")}</Button>
+            </div>
+            <div>
+                <p class="overview">
+                    {item.overview ?? "?"}
+                </p>
+                <Meta {item} />
+            </div>
+        </div>
+    </ApplyMeasurements>
+    <Push />
+    <!--START: SECTIONS-->
+    {#if seasons?.length}
+        <Push smaller />
+        <ApplyMeasurements>
+            <List title="items.sections.seasons" increaseGap>
+                {#each seasons as season}
+                    <SmallItem item={season} />
+                {/each}
+            </List>
+        </ApplyMeasurements>
+    {/if}
+    {#if episodes?.length}
+        <Push smaller />
+        <div bind:this={episodesList}>
             <ApplyMeasurements>
-                <div class="heading">
-                    <h1>{item.name}</h1>
-                </div>
+                <ItemList items={episodes} wide stretch title="items.sections.episodes" values={{ season: item.seriesInfo?.seasonName ?? item.name }} />
             </ApplyMeasurements>
-        {:else if item.type === "person"}
-            <Push />
-            <ApplyMeasurements smaller>
-                <div class="heading">
-                    <h1>{item.name}</h1>
-                </div>
-                <div class="person">
-                    <div class="image">
-                        <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
-                    </div>
-                    <p>
-                        {item.overview ?? "Actor | Actress | Producer"}
-                    </p>
-                </div>
-            </ApplyMeasurements>
-            {#if media?.length}
-                <ApplyMeasurements>
-                    <Push />
-                    <!--TODO: Replace with lazy loading list-->
-                    <ItemList items={media} title="items.sections.media" />
-                </ApplyMeasurements>
-            {/if}
-        {:else}
-            {item.type}
-            🤔
-        {/if}
+        </div>
+    {/if}
+    {#if similar?.length}
+        <Push smaller />
+        <ApplyMeasurements>
+            <ItemList items={similar} title="items.sections.similar" />
+        </ApplyMeasurements>
+    {/if}
+    {#if item.chapters?.length}
+        <Push smaller />
+        <Chapters chapters={item.chapters} />
+    {/if}
+    {#if item.people?.length}
+        <Push smaller />
+        <People people={item.people} />
+    {/if}
+    {#if item.type === "movie" || item.type === "episode"}
         <Push />
-<!--
-    </div>
-{/key}
--->
+        <Fields {item} />
+    {/if}
+{:else if item.type === "genre"}
+    <Push />
+    <Heading>{item.name}</Heading>
+    <Push />
+    <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&GenreIds={item.id}" />
+{:else if item.type === "person"}
+    <Push />
+    <ApplyMeasurements smaller>
+        <Heading>{item.name}</Heading>
+        <div class="person">
+            <div class="image">
+                <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
+            </div>
+            <p>
+                {item.overview ?? "Actor | Actress | Producer"}
+            </p>
+        </div>
+    </ApplyMeasurements>
+    <Push />
+    <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&PersonIds={item.id}" />
+{:else if item.type === "boxset"}
+    <Title {item} />
+{:else}
+    {item.type}
+    🤔
+{/if}
+<Push />
 
 <style>
     a.nextUp {
@@ -242,23 +225,6 @@
     }
     p.overview {
         margin-top: 10px;
-    }
-
-    div.heading {
-        width: 100%;
-    }
-    div.heading h1 {
-        font-size: 60px;
-        text-align: center;
-
-        background-clip: text;
-        -webkit-background-clip: text;
-
-        color: transparent;
-        background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-
-        margin: 0 auto;
-        width: fit-content;
     }
 
     div.person {

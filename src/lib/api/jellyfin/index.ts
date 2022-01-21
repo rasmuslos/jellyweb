@@ -8,6 +8,8 @@ export type RequestOptions = {
 export const createRequest = async (endpoint: string, session: Session, requestOptions: RequestOptions = {}) => {
     if(!session) return Promise.reject({ status: 403, error: "provide session" })
 
+    console.time(endpoint)
+
     const { method, body, parse } = Object.assign({
         method: "GET",
         body: null,
@@ -30,7 +32,9 @@ export const createRequest = async (endpoint: string, session: Session, requestO
         },
     })
 
-    // console.log(await res.clone().text())
+    console.timeEnd(endpoint)
+
+    // console.log("text: ", await res.clone().text())
 
     if(res.status == 204 || !parse) return
     if(res.status != 200) {

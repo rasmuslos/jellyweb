@@ -7,12 +7,12 @@
     <div class="more">
         <OverlayItem icon="search" title="search" />
         <OverlayItem icon="user" title="account" />
-        <OverlayItem icon="settings" title="settings" />
+        <OverlayItem icon="settings" title="settings" href="/app/settings" />
     </div>
     <div class="main">
         <OverlayItem icon="home" title="home" href="/app" />
-        <OverlayItem icon="film" title="movies" />
-        <OverlayItem icon="tv" title="series" />
+        <OverlayItem icon="film" title="movies" href="/app/library/movies" />
+        <OverlayItem icon="tv" title="series" href="/app/library/series" />
         <OverlayItem icon="more-horizontal" title="more" on:click={() => navigationExpanded.update(expanded => !expanded)} active={$navigationExpanded} />
     </div>
 </nav>

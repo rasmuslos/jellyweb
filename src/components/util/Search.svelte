@@ -89,7 +89,7 @@
     }
 
     .error {
-        color: red;
+        color: var(--red);
         text-align: center;
 
         margin: 0;

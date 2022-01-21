@@ -9,10 +9,10 @@
     <SidebarItem dimmed icon="search" title="search_tip" />
     <div class="space"></div>
     <SidebarItem icon="home" title="home" href="/app" />
-    <SidebarItem icon="film" title="movies" />
-    <SidebarItem icon="tv" title="series" />
+    <SidebarItem icon="film" title="movies" href="/app/library/movies" />
+    <SidebarItem icon="tv" title="series" href="/app/library/series" />
     <div class="push"></div>
-    <SidebarItem icon="settings" title="settings" dimmed />
+    <SidebarItem icon="settings" title="settings" dimmed href="/app/settings"  />
     <SidebarItem icon="user" title="account" dimmed />
 </nav>
 

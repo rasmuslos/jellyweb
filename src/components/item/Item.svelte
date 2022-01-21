@@ -5,6 +5,7 @@
     import {getItemPath} from "$lib/helper";
     import {currentItemId} from "$lib/stores";
     import {getPlayedPercentage} from "$lib/helper";
+    import {goto} from "$app/navigation";
 
     export let item: Item
     export let wide: boolean = false
@@ -18,7 +19,7 @@
     <span>
         {item.name}
         {#if wide && item.seriesInfo}
-            <a>{item.seriesInfo?.showName}</a>
+            <a on:click|stopPropagation|preventDefault={() => goto(getItemPath(item.seriesInfo.show))} href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
         {/if}
     </span>
 

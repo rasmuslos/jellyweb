@@ -70,6 +70,10 @@
     }
   },
   "util": {
-    "search": "Search"
+    "search": "Search",
+    "lazy": {
+      "empty": "No results...",
+      "loading": "loading..."
+    }
   }
 }

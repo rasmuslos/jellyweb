@@ -1,7 +1,7 @@
 import type {RequestHandler} from "@sveltejs/kit";
 import type {Locals} from "$lib/typings";
 import {createApiError, createApiSuccess} from "$lib/helper";
-import {searchItems, searchPeople} from "$lib/api/jellyfin/methods/v1";
+import {queryServer} from "$lib/api/jellyfin/methods/v1";
 
 export const get: RequestHandler<Locals, {}> = async ({ locals, url }) => {
     const term = url.searchParams.get("term")
@@ -9,11 +9,9 @@ export const get: RequestHandler<Locals, {}> = async ({ locals, url }) => {
 
     const session = locals.session.data
     try {
-        const [items, people] = await Promise.all([searchItems(term, session), searchPeople(term, session)])
-        const results = [].concat(items).concat(people)
-
+        const results = await queryServer(term, session)
         return createApiSuccess(results)
     } catch (error) {
-        return createApiError(500, "unable to search")
+        return createApiError(500, "unable to query")
     }
 }

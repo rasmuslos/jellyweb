@@ -5,6 +5,8 @@
     import {isLoggedIn} from "$lib/helper";
 
     export const load: Load = async ({fetch, session}) => {
+        console.time("preload_home")
+
         if(!isLoggedIn(session)) return {
             status: 302,
             redirect: "/auth/login"
@@ -13,6 +15,7 @@
         setFetcher(fetch)
         const items = await getHomeItems()
 
+        console.timeEnd("preload_home")
         return {
             props: {
                 ...items,

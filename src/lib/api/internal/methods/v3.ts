@@ -20,4 +20,5 @@ export const getEpisodesOfSeasonExtended = (showId: string, seasonId: string) =>
 export const getSeasons = (id: string) => requestResource<Item[]>(`items/${id}/seasons`)
 export const getNextUpItem = (id: string) => requestResource<Item>(`items/${id}/nextUp`)
 
-export const searchItems = (term: string) => requestResource<Item[]>(`items/search?term=${term}`)
+export const searchItems = (term: string) => requestResource<Item[]>(`items/search?term=${encodeURIComponent(term)}`)
+export const queryServer = (term: string) => requestResource<Item[]>(`items/query?term=${encodeURIComponent(term)}`)

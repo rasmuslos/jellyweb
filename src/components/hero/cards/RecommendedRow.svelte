@@ -8,7 +8,7 @@
 
 <div class="wrapper">
     <h4>{$_(recommendation.reason, { values: { title: recommendation.title }})}</h4>
-    <ItemList items={recommendation.items} overflow={false} hideExpand />
+    <ItemList items={recommendation.items} overflow={false} />
 </div>
 
 <style>

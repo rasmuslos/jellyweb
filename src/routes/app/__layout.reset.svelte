@@ -17,9 +17,9 @@
 </script>
 <script>
     import Layout from "../../components/Layout.svelte";
-    import {Theme} from "$lib/typings";
+    import {theme} from "$lib/stores";
 </script>
 
-<Layout showNavigation theme={Theme.LIGHT}>
+<Layout showNavigation theme={$theme}>
     <slot />
 </Layout>

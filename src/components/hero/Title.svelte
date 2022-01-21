@@ -10,9 +10,13 @@
 
 <ApplyMeasurements>
     <div class="wrapper">
-        <a href={getItemPath(item.seriesInfo?.show)}>
-            <Image url={wrap(item.seriesInfo?.primaryImage?.url)} alt={item?.seriesInfo?.showName} />
-        </a>
+        {#if item.seriesInfo}
+            <a href={getItemPath(item.seriesInfo.show)}>
+                <Image url={wrap(item.seriesInfo.primaryImage?.url)} alt={item?.seriesInfo.showName} />
+            </a>
+        {:else}
+            <Image url={wrap(item.images?.primary.url)} alt={item.name} />
+        {/if}
         <div class="holder">
             <h1>{item.name}</h1>
         </div>

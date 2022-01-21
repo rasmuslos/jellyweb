@@ -4,19 +4,20 @@
 
     export let values: any = {}
     export let title: string = null
+    export let center: boolean = false
     export let overflow: boolean = true
     export let increaseGap: boolean = false
 
-    export let hideExpand: boolean = false
-    let expanded: boolean = false
+    export let expanded: boolean = false
+    export let showExpand: boolean = false
 
-    const showHeading: boolean = !!(!hideExpand || title)
+    const showHeading: boolean = !!(showExpand || title)
 
     let holder: HTMLDivElement
     const isOverflowing = () => holder.scrollWidth > holder.clientWidth
 
     onMount(() => {
-        if(!hideExpand) hideExpand = !isOverflowing()
+        if(showExpand) showExpand = isOverflowing()
     })
 </script>
 
@@ -28,12 +29,12 @@
                     {$_(title, { values })}
                 </h2>
             {/if}
-            {#if !hideExpand}
+            {#if showExpand}
                 <span on:click={() => expanded = !expanded}>{$_(`items.sections.${expanded ? "collapse" : "expand"}`)}</span>
             {/if}
         </div>
     {/if}
-    <div class:overflow class:expanded class:increaseGap class="holder" bind:this={holder}>
+    <div class:overflow class:center class:expanded class:increaseGap class="holder" bind:this={holder}>
         <slot />
     </div>
 </div>
@@ -84,7 +85,7 @@
         text-transform: lowercase;
     }
 
-    :global(#root.mobile) div.holder.expanded {
+    :global(#root.mobile) div.holder.expanded, div.holder.center {
         justify-content: center;
     }
 </style>

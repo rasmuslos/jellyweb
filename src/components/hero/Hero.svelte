@@ -3,12 +3,32 @@
     import {applyMaxHeight, wrap} from "$lib/helper";
     import type {Item} from "$lib/typings";
     import Image from "../item/Image.svelte";
+    import {browser} from "$app/env";
 
     export let item: Item
+
+    let root: HTMLDivElement
+    let holder: HTMLDivElement
+
+    const onScroll = () => {
+        // Ensure that the scale factor is between 1 & 2
+        if(holder && root && holder.querySelector("img")) window.requestAnimationFrame(() => holder.querySelector("img").style.transform = `scale(${Math.max(1, Math.min(2, root?.scrollTop * 0.009 ?? 1))})`)
+    }
+
+    $: {
+        if(browser) {
+            root = document.querySelector("#root main")
+
+            if(root) {
+                root.removeEventListener("scroll", onScroll)
+                root.addEventListener("scroll", onScroll)
+            }
+        }
+    }
 </script>
 
 <ApplyMeasurements>
-    <div class="hero">
+    <div class="hero" bind:this={holder}>
         <Image url={wrap(applyMaxHeight(item.images?.backdrop?.url, 1200))} />
         <div class="overlay">
             <h1>{item.name}</h1>
