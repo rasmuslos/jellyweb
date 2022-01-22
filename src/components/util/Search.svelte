@@ -7,6 +7,8 @@
     import {searchItems} from "$lib/api/internal/methods/v3";
     import {getItemPath} from "$lib/helper";
 
+    export let overlay: boolean = false
+
     let error
     let hasResults
     let items: Item[] = []
@@ -18,11 +20,11 @@
     $: hasResults = items.length > 0
 
     const emptyResults = () => {
-        // setTimeout(() => items = [], 500)
+        if(overlay) setTimeout(() => items = [], 500)
     }
     const fillItems = () => {
         clearTimeout(searchTimeout)
-        searchTimeout = setTimeout(performSearch, 500)
+        searchTimeout = setTimeout(performSearch, 250)
     }
     const performSearch = () => {
         clearTimeout(hideTimeout)
@@ -42,7 +44,7 @@
         <p class="error">{error}</p>
     {/if}
     {#if hasResults}
-        <div class="results">
+        <div class="results" class:overlay>
             {#each items as item}
                 <a class="item" href={getItemPath(item.id)}>
                     {@html icons[getIcon(item)].toSvg()}
@@ -63,15 +65,12 @@
     }
 
     .results {
-        position: absolute;
-        width: calc(100% - 6px);
-
         display: flex;
         flex-direction: column;
 
         padding-bottom: 7px;
 
-        background-color: #FFFFFF80;
+        background-color: rgba(var(--background-secondary-rgb), .8);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
 
@@ -83,9 +82,13 @@
         height: 10px;
         width: 100%;
 
-        background-image: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF80 100%);
+        background-image: linear-gradient(180deg, var(--background-secondary) 0%, rgba(var(--background-secondary-rgb), .8) 100%);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+    }
+    .results.overlay {
+        position: absolute;
+        width: calc(100% - 6px);
     }
 
     .error {

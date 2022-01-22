@@ -42,6 +42,6 @@ export const getSeasons = async (id: string, session: Session) => (await createR
 export const getNextUpItem = async (id: string, session: Session) => (await createRequest(`Shows/NextUp?SeriesId=${id}&UserId=${session.id}&${fields}`, session)).Items.map(convertItem)[0]
 
 export const searchItems = async (term: string, session: Session) => (await createRequest(`Users/${session.id}/Items?searchTerm=${term}&${fields}&Limit=14&includeItemTypes=Boxset,Movie,Series,Season,Episode,Person`, session)).Items.map(convertItem)
-export const searchPeople = async (term: string, session: Session) => (await createRequest(`Persons?searchTerm=${term}&${fields}`, session)).Items.map(convertItem)
+export const searchPeople = async (term: string, session: Session) => (await createRequest(`Persons?searchTerm=${term}&${fields}&Limit=7`, session)).Items.map(convertItem)
 
 export const queryServer = async (term: string, session: Session) => (await createRequest(`Users/${session.id}/Items?${term}&${fields}&userId=${session.id}`, session)).Items.map(convertItem)

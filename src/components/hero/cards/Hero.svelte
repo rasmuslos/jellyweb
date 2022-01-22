@@ -37,9 +37,11 @@
             </div>
         </ApplyMeasurements>
     </div>
-    <div class="input">
-        <Search />
-    </div>
+    {#if !$mobile}
+        <div class="input">
+            <Search overlay />
+        </div>
+    {/if}
 </ApplyMeasurements>
 
 <style>

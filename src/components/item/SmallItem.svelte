@@ -16,7 +16,7 @@
         <Image url={wrap(applyHeight(item.images?.primary?.url, 500))}/>
         <div class="blur"></div>
     {/if}
-    <h1>{item.name}</h1>
+    <h3>{item.name}</h3>
 </a>
 
 <style>
@@ -42,7 +42,7 @@
         filter: blur(20px);
         background-color: #00000070;
     }
-    h1 {
+    h3 {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);

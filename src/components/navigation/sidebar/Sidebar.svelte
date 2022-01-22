@@ -6,7 +6,7 @@
 <nav class:expanded="{$navigationExpanded}">
     <SidebarItem dimmed noAnimation icon="align-left" title="collapse" flipped={$navigationExpanded} on:click={() => navigationExpanded.update(expanded => !expanded)} />
     <div class="space"></div>
-    <SidebarItem dimmed icon="search" title="search_tip" />
+    <SidebarItem dimmed icon="search" title="search_tip" href="/app/library/search" />
     <div class="space"></div>
     <SidebarItem icon="home" title="home" href="/app" />
     <SidebarItem icon="film" title="movies" href="/app/library/movies" />

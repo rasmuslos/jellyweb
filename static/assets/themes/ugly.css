@@ -7,6 +7,9 @@
 
     --background: pink;
     --background-secondary: deeppink;
+
+    --background-rgb: 255, 192, 203;
+    --background-secondary-rgb: 255, 20, 147;
 }
 
 * {
