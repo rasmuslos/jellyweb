@@ -56,7 +56,8 @@
       "seasons": "Seasons",
       "expand": "Expand",
       "collapse": "Collapse",
-      "nextUp": "Next up: {name}"
+      "nextUp": "Next up: {name}",
+      "items": "Items"
     }
   },
   "pages": {

@@ -12,7 +12,7 @@
 
     const onScroll = () => {
         // Ensure that the scale factor is between 1 & 2
-        if(holder && root && holder.querySelector("img")) window.requestAnimationFrame(() => holder.querySelector("img").style.transform = `scale(${Math.max(1, Math.min(2, root?.scrollTop * 0.009 ?? 1))})`)
+        if(holder && root && holder.querySelector("img")) window.requestAnimationFrame(() => holder.querySelector("img").style.transform = `scale(${Math.max(1, Math.min(2, root?.scrollTop * 0.009 ?? 1)).toFixed(3)})`)
     }
 
     $: {

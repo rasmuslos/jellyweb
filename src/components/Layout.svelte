@@ -20,7 +20,6 @@
     waitLocale()
 
     onMount(() => {
-        /*
         history.pushState = new Proxy(history.pushState, {
             apply(target, thisArg, argumentsList) {
                 Reflect.apply(target, thisArg, argumentsList)
@@ -30,7 +29,6 @@
                 })
             }
         })
-         */
     })
 </script>
 

@@ -8,8 +8,11 @@
     import Loading from "./Loading.svelte";
     import {DEVELOPMENT} from "$lib/env";
 
-    export let query: string = ""
     let term = ""
+    export let query: string = ""
+    export let title: string = null
+    export let size: "normal" | "large" = "large"
+    export let align: "left" | "center" = "center"
 
     let items = []
     let error: string = null
@@ -20,7 +23,7 @@
     let observer: IntersectionObserver
     let entities: IntersectionObserverEntry[]
 
-    $: term = `${query}${query.includes("?") ? "&" : "?"}Limit=24&StartIndex=${items.length}`
+    $: term = `${query}&Limit=24&StartIndex=${items.length}`
 
     const handleIntersect = (received: IntersectionObserverEntry[]) => {
         entities = received
@@ -47,19 +50,22 @@
     }
 
     onMount(() => {
-        observer = new IntersectionObserver(handleIntersect, { rootMargin: "50px 0 0 0" })
+        observer = new IntersectionObserver(handleIntersect, { rootMargin: "50px" })
         observer.observe(loader)
     })
     onDestroy(() => observer && observer.disconnect())
 </script>
 
-<ApplyMeasurements larger>
+<ApplyMeasurements larger={size === "large"}>
+    {#if title}
+        <h2>{$_(title)}</h2>
+    {/if}
     {#if error}
         <p class="error">{error}</p>
     {:else if end && items.length === 0}
         <p class="error">{$_("util.lazy.empty")}</p>
     {:else}
-        <List expanded center>
+        <List expanded center={align === "center"}>
             {#each items as item}
                 <Item {item} />
             {/each}

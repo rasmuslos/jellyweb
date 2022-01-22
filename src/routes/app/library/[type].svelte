@@ -1,23 +1,26 @@
 <script lang="ts">
     import LazyList from "../../../components/util/LazyList.svelte";
-    import {page, session} from "$app/stores";
     import Push from "../../../Push.svelte";
     import Heading from "../../../components/hero/Heading.svelte";
+    import {page} from "$app/stores";
+    import {onDestroy} from "svelte";
 
-    const type: "MOVIES" | "SERIES" = $page.params?.type?.toUpperCase() as any ?? "MOVIES"
+    let query: string = "includeItemTypes=Movie&sortBy=SortName&sortOrder=Ascending"
+    let type: "MOVIES" | "SERIES"
 
-    let query = ""
+    let unsubscribe = page.subscribe(({ params }) => {
+        type = params.type?.toUpperCase() as any
 
-    $: {
         switch(type) {
             case "MOVIES":
-                query = `Users/${$session.data.id}/Items?includeItemTypes=Movie&sortBy=SortName&sortOrder=Ascending`
+                query = "includeItemTypes=Movie&sortBy=SortName&sortOrder=Ascending"
                 break
             case "SERIES":
-                query = `Users/${$session.data.id}/Items?includeItemTypes=Series&sortBy=SortName&sortOrder=Ascending`
+                query = "includeItemTypes=Series&sortBy=SortName&sortOrder=Ascending"
                 break
         }
-    }
+    })
+    onDestroy(() => unsubscribe && unsubscribe())
 </script>
 
 <Push />

@@ -4,7 +4,7 @@
     import {
         getEpisodesOfSeason, getEpisodesOfSeasonExtended,
         getExtendedItem,
-        getItemsStarring, getNextUpItem, getSeasons,
+        getNextUpItem, getSeasons,
         getSimilarItems
     } from "$lib/api/internal/methods/v3";
     import {DEVELOPMENT} from "$lib/env";
@@ -37,10 +37,13 @@
 
         if(item.type === "movie" || item.type === "series") similar = getSimilarItems(item.id)
         if(item.type === "series") {
-            seasons = getSeasons(item.id)
             nextUp = getNextUpItem(item.id)
+            seasons = getSeasons(item.id)
         }
-        if(item.type === "episode") episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
+        if(item.type === "episode") {
+            episodes = getEpisodesOfSeason(item.seriesInfo?.show, item.seriesInfo?.season)
+            // seasons = getSeasons(item.seriesInfo?.show)
+        }
 
         // Resolve all promises simultaneously
         await Promise.all([similar, episodes, seasons, nextUp])
@@ -97,14 +100,14 @@
     afterUpdate(() => DEVELOPMENT && console.timeEnd("load"))
 
     $: {
-        if(episodesList) {
-            const current = episodesList.querySelector(`[data-id="${item.id}"]`)
-            const sibling = current.nextElementSibling
+        const current = episodesList?.querySelector(`[data-id="${item.id}"]`)
+        const sibling = current?.nextElementSibling
 
-            if(sibling) sibling.scrollIntoView()
-            else if(current) current.scrollIntoView({ inline: "end" })
-        }
+        if(sibling) sibling.scrollIntoView()
+        else if(current) current.scrollIntoView({ inline: "end" })
     }
+
+    console.log(item)
 </script>
 
 <svelte:head>
@@ -197,12 +200,14 @@
         </div>
     </ApplyMeasurements>
     <Push />
-    <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&PersonIds={item.id}" />
+    <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&PersonIds={item.id}" align="left" title="items.sections.media" size="normal" />
 {:else if item.type === "boxset"}
-    <Title {item} />
+    <Push />
+    <Hero {item} />
+    <Push />
+    <LazyList query="Items?SortOrder=Ascending&SortBy=Release&IncludeItemTypes=Movie&ParentId={item.id}" align="left" title="items.sections.items" size="normal" />
 {:else}
-    {item.type}
-    🤔
+    🤔 {item.type}
 {/if}
 <Push />
 
