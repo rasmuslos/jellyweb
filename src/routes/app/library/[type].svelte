@@ -5,8 +5,8 @@
     import {page} from "$app/stores";
     import {onDestroy} from "svelte";
 
-    let query: string = "includeItemTypes=Movie&sortBy=SortName&sortOrder=Ascending"
-    let type: "MOVIES" | "SERIES"
+    let query: string
+    let type: "MOVIES" | "SERIES" | "COLLECTIONS"
 
     let unsubscribe = page.subscribe(({ params }) => {
         type = params.type?.toUpperCase() as any
@@ -17,6 +17,9 @@
                 break
             case "SERIES":
                 query = "includeItemTypes=Series&sortBy=SortName&sortOrder=Ascending"
+                break
+            case "COLLECTIONS":
+                query = "includeItemTypes=Boxset&sortBy=SortName&sortOrder=Ascending"
                 break
         }
     })

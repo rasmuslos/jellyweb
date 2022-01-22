@@ -8,12 +8,8 @@ export const get: RequestHandler<Locals, {}> = async ({ locals, url }) => {
     if(!term) return createApiError(400, "provide search term")
 
     const session = locals.session.data
-    try {
-        const [items, people] = await Promise.all([searchItems(term, session), searchPeople(term, session)])
-        const results = [].concat(items).concat(people)
+    const [items, people] = await Promise.all([searchItems(term, session), searchPeople(term, session)])
+    const results = [].concat(items).concat(people)
 
-        return createApiSuccess(results)
-    } catch (error) {
-        return createApiError(500, "unable to search")
-    }
+    return createApiSuccess(results)
 }

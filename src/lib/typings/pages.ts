@@ -5,7 +5,5 @@ export type PageIndex = {
     suggestions: Item[],
     recommendations: Recommendation[],
     latest: Item[],
-    random: Item[],
     genres: Item[],
-    bestRated: Item[],
 }

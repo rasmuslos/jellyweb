@@ -34,8 +34,10 @@
     import {_} from "svelte-i18n";
     import List from "../../components/util/List.svelte";
     import SmallItem from "../../components/item/SmallItem.svelte";
+    import {getBestRatedMovies, getRandomItems} from "$lib/api/internal/methods/v3";
+    import Loading from "../../components/util/Loading.svelte";
 
-    export let featured: Item[], suggestions: Item[], recommendations: Recommendation[], latest: Item[], random: Item[], genres: Item[], bestRated: Item[]
+    export let featured: Item[], suggestions: Item[], recommendations: Recommendation[], latest: Item[], genres: Item[]
 </script>
 
 <Hero items={featured} />
@@ -60,22 +62,44 @@
     <Recommended items={recommendations} />
     <Push />
 {/if}
-{#if bestRated?.length}
-    <ApplyMeasurements>
-        <ItemList title="pages.home.bestRated" items={bestRated} />
-    </ApplyMeasurements>
-    <Push />
-{/if}
-{#if random?.length}
-    <ApplyMeasurements>
-        <h2>{$_("pages.home.random")}</h2>
-        <Featured item={random[0]} />
-    </ApplyMeasurements>
-    <Push />
-{/if}
+<!--moved to lazy loading because this can take up to three seconds-->
+{#await getBestRatedMovies()}
+    <Loading />
+{:then bestRated}
+    {#if bestRated?.length}
+        <ApplyMeasurements>
+            <ItemList title="pages.home.bestRated" items={bestRated} />
+        </ApplyMeasurements>
+    {/if}
+{:catch error}
+    <p>{error}</p>
+{/await}
+<Push />
+
+{#await getRandomItems()}
+    <Loading />
+{:then random}
+    {#if random?.length}
+        <ApplyMeasurements>
+            <h2>{$_("pages.home.random")}</h2>
+            <Featured item={random[0]} />
+        </ApplyMeasurements>
+    {/if}
+{:catch error}
+    <p>{error}</p>
+{/await}
+<Push />
+
 {#if latest?.length}
     <ApplyMeasurements>
         <ItemList title="pages.home.latest" items={latest} />
     </ApplyMeasurements>
     <Push />
 {/if}
+
+<style>
+    p {
+        text-align: center;
+        color: var(--red);
+    }
+</style>

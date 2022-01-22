@@ -11,6 +11,8 @@ export const performLogin = (server: string, username: string, password: string)
 })
 
 export const getHomeItems = () => requestResource<PageIndex>("pages/home")
+export const getBestRatedMovies = () => requestResource<Item[]>("items/bestRated")
+export const getRandomItems = () => requestResource<Item[]>("items/random")
 
 export const getExtendedItem = (id: string) => requestResource<ExtendedItem>(`items/${id}/extended`)
 export const getSimilarItems = (id: string) => requestResource<Item[]>(`items/${id}/similar`)
