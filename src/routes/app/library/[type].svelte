@@ -30,6 +30,6 @@
 <Heading>{type}</Heading>
 <Push />
 {#key query}
-    <LazyList {query} />
+    <LazyList {query} limit="24" />
 {/key}
 <Push />

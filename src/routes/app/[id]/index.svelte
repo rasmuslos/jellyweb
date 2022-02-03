@@ -7,11 +7,8 @@
         getNextUpItem, getSeasons,
         getSimilarItems
     } from "$lib/api/internal/methods/v3";
-    import {DEVELOPMENT} from "$lib/env";
 
     export const load: Load = async ({fetch, params}) => {
-        DEVELOPMENT && console.time("preload")
-
         setFetcher(fetch)
         const id = params.id
         const item = await getExtendedItem(id)
@@ -48,8 +45,6 @@
         // Resolve all promises simultaneously
         await Promise.all([similar, episodes, seasons, nextUp])
 
-        DEVELOPMENT && console.timeEnd("preload")
-
         return {
             props: {
                 item,
@@ -74,7 +69,7 @@
     import ItemList from "../../../components/util/ItemList.svelte";
     import Image from "../../../components/item/Image.svelte";
     import {applyMaxHeight, wrap} from "$lib/helper";
-    import {afterUpdate, beforeUpdate, onDestroy, onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import {currentItemId} from "$lib/stores";
     import List from "../../../components/util/List.svelte";
     import SmallItem from "../../../components/item/SmallItem.svelte";
@@ -96,18 +91,13 @@
     onMount(() => currentItemId.set(item.id))
     onDestroy(() => $currentItemId === item.id && currentItemId.set(null))
 
-    beforeUpdate(() => DEVELOPMENT && console.time("load"))
-    afterUpdate(() => DEVELOPMENT && console.timeEnd("load"))
-
     $: {
         const current = episodesList?.querySelector(`[data-id="${item.id}"]`)
         const sibling = current?.nextElementSibling
 
-        if(sibling) sibling.scrollIntoView()
-        else if(current) current.scrollIntoView({ inline: "end" })
+        if(sibling) sibling.scrollIntoView(false)
+        else if(current) current.scrollIntoView(false)
     }
-
-    console.log(item)
 </script>
 
 <svelte:head>
@@ -180,12 +170,15 @@
     {#if item.type === "movie" || item.type === "episode"}
         <Push />
         <Fields {item} />
+    {:else}
+        <Push />
     {/if}
 {:else if item.type === "genre"}
     <Push />
     <Heading>{item.name}</Heading>
     <Push />
     <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&GenreIds={item.id}" />
+    <Push />
 {:else if item.type === "person"}
     <Push />
     <ApplyMeasurements smaller>
@@ -195,21 +188,22 @@
                 <Image url={wrap(applyMaxHeight(item.images?.primary?.url, 300))} alt={item.name} />
             </div>
             <p>
-                {item.overview ?? "Actor | Actress | Producer"}
+                {item.overview ?? $_("items.description.unavailable")}
             </p>
         </div>
     </ApplyMeasurements>
     <Push />
     <LazyList query="Items?SortOrder=Ascending&SortBy=SortName&IncludeItemTypes=Movie,Series&PersonIds={item.id}" align="left" title="items.sections.media" size="normal" />
+    <Push />
 {:else if item.type === "boxset"}
     <Push />
     <Hero {item} />
     <Push />
     <LazyList query="Items?SortOrder=Ascending&SortBy=Release&IncludeItemTypes=Movie&ParentId={item.id}" align="left" title="items.sections.items" size="normal" />
+    <Push />
 {:else}
     🤔 {item.type}
 {/if}
-<Push />
 
 <style>
     a.nextUp {

@@ -9,6 +9,8 @@
     import {DEVELOPMENT} from "$lib/env";
 
     let term = ""
+    export let limit: number = 21
+
     export let query: string = ""
     export let title: string = null
     export let size: "normal" | "large" = "large"
@@ -23,7 +25,7 @@
     let observer: IntersectionObserver
     let entities: IntersectionObserverEntry[]
 
-    $: term = `${query}&Limit=24&StartIndex=${items.length}`
+    $: term = `${query}&Limit=${limit}&StartIndex=${items.length}`
 
     const handleIntersect = (received: IntersectionObserverEntry[]) => {
         entities = received
@@ -50,7 +52,7 @@
     }
 
     onMount(() => {
-        observer = new IntersectionObserver(handleIntersect, { rootMargin: "50px" })
+        observer = new IntersectionObserver(handleIntersect, { rootMargin: "200px" })
         observer.observe(loader)
     })
     onDestroy(() => observer && observer.disconnect())

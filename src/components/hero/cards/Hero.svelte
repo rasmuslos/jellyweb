@@ -10,50 +10,46 @@
     export let items: Item[]
 </script>
 
-<ApplyMeasurements larger full>
-    <div class="outer">
-        <Push />
-        <ApplyMeasurements smaller>
-            <div class="wrapper">
-                <div class="inner">
-                    {#if items.length}
-                        {#if $mobile}
-                            {#each items as item}
-                                <Featured {item} />
-                            {/each}
-                        {:else}
-                            <Featured item={items[0]} />
-                            <div class="holder shadow-top">
-                                {#if items.length > 2}
-                                    {#each [...items].splice(1) as item}
-                                        <FeaturedSmall {item} />
-                                    {/each}
-                                {/if}
-                            </div>
-                        {/if}
+<div class="outer">
+    <Push big />
+    <ApplyMeasurements>
+        <div class="wrapper">
+            <div class="inner">
+                {#if items.length}
+                    {#if $mobile}
+                        {#each items as item}
+                            <Featured {item} />
+                        {/each}
+                    {:else}
+                        <Featured item={items[0]} />
+                        <div class="holder shadow-top">
+                            {#if items.length > 2}
+                                {#each [...items].splice(1) as item}
+                                    <FeaturedSmall {item} />
+                                {/each}
+                            {/if}
+                        </div>
                     {/if}
-                </div>
-                <Push />
+                {/if}
             </div>
-        </ApplyMeasurements>
-    </div>
-    {#if !$mobile}
-        <div class="input">
-            <Search overlay />
+            <Push big />
         </div>
-    {/if}
-</ApplyMeasurements>
+    </ApplyMeasurements>
+</div>
+{#if !$mobile}
+    <div class="input">
+        <Search overlay />
+    </div>
+{/if}
 
 <style>
     div.outer {
         background-color: var(--background-secondary);
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
     }
 
     div.inner {
         display: grid;
-        grid-template-rows: 500px;
+        grid-template-rows: 550px;
         grid-template-columns: auto 400px;
     }
     div.holder {

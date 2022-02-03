@@ -41,29 +41,32 @@
     ]
 </script>
 
-<ApplyMeasurements larger full>
-    <div class="specs">
-        {#each fields as { title, values }}
-            <div class="fields">
-                <h3>{title}</h3>
-                {#each values as { title, value }}
-                    <div class="field">
-                        <b>{title}</b>
-                        <span>{value}</span>
-                    </div>
-                {/each}
-            </div>
-        {/each}
-    </div>
-</ApplyMeasurements>
+<div class="holder">
+    <ApplyMeasurements>
+        <div class="specs">
+            {#each fields as { title, values }}
+                <div class="fields">
+                    <h3>{title}</h3>
+                    {#each values as { title, value }}
+                        <div class="field">
+                            <b>{title}</b>
+                            <span>{value}</span>
+                        </div>
+                    {/each}
+                </div>
+            {/each}
+        </div>
+    </ApplyMeasurements>
+</div>
 
 <style>
-    div.specs {
-        padding: 50px;
-        border-radius: 15px;
-
+    div.holder {
         color: var(--grey);
         background-color: var(--background-secondary);
+    }
+
+    div.specs {
+        padding: 50px;
 
         display: flex;
         flex-direction: row;

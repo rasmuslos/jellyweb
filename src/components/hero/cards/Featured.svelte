@@ -12,7 +12,7 @@
 </script>
 
 <a class="holder" href={getItemPath(item.id)}>
-    <Image url={wrap(applyHeight(item.images?.backdrop.url, 1000))} alt={`${item.name}'s backdrop`} />
+    <Image url={wrap(applyHeight(item.images?.backdrop.url, 1100))} alt={`${item.name}'s backdrop`} />
     <div class="text">
         <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
         <p>
@@ -37,7 +37,7 @@
         position: relative;
         display: block;
 
-        height: 500px;
+        height: 550px;
         width: 100%;
         flex: 0 0 100%;
 

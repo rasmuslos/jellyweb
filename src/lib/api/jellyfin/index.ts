@@ -1,4 +1,5 @@
 import type {Session} from "$lib/typings";
+import {DEVELOPMENT} from "$lib/env";
 
 export type RequestOptions = {
     method?: "GET" | "POST" | "DELETE" | "PUT",
@@ -7,8 +8,7 @@ export type RequestOptions = {
 }
 export const createRequest = async (endpoint: string, session: Session, requestOptions: RequestOptions = {}) => {
     if(!session) return Promise.reject({ status: 403, error: "provide session" })
-
-    console.time(endpoint)
+    if(DEVELOPMENT) console.time(endpoint)
 
     const { method, body, parse } = Object.assign({
         method: "GET",
@@ -32,8 +32,7 @@ export const createRequest = async (endpoint: string, session: Session, requestO
         },
     })
 
-    console.timeEnd(endpoint)
-
+    if(DEVELOPMENT) console.timeEnd(endpoint)
     // console.log("text: ", await res.clone().text())
 
     if(res.status == 204 || !parse) return

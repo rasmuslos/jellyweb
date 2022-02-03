@@ -17,7 +17,6 @@
 <style>
     a.holder {
         position: relative;
-        height: 250px;
         width: 100%;
 
         overflow: hidden;

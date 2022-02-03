@@ -3,9 +3,10 @@
     "home": "Home",
     "movies": "Movies",
     "series":  "Series",
+    "collections": "Collections",
 
     "search":  "Search",
-    "search_tip":  "Search (⌘K)",
+    "search_tip":  "Search",
 
     "account": "Account",
     "settings": "Settings",
@@ -58,7 +59,8 @@
       "collapse": "Collapse",
       "nextUp": "Next up: {name}",
       "items": "Items"
-    }
+    },
+    "description.unavailable": "No description available"
   },
   "pages": {
     "home": {
