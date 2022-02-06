@@ -60,7 +60,27 @@
       "nextUp": "Next up: {name}",
       "items": "Items"
     },
-    "description.unavailable": "No description available"
+    "description.unavailable": "No description available",
+    "fields": {
+      "general": {
+        "title": "General",
+        "released": "Released",
+        "rating": "Rating",
+        "runtime": "Runtime (MS)"
+      },
+      "media": {
+        "title": "Media",
+        "containers": "Containers",
+        "codec": "Codec",
+        "bitrate": "Bitrate"
+      },
+      "streams": {
+        "title": "Streams",
+        "count": "Count",
+        "audio": "Audio",
+        "subtitles": "Subtitles"
+      }
+    }
   },
   "pages": {
     "home": {

@@ -7,10 +7,11 @@
     import {searchItems} from "$lib/api/internal/methods/v3";
     import {getItemPath} from "$lib/helper";
     import Loading from "./Loading.svelte";
+    import { afterUpdate } from "svelte";
 
     export let overlay: boolean = false
 
-    let error
+    let error: any
     let visible: boolean = false
     let loading: boolean = false
     let performPending: boolean = false
@@ -18,23 +19,46 @@
     let items: Item[] = []
 
     let term = ""
-    let hideTimeout
-    let searchTimeout
+    let hideTimeout: number
+    let searchTimeout: number
+
+    let holder: HTMLDivElement
+    let activeIndex: number = -1
 
     $: visible = items.length > 0 || (items.length === 0 && term.trim() !== "" && !performPending) || loading
 
     const emptyResults = () => {
-        if(overlay) setTimeout(() => items = [], 500)
+        if(overlay) setTimeout(() => {
+            items = []
+            activeIndex = -1
+        }, 500)
     }
-    const fillItems = () => {
+    const fillItems = (event: KeyboardEvent) => {
+        if(event.key === "ArrowDown" || event.key === "ArrowUp") {
+            if(event.key === "ArrowDown") activeIndex++
+            else activeIndex--
+
+            if(activeIndex < 0) activeIndex = items.length - 1
+            else if(activeIndex >= items.length) activeIndex = 0
+
+            event.preventDefault()
+            return false
+        } else if(event.key === "Enter" && holder) {
+            holder.querySelector<HTMLAnchorElement>("a.item.active")?.click()
+
+            event.preventDefault()
+            return false
+        }
+
         performPending = true
 
         clearTimeout(searchTimeout)
-        searchTimeout = setTimeout(performSearch, 250)
+        searchTimeout = window.setTimeout(performSearch, 250)
     }
     const performSearch = () => {
         clearTimeout(hideTimeout)
         performPending = false
+        activeIndex = -1
 
         if(term.trim() === "") return
 
@@ -47,17 +71,26 @@
         }).catch(() => error = "error while searching")
         .finally(() => loading = false)
     }
+
+    afterUpdate(() => {
+        if(holder) {
+            holder.querySelector(".item.active")?.scrollIntoView({
+                block: "nearest",
+                inline: "nearest",
+            })
+        }
+    })
 </script>
 
-<div class="holder" class:resultsVisible={visible}>
+<div class="holder" class:resultsVisible={visible} bind:this={holder}>
     <Input type="text" placeholder={$_("util.search")} large on:keyup={fillItems} on:blur={emptyResults} bind:value={term} on:focus={performSearch} />
     {#if error}
         <p class="error">{error}</p>
     {/if}
     <div class="results" class:overlay class:visible={visible}>
         {#if items.length > 0}
-            {#each items as item}
-                <a class="item" href={getItemPath(item.id)}>
+            {#each items as item, index}
+                <a class="item" class:active={index === activeIndex} href={getItemPath(item.id)}>
                     {@html icons[getIcon(item)].toSvg()}
                     <span>
                         {item.name}
@@ -164,7 +197,7 @@
         font-weight: normal;
     }
 
-    .item:hover {
+    .item:hover, .item.active {
         background-color: var(--primary);
     }
 

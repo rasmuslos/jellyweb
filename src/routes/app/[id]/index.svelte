@@ -243,9 +243,6 @@
         overflow: hidden;
         align-self: flex-start;
     }
-    div.person .image h1 {
-        text-align: center;
-    }
 
     :global(#root.mobile) div.sub {
         grid-template-rows: auto auto;

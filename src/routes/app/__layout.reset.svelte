@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
-    import {mobile} from "$lib/stores";
+    import {activeModal, mobile} from "$lib/stores";
     import {isLoggedIn, isMobile} from "$lib/helper";
 
     export const load: Load = ({session}) => {
@@ -15,10 +15,21 @@
         }
     }
 </script>
-<script>
+<script lang="ts">
     import Layout from "../../components/Layout.svelte";
     import {theme} from "$lib/stores";
+    import SearchOverlay from "../../components/util/SearchOverlay.svelte";
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+        if(event.key === "k" && (event.metaKey || event.altKey || event.ctrlKey)) {
+            if($activeModal) activeModal.set(null)
+            else activeModal.set(SearchOverlay)
+            
+            event.preventDefault()
+        }
+    }
 </script>
+<svelte:window on:keyup={handleKeyUp} />
 
 <Layout showNavigation theme={$theme}>
     <slot />

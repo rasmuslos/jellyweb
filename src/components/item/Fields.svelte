@@ -2,9 +2,10 @@
     import type {ExtendedItem} from "$lib/typings";
     import {convertStreamsToText, getStreamsOfType} from "$lib/helper";
     import ApplyMeasurements from "../ApplyMeasurements.svelte";
+import { _ } from "svelte-i18n";
 
     type Fields = Array<{
-        title: string,
+        i18n: string,
         values: Array<{
             title: string,
             value: any,
@@ -15,27 +16,27 @@
 
     let fields: Fields = [
         {
-            title: "General",
+            i18n: "general",
             values: [
-                { title: "Released", value: new Date(item.release ?? 0).getFullYear() },
-                { title: "Rating", value: item.rating },
-                { title: "Runtime (MS)", value: item.runtime },
+                { title: "released", value: new Date(item.release ?? 0).getFullYear() },
+                { title: "rating", value: item.rating },
+                { title: "runtime", value: item.runtime },
             ],
         },
         {
-            title: "Media",
+            i18n: "media",
             values: [
-                { title: "Container", value: item.mediaSources?.map(({ container }) => container)?.join(", ") },
-                { title: "Codec", value: getStreamsOfType(item.mediaSources, "video").map(streams => streams.map(({ codec }) => codec).join(", ")).join(", ") },
-                { title: "Bitrate", value: item.mediaSources?.map(({ bitrate }) => bitrate)?.map(bitrate => `${bitrate} Mbps`).join(", ") },
+                { title: "containers", value: item.mediaSources?.map(({ container }) => container)?.join(", ") },
+                { title: "codec", value: getStreamsOfType(item.mediaSources, "video").map(streams => streams.map(({ codec }) => codec).join(", ")).join(", ") },
+                { title: "bitrate", value: item.mediaSources?.map(({ bitrate }) => bitrate)?.map(bitrate => `${bitrate} Mbps`).join(", ") },
             ],
         },
         {
-            title: "Streams",
+            i18n: "streams",
             values: [
-                { title: "Count", value: item.mediaSources?.map(({ mediaStreams }) => mediaStreams?.length)?.reduce((a, b) => a + b, 0) },
-                { title: "Languages", value: convertStreamsToText(item.mediaSources, "audio") },
-                { title: "Subtitles", value: convertStreamsToText(item.mediaSources, "subtitle") },
+                { title: "count", value: item.mediaSources?.map(({ mediaStreams }) => mediaStreams?.length)?.reduce((a, b) => a + b, 0) },
+                { title: "audio", value: convertStreamsToText(item.mediaSources, "audio") },
+                { title: "subtitles", value: convertStreamsToText(item.mediaSources, "subtitle") },
             ],
         },
     ]
@@ -44,12 +45,12 @@
 <div class="holder">
     <ApplyMeasurements>
         <div class="specs">
-            {#each fields as { title, values }}
+            {#each fields as { i18n, values }}
                 <div class="fields">
-                    <h3>{title}</h3>
+                    <h3>{$_(`items.fields.${i18n}.title`)}</h3>
                     {#each values as { title, value }}
                         <div class="field">
-                            <b>{title}</b>
+                            <b>{$_(`items.fields.${i18n}.${title}`)}</b>
                             <span>{value}</span>
                         </div>
                     {/each}

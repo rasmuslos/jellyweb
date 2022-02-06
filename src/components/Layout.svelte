@@ -8,9 +8,10 @@
     import {locale, waitLocale} from "svelte-i18n";
     import {onMount} from "svelte";
     import "normalize.css"
+import Overlay from './util/Overlay.svelte';
 
     const version = `?v=${encodeURIComponent(VERSION)}`
-    let main: HTMLDivElement
+    let main: HTMLElement
 
     export let i18n: string = "en";
     export let theme: Theme = Theme.DARK;
@@ -47,7 +48,7 @@
     {/if}
 </svelte:head>
 
-<div id="root" class:mobile={$mobile} class:showNavigation theme={theme}>
+<div id="root" class:mobile={$mobile} class:showNavigation>
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}
@@ -57,6 +58,8 @@
             <NavigationOverlay />
         {/if}
     </main>
+
+    <Overlay />
 </div>
 
 <style>
