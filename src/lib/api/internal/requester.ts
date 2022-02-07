@@ -1,6 +1,8 @@
 import type {RequestOptions} from "$lib/typings";
 import type {Response} from "$lib/typings";
 import {DEVELOPMENT} from "$lib/env";
+import {browser} from "$app/env"
+import {goto} from "$app/navigation"
 
 let fetcher: any
 
@@ -33,11 +35,12 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
                 "Content-Type": "application/json",
             },
         })
-        
+
         if(parseResponse) {
             const data = await response.json() as unknown as Response<T>
 
             if(data.status == 200) return data.payload
+            else if(data.status == 401 && browser) goto("/auth/logout")
             else {
                 console.error("Invalid response", {
                     url,
