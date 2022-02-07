@@ -6,7 +6,7 @@ import { _ } from "svelte-i18n";
 
 <div>
     <h1>{$_("util.search")}</h1>
-    <Search />
+    <Search autofocus />
 </div>
 
 <style>

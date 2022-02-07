@@ -21,6 +21,10 @@ export const authenticateByName = (server: string, username: string, password: s
         Pw: password,
     })
 })
+export const destroySession = async (session: Session): Promise<void> => await createRequest("Sessions/Logout", session, {
+    method: "POST",
+    parse: false,
+})
 
 export const getUnfinishedItems = async (session: Session) => (await createRequest(`Users/${session.id}/Items/Resume?${fields}&Limit=14`, session)).Items.map(convertItem)
 export const getNextUpItems = async (session: Session) => (await createRequest(`Shows/NextUp?userId=${session.id}&${fields}&Limit=14`, session)).Items.map(convertItem)

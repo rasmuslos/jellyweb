@@ -3,7 +3,7 @@
     import {_} from "svelte-i18n";
 
     export let icon: string
-    export let href: string
+    export let href: string = null
     export let title: string
     export let active: boolean = false
     export let dimmed: boolean = false

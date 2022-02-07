@@ -8,8 +8,10 @@
     import {getItemPath} from "$lib/helper";
     import Loading from "./Loading.svelte";
     import { afterUpdate } from "svelte";
+import { activeModal } from "$lib/stores";
 
     export let overlay: boolean = false
+    export let autofocus: boolean = false
 
     let error: any
     let visible: boolean = false
@@ -83,14 +85,14 @@
 </script>
 
 <div class="holder" class:resultsVisible={visible} bind:this={holder}>
-    <Input type="text" placeholder={$_("util.search")} large on:keyup={fillItems} on:blur={emptyResults} bind:value={term} on:focus={performSearch} />
+    <Input type="text" placeholder={$_("util.search")} large on:keyup={fillItems} on:blur={emptyResults} bind:value={term} on:focus={performSearch} {autofocus} />
     {#if error}
         <p class="error">{error}</p>
     {/if}
     <div class="results" class:overlay class:visible={visible}>
         {#if items.length > 0}
             {#each items as item, index}
-                <a class="item" class:active={index === activeIndex} href={getItemPath(item.id)}>
+                <a class="item" class:active={index === activeIndex} href={getItemPath(item.id)} on:click={() => activeModal.set(null)}>
                     {@html icons[getIcon(item)].toSvg()}
                     <span>
                         {item.name}

@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
     import type {Load} from "@sveltejs/kit";
     import {activeModal, mobile} from "$lib/stores";
-    import {isLoggedIn, isMobile} from "$lib/helper";
+    import {isLoggedIn, isMobile, toggleSearchModal} from "$lib/helper";
 
     export const load: Load = ({session}) => {
         if(!isLoggedIn(session)) return {
@@ -22,9 +22,7 @@
 
     const handleKeyUp = (event: KeyboardEvent) => {
         if(event.key === "k" && (event.metaKey || event.altKey || event.ctrlKey)) {
-            if($activeModal) activeModal.set(null)
-            else activeModal.set(SearchOverlay)
-            
+            toggleSearchModal()
             event.preventDefault()
         }
     }

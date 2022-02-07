@@ -5,6 +5,7 @@
 
 <nav class:expanded={$navigationExpanded} >
     <div class="more">
+        <OverlayItem icon="disc" title="collections" href="/app/library/collections" />
         <OverlayItem icon="search" title="search" />
         <OverlayItem icon="user" title="account" />
         <OverlayItem icon="settings" title="settings" href="/app/settings" />
@@ -30,12 +31,9 @@
         overflow: hidden;
         border-radius: 10px;
 
-        background-color: rgba(255, 255, 255, .40);
+        background-color: rgba(var(--background-rgb), .40);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-    }
-    :global(#root[theme="dark"]) nav {
-        background-color: rgba(0, 0, 0, .30);
     }
 
     div {

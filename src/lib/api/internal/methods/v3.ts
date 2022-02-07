@@ -9,6 +9,9 @@ export const performLogin = (server: string, username: string, password: string)
         password,
     },
 })
+export const performLogout = () => requestResource<void>("auth/logout", {
+    method: "DELETE",
+})
 
 export const getHomeItems = () => requestResource<PageIndex>("pages/home")
 export const getBestRatedMovies = () => requestResource<Item[]>("items/bestRated")

@@ -5,13 +5,14 @@
     export let placeholder: string = null
     export let disabled: boolean = false
     export let required: boolean = false
+    export let autofocus: boolean = false
 
     export let type: string = "text"
     export let value: string = ""
 
     export let large: boolean = false
 
-    const handleInput = event => value = type.match(/^(number|range)$/) ? + event.target.value : event.target.value
+    const handleInput = (event: any) => value = type.match(/^(number|range)$/) ? + event.target.value : event.target.value
 </script>
 
 <style>
@@ -59,5 +60,6 @@
     {#if label}
         <span>{$_(label)}</span>
     {/if}
-    <input {placeholder} {value} {type} {disabled} {required} on:input={handleInput} on:keyup on:focus on:blur />
+    <!-- svelte-ignore a11y-autofocus -->
+    <input {placeholder} {value} {type} {disabled} {required} {autofocus} on:input={handleInput} on:keyup on:focus on:blur />
 </label>
