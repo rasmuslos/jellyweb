@@ -40,7 +40,6 @@
         grid-template-rows: min(calc(calc(33vw - 20px) * 1.5), 300px) auto;
         grid-template-columns: 1fr;
     }
-
     a.wrapper.wide {
         flex: min(calc(calc(35vw - 20px - 4vw) * 1.7), 300px) 0 0;
         grid-template-rows: min(calc(35vw - 20px - 4vw), 175px) auto;
