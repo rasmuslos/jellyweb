@@ -50,7 +50,7 @@
     div.inner {
         display: grid;
         grid-template-rows: 550px;
-        grid-template-columns: auto 400px;
+        grid-template-columns: auto min(400px, 50%);
     }
     div.holder {
         display: flex;
