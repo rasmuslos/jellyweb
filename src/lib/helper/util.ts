@@ -28,6 +28,7 @@ export const getIcon = ({ type }: Item) => {
 }
 
 export const toggleSearchModal = () => {
-    if(get(activeModal)) activeModal.set(null)
+    if(get(activeModal)) closeModal()
     else activeModal.set(SearchOverlay)
 }
+export const closeModal = () => activeModal.set(null)

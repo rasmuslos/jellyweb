@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Theme } from '$lib/typings';
-    import {VERSION} from "$lib/helper";
+    import {isMobile, VERSION} from "$lib/helper";
     import "$lib/i18n"
     import {mobile} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
@@ -8,7 +8,8 @@
     import {locale, waitLocale} from "svelte-i18n";
     import {onMount} from "svelte";
     import "normalize.css"
-import Overlay from './util/Overlay.svelte';
+    import Overlay from './util/Overlay.svelte';
+    import { session } from '$app/stores';
 
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLElement
@@ -17,6 +18,7 @@ import Overlay from './util/Overlay.svelte';
     export let theme: Theme = Theme.DARK;
     export let showNavigation: boolean = true;
 
+    mobile.set(isMobile($session.agent))
     locale.set(i18n)
     waitLocale()
 

@@ -40,7 +40,7 @@
 
         overflow: hidden;
         border-radius: 10px;
-        perspective: 1px;
+        perspective: 0px;
     }
     div.holder.selected {
         border: 4px solid var(--primary);
@@ -97,5 +97,8 @@
 
     div.holder:hover img {
         transform: scale(1.1);
+    }
+    div.holder:hover h1 {
+        font-size: 35px;
     }
 </style>

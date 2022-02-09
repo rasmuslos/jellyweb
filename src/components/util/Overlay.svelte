@@ -1,10 +1,19 @@
 <script lang="ts">
-    import { activeModal } from "$lib/stores";
+    import { closeModal } from "$lib/helper";
+    import { activeModal } from "$lib/stores"
     import {blur} from "svelte/transition"
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+        if(event.key === "Escape") {
+            closeModal()
+            event.preventDefault()
+        }
+    }
 </script>
+<svelte:window on:keyup={handleKeyUp} />
 
 {#if $activeModal}
-    <div transition:blur>
+    <div transition:blur on:click|self={closeModal}>
         <svelte:component this={$activeModal} />
     </div>
 {/if}
@@ -19,8 +28,10 @@
         height: 100vh;
         width: 100vw;
 
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10x);
+        display: block;
+
+        background-color: rgba(0, 0, 0, .85);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4x);
     }
 </style>

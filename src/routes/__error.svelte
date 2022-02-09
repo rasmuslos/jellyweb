@@ -2,7 +2,9 @@
 	import { Response, Theme } from "$lib/typings";
 	import type { ErrorLoad } from "@sveltejs/kit";
 
-	export const load: ErrorLoad = ({error, status}) => {
+	export const load: ErrorLoad = ({error, status, session}) => {
+        mobile.set(isMobile(session.agent))
+
 		try {
 			const data = JSON.parse(error.message) as unknown as Response<string>
 			const status = data.status ?? 500
@@ -42,6 +44,8 @@
 	import ApplyMeasurements from "../components/ApplyMeasurements.svelte"
 	import Button from "../components/form/Button.svelte"
 	import { goto } from "$app/navigation";
+	import { mobile } from "$lib/stores";
+	import { isMobile } from "$lib/helper";
 
 	export let title: string = "500"
 	export let description: string = "Unknown server error (3)"
@@ -55,7 +59,7 @@
 			<p>
 				{description}
 			</p>
-			<Push />
+			<Push smaller />
 			<a href="/">&#8592; Take me back</a>
 		</div>
 	</ApplyMeasurements>

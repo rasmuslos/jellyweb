@@ -33,6 +33,15 @@
     import SmallItem from "../../components/item/SmallItem.svelte";
     import {getBestRatedMovies, getRandomItems} from "$lib/api/internal/methods/v3";
     import Loading from "../../components/util/Loading.svelte";
+    import {onMount} from "svelte";
+
+    let randomPromise: Promise<Item[]>
+    let bestRatedPromise: Promise<Item[]>
+
+    onMount(() => {
+        randomPromise = getRandomItems()
+        bestRatedPromise = getBestRatedMovies()
+    })
 
     export let featured: Item[], suggestions: Item[], recommendations: Recommendation[], latest: Item[], genres: Item[]
 </script>
@@ -60,31 +69,39 @@
     <Push />
 {/if}
 <!--moved to lazy loading because this can take up to three seconds-->
-{#await getBestRatedMovies()}
+{#if bestRatedPromise}
+    {#await bestRatedPromise}
+        <Loading />
+    {:then bestRated}
+        {#if bestRated?.length}
+            <ApplyMeasurements>
+                <ItemList title="pages.home.bestRated" items={bestRated} />
+            </ApplyMeasurements>
+        {/if}
+    {:catch error}
+        <p>{error?.payload ?? error ?? "unknown error"}</p>
+    {/await}
+{:else}
     <Loading />
-{:then bestRated}
-    {#if bestRated?.length}
-        <ApplyMeasurements>
-            <ItemList title="pages.home.bestRated" items={bestRated} />
-        </ApplyMeasurements>
-    {/if}
-{:catch error}
-    <p>{error?.payload ?? error ?? "unknown error"}</p>
-{/await}
+{/if}
 <Push />
 
-{#await getRandomItems()}
+{#if randomPromise}
+    {#await randomPromise}
+        <Loading />
+    {:then random}
+        {#if random?.length}
+            <ApplyMeasurements>
+                <h2>{$_("pages.home.random")}</h2>
+                <Featured item={random[0]} />
+            </ApplyMeasurements>
+        {/if}
+    {:catch error}
+        <p>{error?.payload ?? error ?? "unknown error"}</p>
+    {/await}
+{:else}
     <Loading />
-{:then random}
-    {#if random?.length}
-        <ApplyMeasurements>
-            <h2>{$_("pages.home.random")}</h2>
-            <Featured item={random[0]} />
-        </ApplyMeasurements>
-    {/if}
-{:catch error}
-    <p>{error?.payload ?? error ?? "unknown error"}</p>
-{/await}
+{/if}
 <Push />
 
 {#if latest?.length}

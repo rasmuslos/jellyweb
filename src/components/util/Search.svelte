@@ -3,7 +3,7 @@
     import {_} from "svelte-i18n";
     import type {Item} from "$lib/typings";
     import {icons} from "feather-icons";
-    import {getIcon} from "$lib/helper";
+    import {getIcon, parseError} from "$lib/helper";
     import {searchItems} from "$lib/api/internal/methods/v3";
     import {getItemPath} from "$lib/helper";
     import Loading from "./Loading.svelte";
@@ -70,7 +70,7 @@ import { activeModal } from "$lib/stores";
         searchItems(term).then(data => {
             if(data.length < 0) error = "no results"
             else items = data
-        }).catch(() => error = "error while searching")
+        }).catch(exception => error = parseError(exception))
         .finally(() => loading = false)
     }
 
@@ -105,7 +105,7 @@ import { activeModal } from "$lib/stores";
         {/if}
         {#if loading}
             <Loading />
-        {:else if items.length === 0 && term.trim() !== "" && !performPending}
+        {:else if items.length === 0 && term.trim() !== "" && !performPending && !error}
             <h3>no results</h3>
         {/if}
     </div>

@@ -31,7 +31,7 @@
         overflow: hidden;
         border-radius: 10px;
 
-        background-color: rgba(var(--background-rgb), .40);
+        background-color: rgba(var(--background-rgb), .4);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
