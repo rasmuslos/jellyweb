@@ -26,10 +26,14 @@
     onDestroy(() => unsubscribe && unsubscribe())
 </script>
 
+<svelte:head>
+    <title>{type}</title>
+</svelte:head>
+
 <Push />
 <Heading>{type}</Heading>
 <Push />
 {#key query}
-    <LazyList {query} limit="24" />
+    <LazyList {query} limit={24} />
 {/key}
 <Push />

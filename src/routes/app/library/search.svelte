@@ -5,6 +5,10 @@
     import Heading from "../../../components/hero/Heading.svelte";
 </script>
 
+<svelte:head>
+    <title>Search</title>
+</svelte:head>
+
 <ApplyMeasurements smaller>
     <Push />
     <Heading>Search</Heading>

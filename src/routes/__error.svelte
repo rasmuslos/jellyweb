@@ -51,6 +51,10 @@
 	export let description: string = "Unknown server error (3)"
 </script>
 
+<svelte:head>
+	<title>Error {title}</title>
+</svelte:head>
+
 <Layout i18n="en" theme={Theme.DARK} showNavigation={false}>
 		<ApplyMeasurements>
 		<div>

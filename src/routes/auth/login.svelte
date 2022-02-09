@@ -23,6 +23,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Login</title>
+</svelte:head>
+
 <Layout showNavigation={false} i18n="en" theme={Theme.DARK}>
     <ApplyMeasurements>
         <h1>{$_("auth.login.hello", { values: { name: username === "" ? "Stranger" : username }})}</h1>

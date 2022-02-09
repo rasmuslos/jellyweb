@@ -46,6 +46,10 @@
     export let featured: Item[], suggestions: Item[], recommendations: Recommendation[], latest: Item[], genres: Item[]
 </script>
 
+<svelte:head>
+    <title>Home</title>
+</svelte:head>
+
 <Hero items={featured} />
 <Push />
 {#if suggestions?.length}
