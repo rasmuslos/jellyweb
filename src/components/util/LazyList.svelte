@@ -8,7 +8,7 @@
     import Loading from "./Loading.svelte";
     import {DEVELOPMENT} from "$lib/env";
     import type {Item as ItemType} from "$lib/typings";
-import { parseError } from "$lib/helper";
+    import { parseError } from "$lib/helper";
 
     let term = ""
     export let limit: number = 21
