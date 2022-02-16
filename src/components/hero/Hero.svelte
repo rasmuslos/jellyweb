@@ -83,6 +83,9 @@
         height: 100%;
         width: 100%;
 
+        padding: 20px;
+        box-sizing: content-box;
+
         filter: blur(20px);
         background-color: #00000070;
     }
