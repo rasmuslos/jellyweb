@@ -1,5 +1,6 @@
 import {requestResource} from "$lib/api/internal";
-import type {ExtendedItem, Item, PageIndex} from "$lib/typings";
+import { insertDefaultValues } from "$lib/helper";
+import type {ExtendedItem, Item, PageIndex, Settings} from "$lib/typings";
 
 export const performLogin = (server: string, username: string, password: string) => requestResource<any>("auth/login", {
     method: "POST",
@@ -27,3 +28,9 @@ export const getNextUpItem = (id: string) => requestResource<Item>(`items/${id}/
 
 export const searchItems = (term: string) => requestResource<Item[]>(`items/search?term=${encodeURIComponent(term)}`)
 export const queryServer = (term: string) => requestResource<Item[]>(`items/query?term=${encodeURIComponent(term)}`)
+
+export const getSettings = async () => insertDefaultValues(await requestResource<Settings>("user/settings"))
+export const updateSettings = (updated: Settings) => requestResource<Settings>("user/settings", {
+    method: "POST",
+    body: updated,
+})

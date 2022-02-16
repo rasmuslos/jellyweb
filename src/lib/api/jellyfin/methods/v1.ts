@@ -1,6 +1,6 @@
 import {createRequest} from "$lib/api/jellyfin";
 import {convertItem, convertItemExtended, convertRecommendation} from "$lib/helper";
-import type {Session} from "$lib/typings";
+import type {SessionData as Session, Settings} from "$lib/typings";
 import type {AuthenticationResponse} from "$lib/typings/jellyfin/user";
 
 const fields = "enableUserData=true&EnableTotalRecordCount=false&Recursive=true&fields=Id,Name,Type,MediaSources,UserData,ProviderIds,Overview,Tags,Taglines,GenreItems,OfficialRating,CommunityRating,CriticRating,SeriesId,SeriesName,SeasonId,SeasonName,ImageTags,ImageBlurHashes,BackdropImageTags,ImageBlurHashes"
@@ -49,3 +49,15 @@ export const searchItems = async (term: string, session: Session) => (await crea
 export const searchPeople = async (term: string, session: Session) => (await createRequest(`Persons?searchTerm=${term}&${fields}&Limit=7`, session)).Items.map(convertItem)
 
 export const queryServer = async (term: string, session: Session) => (await createRequest(`Users/${session.id}/Items?${term}&${fields}&userId=${session.id}`, session)).Items.map(convertItem)
+
+export const getSettings = async (session: Session) => (await createRequest(`DisplayPreferences/jellyweb2?client=jellyweb2&userId=${session.id}`, session)).CustomPrefs?.jellyweb ?? {}
+export const updateSettings = async (updated: Settings, session: Session) => (createRequest(`DisplayPreferences/jellyweb2?client=jellyweb2&userId=${session.id}`, session, {
+    method: "POST",
+    body: JSON.stringify({
+        CustomPrefs: {
+            jellyweb: {
+                ...updated,
+            }
+        }
+    })
+}))

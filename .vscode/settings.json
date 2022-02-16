@@ -3,5 +3,8 @@
     "svelte.plugin.svelte.defaultScriptLanguage": "ts",
     "i18n-ally.localesPaths": [
         "src/lib/i18n"
+    ],
+    "cSpell.words": [
+        "jellyweb"
     ]
 }

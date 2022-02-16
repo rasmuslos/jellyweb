@@ -1,12 +1,11 @@
 <script lang="ts">
-import { toggleSearchModal } from "$lib/helper";
-
-    import {activeModal, navigationExpanded} from "$lib/stores";
+    import { setNavigationExpanded, toggleSearchModal } from "$lib/helper";
+    import {navigationExpanded} from "$lib/stores";
     import SidebarItem from "./SidebarItem.svelte";
 </script>
 
 <nav class:expanded="{$navigationExpanded}">
-    <SidebarItem dimmed noAnimation icon="align-left" title="collapse" flipped={$navigationExpanded} on:click={() => navigationExpanded.update(expanded => !expanded)} />
+    <SidebarItem dimmed noAnimation icon="align-left" title="collapse" flipped={$navigationExpanded} on:click={() => setNavigationExpanded(!$navigationExpanded)} />
     <div class="space"></div>
     <SidebarItem dimmed icon="search" title="search_tip" href="/app/library/search" on:click={event => {
         toggleSearchModal()

@@ -8,6 +8,7 @@ declare namespace App {
 	interface Platform {}
 
 	interface Session {
+        agent?: string,
         data: SessionData,
         destroy: () => any,
     }

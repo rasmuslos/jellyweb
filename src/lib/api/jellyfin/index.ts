@@ -1,4 +1,4 @@
-import type {Session} from "$lib/typings";
+import type {SessionData as Session} from "$lib/typings";
 import {DEVELOPMENT} from "$lib/env";
 
 export type RequestOptions = {
