@@ -1,5 +1,5 @@
 import type { Response } from "$lib/typings";
-import type {ServerResponse} from "@sveltejs/kit/types/hooks";
+import type { EndpointOutput } from "@sveltejs/kit";
 
 export const isValidString = (input: string) => {
     if(input == null) return false
@@ -7,24 +7,27 @@ export const isValidString = (input: string) => {
 
     return normalised != ""
 }
-export const normaliseServer = (server: string): string => {
+export const normalizeServer = (server: string): string => {
     if(server == null) return null
-    const normalised = server.normalize("NFC").trim()
+    const normalized = server.normalize("NFC").trim()
 
-    if(!normalised.startsWith("http://") && !normalised.startsWith("https://")) return null
-    if(normalised.endsWith("/")) return null
+    if(!normalized.startsWith("http://") && !normalized.startsWith("https://")) return null
+    if(normalized.endsWith("/")) return null
 
-    return normalised
+    return normalized
 }
 
-export const createApiResponse = <T = any>(status: number, payload: any): ServerResponse => {
+export const createApiResponse = (status: number, payload: any): EndpointOutput => {
+    const headers = new Headers()
+    headers.set("Content-Type", "application/json")
+
     return {
-        headers: {},
+        headers,
         status,
         body: JSON.stringify({
             status,
             payload,
-        })
+        }),
     }
 }
 export const createApiSuccess = (payload: any) => createApiResponse(200, payload)

@@ -5,3 +5,4 @@ export * from './item';
 export * from './image';
 export * from './util';
 export * from './uri';
+export * from './settings';

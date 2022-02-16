@@ -7,10 +7,9 @@ import {
     getGenres
 } from "$lib/api/jellyfin/methods/v1";
 import { createApiSuccess } from "$lib/helper";
-import type { Locals } from "$lib/typings";
 import type { RequestHandler } from "@sveltejs/kit";
 
-export const get: RequestHandler<Locals, {}> = async ({ locals }) => {
+export const get: RequestHandler = async ({ locals }) => {
     const session = locals.session.data
     const [suggested, nextUp, unfinished, recommendations, latest, genres] = await Promise.all([
         getSuggestedItems(21, session),

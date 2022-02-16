@@ -1,4 +1,4 @@
-export type Session = {
+export type SessionData = {
 	id: string;
 	name: string;
 	token: string;
@@ -6,10 +6,3 @@ export type Session = {
 	server: string;
 	administrator: boolean;
 };
-
-export type Locals = {
-	session: {
-		data: Session,
-		destroy: () => {},
-	},
-}

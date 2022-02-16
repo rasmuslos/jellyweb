@@ -1,9 +1,8 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import type {Locals} from "$lib/typings";
 import {createApiError, createApiSuccess} from "$lib/helper";
 import {getEpisodesInSeasonExtended,} from "$lib/api/jellyfin/methods/v1";
 
-export const get: RequestHandler<Locals, {}> = async ({ locals, params }) => {
+export const get: RequestHandler = async ({ locals, params }) => {
     if(!params?.id || !params?.seasonId) return createApiError(400, "provide item id")
 
     const session = locals.session.data
