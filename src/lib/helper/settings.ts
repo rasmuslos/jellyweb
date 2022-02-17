@@ -11,16 +11,8 @@ let current: Settings
 export const insertDefaultValues = (settings: Settings): Settings => Object.assign({
     language: "en",
     theme: Theme.DARK,
+    navigationExpanded: true,
 } as Settings, settings)
-const runUpdate = (updated: Settings) => {
-    const { theme, language, navigationExpanded } = updated
-    current = {...updated}
-
-    locale.set(language)
-    
-    themeStore.set(theme)
-    navigationExpandedStore.set(navigationExpanded)
-}
 
 export const loadSettings = async () => {
     if(registered) return
@@ -28,7 +20,8 @@ export const loadSettings = async () => {
 
     current = await getSettings()
     settings.set({...current})
-    
+    runUpdate(current)
+
     if(!browser) return
 
     settings.subscribe(updated => {
@@ -37,6 +30,16 @@ export const loadSettings = async () => {
             runUpdate(updated)
         }
     })
+}
+
+const runUpdate = (updated: Settings) => {
+    const { theme, language, navigationExpanded } = updated
+    current = {...updated}
+
+    locale.set(language)
+    
+    themeStore.set(theme)
+    navigationExpandedStore.set(navigationExpanded)
 }
 export const update = (key: string, value: any) => {
     settings.update(settings => {

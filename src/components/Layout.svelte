@@ -14,9 +14,11 @@
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLElement
 
-    export let i18n: string = "en";
-    export let theme: Theme = Theme.DARK;
-    export let showNavigation: boolean = true;
+    export let i18n: string = "en"
+    export let theme: Theme = Theme.DARK
+    export let showNavigation: boolean = true
+
+    console.log(theme);
 
     mobile.set(isMobile($session.agent))
     locale.set(i18n)

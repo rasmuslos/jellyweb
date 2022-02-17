@@ -50,14 +50,27 @@ export const searchPeople = async (term: string, session: Session) => (await cre
 
 export const queryServer = async (term: string, session: Session) => (await createRequest(`Users/${session.id}/Items?${term}&${fields}&userId=${session.id}`, session)).Items.map(convertItem)
 
-export const getSettings = async (session: Session) => (await createRequest(`DisplayPreferences/jellyweb2?client=jellyweb2&userId=${session.id}`, session)).CustomPrefs?.jellyweb ?? {}
-export const updateSettings = async (updated: Settings, session: Session) => (createRequest(`DisplayPreferences/jellyweb2?client=jellyweb2&userId=${session.id}`, session, {
+export const getSettings = async (session: Session) => (await createRequest(`DisplayPreferences/jellyweb2?client=jellyweb&userId=${session.id}`, session)).CustomPrefs ?? {}
+export const updateSettings = async (updated: Settings, session: Session) => (createRequest(`DisplayPreferences/jellyweb2?client=jellyweb&userId=${session.id}`, session, {
     method: "POST",
     body: JSON.stringify({
-        CustomPrefs: {
-            jellyweb: {
-                ...updated,
-            }
-        }
+        "CustomPrefs": {
+            ...updated,
+        },
+
+        "RememberIndexing": true,
+        "PrimaryImageHeight": 0,
+        "PrimaryImageWidth": 0,
+        "ScrollDirection": "Horizontal",
+        "ShowBackdrop": true,
+        "RememberSorting": true,
+        "SortOrder": "Ascending",
+        "ShowSidebar": true,
+        "Client": "jellyweb",
+
+        "Id": "string",
+        "ViewType": "string",
+        "SortBy": "string",
+        "IndexBy": "string",
     })
 }))
