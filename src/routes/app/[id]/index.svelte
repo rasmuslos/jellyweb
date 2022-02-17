@@ -5,7 +5,9 @@
         getEpisodesOfSeason, getEpisodesOfSeasonExtended,
         getExtendedItem,
         getNextUpItem, getSeasons,
-        getSimilarItems
+        getSimilarItems,
+        setFavoriteStatus,
+setWatchedStatus
     } from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch, params}) => {
@@ -98,6 +100,9 @@
         if(sibling) sibling.scrollIntoView(false)
         else if(current) current.scrollIntoView(false)
     }
+
+    let togglingWatchedStatus: boolean = false
+    let togglingFavoriteStatus: boolean = false
 </script>
 
 <svelte:head>
@@ -122,8 +127,8 @@
         <div class="sub">
             <div class="actions">
                 <Button large highlight>{$_("items.actions.play")}</Button>
-                <Button large>{$_("items.actions.like")}</Button>
-                <Button large>{$_("items.actions.watched")}</Button>
+                <Button large working={togglingFavoriteStatus} disabled={togglingFavoriteStatus} on:click={() => (togglingFavoriteStatus = true) && setFavoriteStatus(item.id, !item.userData?.favorite).then(favorite => item.userData.favorite = favorite).finally(() => togglingFavoriteStatus = false)}>{item.userData?.favorite ? $_("items.actions.liked") : $_("items.actions.like")}</Button>
+                <Button large working={togglingWatchedStatus} disabled={togglingWatchedStatus} on:click={() => (togglingWatchedStatus = true) && setWatchedStatus(item.id, !item.userData.watched).then(watched => item.userData.watched = watched).finally(() => togglingWatchedStatus = false)}>{item.userData?.watched ? $_("items.actions.unseen") : $_("items.actions.watched")}</Button>
             </div>
             <div>
                 <p class="overview">

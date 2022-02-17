@@ -45,8 +45,10 @@
   "items": {
     "actions": {
       "play": "Watch now",
-      "like": "Favorite",
-      "watched": "Watched"
+      "like": "Like",
+      "liked": "Liked",
+      "watched": "Watched",
+      "unseen": "Mark as unseen"
     },
     "sections": {
       "chapters": "Chapters",

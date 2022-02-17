@@ -34,3 +34,10 @@ export const updateSettings = (updated: Settings) => requestResource<Settings>("
     method: "POST",
     body: updated,
 })
+
+export const setWatchedStatus = (id: string, watched: boolean) => requestResource<boolean>(`items/${id}/watched`, {
+    method: watched ? "POST" : "DELETE",
+})
+export const setFavoriteStatus = (id: string, watched: boolean) => requestResource<boolean>(`items/${id}/favorite`, {
+    method: watched ? "POST" : "DELETE",
+})

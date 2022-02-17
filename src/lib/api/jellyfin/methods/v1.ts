@@ -74,3 +74,17 @@ export const updateSettings = async (updated: Settings, session: Session) => (cr
         "IndexBy": "string",
     })
 }))
+
+export const markItemAsPlayed = async (itemId: string, session: Session) => (await createRequest(`Users/${session.id}/PlayedItems/${itemId}`, session, {
+    method: "POST",
+})).Played
+export const markItemAsUnplayed = async (itemId: string, session: Session) => (await createRequest(`Users/${session.id}/PlayedItems/${itemId}`, session, {
+    method: "DELETE",
+})).Played
+
+export const markItemAsFavorite = async (itemId: string, session: Session) => (await createRequest(`Users/${session.id}/FavoriteItems/${itemId}`, session, {
+    method: "POST",
+})).IsFavorite
+export const markItemAsNonFavorite = async (itemId: string, session: Session) => (await createRequest(`Users/${session.id}/FavoriteItems/${itemId}`, session, {
+    method: "DELETE",
+})).IsFavorite
