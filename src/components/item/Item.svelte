@@ -18,11 +18,12 @@
     const progress = getPlayedPercentage(item)
 
     const onMouseLeave = () => {
-        expanded = false
         clearTimeout(timeout)
+        timeout = window.setTimeout(() => expanded = false, 500)
     }
     const onMouseEnter = () => {
         if($mobile || wide) return
+        clearTimeout(timeout)
         timeout = window.setTimeout(() => expanded = true, 500)
     }
 </script>
@@ -68,7 +69,7 @@
         transition: all 500ms ease, padding-top 0ms ease;
     }
     a.wrapper.expanded {
-        flex: 600px 0 0;
+        flex: calc(min(calc(33vw - 20px), 200px) * 3 + 40px) 0 0;
         width: 600%;
         grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px);
         grid-template-columns: min(calc(33vw - 20px), 200px) 1fr;
@@ -133,7 +134,7 @@
     }
 
     div.additional {
-        width: calc(calc(600px - min(calc(33vw - 20px), 200px)) - 40px);
+        width: calc(calc(calc(min(calc(33vw - 20px), 200px) * 3 + 40px) - min(calc(33vw - 20px), 200px)) - 40px);
 
         padding: 20px;
         overflow: hidden;
