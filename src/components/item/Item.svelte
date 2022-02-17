@@ -43,7 +43,7 @@
     </div>
     {#if !wide}
         <div class="additional">
-            <h1>{item.name}</h1>
+            <h3>{item.name}</h3>
             <p>
                 {item.overview ?? $_("items.description.unavailable")}
             </p>
@@ -141,13 +141,12 @@
         display: inline-flex;
         flex-direction: column;
     }
-    div.additional h1 {
+    div.additional h3 {
         margin: 0;
     }
     div.additional p {
+        overflow: scroll;
         margin-bottom: auto;
-
-        overflow: hidden;
     }
 
     a.wrapper.expanded span {
