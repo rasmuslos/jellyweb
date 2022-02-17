@@ -39,7 +39,8 @@ const runUpdate = (updated: Settings) => {
     locale.set(language)
     
     themeStore.set(theme)
-    navigationExpandedStore.set(navigationExpanded)
+    // @ts-ignore
+    navigationExpandedStore.set(navigationExpanded === true || navigationExpanded === false ? navigationExpanded === true : navigationExpanded === "true")
 }
 export const update = (key: string, value: any) => {
     settings.update(settings => {

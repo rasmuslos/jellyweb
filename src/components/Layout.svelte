@@ -18,8 +18,6 @@
     export let theme: Theme = Theme.DARK
     export let showNavigation: boolean = true
 
-    console.log(theme);
-
     mobile.set(isMobile($session.agent))
     locale.set(i18n)
     waitLocale()

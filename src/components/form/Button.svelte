@@ -36,6 +36,8 @@
 
         border: none;
         border-radius: 10px;
+
+        flex-shrink: 0;
     }
     button.working {
         animation: 2s ease-in-out working infinite;

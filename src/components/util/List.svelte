@@ -51,6 +51,9 @@
         gap: 20px;
         scrollbar-width: none;
         -ms-overflow-style: none;
+
+        padding: 30px;
+        margin: -30px;
     }
     div.holder::-webkit-scrollbar {
         display: none;
