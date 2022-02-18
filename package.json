@@ -1,6 +1,6 @@
 {
 	"name": "jellyweb",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"scripts": {
 		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
@@ -13,6 +13,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-node": "^1.0.0-next.68",
 		"@sveltejs/kit": "next",
 		"@types/feather-icons": "^4.7.0",
 		"@types/jsonwebtoken": "^8.5.6",
@@ -29,11 +30,11 @@
 		"prettier-plugin-svelte": "^2.4.0",
 		"svelte": "^3.46.2",
 		"svelte-check": "^2.2.6",
+		"svelte-i18n": "^3.3.13",
 		"svelte-kit-cookie-session": "2.0.2",
 		"svelte-preprocess": "^4.9.4",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3",
-		"svelte-i18n": "^3.3.13"
+		"typescript": "^4.4.3"
 	},
 	"type": "module"
 }
