@@ -17,9 +17,9 @@
         <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
         <p>
             {#if item.genres}
-                {#each item.genres.splice(0, 3) as { name }}
+                {#each item.genres.splice(0, 3) as { id, name }}
                     <!--TODO: add links-->
-                    <a>{name}</a>
+                    <a href={getItemPath(id)} on:click|stopPropagation>{name}</a>
                 {/each}
             {:else if item.seriesInfo}
                 <a href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>

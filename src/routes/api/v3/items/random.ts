@@ -1,5 +1,5 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import {createApiError, createApiSuccess} from "$lib/helper";
+import {createApiSuccess} from "$lib/helper";
 import {getRandomItems} from "$lib/api/jellyfin/methods/v1";
 
 export const get: RequestHandler = async ({ locals }) => {

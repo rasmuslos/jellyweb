@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Recommendation} from "$lib/typings";
+    import type {Recommendation} from "$lib/typings";
     import ApplyMeasurements from "../../ApplyMeasurements.svelte";
     import RecommendedRow from "./RecommendedRow.svelte";
     import {_} from "svelte-i18n";

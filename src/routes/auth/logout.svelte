@@ -3,7 +3,7 @@
     import {setFetcher} from "$lib/api/internal";
     import {performLogout} from "$lib/api/internal/methods/v3";
 
-    export const load: Load = async ({fetch, session}) => {
+    export const load: Load = async ({fetch}) => {
         setFetcher(fetch)
         await performLogout()
 

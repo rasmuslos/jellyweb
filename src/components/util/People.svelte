@@ -12,7 +12,7 @@
 
 <ApplyMeasurements>
     <List title="items.sections.people">
-        {#each people as { id, name, role, image }, index}
+        {#each people as { id, name, role, image }}
             <a class="holder" href={getItemPath(id)}>
                 <Image alt={name} url={wrap(applyMaxWidth(image.url, 300))} />
                 <p>

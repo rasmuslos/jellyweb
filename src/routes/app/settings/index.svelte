@@ -1,8 +1,6 @@
 <script lang="ts">
 import { setLanguage, setTheme } from "$lib/helper";
-    import {theme} from "$lib/stores";
     import {Theme} from "$lib/typings";
-    import { locale } from "svelte-i18n";
 </script>
 
 <svelte:head>

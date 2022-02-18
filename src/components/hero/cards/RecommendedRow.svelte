@@ -1,6 +1,6 @@
 <script lang="ts">
     import {_} from "svelte-i18n";
-    import {Recommendation} from "$lib/typings";
+    import type {Recommendation} from "$lib/typings";
     import ItemList from "../../util/ItemList.svelte";
 
     export let recommendation: Recommendation

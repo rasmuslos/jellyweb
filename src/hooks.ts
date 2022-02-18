@@ -1,4 +1,4 @@
-import type {GetSession, Handle, RequestHandler} from '@sveltejs/kit';
+import type {GetSession, Handle} from '@sveltejs/kit';
 import {createApiError, JWT_SECRET} from "$lib/helper";
 import {DEVELOPMENT} from "$lib/env";
 import {handleSession} from "svelte-kit-cookie-session";

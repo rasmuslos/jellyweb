@@ -13,7 +13,7 @@
     <List title="items.sections.chapters">
         {#each chapters as { name, image }, index}
             <!--TODO: GOTO Player-->
-            <a class="holder">
+            <a class="holder" href="add_me">
                 <Image alt="Chapter {index + 1}" url={wrap(applyMaxWidth(image.url, 300))} />
                 <span>{name}</span>
             </a>
