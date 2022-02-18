@@ -1,144 +1,190 @@
-import type {Chapter as JellyfinChapter, JellyfinItem, Person as JellyfinPerson} from "$lib/typings/jellyfin";
-import type {Badges, Chapter, Genre, Item, ItemImage, ShowData} from "$lib/typings/internal";
-import type {ItemType} from "$lib/typings/internal";
-import {getResolutionText} from "$lib/helper/text";
-import {VALID_TYPES} from "$lib/typings/internal";
-import type {Person} from "$lib/typings/internal/person";
-import {convertTicksToMillis} from "$lib/helper/utils";
-import {icons} from "feather-icons";
+import type {
+    Chapter,
+    ExtendedItem,
+    Genre,
+    Image,
+    Item,
+    MediaSource, MediaStreamType,
+    Person,
+    Recommendation,
+    SeriesInfo,
+    Type
+} from "$lib/typings";
+import type {JellyfinItem, RecommendationCategory} from "$lib/typings/jellyfin/item";
+import {getRandomIndex} from "$lib/helper/util";
+import {RecommendationReason} from "$lib/typings";
 
-const UNKNOWN = "unknown"
-
-const getRandomEntry = (entries: any[]) => {
-    const index = Math.floor(Math.random() * entries.length)
-    return entries[index]
-}
-const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles, Height, Width, MediaStreams, MediaSources }: JellyfinItem, watchable: boolean): Badges => {
-    const videoStream = MediaStreams && MediaStreams.find(stream => stream.Type === "Video")
-    const mediaSource = MediaSources && MediaSources.length > 0 && MediaSources[0]
-
-    return {
-        ageRating: OfficialRating === "0" ? "PG-0" : OfficialRating,
-        communityRating: CommunityRating,
-        criticRating: CriticRating,
-        hasSubtitles: HasSubtitles,
-
-        videoRange: watchable ? videoStream && videoStream.VideoRange ? videoStream.VideoRange : "SDR" : null,
-        resolution: watchable ? getResolutionText({ Height, Width }) : null,
-        runtime: mediaSource ? convertTicksToMillis(mediaSource.RunTimeTicks) : null,
-    }
-}
-
-const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: JellyfinItem): ShowData => {
-    if(SeriesId == null) return null
-
-    return {
-        showId: SeriesId,
-        seasonId: SeasonId,
-
-        showName: SeriesName || UNKNOWN,
-        seasonName: SeasonName || UNKNOWN,
-
-        unplayedItems: UserData ? UserData.UnplayedItemCount : null
-    }
-}
-const getPrimaryImage = (primary: string, ImageBlurHashes: any) => {
-    return {
-        tag: primary,
-        hash: ImageBlurHashes ? ImageBlurHashes.Primary[primary] : null,
-    }
-}
-const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageTags, ImageTags }: JellyfinItem, wide: boolean): ItemImage => {
-    if(wide) {
-        let tag
-        let parent = false
-
-        if(BackdropImageTags && BackdropImageTags.length > 0) tag = getRandomEntry(BackdropImageTags)
-        else if(ParentBackdropImageTags && ParentBackdropImageTags.length > 0) {
-            tag = getRandomEntry(ParentBackdropImageTags)
-            parent = true
-        }
-
-        if(tag) {
-            const hash = ImageBlurHashes && ImageBlurHashes.Backdrop ? ImageBlurHashes.Backdrop[tag] || null : null
-            return {tag, hash, parent}
-        }
-    } else if(ImageTags && ImageTags.Primary) return getPrimaryImage(ImageTags.Primary, ImageBlurHashes)
-
-    return { tag: null, hash: null }
-}
-
-export const convert = (jellyfinItem: JellyfinItem, complex: boolean = false): Item => {
-    const { Id, Name, Taglines, UserData, Type } = jellyfinItem
-
-    let type = Type === "Series" ? "show" : Type.toLowerCase() as ItemType
-    const watchable = type === "movie" || type === "episode"
-
-    if(!VALID_TYPES.includes(type)) return null
+export const convertToMillis = (ticks: number) => ticks / 10000
+export const convertItem = (item: JellyfinItem): Item => {
+    const {
+        Id, Name, Type,
+        MediaSources, UserData, ProviderIds,
+        Overview, Tags, Taglines, GenreItems,
+        OfficialRating, CommunityRating, CriticRating,
+    } = item
+    
+    const type: Type = Type.toLowerCase() as unknown as Type
 
     return {
         id: Id,
-        name: Name || UNKNOWN,
+        name: Name,
+        type: type,
+        overview: Overview,
 
-        badges: getBadges(jellyfinItem, watchable),
-        type,
-
-        overview: jellyfinItem.Overview,
-        tagline: Taglines && Taglines.length > 0 ? Taglines[0] : null,
-        lastPlayed: UserData && UserData.LastPlayedDate ? UserData.LastPlayedDate : 0,
-
-        playable: watchable,
-        watched: UserData && (UserData.UnplayedItemCount === 0 || UserData.Played),
-        favorite: UserData && UserData.IsFavorite,
+        tags: Tags,
+        tagline: Taglines?.[0],
+        release: item.PremiereDate as unknown as string,
+        genres: GenreItems?.map(convertGenre),
 
         images: {
-            normal: getImageData(jellyfinItem, false),
-            wide: getImageData(jellyfinItem, true),
+            primary: getPrimaryImage(item),
+            backdrop: getBackdropImage(item),
+        },
+        externalIds: {
+            imdb: ProviderIds?.Imdb,
         },
 
-        playbackTicks: watchable && UserData ? UserData.PlaybackPositionTicks : null,
-        playedPercentage: watchable && UserData ? UserData.PlayedPercentage : null,
-        showData: getShowData(jellyfinItem),
+        seriesInfo: getSeriesInfo(type, item),
+        runtime: convertToMillis(MediaSources?.[0].RunTimeTicks),
 
-        people: complex && jellyfinItem.People && jellyfinItem.People.length > 0 ? jellyfinItem.People.map(convertSimplePerson) : null,
-        chapters: complex && jellyfinItem.Chapters && jellyfinItem.Chapters.length > 0 ? jellyfinItem.Chapters.map(convertChapter) : null
-    }
-}
-export const convertGenre = (jellyfinItem: JellyfinItem): Genre => {
-    return {
-        id: jellyfinItem.Id,
-        name: jellyfinItem.Name || UNKNOWN,
-    }
-}
-export const convertPerson = (jellyfinItem: JellyfinItem): Person => {
-    return {
-        id: jellyfinItem.Id,
-        name: jellyfinItem.Name || UNKNOWN,
-        role: null,
-        overview: jellyfinItem.Overview || UNKNOWN,
-        images: {
-            normal: getImageData(jellyfinItem, false),
-            wide: null,
+        rating: OfficialRating,
+        ratings: {
+            critic: CriticRating,
+            audience: CommunityRating,
+        },
+
+        userData: {
+            favorite: UserData?.IsFavorite ?? false,
+            watched: UserData?.Played ?? false,
+            position: convertToMillis(UserData?.PlaybackPositionTicks ?? 0)
         }
     }
 }
-export const convertSimplePerson = (person: JellyfinPerson): Person => {
+export const convertItemExtended = (item: JellyfinItem): ExtendedItem => {
     return {
-        id: person.Id,
-        name: person.Name || UNKNOWN,
-        role: person.Role || person.Type || UNKNOWN,
-        images: {
-            normal: getPrimaryImage(person.PrimaryImageTag, person.ImageBlurHashes),
-            wide: null,
-        },
-    }
-}
-export const convertChapter = (chapter: JellyfinChapter): Chapter => {
-    return {
-        name: chapter.Name,
-        start: chapter.StartPositionTicks,
-        tag: chapter.ImageTag,
+        ...convertItem(item),
+        chapters: convertChapters(item),
+        people: convertPeople(item),
+        mediaSources: getMediaSources(item)
     }
 }
 
-export const getBadge = ({ watched, showData }: Item) => watched ? icons["check"].toSvg({ stroke: "var(--highlight)" }) : showData && showData.unplayedItems || null
+export const convertChapters = ({ Id, Chapters }: JellyfinItem): Chapter[] => {
+    return Chapters?.map(({ Name, StartPositionTicks, ImageTag }, index) => {
+        return {
+            name: Name,
+            start: convertToMillis(StartPositionTicks),
+            image: {
+                url: `Items/${Id}/Images/Chapter/${index}?tag=${ImageTag}`,
+                hash: null,
+            }
+        }
+    })
+}
+export const convertPeople = ({ People }: JellyfinItem): Person[] => {
+    return People?.map(({ Id, Name, Type, Role, PrimaryImageTag, ImageBlurHashes }) => {
+        return {
+            id: Id,
+            name: Name,
+            role: Role ?? Type ?? "?",
+            image: getPrimaryPersonImage(Id, PrimaryImageTag, ImageBlurHashes),
+        }
+    })
+}
+export const convertGenre = ({ Id, Name }: JellyfinItem): Genre => {
+    return {
+        id: Id,
+        name: Name,
+    }
+}
+
+const getMediaSources = ({ MediaSources }: JellyfinItem): MediaSource[] => {
+    return MediaSources?.map(({ Id, Container, RunTimeTicks, Bitrate, MediaStreams }) => {
+        return {
+            id: Id,
+            container: Container,
+            runtime: convertToMillis(RunTimeTicks),
+            bitrate: Bitrate,
+            mediaStreams: MediaStreams.map(({ Codec, Type, VideoRange, DisplayTitle, Language }) => {
+                return {
+                    codec: Codec,
+                    type: Type.toLowerCase(),
+                    range: VideoRange?.toLowerCase(),
+                    title: DisplayTitle,
+                    language: Language,
+                }
+            }),
+        }
+    })
+}
+const getSeriesInfo = (type: Type, item: JellyfinItem): SeriesInfo => {
+    const { SeriesId, SeriesName, SeasonId, SeasonName } = item
+
+    if(type === "season") return {
+        show: SeriesId,
+        showName: SeriesName,
+        primaryImage: getShowPrimaryImage(item),
+    }
+    else if(type === "episode") return {
+        show: SeriesId,
+        showName: SeriesName,
+        season: SeasonId,
+        seasonName: SeasonName,
+        primaryImage: getShowPrimaryImage(item),
+    }
+    else return null
+}
+
+const getShowPrimaryImage = ({ SeriesId, SeriesPrimaryImageTag, ImageBlurHashes }: JellyfinItem): Image => {
+    const index = 0
+
+    return {
+        url: `Items/${SeriesId}/Images/Primary/${index}`,
+        hash: ImageBlurHashes?.Primary?.[SeriesPrimaryImageTag],
+    }
+}
+const getPrimaryPersonImage = (id: string, primaryImageTag: string, imageBlurHashes: any): Image => {
+    return {
+        url: `Items/${id}/Images/Primary/0?tag=${primaryImageTag}`,
+        hash: imageBlurHashes?.[primaryImageTag],
+    }
+}
+const getPrimaryImage = ({ Id, ImageTags, ImageBlurHashes }: JellyfinItem): Image => {
+    const index = 0
+    const tag: string = ImageTags?.Primary
+
+    return {
+        url: `Items/${Id}/Images/Primary/${index}?tag=${tag}`,
+        hash: ImageBlurHashes?.Primary?.[tag],
+    }
+}
+const getBackdropImage = ({ Id, BackdropImageTags, ImageBlurHashes, SeriesId, ParentBackdropImageTags }: JellyfinItem): Image => {
+    if(BackdropImageTags.length) {
+        const index = getRandomIndex(BackdropImageTags)
+        const tag: string = BackdropImageTags?.[index]
+        return {
+            url: `Items/${Id}/Images/Backdrop/${index}?tag=${tag}`,
+            hash: ImageBlurHashes?.Backdrop?.[tag],
+        }
+    } else if(SeriesId && ParentBackdropImageTags && ParentBackdropImageTags.length) {
+        const index = getRandomIndex(ParentBackdropImageTags)
+        const tag: string = ParentBackdropImageTags?.[index]
+        return {
+            url: `Items/${SeriesId}/Images/Backdrop/${index}?tag=${tag}`,
+            hash: ImageBlurHashes?.Backdrop?.[tag],
+        }
+    }
+}
+
+const getReason = (reason: RecommendationCategory): RecommendationReason => RecommendationReason[reason]
+export const convertRecommendation = ({ RecommendationType, BaselineItemName, Items }: any): Recommendation => {
+    return {
+        reason: getReason(RecommendationType),
+        title: BaselineItemName,
+        items: Items.map(convertItem),
+    }
+}
+
+export const getVideoRange = (item: ExtendedItem): "hdr" | "sdr" => item.mediaSources?.[0].mediaStreams?.find(({ range }) => range != null)?.range as any
+export const getStreamsOfType = (mediaSources: MediaSource[], streamType: MediaStreamType) => mediaSources?.map(({ mediaStreams }) => mediaStreams)?.map(streams => streams?.filter(({ type }) => type === streamType))
+export const convertStreamsToText = (mediaSources: MediaSource[], streamType: MediaStreamType) => getStreamsOfType(mediaSources, streamType).map(streams => streams.map(({ title, language }) => `${title} (${language})`).join(", ")).join(", ")

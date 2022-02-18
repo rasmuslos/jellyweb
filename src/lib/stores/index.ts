@@ -1,2 +1,4 @@
-export * from "./home"
-export * from "./player"
+export * from "./general"
+export * from "./navigation"
+export * from "./active"
+export * from "./settings"

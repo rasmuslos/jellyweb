@@ -1,0 +1,18 @@
+/*
+ * https://coolors.co/9c0d38-ce5374-dbbbf5-ddf0ff-07090f
+ */
+
+:root {
+    --text: yellow;
+    --navigation: palevioletred;
+
+    --background: pink;
+    --background-secondary: deeppink;
+
+    --background-rgb: 255, 192, 203;
+    --background-secondary-rgb: 255, 20, 147;
+}
+
+* {
+    font-family: "Comic Sans MS", monospace;
+}

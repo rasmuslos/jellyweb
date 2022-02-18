@@ -19,11 +19,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+
       - name: Install dependencies
         run: |
           npm install
-        
+
       - name: Build app
         # Sadly we have to include a cookie secret so the build can succeed
         run: |

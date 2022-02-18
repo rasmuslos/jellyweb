@@ -1,0 +1,104 @@
+{
+  "navigation": {
+    "home": "Home",
+    "movies": "Movies",
+    "series":  "Series",
+    "collections": "Collections",
+
+    "search":  "Search",
+    "search_tip":  "Search",
+
+    "account": "Account",
+    "settings": "Settings",
+
+    "collapse": "Collapse",
+    "more": "More"
+  },
+  "auth": {
+    "login": {
+      "hello": "Hello {name}",
+      "server": "Server",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login",
+
+      "error": {
+        "missing": "Enter username & password",
+        "server": "Provide valid url (http[s]://host.tld)"
+      }
+    }
+  },
+  "recommendation": {
+    "reason": {
+      "recent": {
+        "played": "Because you recently watched {title}",
+        "director": "Because you recently watched a movie by {title}",
+        "actor": "Because you recently watched a movie with {title}"
+      },
+      "liked": {
+        "similar": "Because you like {title}",
+        "director": "Because you like {title}",
+        "actor": "Because you like {title}"
+      }
+    }
+  },
+  "items": {
+    "actions": {
+      "play": "Watch now",
+      "like": "Like",
+      "liked": "Liked",
+      "watched": "Watched",
+      "unseen": "Mark as unseen"
+    },
+    "sections": {
+      "chapters": "Chapters",
+      "people": "People",
+      "similar": "Similar",
+      "media": "Media",
+      "episodes": "Episodes ({season})",
+      "seasons": "Seasons",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "nextUp": "Next up: {name}",
+      "items": "Items"
+    },
+    "description.unavailable": "No description available",
+    "fields": {
+      "general": {
+        "title": "General",
+        "released": "Released",
+        "rating": "Rating",
+        "runtime": "Runtime (MS)"
+      },
+      "media": {
+        "title": "Media",
+        "containers": "Containers",
+        "codec": "Codec",
+        "bitrate": "Bitrate"
+      },
+      "streams": {
+        "title": "Streams",
+        "count": "Count",
+        "audio": "Audio",
+        "subtitles": "Subtitles"
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "current": "Current",
+      "recommended": "Recommended",
+      "latest": "Latest",
+      "random": "Watch this",
+      "bestRated": "Best Rated",
+      "genres": "Genres"
+    }
+  },
+  "util": {
+    "search": "Search",
+    "lazy": {
+      "empty": "No results...",
+      "loading": "loading..."
+    }
+  }
+}

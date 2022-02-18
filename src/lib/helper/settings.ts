@@ -1,60 +1,57 @@
-import {settings} from "$lib/stores";
-import {writable} from "svelte/store";
-import {compareObjects} from "$lib/helper/utils";
-import {browser} from "$app/env";
-import {updatePreferences, deletePreferences as deleteCustomPreferences} from "$lib/api/internal";
+import { browser } from "$app/env";
+import { getSettings, updateSettings } from "$lib/api/internal/methods/v3";
+import { navigationExpanded as navigationExpandedStore, settings, theme as themeStore } from "$lib/stores"
+import { Settings, Theme } from "$lib/typings";
+import equal from "fast-deep-equal/es6"
+import { locale } from "svelte-i18n";
 
-let last = {}
+let registered = false
+let current: Settings
 
-export const fallbackLocale = "en"
+export const insertDefaultValues = (settings: Settings): Settings => Object.assign({
+    language: "en",
+    theme: Theme.DARK,
+    navigationExpanded: true,
+} as Settings, settings)
 
-export const scrimBackdropImages = writable<boolean>(false)
-export const showHeroImages = writable<boolean>(false)
-export const blurHeroImages = writable<boolean>(false)
+export const loadSettings = async () => {
+    if(registered) return
+    registered = true
 
-export const maxBitrate = writable<number>(-1)
+    current = await getSettings()
+    settings.set({...current})
+    runUpdate(current)
 
-export const lightMode = writable<boolean>(false)
-export const locale = writable<string>(fallbackLocale)
+    if(!browser) return
 
-export const sortOrder = writable<string>()
-export const orderBy = writable<string>(null)
-
-export const large = writable<boolean>(false)
-export const showHero = writable<boolean>(false)
-
-export const deletePreferences = async () => {
-    await deleteCustomPreferences()
-    settings.set({})
-}
-export const updatePreference = (identifier: string, value: any) => {
-    settings.update(preferences => {
-        preferences[identifier] = value
-        last = {}
-        return preferences
+    settings.subscribe(updated => {
+        if(!equal(current, updated)) {
+            updateSettings(updated).catch(error => console.error("Error while updating settings", error))
+            runUpdate(updated)
+        }
     })
 }
 
-export const init = () => {
-    if(browser) {
-        settings.subscribe(data => {
-            if(!compareObjects(data, last)) updatePreferences(data)
-            last = data
-        })
-        settings.subscribe(settings => {
-            scrimBackdropImages.set(settings["images.scrim"] !== "false")
-            showHeroImages.set(settings["images.hero"] !== "false")
-            blurHeroImages.set(settings["images.blur"] === "true")
-            maxBitrate.set(settings["bitrate"] ?? 80000000)
+const runUpdate = (updated: Settings) => {
+    const { theme, language, navigationExpanded } = updated
+    current = {...updated}
 
-            lightMode.set(settings["theme"] === "light")
-            locale.set(settings["locale"] ?? fallbackLocale)
-
-            sortOrder.set(settings["sort.order"] ?? null)
-            orderBy.set(settings["sort.by"] ?? null)
-
-            large.set(settings["large"] === "true")
-            showHero.set(settings["showHero"] === "true")
-        })
-    }
+    locale.set(language)
+    
+    themeStore.set(theme)
+    // @ts-ignore
+    navigationExpandedStore.set(navigationExpanded === true || navigationExpanded === false ? navigationExpanded === true : navigationExpanded === "true")
 }
+export const update = (key: string, value: any) => {
+    settings.update(settings => {
+        if(!settings) return
+
+        // @ts-ignore
+        settings[key] = value
+        return settings
+    })
+}
+
+export const setTheme = (theme: Theme) => update("theme", theme)
+export const setLanguage = (language: string) => update("language", language)
+export const setNavigationExpanded = (expanded: boolean) => update("navigationExpanded", expanded)

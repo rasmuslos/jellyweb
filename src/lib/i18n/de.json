@@ -1,0 +1,102 @@
+{
+    "navigation": {
+      "home": "Start",
+      "movies": "Filme",
+      "series":  "Serien",
+      "collections": "Sammlungen",
+  
+      "search":  "Suche",
+      "search_tip":  "Suche",
+  
+      "account": "Account",
+      "settings": "Einstellungen",
+  
+      "collapse": "Einklappen",
+      "more": "Mehr"
+    },
+    "auth": {
+      "login": {
+        "hello": "Hallo {name}",
+        "server": "Server",
+        "username": "Benutzername",
+        "password": "Password",
+        "submit": "Anmelden",
+  
+        "error": {
+          "missing": "Gib einen Benutzernamen & ein Password an",
+          "server": "Ungültige URL (http[s]://host.tld)"
+        }
+      }
+    },
+    "recommendation": {
+      "reason": {
+        "recent": {
+          "played": "Weil du vor kurzem {title} geschaut hast",
+          "director": "Weil du vor kurzem einem Film von {title} gesehen hast",
+          "actor": "Weil du vor kurzem einem Film mit {title} geschaut hast"
+        },
+        "liked": {
+          "similar": "Weil du {title} magst",
+          "director": "Weil du {title} magst",
+          "actor": "Weil du {title} magst"
+        }
+      }
+    },
+    "items": {
+      "actions": {
+        "play": "Anschauen",
+        "like": "Gefällt mir",
+        "watched": "Gesehen"
+      },
+      "sections": {
+        "chapters": "Kapitel",
+        "people": "Personen",
+        "similar": "Ähnlich",
+        "media": "Medien",
+        "episodes": "Episoden ({season})",
+        "seasons": "Staffeln",
+        "expand": "Mehr",
+        "collapse": "Weniger",
+        "nextUp": "Als nächstes: {name}",
+        "items": "Items"
+      },
+      "description.unavailable": "Keine Beschreibung verfügbar",
+      "fields": {
+        "general": {
+          "title": "Generell",
+          "released": "Veröffentlicht",
+          "rating": "Bewertung",
+          "runtime": "Dauer (MS)"
+        },
+        "media": {
+          "title": "Media",
+          "containers": "Containers",
+          "codec": "Codec",
+          "bitrate": "Bitrate"
+        },
+        "streams": {
+          "title": "Streams",
+          "count": "Anzahl",
+          "audio": "Audio",
+          "subtitles": "Untertietel"
+        }
+      }
+    },
+    "pages": {
+      "home": {
+        "current": "Aktuell",
+        "recommended": "Empfohlen",
+        "latest": "Neu",
+        "random": "Schau das",
+        "bestRated": "Am besten bewertet",
+        "genres": "Genres"
+      }
+    },
+    "util": {
+      "search": "Suche",
+      "lazy": {
+        "empty": "Keine Ergebnisse...",
+        "loading": "Lade..."
+      }
+    }
+  }
