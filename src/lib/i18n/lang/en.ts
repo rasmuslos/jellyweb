@@ -84,4 +84,6 @@ export const en = {
     // Episodes
     "episodes.error": "Error while retrieving episodes",
     "episodes.loading": "Loading episodes...",
+
+    "pain": "pain",
 }

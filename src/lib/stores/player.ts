@@ -1,8 +1,6 @@
-import {writable} from "svelte/store";
+import {writable} from "svelte/store"
+import type {Source} from "$lib/typings/internal";
+import type {BITRATES} from "$lib/typings/internal";
 
-
-export const bitrate = writable<number>(-1)
-
-export const activeMediaSource = writable<string>(null)
-export const activeAudioTrack = writable<number>(null)
-export const activeSubtitleTrack = writable<number>(null)
+export const bitrate = writable<typeof BITRATES[number]>(80000000)
+export const source = writable<Source>(null)

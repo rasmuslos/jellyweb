@@ -1,22 +1,7 @@
-<style>
-    div {
-        position: relative;
+<script>
+    import Layout from "../../components/Layout.svelte";
+</script>
 
-        height: 100%;
-        width: 100%;
-
-        color: var(--text);
-        font-size: var(--size);
-        font-family: var(--font);
-
-        background-color: var(--background);
-        overflow: hidden;
-    }
-</style>
-
-<svelte:head>
-    <meta name="theme-color" content="#2E3440">
-</svelte:head>
-<div>
+<Layout>
     <slot />
-</div>
+</Layout>

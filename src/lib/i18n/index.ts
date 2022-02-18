@@ -1,6 +1,7 @@
 import { derived } from "svelte/store";
 import * as translations from "./lang";
-import {fallbackLocale, locale} from "$lib/helper";
+import {fallbackLocale} from "$lib/helper";
+import {preferences} from "$lib/stores";
 
 export const locales = Object.keys(translations);
 
@@ -23,6 +24,6 @@ function translate(locale, key, vars) {
   return text;
 }
 
-export const t = derived(locale, ($locale) => (key, vars = {}) =>
-  translate($locale, key, vars)
+export const t = derived(preferences, ($preferences) => (key, vars = {}) =>
+  translate($preferences.locale, key, vars)
 );

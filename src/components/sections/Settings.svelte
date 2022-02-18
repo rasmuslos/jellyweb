@@ -4,34 +4,32 @@
     import type {Option} from "$lib/typings/jellyfin";
     import GenericButton from "../input/GenericButton.svelte";
     import {
-        scrimBackdropImages,
         deletePreferences,
-        showHeroImages,
         updatePreference,
-        blurHeroImages, large, showHero
     } from "$lib/helper";
     import Wave from "./Wave.svelte";
     import {t} from "$lib/i18n";
     import LargeHeading from "../helper/LargeHeading.svelte";
     import {goto} from "$app/navigation";
+    import {preferences} from "$lib/stores";
 
     const imageOptions: Option[] = [
         {
             title: "settings_show_hero",
             description: "settings_show_hero_desc",
-            checked: $showHeroImages,
+            checked: $preferences.showHeroImages,
             identifier: "images.hero",
         },
         {
             title: "settings_scrim_hero",
             description: "settings_scrim_hero_desc",
-            checked: $scrimBackdropImages,
+            checked: $preferences.scrimBackdropImages,
             identifier: "images.scrim",
         },
         {
             title: "settings_blur_hero",
             description: "settings_blur_hero_desc",
-            checked: $blurHeroImages,
+            checked: $preferences.blurHeroImages,
             identifier: "images.blur",
         },
     ]
@@ -39,13 +37,13 @@
         {
             title: "settings.large",
             description: "settings.large.desc",
-            checked: $large,
+            checked: $preferences.large,
             identifier: "large",
         },
         {
             title: "settings.showHero",
             description: "settings.showHero.desc",
-            checked: $showHero,
+            checked: $preferences.showHero,
             identifier: "showHero",
         },
     ]
@@ -109,6 +107,7 @@
             {$t("settings_danger_zone_desc")}
         </p>
         <figure class="center">
+            <GenericButton on:click={() => updatePreference("theme", "ugly")} label="{$t(`pain`)}" />
             <GenericButton on:click={deletePreferences} label="{$t(`settings_reset_all`)}" />
             <GenericButton on:click={() => window.location = "user/logout"} label="{$t(`logout`)}" />
         </figure>

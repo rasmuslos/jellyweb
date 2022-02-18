@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {generateImageUrl, showHero} from "$lib/helper";
+    import {generateImageUrlIndex} from "$lib/helper";
     import VerticalListInner from "../helper/sections/VerticalListInner.svelte";
     import ApplyWidth from "../helper/sections/ApplyWidth.svelte";
     import BackgroundSection from "../helper/sections/BackgroundSection.svelte";
@@ -7,6 +7,7 @@
     import AlternateHero from "../helper/sections/AlternateHero.svelte";
     import {icons} from "feather-icons";
     import type {Item} from "$lib/typings/internal";
+    import {preferences} from "$lib/stores";
 
     export let items: Item[]
     export let active: Item = items[0]
@@ -75,8 +76,8 @@
     }
 </style>
 
-<div class="hero" class:hide={!$showHero}>
-    <BackgroundSection fade url={generateImageUrl(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, "Backdrop")}>
+<div class="hero" class:hide={!$preferences.showHero}>
+    <BackgroundSection fade url={generateImageUrlIndex(active.images.wide.parent ? active.showData.showId : active.id, active.images.wide.tag, active.images.wide.index, `Backdrop`)}>
         <AlternateHero item={active} />
         <div class="controls">
             <span on:click={() => updateActive(false)}>{@html icons["arrow-left-circle"].toSvg()}</span>

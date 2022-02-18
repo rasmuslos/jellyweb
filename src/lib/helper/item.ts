@@ -11,7 +11,10 @@ const UNKNOWN = "unknown"
 
 const getRandomEntry = (entries: any[]) => {
     const index = Math.floor(Math.random() * entries.length)
-    return entries[index]
+    return {
+        index,
+        tag: entries[index],
+    }
 }
 const getBadges = ({ CommunityRating, CriticRating, OfficialRating, HasSubtitles, Height, Width, MediaStreams, MediaSources }: JellyfinItem, watchable: boolean): Badges => {
     const videoStream = MediaStreams && MediaStreams.find(stream => stream.Type === "Video")
@@ -42,30 +45,35 @@ const getShowData = ({ SeriesId, SeasonId, SeriesName, SeasonName, UserData }: J
         unplayedItems: UserData ? UserData.UnplayedItemCount : null
     }
 }
-const getPrimaryImage = (primary: string, ImageBlurHashes: any) => {
+const getPrimaryImage = (primary: string, ImageBlurHashes: any): ItemImage => {
     return {
+        index: 0,
         tag: primary,
         hash: ImageBlurHashes ? ImageBlurHashes.Primary[primary] : null,
     }
 }
 const getImageData = ({ BackdropImageTags, ImageBlurHashes, ParentBackdropImageTags, ImageTags }: JellyfinItem, wide: boolean): ItemImage => {
     if(wide) {
-        let tag
+        let entry
         let parent = false
 
-        if(BackdropImageTags && BackdropImageTags.length > 0) tag = getRandomEntry(BackdropImageTags)
+        if(BackdropImageTags && BackdropImageTags.length > 0) entry = getRandomEntry(BackdropImageTags)
         else if(ParentBackdropImageTags && ParentBackdropImageTags.length > 0) {
-            tag = getRandomEntry(ParentBackdropImageTags)
+            entry = getRandomEntry(ParentBackdropImageTags)
             parent = true
         }
 
-        if(tag) {
-            const hash = ImageBlurHashes && ImageBlurHashes.Backdrop ? ImageBlurHashes.Backdrop[tag] || null : null
-            return {tag, hash, parent}
+        if(entry) {
+            const hash = ImageBlurHashes && ImageBlurHashes.Backdrop ? ImageBlurHashes.Backdrop[entry.tag] || null : null
+            return {
+                index: entry.index,
+                tag: entry.tag,
+                hash,
+                parent}
         }
     } else if(ImageTags && ImageTags.Primary) return getPrimaryImage(ImageTags.Primary, ImageBlurHashes)
 
-    return { tag: null, hash: null }
+    return { index: null, tag: null, hash: null }
 }
 
 export const convert = (jellyfinItem: JellyfinItem, complex: boolean = false): Item => {

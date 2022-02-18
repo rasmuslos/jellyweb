@@ -26,7 +26,7 @@
         prevQuery = query
     }
 
-    // This is really ugly but other attempts failed and it works, so i guess it will stay
+    // This is hideous but other attempts failed, and it works, so I guess it will stay
     const interval = setInterval(async () => {
         if(intersecting && !loading && !end) {
             loading = true
@@ -75,7 +75,7 @@
 
     h1 {
         text-align: center;
-        color: var(--error);
+        color: var(--red);
     }
     p {
         color: var(--dimmed);

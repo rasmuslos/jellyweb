@@ -20,8 +20,8 @@
         if(window && window.matchMedia && window.matchMedia("screen and (max-width: 1000px)").matches) return
 
         link.style.left = null
-        link.style.height = `${link.scrollHeight}px`
         link.classList.remove("center")
+        link.style.height = `${link.scrollHeight}px`
 
         expanded = true
         calculateBounds()
@@ -51,7 +51,12 @@
     }
 
     afterUpdate(() => {
-        if(link) link.style.height = `${link.scrollHeight}px`
+        if(link) {
+            link.style.height = `${link.scrollHeight}px`
+            setTimeout(() => {
+                link.style.height = "unset"
+            }, 350)
+        }
     })
 </script>
 
@@ -73,6 +78,11 @@
     .holder.wide {
         width: 300px;
         min-height: 170px;
+    }
+    .holder:not(.wide).expanded {
+        /*
+        min-height: 170px;
+        */
     }
 
     a.item {
@@ -104,6 +114,7 @@
         box-sizing: content-box;
 
         width: 400px;
+
         z-index: 2;
 
         bottom: -20px;
@@ -126,7 +137,11 @@
     }
 
     h2 {
-        margin-bottom: 0;
+        margin: 0;
+    }
+    p {
+        text-wrap: none;
+        margin: 5px 0 10px 0;
     }
 
     @media screen and (max-width: 1000px) {
@@ -137,7 +152,7 @@
     }
 </style>
 
-<div class:wide class:small on:focus on:mouseover class="holder">
+<div class:wide class:expanded class:small on:focus on:mouseover class="holder">
     <a class="item" class:expanded href={generateItemUrl(item.id)} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} bind:this={link}>
         <ItemImage {wide} {small} {item} {badge} stretch={expanded} />
         {#if expanded}

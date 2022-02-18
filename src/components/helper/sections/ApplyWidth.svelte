@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {large} from "$lib/helper";
+import {preferences} from "$lib/stores";
 </script>
 
 <style>
@@ -16,6 +16,6 @@
     }
 </style>
 
-<div class:large={$large}>
+<div class:large={$preferences.large}>
     <slot />
 </div>

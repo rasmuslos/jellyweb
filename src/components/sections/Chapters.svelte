@@ -41,7 +41,7 @@
     }
     h3 {
         margin: 75px 0;
-        color: var(--error);
+        color: var(--red);
 
         font-weight: 600;
         text-align: center;
@@ -59,9 +59,7 @@
                     <a on:click={() => click(chapter.start)}
                        href={handleClick ? generatePlayerUrl(itemId, chapter.start) : null}
                        class="item">
-                        <ItemImage
-                                url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.tag}`}
-                                wide showProgress={false} isWatchable/>
+                        <ItemImage url={`${$session.active.server}/Items/${itemId}/Images/Chapter/${index}?maxWidth=300&tag=${chapter.tag}`} wide />
                         <p>
                             {chapter.name}
                             <span class="dimmed">{ticksToHumanReadable(chapter.start || 0, 10000)}</span>

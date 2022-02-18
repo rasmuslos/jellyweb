@@ -2,7 +2,8 @@
     import ApplyWidth from "../sections/ApplyWidth.svelte";
     import type {SortItem} from "$lib/typings/jellyfin";
     import {t} from "$lib/i18n";
-    import {orderBy, sortOrder, updatePreference} from "$lib/helper";
+    import {updatePreference} from "$lib/helper";
+    import {preferences} from "$lib/stores";
 
     export let value: string = ""
 
@@ -51,15 +52,15 @@
         },
     }
 
-    let sort: SortItem = Object.values(Sort).find(item => item.query === $sortOrder) ?? Sort.SORT_NAME
-    let order: SortItem = Object.values(Order).find(item => item.query === $orderBy) ?? Order.ASCENDING
+    let sort: SortItem = Object.values(Sort).find(item => item.query === $preferences.sortOrder) ?? Sort.SORT_NAME
+    let order: SortItem = Object.values(Order).find(item => item.query === $preferences.orderBy) ?? Order.ASCENDING
 
     let expanded: boolean = false
 
     export let sortQuery
     $: sortQuery = `sortBy=${sort.query}&sortOrder=${order.query}${value !== "" ? `&searchTerm=${value}` : ""}`
-    $: sort != Sort[$sortOrder] && updatePreference("sort.order", sort.query)
-    $: order != Order[$orderBy] && updatePreference("sort.by", order.query)
+    $: sort != Sort[$preferences.sortOrder] && updatePreference("sort.order", sort.query)
+    $: order != Order[$preferences.orderBy] && updatePreference("sort.by", order.query)
 </script>
 
 <style>
