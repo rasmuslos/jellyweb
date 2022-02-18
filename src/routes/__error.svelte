@@ -1,55 +1,79 @@
 <script context="module" lang="ts">
-    export function load({ error, status, page }) {
-        if(page.path === "/error") return {
-            props: {
-                title: "An unknown error occurred"
-            }
-        }
+	import { Response, Theme } from "$lib/typings";
+	import type { ErrorLoad } from "@sveltejs/kit";
 
-        try {
-            const message = JSON.parse(error.message)
-            const status = message.status || 500
+	export const load: ErrorLoad = ({error, status, session}) => {
+        mobile.set(isMobile(session.agent))
 
-            if(status === 401) return {
-                status: 301,
-                redirect: "/error"
-            }
-            else return {
-                props: {
-                    title: `[${status}] ${message.error}`,
-                    status,
-                }
-            }
-        } catch (err) {
-            return {
-                props: {
-                    title: `${status}: ${error.message}`,
-                }
-            }
-        }
-    }
+		try {
+			const data = JSON.parse(error.message) as unknown as Response<string>
+			const status = data.status ?? 500
+			
+			if(status === 401) return {
+				status: 302,
+				redirect: "/auth/logout"
+			}
+
+			return {
+				props: {
+					title: status,
+					description: data.payload ?? "Unknown server error (1)"
+				}
+			}
+		} catch (exception) {
+			if(status === 404) return {
+				props: {
+					title: "Not found",
+					description: "The requested resource cannot be found",
+				}
+			}
+
+			return {
+				props: {
+					title: 500,
+					description: "Unknown server error (2)",
+				}
+			}
+		}
+	}
 </script>
 <script lang="ts">
-    export let title: string
+	import Layout from "../components/Layout.svelte"
+	import Heading from "../components/hero/Heading.svelte"
+	import Push from "../Push.svelte"
+	import ApplyMeasurements from "../components/ApplyMeasurements.svelte"
+	import Button from "../components/form/Button.svelte"
+	import { goto } from "$app/navigation";
+	import { mobile } from "$lib/stores";
+	import { isMobile } from "$lib/helper";
+
+	export let title: string = "500"
+	export let description: string = "Unknown server error (3)"
 </script>
 
-<style>
-    section {
-        text-align: center;
-    }
-    h1 {
-        color: var(--red);
-    }
-    a {
-        background-color: #8FBCBB80;
-    }
-</style>
-
 <svelte:head>
-    <title>{title}</title>
+	<title>Error {title}</title>
 </svelte:head>
 
-<section>
-    <h1>{title || "Unknown error"}</h1>
-    <a href="/">Take me back</a>
-</section>
+<Layout i18n="en" theme={Theme.DARK} showNavigation={false}>
+		<ApplyMeasurements>
+		<div>
+			<Push big />
+			<Heading>{title}</Heading>
+			<p>
+				{description}
+			</p>
+			<Push smaller />
+			<a href="/">&#8592; Take me back</a>
+		</div>
+	</ApplyMeasurements>
+</Layout>
+
+<style>
+	div {
+		text-align: center;
+	}
+	a {
+		color: var(--primary);
+	}
+</style>

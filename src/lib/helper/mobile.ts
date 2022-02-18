@@ -1,0 +1,1 @@
+export const isMobile = (userAgent: string = navigator.userAgent) => /iPhone/i.test(userAgent) || /webOS/i.test(userAgent) || /Android/i.test(userAgent) || /iPod/i.test(userAgent) || /BlackBerry/i.test(userAgent) || /Windows Phone/i.test(userAgent) // /iPad/i.test(userAgent) ||

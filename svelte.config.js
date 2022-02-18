@@ -1,16 +1,11 @@
-import preprocess from "svelte-preprocess";
-import node from "@sveltejs/adapter-node";
+import adapter from '@sveltejs/adapter-auto';
+import preprocess from 'svelte-preprocess';
 
 const config = {
 	preprocess: preprocess(),
 	kit: {
-		target: "body",
-		adapter: node({
-			env: {
-				host: "BIND",
-			}
-		})
-	}
+		adapter: adapter(),
+	},
 };
 
 export default config;
