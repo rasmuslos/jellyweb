@@ -1,6 +1,6 @@
 {
 	"name": "jellyweb",
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"scripts": {
 		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
