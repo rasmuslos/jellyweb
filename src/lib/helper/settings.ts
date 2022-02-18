@@ -2,7 +2,7 @@ import { browser } from "$app/env";
 import { getSettings, updateSettings } from "$lib/api/internal/methods/v3";
 import { navigationExpanded as navigationExpandedStore, settings, theme as themeStore } from "$lib/stores"
 import { Settings, Theme } from "$lib/typings";
-import equal from "fast-deep-equal/es6"
+import equal from "fast-deep-equal/es6/index.js"
 import { locale } from "svelte-i18n";
 
 let registered = false
