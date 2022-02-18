@@ -8,6 +8,7 @@ ENV COOKIE_SECRET=""
 ENV HOST=""
 
 COPY package.json .
+COPY node_modules .
 COPY build .
 
 EXPOSE ${PORT}
