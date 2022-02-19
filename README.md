@@ -21,7 +21,7 @@ Then visit [localhost:7575](http://localhost:7575)
 
 ## Environment variables
 `JWT_SECRET` **required** Secret used to encrypt session data \
-`VITE_HOST` **optional** Only allow to select this host
+`FORCED_HOST` **optional** Only allow to select this host
 
 `ORIGIN` **optional** Tell the server the origin it is served on
 `PROTOCOL_HEADER` **optional** Tell the server the protocol it is served on

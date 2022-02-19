@@ -1,3 +1,19 @@
+<script lang="ts" context="module">
+    import type {Load} from "@sveltejs/kit";
+    import {setFetcher} from "$lib/api/internal";
+    import {getForcedHost} from "$lib/api/internal/methods/v3";
+
+    export const load: Load = async ({fetch}) => {
+        setFetcher(fetch)
+        const FORCED_HOST = await getForcedHost()
+
+        return {
+            props: {
+                FORCED_HOST,
+            }
+        }
+    }
+</script>
 <script lang="ts">
     import Layout from "../../components/Layout.svelte";
     import {Theme} from "$lib/typings";
@@ -6,7 +22,8 @@
     import Input from "../../components/form/Input.svelte";
     import Button from "../../components/form/Button.svelte";
     import {performLogin} from "$lib/api/internal/methods/v3";
-    import { FORCED_HOST } from "$lib/helper";
+
+    export let FORCED_HOST: string
 
     let server: string = !!FORCED_HOST ? FORCED_HOST : ""
     let username: string = ""

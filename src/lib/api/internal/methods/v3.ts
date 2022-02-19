@@ -2,6 +2,7 @@ import {requestResource} from "$lib/api/internal";
 import { insertDefaultValues } from "$lib/helper";
 import type {ExtendedItem, Item, PageIndex, Settings} from "$lib/typings";
 
+export const getForcedHost = () => requestResource<string>("auth/host")
 export const performLogin = (server: string, username: string, password: string) => requestResource<any>("auth/login", {
     method: "POST",
     body: {
