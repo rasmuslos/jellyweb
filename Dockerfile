@@ -4,8 +4,11 @@ WORKDIR /app
 
 ENV PORT=80
 ENV HOST=0.0.0.0
-ENV COOKIE_SECRET=""
-ENV HOST=""
+ENV ORIGIN=null
+ENV PROTOCOL_HEADER=null
+ENV HOST_HEADER=null
+
+ENV JWT_SECRET=""
 
 COPY package.json .
 COPY node_modules .
