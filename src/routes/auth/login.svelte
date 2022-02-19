@@ -6,8 +6,9 @@
     import Input from "../../components/form/Input.svelte";
     import Button from "../../components/form/Button.svelte";
     import {performLogin} from "$lib/api/internal/methods/v3";
+    import { FORCED_HOST } from "$lib/helper";
 
-    let server: string = ""
+    let server: string = FORCED_HOST ?? ""
     let username: string = ""
     let password: string = ""
 
@@ -36,7 +37,7 @@
             </p>
         {/if}
         <form on:submit|preventDefault={handleSubmit}>
-            <Input type="url" placeholder="https://demo.jellyfin.org/stable" label="auth.login.server" required bind:value={server} disabled={working} />
+            <Input type="url" placeholder="https://demo.jellyfin.org/stable" label="auth.login.server" required bind:value={server} disabled={working || !!FORCED_HOST} />
             <Input type="text" placeholder="rasmus" label="auth.login.username" bind:value={username} required disabled={working} />
             <Input type="password" placeholder="********" label="auth.login.password" bind:value={password} disabled={working} />
             <Button action="submit" disabled={working} {working}>{$_("auth.login.submit")}</Button>

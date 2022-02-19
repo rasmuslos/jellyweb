@@ -1,6 +1,6 @@
 import type {GetSession, Handle} from '@sveltejs/kit';
 import {createApiError, JWT_SECRET} from "$lib/helper";
-import {DEVELOPMENT} from "$lib/env";
+import {DEVELOPMENT} from "$lib/helper";
 import {handleSession} from "svelte-kit-cookie-session";
 import "./app.d.ts"
 

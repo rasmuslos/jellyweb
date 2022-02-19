@@ -1,6 +1,6 @@
 import type {RequestOptions} from "$lib/typings";
 import type {Response} from "$lib/typings";
-import {DEVELOPMENT} from "$lib/env";
+import {DEVELOPMENT} from "$lib/helper";
 import {browser} from "$app/env"
 import {goto} from "$app/navigation"
 

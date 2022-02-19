@@ -1,5 +1,5 @@
 import type {SessionData as Session} from "$lib/typings";
-import {DEVELOPMENT} from "$lib/env";
+import {DEVELOPMENT} from "$lib/helper";
 
 export type RequestOptions = {
     method?: "GET" | "POST" | "DELETE" | "PUT",

@@ -21,13 +21,13 @@ Then visit [localhost:7575](http://localhost:7575)
 
 ## Environment variables
 `JWT_SECRET` **required** Secret used to encrypt session data \
-`HOST` **optional** only allow connections to this host
+`VITE_HOST` **optional** Only allow to select this host
 
-`ORIGIN` **optional** tell the server the origin it is served on
-`PROTOCOL_HEADER` **optional** tell the server the protocol it is served on
-`HOST_HEADER` **optional** tell the server the host it is served on
+`ORIGIN` **optional** Tell the server the origin it is served on
+`PROTOCOL_HEADER` **optional** Tell the server the protocol it is served on
+`HOST_HEADER` **optional** Tell the server the host it is served on
 
-*`PROTOCOL_HEADER` & `HOST_HEADER` are recommended if you use a reverse proxy. For more detailed information take a look at [This document](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)}*
+> `PROTOCOL_HEADER` & `HOST_HEADER` are recommended if you use a reverse proxy. For more detailed information take a look at [This document](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)}*
 
 ## Building
 1. Clone or download this repository

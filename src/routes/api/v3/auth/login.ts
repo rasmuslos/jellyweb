@@ -1,6 +1,6 @@
 import type {RequestHandler} from "@sveltejs/kit";
 import type {SessionData} from "$lib/typings";
-import {createApiError, createApiSuccess, isValidString, normalizeServer} from "$lib/helper";
+import {createApiError, createApiSuccess, FORCED_HOST, isValidString, normalizeServer} from "$lib/helper";
 import {authenticateByName} from "$lib/api/jellyfin/methods/v1";
 
 export const post: RequestHandler = async ({ request, locals }) => {
@@ -11,7 +11,10 @@ export const post: RequestHandler = async ({ request, locals }) => {
     } = await request.json()
 
     if(!isValidString(server) || !isValidString(username)) return createApiError(400, "auth.login.error.missing")
-    const url = normalizeServer(server)
+    let url
+
+    if(FORCED_HOST === null) url = normalizeServer(server)
+    else url = normalizeServer(FORCED_HOST)
 
     if(url == null) return createApiError(400, "auth.login.error.server")
 

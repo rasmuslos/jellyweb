@@ -6,7 +6,7 @@
     import {queryServer} from "$lib/api/internal/methods/v3";
     import {onDestroy, onMount} from "svelte";
     import Loading from "./Loading.svelte";
-    import {DEVELOPMENT} from "$lib/env";
+    import {DEVELOPMENT} from "$lib/helper";
     import type {Item as ItemType} from "$lib/typings";
     import { parseError } from "$lib/helper";
 
