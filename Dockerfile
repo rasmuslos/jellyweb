@@ -10,8 +10,6 @@ ENV HOST_HEADER=null
 
 ENV JWT_SECRET=""
 
-COPY package.json .
-COPY node_modules .
 COPY build .
 
 EXPOSE ${PORT}
