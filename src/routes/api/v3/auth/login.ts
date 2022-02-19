@@ -13,7 +13,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
     if(!isValidString(server) || !isValidString(username)) return createApiError(400, "auth.login.error.missing")
     let url
 
-    if(FORCED_HOST === null) url = normalizeServer(server)
+    if(!FORCED_HOST) url = normalizeServer(server)
     else url = normalizeServer(FORCED_HOST)
 
     if(url == null) return createApiError(400, "auth.login.error.server")

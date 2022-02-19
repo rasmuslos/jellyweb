@@ -27,7 +27,7 @@ Then visit [localhost:7575](http://localhost:7575)
 `PROTOCOL_HEADER` **optional** Tell the server the protocol it is served on
 `HOST_HEADER` **optional** Tell the server the host it is served on
 
-> `PROTOCOL_HEADER` & `HOST_HEADER` are recommended if you use a reverse proxy. For more detailed information take a look at [This document](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)}*
+> `PROTOCOL_HEADER` & `HOST_HEADER` are recommended if you use a reverse proxy. For more detailed information take a look at [This document](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)*
 
 ## Building
 1. Clone or download this repository

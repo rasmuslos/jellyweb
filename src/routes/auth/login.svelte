@@ -8,7 +8,7 @@
     import {performLogin} from "$lib/api/internal/methods/v3";
     import { FORCED_HOST } from "$lib/helper";
 
-    let server: string = FORCED_HOST ?? ""
+    let server: string = !!FORCED_HOST ? FORCED_HOST : ""
     let username: string = ""
     let password: string = ""
 
