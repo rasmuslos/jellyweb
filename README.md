@@ -1,38 +1,43 @@
-# create-svelte
+# Jellyweb
+A modern looking web client for Jellyfin written in svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+## Install
+### Docker run:
+`docker run -p 7575:80 -e JWT_SECRET=change_me ghcr.io/rasmuslos/jellyweb`
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm init svelte@next
-
-# create a new project in my-app
-npm init svelte@next my-app
+### Docker Compose:
+```yml
+  jellyweb:
+    name: "Jellyweb"
+    image: ghcr.io/rasmuslos/jellyweb:latest
+    restart: "unless-stopped"
+    ports:
+      - "7575:80"
+    environment:
+      - JWT_SECRET=change_me
 ```
+\
+Then visit [localhost:7575](http://localhost:7575)
 
-> Note: the `@next` is temporary
+## Environment variables
+`JWT_SECRET` **required** Secret used to encrypt session data \
+`HOST` **optional** only allow connections to this host
 
-## Developing
+`ORIGIN` **optional** tell the server the origin it is served on
+`PROTOCOL_HEADER` **optional** tell the server the protocol it is served on
+`HOST_HEADER` **optional** tell the server the host it is served on
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+*`PROTOCOL_HEADER` & `HOST_HEADER` are recommended if you use a reverse proxy. For more detailed information take a look at [This document](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)}*
 
 ## Building
-
-Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
-
-```bash
-npm run build
-```
-
-> You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+1. Clone or download this repository
+`git clone https://github.com/rasmuslos/jellyweb.git && cd jellyweb`
+2. Install dependencies
+`npm install`
+3. Build the application
+`JWT_SECRET=change_me npm run build`
+4. Delete node_modules `rm -r node_modules`
+5. Install production dependencies `npm ci --prod`
+6. Copy package.json & node_modules `cp package.json build && cp -r node_modules build`
+7. Start the server
+`JWT_SECRET=change_me node ./build/index.js`
