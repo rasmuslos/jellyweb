@@ -7,8 +7,8 @@ import { setNavigationExpanded } from "$lib/helper";
 <nav class:expanded={$navigationExpanded} >
     <div class="more">
         <OverlayItem icon="disc" title="collections" href="/app/library/collections" />
-        <OverlayItem icon="search" title="search" />
-        <OverlayItem icon="user" title="account" />
+        <OverlayItem icon="search" title="search" href="/app/library/search" />
+        <OverlayItem icon="user" title="account" href="/auth/logout" />
         <OverlayItem icon="settings" title="settings" href="/app/settings" />
     </div>
     <div class="main">
