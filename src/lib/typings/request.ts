@@ -4,6 +4,7 @@ export type RequestOptions = {
     encodeBody?: boolean,
     parseResponse?: boolean,
     version?: 3,
+    preventCaching?: boolean,
 }
 export type Response<T> = {
     status: number,

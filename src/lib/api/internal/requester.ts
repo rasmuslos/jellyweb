@@ -13,13 +13,15 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
         body,
         encodeBody,
         parseResponse,
-        version
+        version,
+        preventCaching,
     } = Object.assign({
         method: "GET",
         body: null,
         encodeBody: true,
         parseResponse: true,
         version: 3,
+        preventCaching: false,
     } as RequestOptions, requestOptions)
     const url = `/api/v${version}/${endpoint}`
 
@@ -31,6 +33,7 @@ export const requestResource = async <T>(endpoint: string, requestOptions: Reque
             method,
             body,
 
+            cache: preventCaching ? "no-cache" : "default",
             headers: {
                 "Content-Type": "application/json",
             },

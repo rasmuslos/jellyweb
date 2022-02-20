@@ -5,5 +5,6 @@ addMessages("en", en)
 register("de", () => import("./de.json"))
 
 init({
+    initialLocale: "en",
     fallbackLocale: "en",
 })

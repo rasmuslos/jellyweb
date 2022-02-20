@@ -1,5 +1,5 @@
 import { activeModal } from "$lib/stores";
-import type {Item} from "$lib/typings";
+import {Item, Settings, Theme} from "$lib/typings";
 import { get } from "svelte/store";
 import SearchOverlay from "./../../components/util/SearchOverlay.svelte"
 
@@ -32,3 +32,9 @@ export const toggleSearchModal = () => {
     else activeModal.set(SearchOverlay)
 }
 export const closeModal = () => activeModal.set(null)
+
+export const insertDefaultValues = (settings: Settings): Settings => Object.assign({
+    language: "en",
+    theme: Theme.DARK,
+    navigationExpanded: true,
+} as Settings, settings)
