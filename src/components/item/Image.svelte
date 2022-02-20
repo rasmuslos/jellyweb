@@ -11,7 +11,7 @@
 </script>
 
 {#key url}
-    <div class="holder" class:selected transition:blur>
+    <div class="holder" class:selected transition:blur|local>
         <div class="fallback" style={getFallbackGradient(url ?? alt)}>
             <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
         </div>

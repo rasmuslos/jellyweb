@@ -13,7 +13,7 @@
 <svelte:window on:keyup={handleKeyUp} />
 
 {#if $activeModal}
-    <div transition:blur on:click|self={closeModal}>
+    <div transition:blur|local on:click|self={closeModal}>
         <svelte:component this={$activeModal} />
     </div>
 {/if}
