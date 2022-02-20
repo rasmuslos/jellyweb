@@ -9,7 +9,7 @@
     export let hideImage: boolean = false
 </script>
 
-<a class="holder" href={getItemPath(item.id)}>
+<a class="holder" href={getItemPath(item.id)} sveltekit:prefetch>
     {#if hideImage}
         <div class="background" style={getFallbackGradient(item.id)}></div>
     {:else}

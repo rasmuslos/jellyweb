@@ -11,7 +11,7 @@
     if(isNaN(progress)) progress = 0
 </script>
 
-<a class="holder" href={getItemPath(item.id)}>
+<a class="holder" href={getItemPath(item.id)} sveltekit:prefetch>
     <Image url={wrap(applyHeight(item.images?.backdrop.url, 1100))} alt={`${item.name}'s backdrop`} />
     <div class="text">
         <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
@@ -22,9 +22,9 @@
                     <a href={getItemPath(id)} on:click|stopPropagation>{name}</a>
                 {/each}
             {:else if item.seriesInfo}
-                <a href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
+                <a href={getItemPath(item.seriesInfo.show)} on:click|stopPropagation>{item.seriesInfo.showName}</a>
                 {#if item.seriesInfo.season}
-                    <a href={getItemPath(item.seriesInfo.season)}>{item.seriesInfo.seasonName}</a>
+                    <a href={getItemPath(item.seriesInfo.season)} on:click|stopPropagation>{item.seriesInfo.seasonName}</a>
                 {/if}
             {/if}
         </p>

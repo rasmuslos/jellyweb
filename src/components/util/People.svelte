@@ -13,7 +13,7 @@
 <ApplyMeasurements>
     <List title="items.sections.people">
         {#each people as { id, name, role, image }}
-            <a class="holder" href={getItemPath(id)}>
+            <a class="holder" href={getItemPath(id)} sveltekit:prefetch>
                 <Image alt={name} url={wrap(applyMaxWidth(image.url, 300))} />
                 <p>
                     <span>{name}</span>

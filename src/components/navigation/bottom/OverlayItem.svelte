@@ -8,7 +8,7 @@
     export let active: boolean = false
 </script>
 
-<a {href} on:click class:active>
+<a {href} sveltekit:prefetch on:click class:active>
     {@html icons[icon].toSvg()}
     <span>{$_(`navigation.${title}`)}</span>
 </a>

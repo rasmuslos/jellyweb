@@ -11,7 +11,7 @@
     export let noAnimation: boolean = false
 </script>
 
-<a {href} class:dimmed class:noAnimation class:active class:flipped on:click>
+<a {href} sveltekit:prefetch class:dimmed class:noAnimation class:active class:flipped on:click>
     {@html icons[icon].toSvg()}
     <span>
         {$_(`navigation.${title}`)}

@@ -118,7 +118,7 @@ setWatchedStatus
     {/if}
     {#if nextUp}
         <ApplyMeasurements smaller>
-            <a href={getItemPath(nextUp.id)} class="nextUp">
+            <a href={getItemPath(nextUp.id)} sveltekit:prefetch class="nextUp">
                 <h4>{$_("items.sections.nextUp", { values: { name: nextUp.name }})} · <span>{nextUp.seriesInfo?.seasonName}</span></h4>
             </a>
         </ApplyMeasurements>

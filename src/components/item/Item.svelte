@@ -28,13 +28,13 @@
     }
 </script>
 
-<a class="wrapper" class:expanded href={getItemPath(item.id)} class:wide data-id={item.id} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave}>
+<a class="wrapper" class:expanded href={getItemPath(item.id)} sveltekit:prefetch class:wide data-id={item.id} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave}>
     <div class="holder">
         <Image url={wrap(applyMaxWidth(wide && !stretch ? item.images?.backdrop?.url : item.images?.primary?.url, 400))} alt={item.name} selected={$currentItemId === item.id} {progress} />
         <span>
             {item.name}
             {#if wide && item.seriesInfo}
-                <a on:click|stopPropagation|preventDefault={() => goto(getItemPath(item.seriesInfo.show))} href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
+                <a on:click|stopPropagation href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
             {/if}
         </span>
 

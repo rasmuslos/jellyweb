@@ -9,7 +9,7 @@
     const progress = (item.userData?.position / item.runtime) * 100
 </script>
 
-<a class="holder" href={getItemPath(item.id)}>
+<a class="holder" href={getItemPath(item.id)} sveltekit:prefetch>
     <Image url={wrap(applyHeight(item.images?.backdrop?.url, 500))} alt={`${item.name}'s backdrop`} />
     <div class="blur"></div>
     <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>

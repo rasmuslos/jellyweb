@@ -11,9 +11,9 @@
 
 <div class="meta">
     {#if item.seriesInfo}
-        <a href={getItemPath(item.seriesInfo.show)}>{item.seriesInfo.showName}</a>
+        <a href={getItemPath(item.seriesInfo.show)} sveltekit:prefetch>{item.seriesInfo.showName}</a>
         {#if item.seriesInfo.season}
-            · <a href={getItemPath(item.seriesInfo.season)}>{item.seriesInfo.seasonName}</a>
+            · <a href={getItemPath(item.seriesInfo.season)} sveltekit:prefetch>{item.seriesInfo.seasonName}</a>
         {/if}
         <span class="separator"></span>
     {/if}
@@ -36,7 +36,7 @@
     {/if}
     {#if item.genres?.length}
         {#each item.genres as {id, name}}
-            <a href={getItemPath(id)}>{name}</a>
+            <a href={getItemPath(id)} sveltekit:prefetch>{name}</a>
         {/each}
     {/if}
 </div>

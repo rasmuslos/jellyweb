@@ -62,7 +62,7 @@
 				{description}
 			</p>
 			<Push smaller />
-			<a href="/">&#8592; Take me back</a>
+			<a href="/" sveltekit:prefetch>&#8592; Take me back</a>
 		</div>
 	</ApplyMeasurements>
 </Layout>

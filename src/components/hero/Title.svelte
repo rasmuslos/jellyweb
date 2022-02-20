@@ -11,7 +11,7 @@
 <ApplyMeasurements>
     <div class="wrapper">
         {#if item.seriesInfo}
-            <a href={getItemPath(item.seriesInfo.show)}>
+            <a href={getItemPath(item.seriesInfo.show)} sveltekit:prefetch>
                 <Image url={wrap(item.seriesInfo.primaryImage?.url)} alt={item?.seriesInfo.showName} />
             </a>
         {:else}
