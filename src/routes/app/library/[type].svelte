@@ -28,11 +28,11 @@ import { _ } from "svelte-i18n";
 </script>
 
 <svelte:head>
-    <title>{$_(`navigation.${type.toLowerCase()}`)}</title>
+    <title>{$_(`navigation.${type?.toLowerCase()}`)}</title>
 </svelte:head>
 
 <Push />
-<Heading>{$_(`navigation.${type.toLowerCase()}`)}</Heading>
+<Heading>{$_(`navigation.${type?.toLowerCase()}`)}</Heading>
 <Push />
 {#key query}
     <LazyList {query} limit={24} />
