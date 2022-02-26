@@ -4,6 +4,7 @@
     import RecommendedRow from "./RecommendedRow.svelte";
     import {_} from "svelte-i18n";
     import List from "../../util/List.svelte";
+    import Push from "../../../Push.svelte";
 
     export let items: Recommendation[]
 </script>

@@ -63,13 +63,13 @@
     a.wrapper {
         position: relative;
 
-        flex: min(calc(33vw - 20px), 200px) 0 0;
-        width: min(calc(33vw - 20px), 200px);
+        flex: min(calc(33vw - 20px), 193.66px) 0 0;
+        width: min(calc(33vw - 20px), 193.66px);
         height: fit-content;
 
         display: grid;
         grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 30px);
-        grid-template-columns: min(calc(33vw - 20px), 200px) 0px;
+        grid-template-columns: min(calc(33vw - 20px), 193.66px) 0px;
 
         overflow: hidden;
         transition: all 500ms ease, padding-top 0ms ease;
