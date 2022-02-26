@@ -1,6 +1,7 @@
 <script lang="ts">
-import { setLanguage, setTheme } from "$lib/helper";
+import { DEVELOPMENT, setLanguage, setTheme, VERSION } from "$lib/helper";
     import {Theme} from "$lib/typings";
+    import ApplyMeasurements from "../../../components/ApplyMeasurements.svelte";
 </script>
 
 <svelte:head>
@@ -15,3 +16,16 @@ import { setLanguage, setTheme } from "$lib/helper";
 
 <span on:click={() => setLanguage("en")}>EN</span>
 <span on:click={() => setLanguage("de")}>DE</span>
+
+<ApplyMeasurements>
+    <p>
+        Jellyweb {VERSION} ({DEVELOPMENT ? "dev" : "stable"})
+    </p>
+</ApplyMeasurements>
+
+<style>
+    p {
+        color: var(--grey);
+        text-align: center;
+    }
+</style>
