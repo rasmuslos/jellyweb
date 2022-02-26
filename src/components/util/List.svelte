@@ -59,6 +59,7 @@
         display: none;
     }
     div.holder.overflow {
+        overflow-y: visible;
         overflow-x: auto;
     }
     div.holder.increaseGap {
@@ -90,5 +91,8 @@
 
     :global(#root.mobile) div.holder.expanded, div.holder.center {
         justify-content: center;
+    }
+    :global(#root.mobile) div.holder {
+        gap: 13px;
     }
 </style>

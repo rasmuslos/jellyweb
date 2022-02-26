@@ -7,7 +7,7 @@
         getNextUpItem, getSeasons,
         getSimilarItems,
         setFavoriteStatus,
-setWatchedStatus
+        setWatchedStatus,
     } from "$lib/api/internal/methods/v3";
 
     export const load: Load = async ({fetch, params}) => {

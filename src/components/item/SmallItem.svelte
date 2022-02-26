@@ -22,12 +22,12 @@
 <style>
     a.holder {
         position: relative;
-        height: min(calc(23vw - 20px), 100px);
-        flex: min(calc(calc(23vw - 20px) * 3), 300px) 0 0;
-        width: min(calc(calc(23vw - 20px) * 3), 30px);
+        height: min(calc(33vw - 60px - 4vw), 80px);
+        width: calc(min(calc(33vw - 15px - 4vw), 175px) * 1.75);
+        flex: calc(min(calc(33vw - 15px - 4vw), 175px) * 1.75) 0 0;
 
         overflow: hidden;
-        border-radius: 15px;
+        border-radius: 10px;
     }
     a.holder > div {
         position: absolute;

@@ -56,7 +56,7 @@
     <ApplyMeasurements>
         <ItemList title="pages.home.current" items={suggestions} wide />
     </ApplyMeasurements>
-    <Push />
+    <Push smaller />
 {/if}
 {#if genres?.length}
     <ApplyMeasurements>
@@ -66,11 +66,11 @@
             {/each}
         </List>
     </ApplyMeasurements>
-    <Push />
+    <Push smaller />
 {/if}
 {#if recommendations?.length}
     <Recommended items={recommendations} />
-    <Push />
+    <Push smaller />
 {/if}
 <!--moved to lazy loading because this can take up to three seconds-->
 {#if bestRatedPromise}
@@ -81,6 +81,7 @@
             <ApplyMeasurements>
                 <ItemList title="pages.home.bestRated" items={bestRated} />
             </ApplyMeasurements>
+            <Push smaller />
         {/if}
     {:catch error}
         <p>{error?.payload ?? error ?? "unknown error"}</p>
@@ -88,7 +89,6 @@
 {:else}
     <Loading />
 {/if}
-<Push />
 
 {#if randomPromise}
     {#await randomPromise}
@@ -100,19 +100,19 @@
                 <Featured item={random[0]} />
             </ApplyMeasurements>
         {/if}
+        <Push smaller />
     {:catch error}
         <p>{error?.payload ?? error ?? "unknown error"}</p>
     {/await}
 {:else}
     <Loading />
 {/if}
-<Push />
 
 {#if latest?.length}
     <ApplyMeasurements>
         <ItemList title="pages.home.latest" items={latest} />
     </ApplyMeasurements>
-    <Push />
+    <Push smaller />
 {/if}
 
 <style>

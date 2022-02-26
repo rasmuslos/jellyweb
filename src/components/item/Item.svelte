@@ -3,9 +3,8 @@
     import Image from "./Image.svelte";
     import {wrap, applyMaxWidth} from "$lib/helper";
     import {getItemPath} from "$lib/helper";
-    import {currentItemId, mobile} from "$lib/stores";
+    import {currentExpandedItemId, currentItemId, mobile} from "$lib/stores";
     import {getPlayedPercentage} from "$lib/helper";
-    import {goto} from "$app/navigation";
     import { _ } from "svelte-i18n";
     import Button from "../form/Button.svelte";
 
@@ -17,14 +16,21 @@
     let expanded: boolean = false
     const progress = getPlayedPercentage(item)
 
+    const setExpanded = (updated: boolean) => {
+        if(updated) currentExpandedItemId.set(item.id)
+        else $currentExpandedItemId === item.id && currentExpandedItemId.set(null)
+
+        expanded = updated
+    }
+
     const onMouseLeave = () => {
         clearTimeout(timeout)
-        timeout = window.setTimeout(() => expanded = false, 500)
+        timeout = window.setTimeout(() => setExpanded(false), 500)
     }
     const onMouseEnter = () => {
         if($mobile || wide) return
         clearTimeout(timeout)
-        timeout = window.setTimeout(() => expanded = true, 500)
+        timeout = window.setTimeout(() => setExpanded(true), 500)
     }
 </script>
 
@@ -70,7 +76,6 @@
     }
     a.wrapper.expanded {
         flex: calc(min(calc(33vw - 20px), 200px) * 3 + 40px) 0 0;
-        width: 600%;
         grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px);
         grid-template-columns: min(calc(33vw - 20px), 200px) 1fr;
 
@@ -90,14 +95,14 @@
         grid-template-columns: 1fr;
     }
     a.wrapper.wide {
-        flex: min(calc(calc(35vw - 20px - 4vw) * 1.7), 300px) 0 0;
-        width: min(calc(calc(35vw - 20px - 4vw) * 1.7), 300px);
+        flex: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px) 0 0;
+        width: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px);
 
         grid-template-rows: 100%;
         grid-template-columns: 100%;
     }
     a.wrapper.wide div.holder {
-        grid-template-rows: min(calc(35vw - 20px - 4vw), 175px) auto;
+        grid-template-rows: min(calc(33vw - 15px - 4vw), 175px) auto;
     }
 
     div.badge {

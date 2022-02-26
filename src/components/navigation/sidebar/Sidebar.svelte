@@ -33,7 +33,7 @@
         width: var(--colapsed);
 
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         padding: 20px 0;
         background-color: var(--navigation);

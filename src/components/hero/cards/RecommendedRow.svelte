@@ -2,12 +2,13 @@
     import {_} from "svelte-i18n";
     import type {Recommendation} from "$lib/typings";
     import ItemList from "../../util/ItemList.svelte";
+    import { currentExpandedItemId } from "$lib/stores";
 
     export let recommendation: Recommendation
 </script>
 
 <div class="wrapper">
-    <h4>{$_(recommendation.reason, { values: { title: recommendation.title }})}</h4>
+    <h4 class:hidden={$currentExpandedItemId != null}>{$_(recommendation.reason, { values: { title: recommendation.title }})}</h4>
     <ItemList items={recommendation.items} overflow={false} />
 </div>
 
@@ -17,12 +18,13 @@
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
 
-        margin-right: 20px;
-
         position: relative;
     }
 
     h4 {
+        opacity: 1;
+        margin: 10px 0 0 0;
+
         color: var(--grey);
         font-weight: normal;
         white-space: nowrap;
@@ -34,5 +36,8 @@
         position: sticky;
         top: 0;
         left: 0;
+    }
+    h4.hidden {
+        opacity: 0;
     }
 </style>
