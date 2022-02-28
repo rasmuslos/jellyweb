@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="/assets/themes/{theme}.css{version}" />
 
     {#if theme === Theme.DARK}
-        <meta name="theme-color" content="#07090F" />
+        <meta name="theme-color" content="#0f101a" />
     {:else if theme === Theme.LIGHT}
         <meta name="theme-color" content="#EBF2FA" />
     {/if}
