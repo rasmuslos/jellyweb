@@ -22,9 +22,9 @@
 <style>
     a.holder {
         position: relative;
-        height: min(calc(33vw - 60px - 4vw), 80px);
-        width: min(calc(33vw - 15px - 4vw), 300px);
-        flex: min(calc(33vw - 15px - 4vw), 300px) 0 0;
+        height: 80px;
+        width: min(calc(50% - 15px), 300px);
+        flex: min(calc(50% - 15px), 300px) 0 0;
 
         overflow: hidden;
         border-radius: 10px;
@@ -52,5 +52,9 @@
 
         margin: 0;
         color: white;
+    }
+
+    :global(#root.mobile) a.holder {
+        height: 55px;
     }
 </style>

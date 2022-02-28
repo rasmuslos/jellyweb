@@ -93,4 +93,7 @@
     :global(#root.mobile) div.hero {
         height: 300px;
     }
+    :global(#root.mobile) h1 {
+        font-size: 25px;
+    }
 </style>

@@ -1,10 +1,11 @@
 <script lang="ts">
     import OverlayItem from "./OverlayItem.svelte";
     import {navigationExpanded} from "$lib/stores";
-import { setNavigationExpanded } from "$lib/helper";
+
+    let expanded: boolean
 </script>
 
-<nav class:expanded={$navigationExpanded} >
+<nav class:expanded={expanded} >
     <div class="more">
         <OverlayItem icon="disc" title="collections" href="/app/library/collections" />
         <OverlayItem icon="search" title="search" href="/app/library/search" />
@@ -15,7 +16,7 @@ import { setNavigationExpanded } from "$lib/helper";
         <OverlayItem icon="home" title="home" href="/app" />
         <OverlayItem icon="film" title="movies" href="/app/library/movies" />
         <OverlayItem icon="tv" title="series" href="/app/library/series" />
-        <OverlayItem icon="more-horizontal" title="more" on:click={() => setNavigationExpanded(!$navigationExpanded)} active={$navigationExpanded} />
+        <OverlayItem icon="more-horizontal" title="more" on:click={() => expanded = !expanded} active={expanded} />
     </div>
 </nav>
 

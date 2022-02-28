@@ -12,7 +12,7 @@
 <a class="holder" href={getItemPath(item.id)} sveltekit:prefetch>
     <Image url={wrap(applyHeight(item.images?.backdrop?.url, 500))} alt={`${item.name}'s backdrop`} />
     <div class="blur"></div>
-    <h1 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h1>
+    <h2 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h2>
 </a>
 
 <style>
@@ -39,7 +39,7 @@
         background-color: #00000070;
     }
 
-    h1 {
+    h2 {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);

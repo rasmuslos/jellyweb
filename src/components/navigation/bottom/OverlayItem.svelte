@@ -15,6 +15,8 @@
 
 <style>
     a {
+        flex: 25% 0 1;
+
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;

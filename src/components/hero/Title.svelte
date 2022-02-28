@@ -76,5 +76,9 @@
 
         text-align: center;
     }
+    :global(#root.mobile) h1 {
+        padding-top: 10px;
+        font-size: 25px;
+    }
 </style>
 
