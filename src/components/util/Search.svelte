@@ -8,7 +8,7 @@
     import {getItemPath} from "$lib/helper";
     import Loading from "./Loading.svelte";
     import { afterUpdate } from "svelte";
-import { activeModal } from "$lib/stores";
+    import { activeModal } from "$lib/stores";
 
     export let overlay: boolean = false
     export let autofocus: boolean = false
@@ -32,6 +32,8 @@ import { activeModal } from "$lib/stores";
     const emptyResults = () => {
         if(overlay) setTimeout(() => {
             items = []
+            term = ""
+            visible = false
             activeIndex = -1
         }, 500)
     }

@@ -24,7 +24,7 @@
         --inset: var(--inset-small);
 
         display: grid;
-        grid-template-columns: calc(var(--colapsed) - var(--inset-small) * 2) calc(var(--expanded) - var(--colapsed));
+        grid-template-columns: calc(var(--collapsed) - var(--inset-small) * 2) calc(var(--expanded) - var(--collapsed));
         align-items: center;
 
         margin: 1px var(--inset);
@@ -32,7 +32,7 @@
         border-radius: 10px;
 
         cursor: pointer;
-        width: calc(var(--colapsed) - var(--inset) * 2);
+        width: calc(var(--collapsed) - var(--inset) * 2);
     }
     a.dimmed {
         color: var(--grey);

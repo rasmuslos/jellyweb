@@ -4,7 +4,7 @@
 
 :root {
     --text: #DDF0FF;
-    --navigation: #131625;
+    --navigation: 19, 22, 37;
 
     --background: #0f101a;
     --background-secondary: #000000;

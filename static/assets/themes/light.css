@@ -1,6 +1,6 @@
 :root {
     --text: #00100B;
-    --navigation: #FFFBF8;
+    --navigation: 255, 251, 248;
 
     --background: #EBF2FA;
     --background-secondary: #FFFFFF;
