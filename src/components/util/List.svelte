@@ -6,7 +6,6 @@
     export let title: string = null
     export let center: boolean = false
     export let overflow: boolean = true
-    export let increaseGap: boolean = false
 
     export let expanded: boolean = false
     export let showExpand: boolean = false
@@ -34,7 +33,7 @@
             {/if}
         </div>
     {/if}
-    <div class:overflow class:center class:expanded class:increaseGap class="holder" bind:this={holder}>
+    <div class:overflow class:center class:expanded class="holder" bind:this={holder}>
         <slot />
     </div>
 </div>
@@ -61,9 +60,6 @@
     div.holder.overflow {
         overflow-y: visible;
         overflow-x: auto;
-    }
-    div.holder.increaseGap {
-        gap: 40px;
     }
 
     div.expanded {

@@ -26,11 +26,12 @@
 </ApplyMeasurements>
 
 <style>
-    .holder {
+    a.holder {
+        flex: calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px) 0 0;
+
         display: grid;
-        grid-template-rows: min(25vw, 125px) auto;
+        grid-template-rows: calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px) auto;
         grid-template-columns: 1fr;
-        flex: min(25vw, 125px) 0 0;
 
         background-color: transparent;
         color: transparent;
@@ -53,5 +54,10 @@
 
         color: var(--text);
         margin-bottom: 3px;
+    }
+
+    :global(#root.mobile) a.holder {
+        flex: calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) 0 0;
+        grid-template-rows:  calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) auto;
     }
 </style>

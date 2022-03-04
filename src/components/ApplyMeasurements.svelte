@@ -18,7 +18,7 @@
         margin: 0 auto;
 
         width: 95%;
-        max-width: 1700px;
+        max-width: 1710px;
     }
     div.smaller {
         max-width: 1500px;

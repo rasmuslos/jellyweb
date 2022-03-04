@@ -143,7 +143,7 @@
     {#if seasons?.length}
         <Push smaller />
         <ApplyMeasurements>
-            <List title="items.sections.seasons" increaseGap>
+            <List title="items.sections.seasons">
                 {#each seasons as season}
                     <SmallItem item={season} />
                 {/each}
