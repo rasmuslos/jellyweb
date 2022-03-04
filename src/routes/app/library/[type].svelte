@@ -4,7 +4,7 @@
     import Heading from "../../../components/hero/Heading.svelte";
     import {page} from "$app/stores";
     import {onDestroy} from "svelte";
-import { _ } from "svelte-i18n";
+    import { _ } from "svelte-i18n";
 
     let query: string
     let type: "MOVIES" | "SERIES" | "COLLECTIONS"
@@ -35,6 +35,6 @@ import { _ } from "svelte-i18n";
 <Heading>{$_(`navigation.${type?.toLowerCase()}`)}</Heading>
 <Push />
 {#key query}
-    <LazyList {query} limit={24} />
+    <LazyList {query} limit={27} />
 {/key}
 <Push />
