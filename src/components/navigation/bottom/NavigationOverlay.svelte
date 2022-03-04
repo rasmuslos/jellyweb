@@ -1,6 +1,5 @@
 <script lang="ts">
     import OverlayItem from "./OverlayItem.svelte";
-    import {navigationExpanded} from "$lib/stores";
 
     let expanded: boolean
 </script>
@@ -33,9 +32,11 @@
         overflow: hidden;
         border-radius: 10px;
 
-        background-color: rgba(var(--background-rgb), .4);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(var(--navigation), .5);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+
+        z-index: 10;
     }
 
     div {
