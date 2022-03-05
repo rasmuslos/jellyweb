@@ -12,7 +12,7 @@
     <slot />
 </button>
 
-<style>
+<style lang="less">
     @keyframes working {
         0%, 100% {
             color: var(--primary);
@@ -38,17 +38,18 @@
         border-radius: 10px;
 
         flex-shrink: 0;
-    }
-    button.working {
-        animation: 2s ease-in-out working infinite;
-    }
-    button.large {
-        width: 100%;
-    }
-    button.highlight {
-        background-color: var(--primary);
-    }
-    button.alternate {
-        background-color: var(--background);
+
+        &.working {
+            animation: 2s ease-in-out working infinite;
+        }
+        &.large {
+            width: 100%;
+        }
+        &.highlight {
+            background-color: var(--primary);
+        }
+        &.alternate {
+            background-color: var(--background);
+        }
     }
 </style>

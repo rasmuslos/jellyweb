@@ -15,7 +15,7 @@
     const handleInput = (event: any) => value = type.match(/^(number|range)$/) ? + event.target.value : event.target.value
 </script>
 
-<style>
+<style lang="less">
     label {
         display: grid;
         margin: 15px auto;
@@ -23,6 +23,13 @@
 
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
+
+        &.large {
+            width: 100%;
+        }
+        &.large input {
+            width: 100%;
+        }
     }
     span {
         color: var(--grey);
@@ -43,16 +50,10 @@
 
         border: none;
         border-radius: 10px;
-    }
-    input:focus {
-        box-shadow: 0 3px 15px #00000020;
-    }
 
-    label.large {
-        width: 100%;
-    }
-    label.large input {
-        width: 100%;
+        &:focus {
+            box-shadow: 0 3px 15px #00000020;
+        }
     }
 </style>
 

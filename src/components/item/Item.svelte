@@ -59,7 +59,7 @@
     {/if}
 </a>
 
-<style>
+<style lang="less">
     a.wrapper {
         position: relative;
 
@@ -73,19 +73,39 @@
 
         overflow: hidden;
         transition: all 500ms ease, padding-top 0ms ease;
-    }
-    a.wrapper.expanded {
-        flex: calc(min(calc(33vw - 20px), 200px) * 3 + 40px) 0 0;
-        grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px);
-        grid-template-columns: min(calc(33vw - 20px), 200px) 1fr;
 
-        top: -20px;
-        box-shadow: 0 3px 15px #00000020;
+        &.expanded {
+            flex: calc(min(calc(33vw - 20px), 200px) * 3 + 40px) 0 0;
+            grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px);
+            grid-template-columns: min(calc(33vw - 20px), 200px) 1fr;
 
-        padding: 20px 20px 0 20px;
-        border-radius: 15px;
-        background-color: var(--background-secondary);
+            top: -20px;
+            box-shadow: 0 3px 15px #00000020;
+
+            padding: 20px 20px 0 20px;
+            border-radius: 15px;
+            background-color: var(--background-secondary);
+            
+            span {
+                opacity: 0;
+            }
+            div.holder {
+               grid-template-rows: calc(100% - 20px) auto;
+            }
+        }
+        &.wide {
+            flex: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px) 0 0;
+            width: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px);
+
+            grid-template-rows: 100%;
+            grid-template-columns: 100%;
+
+            div.holder {
+                grid-template-rows: min(calc(33vw - 15px - 4vw), 175px) auto;
+            }
+        }
     }
+
     div.holder {
         position: relative;
         width: 100%;
@@ -93,16 +113,6 @@
         display: grid;
         grid-template-rows: calc(100% - 30px) auto;
         grid-template-columns: 1fr;
-    }
-    a.wrapper.wide {
-        flex: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px) 0 0;
-        width: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px);
-
-        grid-template-rows: 100%;
-        grid-template-columns: 100%;
-    }
-    a.wrapper.wide div.holder {
-        grid-template-rows: min(calc(33vw - 15px - 4vw), 175px) auto;
     }
 
     div.badge {
@@ -132,10 +142,11 @@
     }
     span a {
         color: var(--grey);
-    }
-    span a::before {
-        content: "·";
-        padding-right: 3px;
+
+        &::before {
+            content: "·";
+            padding-right: 3px;
+        }
     }
 
     div.additional {
@@ -146,19 +157,13 @@
 
         display: inline-flex;
         flex-direction: column;
-    }
-    div.additional h3 {
-        margin: 0;
-    }
-    div.additional p {
-        overflow: scroll;
-        margin-bottom: auto;
-    }
 
-    a.wrapper.expanded span {
-        opacity: 0;
-    }
-    a.wrapper.expanded div.holder {
-        grid-template-rows: calc(100% - 20px) auto;
+        h3 {
+            margin: 0;
+        }
+        p {
+            overflow: scroll;
+            margin-bottom: auto;
+        }
     }
 </style>

@@ -1,6 +1,5 @@
 <script lang="ts">
-import { _ } from "svelte-i18n";
-
+    import { _ } from "svelte-i18n";
     import Search from "./Search.svelte";
 </script>
 

@@ -23,7 +23,7 @@
     </div>
 </ApplyMeasurements>
 
-<style>
+<style lang="less">
     div.wrapper {
         display: grid;
         grid-template-columns: 200px auto;
@@ -37,10 +37,11 @@
         justify-content: center;
 
         overflow: hidden;
-    }
-    a {
-        height: 100%;
-        width: 100%;
+
+        a {
+            height: 100%;
+            width: 100%;
+        }
     }
 
     div.holder {
@@ -50,35 +51,40 @@
 
         height: min(calc(100% - 20px), fit-content);
         overflow: hidden;
-    }
-    h1 {
-        font-size: 50px;
-        margin: 0;
+
+        h1 {
+            font-size: 50px;
+            margin: 0;
+        }
     }
 
-    :global(#root.mobile) div.wrapper {
-        height: unset;
-        margin: 25px 0;
+    :global(#root.mobile) {
+        div.wrapper {
+            height: unset;
+            margin: 25px 0;
 
-        grid-template-columns: 1fr;
-        grid-template-rows: 250px auto;
-    }
-    :global(#root.mobile) a {
-        display: block;
-        margin: 0 auto;
+            grid-template-columns: 1fr;
+            grid-template-rows: 250px auto;
 
-        width: 100%;
-    }
-    :global(#root.mobile) div.holder {
-        padding: 0;
-        margin: 0;
-        border: none;
+            a {
+                display: block;
+                margin: 0 auto;
 
-        text-align: center;
-    }
-    :global(#root.mobile) h1 {
-        padding-top: 10px;
-        font-size: 25px;
+                width: 100%;
+            }
+        }
+        div.holder {
+            padding: 0;
+            margin: 0;
+            border: none;
+
+            text-align: center;
+
+            h1 {
+                padding-top: 10px;
+                font-size: 25px;
+            }
+        }
     }
 </style>
 

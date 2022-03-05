@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<style>
+<style lang="less">
     div.wrapper {
         justify-content: center;
     }
@@ -53,21 +53,22 @@
 
         padding: 30px;
         margin: -30px;
-    }
-    div.holder::-webkit-scrollbar {
-        display: none;
-    }
-    div.holder.overflow {
-        overflow-y: visible;
-        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &.overflow {
+            overflow-y: visible;
+            overflow-x: auto;
+        }
     }
 
     div.expanded {
         flex-wrap: wrap;
         overflow-x: hidden;
-    }
-    div.expanded > :global(*) {
-        margin-bottom: 25px;
+        & > :global(*) {
+            margin-bottom: 25px;
+        }
     }
 
     div.heading {
@@ -76,19 +77,23 @@
         grid-template-columns: auto 1fr;
 
         align-items: baseline;
-    }
-    span {
-        cursor: pointer;
-        margin-left: 10px;
-        color: var(--grey);
 
-        text-transform: lowercase;
+        span {
+            cursor: pointer;
+            margin-left: 10px;
+            color: var(--grey);
+
+            text-transform: lowercase;
+        }
     }
 
-    :global(#root.mobile) div.holder.expanded, div.holder.center {
-        justify-content: center;
-    }
-    :global(#root.mobile) div.holder {
-        gap: 13px;
+    :global(#root.mobile) {
+        div.holder {
+            gap: 13px;
+
+            &.expanded, &.center {
+                justify-content: center;
+            }
+        }
     }
 </style>

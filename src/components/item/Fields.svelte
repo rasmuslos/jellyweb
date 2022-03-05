@@ -60,7 +60,7 @@ import { _ } from "svelte-i18n";
     </ApplyMeasurements>
 </div>
 
-<style>
+<style lang="less">
     div.holder {
         color: var(--grey);
         background-color: var(--background-secondary);
@@ -72,36 +72,41 @@ import { _ } from "svelte-i18n";
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-    }
-    div.specs div.fields {
-        flex: 1 0 calc(33% - 30px);
-        margin: 10px 0;
 
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-    div.specs div.fields h3 {
-        color: var(--text);
-        margin: 0 0 7px 0;
-    }
-    div.specs div.fields div.field {
-        flex: 0 0 auto;
-        margin: 5px 0;
+        div.fields {
+            flex: 1 0 calc(33% - 30px);
+            margin: 10px 0;
 
-        height: fit-content;
-        width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
 
-        display: flex;
-        flex-direction: column;
+            h3 {
+                color: var(--text);
+                margin: 0 0 7px 0;
+            }
+            div.field {
+                flex: 0 0 auto;
+                margin: 5px 0;
+
+                height: fit-content;
+                width: fit-content;
+
+                display: flex;
+                flex-direction: column;
+            }
+        }
     }
 
-    :global(#root.mobile) div.specs {
-        padding: 25px;
-        border-radius: 0;
-    }
-    :global(#root.mobile) div.specs div.fields {
-        flex: 1 1 300px;
+    :global(#root.mobile) {
+        div.specs {
+            padding: 25px;
+            border-radius: 0;
+
+            div.fields {
+                flex: 1 1 300px;
+            }
+        }
     }
 </style>

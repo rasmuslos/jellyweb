@@ -13,7 +13,7 @@
     <span>{$_(`navigation.${title}`)}</span>
 </a>
 
-<style>
+<style lang="less">
     a {
         flex: 25% 0 1;
 
@@ -26,16 +26,18 @@
         text-align: center;
 
         margin: auto auto;
-    }
-    a :global(svg) {
-        margin: 0 auto;
-    }
-    span {
-        margin-top: 4px;
-        font-size: 10px;
-    }
 
-    a:focus, a:hover, a.active {
-        color: var(--primary);
+        & :global(svg) {
+            margin: 0 auto;
+        }
+
+        span {
+            margin-top: 4px;
+            font-size: 10px;
+        }
+
+        &:focus, &:hover, &.active {
+            color: var(--primary);
+        }
     }
 </style>

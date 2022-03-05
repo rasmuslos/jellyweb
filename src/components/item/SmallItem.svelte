@@ -19,7 +19,7 @@
     <h3>{item.name}</h3>
 </a>
 
-<style>
+<style lang="less">
     a.holder {
         position: relative;
         height: 80px;
@@ -28,33 +28,37 @@
 
         overflow: hidden;
         border-radius: 10px;
+
+        & > div {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+
+            &.blur {
+                filter: blur(20px);
+                background-color: #00000070;
+            }
+        }
+
+        h3 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 100%;
+            text-align: center;
+
+            margin: 0;
+            color: white;
+        }
     }
-    a.holder > div {
-        position: absolute;
-        top: 0;
-        left: 0;
 
-        height: 100%;
-        width: 100%;
-    }
-
-    div.blur {
-        filter: blur(20px);
-        background-color: #00000070;
-    }
-    h3 {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        width: 100%;
-        text-align: center;
-
-        margin: 0;
-        color: white;
-    }
-
-    :global(#root.mobile) a.holder {
-        height: 55px;
+    :global(#root.mobile) {
+        a.holder {
+            height: 55px;
+        }
     }
 </style>

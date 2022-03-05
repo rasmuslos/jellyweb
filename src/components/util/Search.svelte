@@ -113,15 +113,19 @@
     </div>
 </div>
 
-<style>
+<style lang="less">
     .holder {
         overflow: hidden;
         border-radius: 15px;
         border: 3px solid var(--background);
-    }
-    .holder.resultsVisible, .holder.resultsVisible :global(input)  {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+
+        &.resultsVisible, &.resultsVisible :global(input) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        :global(label) {
+            margin: 0;
+        }
     }
 
     h3 {
@@ -143,22 +147,23 @@
 
         overflow: scroll;
         max-height: 500px;
-    }
-    .results::before {
-        content: "";
-        height: 10px;
-        width: 100%;
 
-        background-image: linear-gradient(180deg, var(--background-secondary) 0%, rgba(var(--background-secondary-rgb), .8) 100%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-    .results.overlay {
-        position: absolute;
-        width: calc(100% - 6px);
-    }
-    .results.visible {
-        display: flex;
+        &::before {
+            content: "";
+            height: 10px;
+            width: 100%;
+
+            background-image: linear-gradient(180deg, var(--background-secondary) 0%, rgba(var(--background-secondary-rgb), .8) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        &.overlay {
+            position: absolute;
+            width: calc(100% - 6px);
+        }
+        &.visible {
+            display: flex;
+        }
     }
 
     .error {
@@ -185,27 +190,25 @@
         border-radius: 5px;
 
         font-weight: 600;
-    }
-    .item :global(svg) {
-        margin-right: 7px;
-    }
-    .item span {
-        width: 100%;
 
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    .item span b {
-        color: var(--grey);
-        font-weight: normal;
-    }
+        :global(svg) {
+            margin-right: 7px;
+        }
+        span {
+            width: 100%;
 
-    .item:hover, .item.active {
-        background-color: var(--primary);
-    }
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
 
-    div.holder :global(label) {
-        margin: 0;
+            b {
+                color: var(--grey);
+                font-weight: normal;
+            }
+        }
+
+        &:hover, &.active {
+            background-color: var(--primary);
+        }
     }
 </style>

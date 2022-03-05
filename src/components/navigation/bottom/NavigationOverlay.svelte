@@ -19,7 +19,7 @@
     </div>
 </nav>
 
-<style>
+<style lang="less">
     nav {
         position: fixed;
         bottom: 5px;
@@ -44,17 +44,19 @@
         align-items: center;
         justify-content: center;
         flex-direction: row;
-    }
-    div.main {
-        height: 60px;
-        width: 100%;
-    }
-    div.more {
-        display: none;
-        flex-wrap: wrap;
 
-        padding: 10px 0;
+        &.main {
+            height: 60px;
+            width: 100%;
+        }
+        &.more {
+            display: none;
+            flex-wrap: wrap;
+
+            padding: 10px 0;
+        }
     }
+    
     nav.expanded div.more {
         display: flex;
     }

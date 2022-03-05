@@ -21,7 +21,7 @@
     </List>
 </ApplyMeasurements>
 
-<style>
+<style lang="less">
     .holder {
         display: grid;
         grid-template-rows: min(25vw, 150px) auto;
@@ -30,12 +30,12 @@
 
         background-color: transparent;
         color: transparent;
-    }
 
-    span {
-        margin-top: 10px;
+        span {
+            margin-top: 10px;
 
-        text-align: center;
-        color: var(--grey);
+            text-align: center;
+            color: var(--grey);
+        }
     }
 </style>

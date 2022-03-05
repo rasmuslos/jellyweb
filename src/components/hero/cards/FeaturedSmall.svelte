@@ -15,7 +15,7 @@
     <h2 style="background-image: linear-gradient(90deg, #CE5374 0%, #CE5374 {progress}%, var(--white) {progress}%, var(--white) 100%);">{item.name}</h2>
 </a>
 
-<style>
+<style lang="less">
     a.holder {
         position: relative;
         width: 100%;
@@ -26,6 +26,18 @@
 
         flex: 125px 0 0;
         margin-bottom: 10px;
+
+        h2 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            margin: 0 20px;
+            color: transparent;
+
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
     }
     div.blur {
         position: absolute;
@@ -37,17 +49,5 @@
 
         filter: blur(20px);
         background-color: #00000070;
-    }
-
-    h2 {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        margin: 0 20px;
-        color: transparent;
-
-        background-clip: text;
-        -webkit-background-clip: text;
     }
 </style>

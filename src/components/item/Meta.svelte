@@ -41,35 +41,38 @@
     {/if}
 </div>
 
-<style>
+<style lang="less">
     div.meta {
         color: var(--grey);
-    }
-    div.meta :global(svg) {
-        position: relative;
-        top: 1px;
 
-        height: 15px;
-        width: 15px;
-    }
+        :global(svg) {
+            position: relative;
+            top: 1px;
 
-    span:not(.separator) {
-        padding: 1px;
-    }
-    a {
-        padding: 3px;
-    }
+            height: 15px;
+            width: 15px;
+        }
 
-    span.separator {
-        padding-right: 5px;
-        margin-right: 5px;
-        border-right: 1px solid var(--grey);
-    }
-    .imdb-logo {
-        position: relative;
-        top: 4px;
 
-        height: 20px;
-        width: 20px;
+        span.separator {
+            padding-right: 5px;
+            margin-right: 5px;
+            border-right: 1px solid var(--grey);
+        }
+        span:not(.separator) {
+            padding: 1px;
+        }
+        
+        a {
+            padding: 3px;
+        }
+
+        .imdb-logo {
+            position: relative;
+            top: 4px;
+
+            height: 20px;
+            width: 20px;
+        }
     }
 </style>

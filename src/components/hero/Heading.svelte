@@ -10,21 +10,22 @@
     </div>
 </ApplyMeasurements>
 
-<style>
+<style lang="less">
     div {
         width: 100%;
-    }
-    div h1 {
-        font-size: 60px;
-        text-align: center;
 
-        background-clip: text;
-        -webkit-background-clip: text;
+        h1 {
+            font-size: 60px;
+            text-align: center;
 
-        color: transparent;
-        background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
 
-        margin: 0 auto;
-        width: fit-content;
+            color: transparent;
+            background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+
+            margin: 0 auto;
+            width: fit-content;
+        }
     }
 </style>

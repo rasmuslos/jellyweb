@@ -30,7 +30,7 @@
     </div>
 {/key}
 
-<style>
+<style lang="less">
     div.holder {
         position: relative;
         display: block;
@@ -41,30 +41,30 @@
         overflow: hidden;
         border-radius: 10px;
         perspective: 0px;
-    }
-    div.holder.selected {
-        border: 4px solid var(--primary);
-    }
-    div.holder > * {
-        position: absolute;
-        top: 0;
-        left: 0;
+        &.selected {
+            border: 4px solid var(--primary);
+        }
+        & > * {
+            position: absolute;
+            top: 0;
+            left: 0;
 
-        height: 100%;
-        width: 100%;
+            height: 100%;
+            width: 100%;
+        }
     }
 
     div.fallback {
         border-radius: 10px;
-    }
-    div.fallback h1 {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+        & h1 {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
 
-        margin: 0;
-        color: var(--text);
+            margin: 0;
+            color: var(--text);
+        }
     }
 
     div.progress_holder {
@@ -79,15 +79,16 @@
         overflow: hidden;
 
         background-color: var(--background);
-    }
-    div.progress {
-        position: absolute;
-        top: 0;
-        left: 0;
 
-        height: 100%;
-        border-radius: 100px;
-        background-color: var(--primary);
+        div.progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            border-radius: 100px;
+            background-color: var(--primary);
+        }
     }
 
     img {
@@ -95,10 +96,12 @@
         object-position: center;
     }
 
-    div.holder:hover img {
-        transform: scale(1.1);
-    }
-    div.holder:hover h1 {
-        font-size: 35px;
+    div.holder:hover {
+        img {
+            transform: scale(1.1);
+        }
+        h1 {
+            font-size: 35px;
+        }
     }
 </style>

@@ -40,7 +40,7 @@
     </div>
 </ApplyMeasurements>
 
-<style>
+<style lang="less">
     div.hero {
         position: relative;
         height: 600px;
@@ -57,24 +57,26 @@
         transform: translate(-50%, -50%);
 
         text-align: center;
-    }
-    h1, span {
-        position: relative;
-        z-index: 1;
-    }
-    h1 {
-        font-size: 60px;
-        color: var(--white);
 
-        margin: 10px 0;
-    }
-    span {
-        background-clip: text;
-        -webkit-background-clip: text;
+        h1, span {
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 60px;
+            color: var(--white);
 
-        color: transparent;
-        background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            margin: 10px 0;
+        }
+        span {
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            color: transparent;
+            background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
     }
+    
     div.blur {
         position: absolute;
         top: 0;
@@ -90,10 +92,12 @@
         background-color: #00000070;
     }
 
-    :global(#root.mobile) div.hero {
-        height: 300px;
-    }
-    :global(#root.mobile) h1 {
-        font-size: 25px;
+    :global(#root.mobile) {
+        div.hero {
+            height: 300px;
+        }
+        :global(#root.mobile) h1 {
+            font-size: 25px;
+        }
     }
 </style>

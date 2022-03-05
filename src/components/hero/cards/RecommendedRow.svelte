@@ -12,32 +12,33 @@
     <ItemList items={recommendation.items} overflow={false} />
 </div>
 
-<style>
+<style lang="less">
     div.wrapper {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
 
         position: relative;
-    }
 
-    h4 {
-        opacity: 1;
-        margin: 10px 0 0 0;
+        h4 {
+            opacity: 1;
+            margin: 10px 0 0 0;
 
-        color: var(--grey);
-        font-weight: normal;
-        white-space: nowrap;
+            color: var(--grey);
+            font-weight: normal;
+            white-space: nowrap;
 
-        width: fit-content;
-        margin-bottom: 14px;
+            width: fit-content;
+            margin-bottom: 14px;
 
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-        left: 0;
-    }
-    h4.hidden {
-        opacity: 0;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            left: 0;
+
+            &.hidden {
+                opacity: 0;
+            }
+        }
     }
 </style>

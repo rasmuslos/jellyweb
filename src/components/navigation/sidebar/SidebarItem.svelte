@@ -18,7 +18,7 @@
     </span>
 </a>
 
-<style>
+<style lang="less">
     a {
         --inset-small: 7px;
         --inset: var(--inset-small);
@@ -33,31 +33,35 @@
 
         cursor: pointer;
         width: calc(var(--collapsed) - var(--inset) * 2);
-    }
-    a.dimmed {
-        color: var(--grey);
-    }
-    a:hover:not(.noAnimation), a.active {
-        background: var(--primary);
-        color: var(--text);
+
+        &.dimmed {
+            color: var(--grey);
+        }
+        &:hover:not(.noAnimation), &.active {
+            background: var(--primary);
+            color: var(--text);
+        }
+
+        :global(svg) {
+            display: block;
+            margin: auto;
+        }
+
+        &.flipped :global(svg) {
+            transform: rotate(180deg);
+        }
+
+        span {
+            margin-left: 7px;
+        }
     }
 
-    a :global(svg) {
-        display: block;
-        margin: auto;
-    }
-    a.flipped :global(svg) {
-        transform: rotate(180deg);
-    }
+    :global(nav.expanded) {
+        a {
+            --inset: 14px;
 
-    span {
-        margin-left: 7px;
-    }
-
-    :global(nav.expanded) a {
-        --inset: 14px;
-
-        padding: 10px 20px;
-        width: calc(var(--expanded) - var(--inset) * 2);
+            padding: 10px 20px;
+            width: calc(var(--expanded) - var(--inset) * 2);
+        }
     }
 </style>

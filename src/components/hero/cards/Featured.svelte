@@ -32,7 +32,7 @@
     </div>
 </a>
 
-<style>
+<style lang="less">
     a.holder {
         position: relative;
         display: block;
@@ -48,19 +48,28 @@
         position: absolute;
         bottom: 20px;
         left: 20px;
+
+
+        h1 {
+            position: relative;
+            margin: 0;
+            z-index: 1;
+
+            font-size: 40px;
+            color: transparent;
+
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+        p {
+            position: relative;
+            z-index: 1;
+
+            margin: 10px 0 0 0;
+            color: var(--white);
+        }
     }
-
-    h1 {
-        position: relative;
-        margin: 0;
-        z-index: 1;
-
-        font-size: 40px;
-        color: transparent;
-
-        background-clip: text;
-        -webkit-background-clip: text;
-    }
+    
     div.blur {
         position: absolute;
         top: -20px;
@@ -73,14 +82,6 @@
 
         filter: blur(20px);
         background-color: #00000070;
-    }
-
-    p {
-        position: relative;
-        z-index: 1;
-
-        margin: 10px 0 0 0;
-        color: var(--white);
     }
     a:not(.holder) {
         position: relative;

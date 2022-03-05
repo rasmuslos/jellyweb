@@ -25,7 +25,7 @@
     </List>
 </ApplyMeasurements>
 
-<style>
+<style lang="less">
     a.holder {
         flex: calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px) 0 0;
 
@@ -35,29 +35,31 @@
 
         background-color: transparent;
         color: transparent;
+
+        p {
+            display: inline-block;
+
+            overflow: hidden;
+            text-indent: hanging;
+
+            padding-top: 10px;
+            margin: 0;
+
+            text-align: center;
+            color: var(--grey);
+        }
+        span {
+            display: inline-block;
+
+            color: var(--text);
+            margin-bottom: 3px;
+        }
     }
 
-    p {
-        display: inline-block;
-
-        overflow: hidden;
-        text-indent: hanging;
-
-        padding-top: 10px;
-        margin: 0;
-
-        text-align: center;
-        color: var(--grey);
-    }
-    span {
-        display: inline-block;
-
-        color: var(--text);
-        margin-bottom: 3px;
-    }
-
-    :global(#root.mobile) a.holder {
-        flex: calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) 0 0;
-        grid-template-rows:  calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) auto;
+    :global(#root.mobile) {
+        a.holder {
+            flex: calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) 0 0;
+            grid-template-rows:  calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) auto;
+        }
     }
 </style>

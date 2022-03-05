@@ -22,7 +22,7 @@
 </nav>
 <div class="placeholder"></div>
 
-<style>
+<style lang="less">
     nav {
         position: fixed;
         top: 0;
@@ -46,13 +46,18 @@
         background-color: rgba(var(--navigation), 0.5);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-    }
-    nav.expanded {
-        width: var(--expanded);
-        background-color: rgb(var(--navigation));
 
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        &.expanded {
+            width: var(--expanded);
+            background-color: rgb(var(--navigation));
+
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+
+            & ~ div.placeholder {
+               width: 250px;
+            }
+        }
     }
 
     div.space {
@@ -61,11 +66,7 @@
     div.push {
         margin-top: auto;
     }
-
     div.placeholder {
         width: 0;
-    }
-    nav.expanded ~ div.placeholder {
-        width: 250px;
     }
 </style>

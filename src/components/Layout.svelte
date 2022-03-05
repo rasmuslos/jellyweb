@@ -64,33 +64,36 @@
     <Overlay />
 </div>
 
-<style>
-    :global(html) {
-        line-height: 1.3;
-    }
+<style lang="less">
+    :global {
+        html {
+            line-height: 1.3;
+        }
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
 
-    :global(body) {
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
+            color: var(--text);
+            font-family: var(--font);
+            background-color: var(--background);
 
-        color: var(--text);
-        font-family: var(--font);
-        background-color: var(--background);
+            margin: 0;
+            padding: 0;
+        }
 
-        margin: 0;
-        padding: 0;
-    }
-    :global(*), :global(*::before), :global(*::after) {
-        transition: all 500ms ease;
-        box-sizing: border-box;
-    }
-    :global(*), :global(*:focus) {
-        outline: none;
-    }
-    :global(a), :global(a:visited) {
-        color: inherit;
-        text-decoration: none;
+        *, *::before, *::after {
+            transition: all 500ms ease;
+            box-sizing: border-box;
+        }
+        *, *:focus {
+            outline: none;
+        }
+
+        a, a:visited {
+            color: inherit;
+            text-decoration: none;
+        }
     }
 
     div {
@@ -100,9 +103,14 @@
 
         height: 100%;
         width: 100%;
-    }
-    div:not(.mobile).showNavigation {
-        grid-template-columns: auto 1fr;
+
+        &:not(.mobile).showNavigation {
+            grid-template-columns: auto 1fr;
+            
+            main {
+                padding-bottom: calc(env(safe-area-inset-top, 20px) + 150px);
+            }
+        }
     }
 
     main {
@@ -114,8 +122,5 @@
         overflow-y: scroll;
 
         padding: env(safe-area-inset-top, 20px) 0 env(safe-area-inset-bottom, 20px) 0;
-    }
-    div.mobile.showNavigation main {
-        padding-bottom: calc(env(safe-area-inset-top, 20px) + 150px);
     }
 </style>

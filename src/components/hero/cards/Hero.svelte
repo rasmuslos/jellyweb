@@ -42,7 +42,7 @@
     </div>
 {/if}
 
-<style>
+<style lang="less">
     div.outer {
         background-color: var(--background-secondary);
     }
@@ -61,9 +61,10 @@
 
         scrollbar-width: none;
         -ms-overflow-style: none;
-    }
-    div.holder::-webkit-scrollbar {
-        display: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     div.input {
@@ -79,17 +80,19 @@
         z-index: 2;
     }
 
-   :global(#root.mobile) div.inner {
-       display: flex;
-       flex-direction: row;
-       overflow-x: auto;
+   :global(#root.mobile) {
+        div.inner {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
 
-       gap: 15px;
+            gap: 15px;
 
-       width: 100%;
-   }
-    :global(#root.mobile) div.holder {
-       margin: 20px 0;
-       padding: 0;
-   }
+            width: 100%;
+        }
+        div.holder {
+            margin: 20px 0;
+            padding: 0;
+        }
+    }
 </style>
