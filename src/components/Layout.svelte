@@ -106,7 +106,8 @@
 
         &:not(.mobile).showNavigation {
             grid-template-columns: auto 1fr;
-            
+        }
+        &.mobile.showNavigation {
             main {
                 padding-bottom: calc(env(safe-area-inset-top, 20px) + 150px);
             }
