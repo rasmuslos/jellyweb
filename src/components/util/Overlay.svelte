@@ -3,14 +3,14 @@
     import { activeModal } from "$lib/stores"
     import {blur} from "svelte/transition"
 
-    const handleKeyUp = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
         if(event.key === "Escape") {
             closeModal()
             event.preventDefault()
         }
     }
 </script>
-<svelte:window on:keyup={handleKeyUp} />
+<svelte:window on:keydown={handleKeyDown} />
 
 {#if $activeModal}
     <div transition:blur|local on:click|self={closeModal}>
