@@ -1,6 +1,6 @@
-import { activeModal } from "$lib/stores";
+import {activeModal} from "$lib/stores";
 import {Item, Settings, Theme} from "$lib/typings";
-import { get } from "svelte/store";
+import {get} from "svelte/store";
 import SearchOverlay from "./../../components/util/SearchOverlay.svelte"
 
 export const getRandomIndex = (arr: any[]) => Math.floor(Math.random() * arr.length)
@@ -38,3 +38,5 @@ export const insertDefaultValues = (settings: Settings): Settings => Object.assi
     theme: Theme.DARK,
     navigationExpanded: true,
 } as Settings, settings)
+
+export const capitaliseFirst = (text: string) => text.substring(0, 1).toUpperCase() + text.substring(1)

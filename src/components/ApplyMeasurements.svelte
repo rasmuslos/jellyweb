@@ -32,7 +32,7 @@
 
     :global(#root:not(.mobile).showNavigation) {
         div {
-            padding: 0 calc(env(safe-area-inset-right, 20px) + 25px) 0 calc(env(safe-area-inset-left, 20px) + 25px);
+            padding: 0 ~"calc(env(safe-area-inset-right, 20px) + 25px) 0 calc(env(safe-area-inset-left, 20px) + 25px)";
         }
     }
 </style>

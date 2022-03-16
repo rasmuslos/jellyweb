@@ -2,9 +2,11 @@
     import type {Load} from "@sveltejs/kit";
     import {setFetcher} from "$lib/api/internal";
     import {
-        getEpisodesOfSeason, getEpisodesOfSeasonExtended,
+        getEpisodesOfSeason,
+        getEpisodesOfSeasonExtended,
         getExtendedItem,
-        getNextUpItem, getSeasons,
+        getNextUpItem,
+        getSeasons,
         getSimilarItems,
         setFavoriteStatus,
         setWatchedStatus,
@@ -61,7 +63,7 @@
 <script lang="ts">
     import type {ExtendedItem, Item} from "$lib/typings";
     import ApplyMeasurements from "../../../components/ApplyMeasurements.svelte";
-    import Push from "../../../Push.svelte";
+    import Push from "../../../components/util/Push.svelte";
     import Hero from "../../../components/hero/Hero.svelte";
     import Button from "../../../components/form/Button.svelte";
     import {_} from "svelte-i18n";

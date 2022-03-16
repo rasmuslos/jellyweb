@@ -69,7 +69,7 @@
 
     div.progress_holder {
         height: 4px;
-        width: calc(100% - 20px);
+        width: ~"calc(100% - 20px)";
 
         left: 10px;
         top: unset;

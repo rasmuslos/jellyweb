@@ -1,10 +1,10 @@
 <script lang="ts">
     import LazyList from "../../../components/util/LazyList.svelte";
-    import Push from "../../../Push.svelte";
+    import Push from "../../../components/util/Push.svelte";
     import Heading from "../../../components/hero/Heading.svelte";
     import {page} from "$app/stores";
     import {onDestroy} from "svelte";
-    import { _ } from "svelte-i18n";
+    import {_} from "svelte-i18n";
 
     let query: string
     let type: "MOVIES" | "SERIES" | "COLLECTIONS"

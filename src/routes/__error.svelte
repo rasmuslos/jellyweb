@@ -1,8 +1,10 @@
 <script context="module" lang="ts">
-	import { Response, Theme } from "$lib/typings";
-	import type { ErrorLoad } from "@sveltejs/kit";
+    import {Response, Theme} from "$lib/typings";
+    import type {ErrorLoad} from "@sveltejs/kit";
+    import {mobile} from "$lib/stores";
+    import {isMobile} from "$lib/helper";
 
-	export const load: ErrorLoad = ({error, status, session}) => {
+    export const load: ErrorLoad = ({error, status, session}) => {
         mobile.set(isMobile(session.agent))
 
 		try {
@@ -40,7 +42,7 @@
 <script lang="ts">
 	import Layout from "../components/Layout.svelte"
 	import Heading from "../components/hero/Heading.svelte"
-	import Push from "../Push.svelte"
+	import Push from "../components/util/Push.svelte"
 	import ApplyMeasurements from "../components/ApplyMeasurements.svelte"
 	import { mobile } from "$lib/stores";
 	import { isMobile } from "$lib/helper";

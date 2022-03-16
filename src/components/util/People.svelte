@@ -2,9 +2,7 @@
     import type {Person} from "$lib/typings";
     import ApplyMeasurements from "../ApplyMeasurements.svelte";
     import Image from "../item/Image.svelte";
-    import {wrap} from "$lib/helper";
-    import {applyMaxWidth} from "$lib/helper";
-    import {getItemPath} from "$lib/helper";
+    import {applyMaxWidth, getItemPath, wrap} from "$lib/helper";
     import List from "./List.svelte";
 
     export let people: Person[]
@@ -27,10 +25,10 @@
 
 <style lang="less">
     a.holder {
-        flex: calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px) 0 0;
+        flex: ~"calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px)" 0 0;
 
         display: grid;
-        grid-template-rows: calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px) auto;
+        grid-template-rows: ~"calc(min(calc(33vw - 20px), 193.66px) * 0.666 - 6.66px)" auto;
         grid-template-columns: 1fr;
 
         background-color: transparent;
@@ -58,8 +56,8 @@
 
     :global(#root.mobile) {
         a.holder {
-            flex: calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) 0 0;
-            grid-template-rows:  calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px) auto;
+            flex: ~"calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px)" 0 0;
+            grid-template-rows:  ~"calc(min(calc(33vw - 20px), 193.66px) * 0.8 - 8px)" auto;
         }
     }
 </style>

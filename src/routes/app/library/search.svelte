@@ -1,7 +1,7 @@
 <script lang="ts">
     import Search from "../../../components/util/Search.svelte";
     import ApplyMeasurements from "../../../components/ApplyMeasurements.svelte";
-    import Push from "../../../Push.svelte";
+    import Push from "../../../components/util/Push.svelte";
     import Heading from "../../../components/hero/Heading.svelte";
 </script>
 

@@ -1,9 +1,7 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import Image from "./Image.svelte";
-    import {applyHeight, wrap} from "$lib/helper";
-    import {getItemPath} from "$lib/helper";
-    import {getFallbackGradient} from "$lib/helper";
+    import {applyHeight, getFallbackGradient, getItemPath, wrap} from "$lib/helper";
 
     export let item: Item
     export let hideImage: boolean = false
@@ -23,8 +21,8 @@
     a.holder {
         position: relative;
         height: 80px;
-        width: min(calc(50% - 15px), 300px);
-        flex: min(calc(50% - 15px), 300px) 0 0;
+        width: ~"min(calc(50% - 15px), 300px)";
+        flex: ~"min(calc(50% - 15px), 300px)" 0 0;
 
         overflow: hidden;
         border-radius: 10px;

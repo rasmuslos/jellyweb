@@ -2,7 +2,7 @@
     import type {ExtendedItem} from "$lib/typings";
     import {convertStreamsToText, getStreamsOfType} from "$lib/helper";
     import ApplyMeasurements from "../ApplyMeasurements.svelte";
-import { _ } from "svelte-i18n";
+    import {_} from "svelte-i18n";
 
     type Fields = Array<{
         i18n: string,
@@ -74,7 +74,7 @@ import { _ } from "svelte-i18n";
         flex-wrap: wrap;
 
         div.fields {
-            flex: 1 0 calc(33% - 30px);
+            flex: 1 0 ~"calc(33% - 30px)";
             margin: 10px 0;
 
             display: flex;

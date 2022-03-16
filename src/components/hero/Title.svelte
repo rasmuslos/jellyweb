@@ -1,9 +1,8 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
-    import {wrap} from "$lib/helper";
+    import {getItemPath, wrap} from "$lib/helper";
     import Image from "../item/Image.svelte";
     import ApplyMeasurements from "../ApplyMeasurements.svelte";
-    import {getItemPath} from "$lib/helper";
 
     export let item: Item
 </script>
@@ -49,7 +48,7 @@
         padding-left: 25px;
         border-left: 2px solid var(--grey);
 
-        height: min(calc(100% - 20px), fit-content);
+        height: ~"min(calc(100% - 20px), fit-content)";
         overflow: hidden;
 
         h1 {

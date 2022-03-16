@@ -3,15 +3,21 @@
     import Featured from "./Featured.svelte";
     import ApplyMeasurements from "../../ApplyMeasurements.svelte";
     import FeaturedSmall from "./FeaturedSmall.svelte";
-    import Push from "../../../Push.svelte";
+    import Push from "../../util/Push.svelte";
     import {mobile} from "$lib/stores";
     import Search from "../../util/Search.svelte";
+    import {session} from "$app/stores";
+    import {capitaliseFirst} from "$lib/helper";
 
     export let items: Item[]
 </script>
 
 <div class="outer">
-    <Push big />
+    <Push />
+    <ApplyMeasurements larger>
+        <h1>👋 Hello {capitaliseFirst($session.data.name)}</h1>
+    </ApplyMeasurements>
+    <Push />
     <ApplyMeasurements>
         <div class="wrapper">
             <div class="inner">
@@ -45,6 +51,10 @@
 <style lang="less">
     div.outer {
         background-color: var(--background-secondary);
+    }
+
+    h1 {
+        font-size: 35px;
     }
 
     div.inner {

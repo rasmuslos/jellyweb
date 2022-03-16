@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Theme } from '$lib/typings';
+    import {Theme} from '$lib/typings';
     import {isMobile, VERSION} from "$lib/helper";
     import "$lib/i18n"
     import {mobile} from "$lib/stores";
@@ -9,7 +9,7 @@
     import {onMount} from "svelte";
     import "normalize.css"
     import Overlay from './util/Overlay.svelte';
-    import { session } from '$app/stores';
+    import {session} from '$app/stores';
 
     const version = `?v=${encodeURIComponent(VERSION)}`
     let main: HTMLElement
@@ -109,7 +109,7 @@
         }
         &.mobile.showNavigation {
             main {
-                padding-bottom: calc(env(safe-area-inset-top, 20px) + 150px);
+                padding-bottom: ~"calc(env(safe-area-inset-top, 20px) + 150px)";
             }
         }
     }

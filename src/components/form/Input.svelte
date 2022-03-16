@@ -40,7 +40,7 @@
         padding: 10px 20px;
 
         height: 50px;
-        width: calc(400px - 40px);
+        width: ~"calc(400px - 40px)";
         max-width: 100%;
 
         color: var(--text);

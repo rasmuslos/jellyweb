@@ -24,7 +24,7 @@
         --inset: var(--inset-small);
 
         display: grid;
-        grid-template-columns: calc(var(--collapsed) - var(--inset-small) * 2) calc(var(--expanded) - var(--collapsed));
+        grid-template-columns: ~"calc(var(--collapsed) - var(--inset-small) * 2) calc(var(--expanded) - var(--collapsed))";
         align-items: center;
 
         margin: 1px var(--inset);
@@ -32,7 +32,7 @@
         border-radius: 10px;
 
         cursor: pointer;
-        width: calc(var(--collapsed) - var(--inset) * 2);
+        width: ~"calc(var(--collapsed) - var(--inset) * 2)";
 
         &.dimmed {
             color: var(--grey);
@@ -61,7 +61,7 @@
             --inset: 14px;
 
             padding: 10px 20px;
-            width: calc(var(--expanded) - var(--inset) * 2);
+            width: ~"calc(var(--expanded) - var(--inset) * 2)";
         }
     }
 </style>

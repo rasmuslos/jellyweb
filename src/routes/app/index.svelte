@@ -23,7 +23,7 @@
 <script lang="ts">
     import type {Item, Recommendation} from "$lib/typings";
     import Hero from "../../components/hero/cards/Hero.svelte";
-    import Push from "../../Push.svelte";
+    import Push from "../../components/util/Push.svelte";
     import Recommended from "../../components/hero/cards/Recommended.svelte";
     import ItemList from "../../components/util/ItemList.svelte";
     import ApplyMeasurements from "../../components/ApplyMeasurements.svelte";

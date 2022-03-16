@@ -3,12 +3,11 @@
     import {_} from "svelte-i18n";
     import type {Item} from "$lib/typings";
     import {icons} from "feather-icons";
-    import {getIcon, parseError} from "$lib/helper";
+    import {getIcon, getItemPath, parseError} from "$lib/helper";
     import {searchItems} from "$lib/api/internal/methods/v3";
-    import {getItemPath} from "$lib/helper";
     import Loading from "./Loading.svelte";
-    import { afterUpdate } from "svelte";
-    import { activeModal } from "$lib/stores";
+    import {afterUpdate} from "svelte";
+    import {activeModal} from "$lib/stores";
 
     export let overlay: boolean = false
     export let autofocus: boolean = false
@@ -159,7 +158,7 @@
         }
         &.overlay {
             position: absolute;
-            width: calc(100% - 6px);
+            width: ~"calc(100% - 6px)";
         }
         &.visible {
             display: flex;

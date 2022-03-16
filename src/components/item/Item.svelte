@@ -1,11 +1,9 @@
 <script lang="ts">
     import type {Item} from "$lib/typings";
     import Image from "./Image.svelte";
-    import {wrap, applyMaxWidth} from "$lib/helper";
-    import {getItemPath} from "$lib/helper";
+    import {applyMaxWidth, getItemPath, getPlayedPercentage, wrap} from "$lib/helper";
     import {currentExpandedItemId, currentItemId, mobile} from "$lib/stores";
-    import {getPlayedPercentage} from "$lib/helper";
-    import { _ } from "svelte-i18n";
+    import {_} from "svelte-i18n";
     import Button from "../form/Button.svelte";
 
     export let item: Item
@@ -63,21 +61,21 @@
     a.wrapper {
         position: relative;
 
-        flex: min(calc(33vw - 20px), 193.66px) 0 0;
-        width: min(calc(33vw - 20px), 193.66px);
+        flex: ~"min(calc(33vw - 20px), 193.66px) 0 0";
+        width: ~"min(calc(33vw - 20px), 193.66px)";
         height: fit-content;
 
         display: grid;
-        grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 30px);
-        grid-template-columns: min(calc(33vw - 20px), 193.66px) 0px;
+        grid-template-rows: ~"calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 30px)";
+        grid-template-columns: ~"min(calc(33vw - 20px), 193.66px) 0px";
 
         overflow: hidden;
         transition: all 500ms ease, padding-top 0ms ease;
 
         &.expanded {
-            flex: calc(min(calc(33vw - 20px), 200px) * 3 + 40px) 0 0;
-            grid-template-rows: calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px);
-            grid-template-columns: min(calc(33vw - 20px), 200px) 1fr;
+            flex: ~"calc(min(calc(33vw - 20px), 200px) * 3 + 40px)" 0 0;
+            grid-template-rows: ~"calc(min(calc(calc(33vw - 20px) * 1.5), 300px) + 20px)";
+            grid-template-columns: ~"min(calc(33vw - 20px), 200px)" 1fr;
 
             top: -20px;
             box-shadow: 0 3px 15px #00000020;
@@ -90,18 +88,18 @@
                 opacity: 0;
             }
             div.holder {
-               grid-template-rows: calc(100% - 20px) auto;
+               grid-template-rows: ~"calc(100% - 20px)" auto;
             }
         }
         &.wide {
-            flex: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px) 0 0;
-            width: min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px);
+            flex: ~"min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px)" 0 0;
+            width: ~"min(calc(calc(33vw - 15px - 4vw) * 1.75), 300px)";
 
             grid-template-rows: 100%;
             grid-template-columns: 100%;
 
             div.holder {
-                grid-template-rows: min(calc(33vw - 15px - 4vw), 175px) auto;
+                grid-template-rows: ~"min(calc(33vw - 15px - 4vw), 175px)" auto;
             }
         }
     }
@@ -111,7 +109,7 @@
         width: 100%;
 
         display: grid;
-        grid-template-rows: calc(100% - 30px) auto;
+        grid-template-rows: ~"calc(100% - 30px)" auto;
         grid-template-columns: 1fr;
     }
 
@@ -150,7 +148,7 @@
     }
 
     div.additional {
-        width: calc(calc(calc(min(calc(33vw - 20px), 200px) * 3 + 40px) - min(calc(33vw - 20px), 200px)) - 40px);
+        width: ~"calc(calc(calc(min(calc(33vw - 20px), 200px) * 3 + 40px) - min(calc(33vw - 20px), 200px)) - 40px)";
 
         padding: 20px;
         overflow: hidden;

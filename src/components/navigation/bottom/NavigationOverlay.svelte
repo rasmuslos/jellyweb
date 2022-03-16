@@ -27,7 +27,7 @@
         right: 5px;
 
         height: auto;
-        width: calc(100% - 10px);
+        width: ~"calc(100% - 10px)";
 
         overflow: hidden;
         border-radius: 10px;
