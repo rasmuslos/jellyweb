@@ -2,14 +2,20 @@
     import type {Item} from "$lib/typings";
     import Image from "./Image.svelte";
     import {applyHeight, getFallbackGradient, getItemPath, wrap} from "$lib/helper";
+import { onMount } from "svelte";
 
     export let item: Item
     export let hideImage: boolean = false
+
+    let fallback: string
+    onMount(async () => {
+        fallback = getFallbackGradient(item.id)
+    })
 </script>
 
 <a class="holder" href={getItemPath(item.id)} sveltekit:prefetch>
     {#if hideImage}
-        <div class="background" style={getFallbackGradient(item.id)}></div>
+        <div class="background" style={fallback}></div>
     {:else}
         <Image url={wrap(applyHeight(item.images?.primary?.url, 500))}/>
         <div class="blur"></div>

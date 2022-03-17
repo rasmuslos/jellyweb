@@ -1,5 +1,6 @@
 <script lang="ts">
     import {getFallbackGradient} from "$lib/helper";
+    import { onMount } from "svelte";
     import {blur} from "svelte/transition"
 
     export let url: string
@@ -8,16 +9,21 @@
     export let selected: boolean = false
 
     let showImage = true
+    let fallback: string
+
+    onMount(async () => {
+        fallback = getFallbackGradient(url ?? alt)
+    })
 </script>
 
 {#key url}
     <div class="holder" class:selected transition:blur|local>
-        <div class="fallback" style={getFallbackGradient(url ?? alt)}>
+        <div class="fallback" style={fallback}>
             <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
         </div>
         {#key showImage}
             {#if showImage}
-                <img src={url} on:error={() => showImage = false} alt={alt ?? url} title={alt ?? "?"} />
+                <img src={url} loading=lazy on:error={() => showImage = false} alt={alt ?? url} title={alt ?? "?"} />
             {/if}
         {/key}
 
