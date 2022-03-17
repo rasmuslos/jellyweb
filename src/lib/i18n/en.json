@@ -12,11 +12,12 @@
     "settings": "Settings",
 
     "collapse": "Collapse",
-    "more": "More"
+    "more": "More",
+
+    "favorites": "Favorites"
   },
   "auth": {
     "login": {
-      "hello": "Hello {name}",
       "server": "Server",
       "username": "Username",
       "password": "Password",
@@ -91,7 +92,8 @@
       "latest": "Latest",
       "random": "Watch this",
       "bestRated": "Best Rated",
-      "genres": "Genres"
+      "genres": "Genres",
+      "favorites": "Favorites"
     }
   },
   "util": {
@@ -99,6 +101,7 @@
     "lazy": {
       "empty": "No results...",
       "loading": "loading..."
-    }
+    },
+    "hello": "Hello {name}"
   }
 }

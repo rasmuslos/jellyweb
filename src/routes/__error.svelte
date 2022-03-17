@@ -44,8 +44,6 @@
 	import Heading from "../components/hero/Heading.svelte"
 	import Push from "../components/util/Push.svelte"
 	import ApplyMeasurements from "../components/ApplyMeasurements.svelte"
-	import { mobile } from "$lib/stores";
-	import { isMobile } from "$lib/helper";
 
 	export let title: string = "500"
 	export let description: string = "Unknown server error (3)"

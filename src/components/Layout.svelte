@@ -23,9 +23,16 @@
     waitLocale()
 
     onMount(() => {
+        let lastLocationDetail: boolean = false
+
         history.pushState = new Proxy(history.pushState, {
             apply(target, thisArg, argumentsList) {
                 Reflect.apply(target, thisArg, argumentsList)
+
+                const detail = RegExp("\/?app\/[a-zA-Z0-9]{32}\/?").test(window.location.pathname)
+                if(detail && lastLocationDetail) return
+                lastLocationDetail = detail
+                
                 if(main) main.scrollTo({
                     top: 0,
                     left: 0,

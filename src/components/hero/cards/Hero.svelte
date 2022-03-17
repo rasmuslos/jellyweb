@@ -8,6 +8,8 @@
     import Search from "../../util/Search.svelte";
     import {session} from "$app/stores";
     import {capitaliseFirst} from "$lib/helper";
+    import {_} from "svelte-i18n";
+    import {icons} from "feather-icons";
 
     export let items: Item[]
 </script>
@@ -15,7 +17,12 @@
 <div class="outer">
     <Push />
     <ApplyMeasurements larger>
-        <h1>👋 Hello {capitaliseFirst($session.data.name)}</h1>
+        <div class="header">
+            <h1>👋 {$_("util.hello", { values: { name: capitaliseFirst($session.data.name) }})}</h1>
+            <div class="icons">
+                <a sveltekit:prefetch href="/app/library/favorites" class="favorite">{@html icons["heart"].toSvg({ title: $_("pages.home.favorites") })}</a>
+            </div>
+        </div>
     </ApplyMeasurements>
     <Push />
     <ApplyMeasurements>
@@ -53,8 +60,34 @@
         background-color: var(--background-secondary);
     }
 
-    h1 {
-        font-size: 35px;
+    div.header {
+        display: flex;
+        align-items: baseline;
+
+        h1 {
+            font-size: 35px;
+            margin-right: auto;
+            word-break: break-word;
+        }
+
+        .icons {
+            display: flex;
+            gap: 10px;
+
+            margin-left: 5px;
+
+            a {
+                color: var(--grey);
+
+                &.favorite :global(svg) {
+                    fill: var(--red);
+                    color: var(--red);
+                }
+                :global(svg) {
+                    stroke-width: 2.5px;
+                }
+            }
+        }
     }
 
     div.inner {

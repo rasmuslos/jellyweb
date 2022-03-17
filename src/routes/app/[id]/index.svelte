@@ -99,8 +99,8 @@
         const current = episodesList?.querySelector(`[data-id="${item.id}"]`)
         const sibling = current?.nextElementSibling
 
-        if(sibling) sibling.scrollIntoView(false)
-        else if(current) current.scrollIntoView(false)
+        if(sibling) sibling.scrollIntoView({block: "nearest", inline: "nearest"})
+        else if(current) current.scrollIntoView({block: "nearest", inline: "nearest"})
     }
 
     let togglingWatchedStatus: boolean = false

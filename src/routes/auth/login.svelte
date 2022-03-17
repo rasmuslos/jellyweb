@@ -47,7 +47,7 @@
 
 <Layout showNavigation={false} i18n="en" theme={Theme.DARK}>
     <ApplyMeasurements>
-        <h1>{$_("auth.login.hello", { values: { name: username === "" ? "Stranger" : username }})}</h1>
+        <h1>{$_("util.hello", { values: { name: username === "" ? "Stranger" : username }})}</h1>
         {#if status}
             <p>
                 {$_(status.payload ?? "Unknown error")}

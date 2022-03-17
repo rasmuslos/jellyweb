@@ -7,7 +7,7 @@
     import {_} from "svelte-i18n";
 
     let query: string
-    let type: "MOVIES" | "SERIES" | "COLLECTIONS"
+    let type: "MOVIES" | "SERIES" | "COLLECTIONS" | "FAVORITES"
 
     let unsubscribe = page.subscribe(({ params }) => {
         type = params.type?.toUpperCase() as any
@@ -21,6 +21,9 @@
                 break
             case "COLLECTIONS":
                 query = "includeItemTypes=Boxset&sortBy=SortName&sortOrder=Ascending"
+                break
+            case "FAVORITES":
+                query = "IsFavorite=true&sortBy=SortName&sortOrder=Ascending"
                 break
         }
     })
