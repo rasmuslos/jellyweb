@@ -1,10 +1,10 @@
 :root {
     --font: "OpenSans", monospace;
 
-    --primary: #DBBBF5;
-    --secondary: #CE5374;
+    --primary: #7E22CE;
+    --secondary: #6B57FF;
 
-    --grey: #8c8c8c;
-    --white: #DDF0FF;
-    --red: #BF616A;
+    --grey: #8C8C8C;
+    --white: #F8FAFC;
+    --red: #FE2857;
 }

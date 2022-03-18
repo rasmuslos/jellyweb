@@ -8,14 +8,16 @@ import { DEVELOPMENT, setLanguage, setTheme, VERSION } from "$lib/helper";
     <title>Settings</title>
 </svelte:head>
 
-<span on:click={() => setTheme(Theme.LIGHT)}>light</span>
-<span on:click={() => setTheme(Theme.DARK)}>dark</span>
-<span on:click={() => setTheme(Theme.UGLY)}>ugly</span>
+<ApplyMeasurements smaller>
+    <span on:click={() => setTheme(Theme.LIGHT)}>light</span>
+    <span on:click={() => setTheme(Theme.DARK)}>dark</span>
+    <span on:click={() => setTheme(Theme.UGLY)}>ugly</span>
 
-<br />
+    <br />
 
-<span on:click={() => setLanguage("en")}>EN</span>
-<span on:click={() => setLanguage("de")}>DE</span>
+    <span on:click={() => setLanguage("en")}>EN</span>
+    <span on:click={() => setLanguage("de")}>DE</span>
+</ApplyMeasurements>
 
 <ApplyMeasurements>
     <p>

@@ -3,12 +3,12 @@
  */
 
 :root {
-    --text: #DDF0FF;
+    --text: #F8FAFC;
     --navigation: 19, 22, 37;
 
-    --background: #0f101a;
-    --background-secondary: #000000;
+    --background: #0F101A;
+    --background-secondary: #060606;
 
     --background-rgb: 15, 16, 28;
-    --background-secondary-rgb: 0, 0, 0;
+    --background-secondary-rgb: 6, 6, 6;
 }

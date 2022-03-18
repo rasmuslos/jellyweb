@@ -1,10 +1,10 @@
 :root {
-    --text: #00100B;
-    --navigation: 255, 251, 248;
+    --text: #060606;
+    --navigation: 248, 250, 252;
 
-    --background: #EBF2FA;
-    --background-secondary: #FFFFFF;
+    --background: #F1F5F9;
+    --background-secondary: #F8FAFC;
 
-    --background-rgb: 235, 242, 250;
-    --background-secondary-rgb: 255, 255, 255;
+    --background-rgb: 241, 245, 249;
+    --background-secondary-rgb: 248, 250, 252;
 }
