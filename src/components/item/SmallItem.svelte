@@ -2,7 +2,7 @@
     import type {Item} from "$lib/typings";
     import Image from "./Image.svelte";
     import {applyHeight, getFallbackGradient, getItemPath, wrap} from "$lib/helper";
-import { onMount } from "svelte";
+    import { onMount } from "svelte";
 
     export let item: Item
     export let hideImage: boolean = false

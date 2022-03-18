@@ -44,8 +44,8 @@
 
         padding: 20px 0;
         background-color: rgba(var(--navigation), 0.5);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(7px);
+        -webkit-backdrop-filter: blur(7px);
 
         &.expanded {
             width: var(--expanded);
