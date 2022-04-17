@@ -101,6 +101,12 @@
             color: inherit;
             text-decoration: none;
         }
+
+        @media screen and (min-width: 1000px) and (max-width: 3000px) {
+            body {
+                zoom: 0.9;
+            }
+        }
     }
 
     div {
