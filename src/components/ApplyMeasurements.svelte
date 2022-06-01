@@ -16,7 +16,7 @@
             margin: 0 auto;
 
             width: 95%;
-            max-width: 1710px;
+            max-width: 1740px;
         }
 
         &.smaller {
@@ -32,7 +32,12 @@
 
     :global(#root:not(.mobile).showNavigation) {
         div {
-            padding: 0 ~"calc(env(safe-area-inset-right, 20px) + 25px) 0 calc(env(safe-area-inset-left, 20px) + 25px)";
+            padding: 0 ~"calc(env(safe-area-inset-right, 20px) + 25px)" 0 ~"calc(env(safe-area-inset-left, 20px) + 85px)";
+        }
+    }
+    :global(#root:not(.mobile).showNavigation.navigationExpanded) {
+        div {
+            padding-left: calc(env(safe-area-inset-left, 20px) + 25px);
         }
     }
 </style>

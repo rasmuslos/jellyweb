@@ -2,7 +2,7 @@
     import {Theme} from '$lib/typings';
     import {isMobile, VERSION} from "$lib/helper";
     import "$lib/i18n"
-    import {mobile} from "$lib/stores";
+    import {mobile, navigationExpanded} from "$lib/stores";
     import Sidebar from "./navigation/sidebar/Sidebar.svelte";
     import NavigationOverlay from "./navigation/bottom/NavigationOverlay.svelte";
     import {locale, waitLocale} from "svelte-i18n";
@@ -57,7 +57,7 @@
     {/if}
 </svelte:head>
 
-<div id="root" class:mobile={$mobile} class:showNavigation>
+<div id="root" class:mobile={$mobile} class:showNavigation class:navigationExpanded={$navigationExpanded}>
     {#if showNavigation && !$mobile}
         <Sidebar />
     {/if}

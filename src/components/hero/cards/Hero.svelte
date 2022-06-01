@@ -7,7 +7,7 @@
     import {mobile} from "$lib/stores";
     import Search from "../../util/Search.svelte";
     import {session} from "$app/stores";
-    import {capitaliseFirst} from "$lib/helper";
+    import {capitalizeFirst} from "$lib/helper";
     import {_} from "svelte-i18n";
     import {icons} from "feather-icons";
 
@@ -18,7 +18,7 @@
     <Push />
     <ApplyMeasurements larger>
         <div class="header">
-            <h1>👋 {$_("util.hello", { values: { name: capitaliseFirst($session.data.name) }})}</h1>
+            <h1>👋 {$_("util.hello", { values: { name: capitalizeFirst($session.data.name) }})}</h1>
             <div class="icons">
                 <a sveltekit:prefetch href="/app/library/favorites" class="favorite">{@html icons["heart"].toSvg({ title: $_("pages.home.favorites") })}</a>
             </div>
