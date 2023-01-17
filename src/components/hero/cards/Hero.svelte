@@ -10,15 +10,22 @@
     import {capitalizeFirst} from "$lib/helper";
     import {_} from "svelte-i18n";
     import {icons} from "feather-icons";
+    import {applyHeight, wrap} from "$lib/helper";
 
     export let items: Item[]
 </script>
 
-<div class="outer">
+<div class="outer" class:background={items.length <= 0 || $mobile}>
+    {#if items.length > 0 && !$mobile}
+        <div class="background" style="background-image: url('{wrap(applyHeight(items[0].images?.backdrop.url, 1100))}')"></div>
+    {/if}
     <Push />
-    <ApplyMeasurements larger>
+    <ApplyMeasurements>
         <div class="header">
-            <h1>👋 {$_("util.hello", { values: { name: capitalizeFirst($session.data.name) }})}</h1>
+            <div class="heading">
+                <h4>{$_("util.hello", { values: { name: capitalizeFirst($session.data.name) }})} 👋</h4>
+                <h1>Watch now</h1>
+            </div>
             <div class="icons">
                 <a sveltekit:prefetch href="/app/library/favorites" class="favorite">{@html icons["heart"].toSvg({ title: $_("pages.home.favorites") })}</a>
             </div>
@@ -57,17 +64,44 @@
 
 <style lang="less">
     div.outer {
-        background-color: var(--background-secondary);
+        position: relative;
+        overflow: hidden;
+
+        .background {
+            background-color: var(--background-secondary);
+        }
+    }
+
+    div.background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+
+        filter: blur(60px);
     }
 
     div.header {
         display: flex;
         align-items: baseline;
 
-        h1 {
-            font-size: 35px;
+        div.heading {
             margin-right: auto;
             word-break: break-word;
+
+            * {
+                margin: 0 auto;
+            }
+            h4 {
+                color: var(--secondary);
+                font-weight: normal;
+            }
+
+            h1 {
+                font-size: 35px;
+            }
         }
 
         .icons {

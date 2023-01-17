@@ -102,6 +102,6 @@
       "empty": "No results...",
       "loading": "loading..."
     },
-    "hello": "Hello {name}"
+    "hello": "Hello, {name}"
   }
 }

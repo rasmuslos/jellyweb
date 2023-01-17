@@ -5,6 +5,7 @@
     import {currentExpandedItemId, currentItemId, mobile} from "$lib/stores";
     import {_} from "svelte-i18n";
     import Button from "../form/Button.svelte";
+    import {icons} from "feather-icons";
 
     export let item: Item
     export let wide: boolean = false
@@ -34,7 +35,7 @@
 
 <a class="wrapper" class:expanded href={getItemPath(item.id)} sveltekit:prefetch class:wide data-id={item.id} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave}>
     <div class="holder">
-        <Image url={wrap(applyMaxWidth(wide && !stretch ? item.images?.backdrop?.url : item.images?.primary?.url, 400))} alt={item.name} selected={$currentItemId === item.id} {progress} />
+        <Image url={wrap(applyMaxWidth(wide && !stretch ? item.images?.backdrop?.url : item.images?.primary?.url, 400))} alt={item.name} selected={$currentItemId === item.id} allowEnlarge={!expanded} {progress} />
         <span>
             {item.name}
             {#if wide && item.seriesInfo}
@@ -52,6 +53,17 @@
             <p>
                 {item.overview ?? $_("items.description.unavailable")}
             </p>
+            <div>
+                {#if item.ratings?.audience}
+                    <b>{@html icons["star"].toSvg({ "fill": "#F5C518", "stroke": "#F5C518", })} {item.ratings?.audience}</b>
+                {/if}
+                {#if item.ratings?.critic}
+                    <b>🍅 {item.ratings?.critic}%</b>
+                {/if}
+                {#if item.rating}
+                    <b>{item.rating}</b>
+                {/if}
+            </div>
             <Button large highlight>WATCH</Button>
         </div>
     {/if}
@@ -157,11 +169,28 @@
         flex-direction: column;
 
         h3 {
+            font-weight: bolder;
             margin: 0;
         }
         p {
             overflow: scroll;
             margin-bottom: auto;
+        }
+        div {
+            margin-top: 10px;
+
+            b {
+                font-weight: bold;
+                margin: 0 2px;
+            }
+        }
+
+        :global(svg) {
+            position: relative;
+            top: 1px;
+
+            height: 15px;
+            width: 15px;
         }
     }
 </style>

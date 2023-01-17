@@ -21,7 +21,7 @@
         <span>{@html icons["star"].toSvg({ "fill": "#F5C518", "stroke": "#F5C518", })} {item.ratings?.audience}</span>
     {/if}
     {#if item.ratings?.critic}
-        <span>{item.ratings?.critic}%</span>
+        <span>🍅 {item.ratings?.critic}%</span>
     {/if}
     {#if range}
         <span>{range.toUpperCase()}</span>
@@ -53,6 +53,13 @@
             width: 15px;
         }
 
+        span, img {
+            margin: 0 1px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
 
         span.separator {
             padding-right: 5px;
@@ -65,6 +72,10 @@
         
         a {
             padding: 3px;
+
+            &:first-child {
+                padding-left: 0;
+            }
         }
 
         .imdb-logo {

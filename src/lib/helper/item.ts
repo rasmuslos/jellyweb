@@ -50,7 +50,7 @@ export const convertItem = (item: JellyfinItem): Item => {
         rating: OfficialRating,
         ratings: {
             critic: CriticRating,
-            audience: CommunityRating,
+            audience: Math.round(CommunityRating),
         },
 
         userData: {

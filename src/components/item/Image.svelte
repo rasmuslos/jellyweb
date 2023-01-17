@@ -7,6 +7,7 @@
     export let alt: string = ""
     export let progress: number = null
     export let selected: boolean = false
+    export let allowEnlarge: boolean = true
 
     let showImage = true
     let fallback: string
@@ -17,7 +18,7 @@
 </script>
 
 {#key url}
-    <div class="holder" class:selected transition:blur|local>
+    <div class="holder" class:selected class:allowEnlarge transition:blur|local>
         <div class="fallback" style={fallback}>
             <h1>{alt.split(" ").splice(0, 2).map(str => str[0]).join("")}</h1>
         </div>
@@ -46,7 +47,7 @@
 
         overflow: hidden;
         border-radius: 10px;
-        perspective: 0px;
+        perspective: 0;
         &.selected {
             border: 4px solid var(--primary);
         }
@@ -102,7 +103,7 @@
         object-position: center;
     }
 
-    div.holder:hover {
+    div.holder.allowEnlarge:hover {
         img {
             transform: scale(1.1);
         }
